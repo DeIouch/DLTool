@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "DLTool"
-  spec.version      = "0.0.1"
+  spec.version      = "0.0.2"
   spec.summary      = "DLTool."
 
   spec.description  = <<-DESC
