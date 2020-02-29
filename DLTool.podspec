@@ -8,7 +8,7 @@ Pod::Spec.new do |spec|
 		      DLTool of Delouch
                       DESC
 
-  spec.homepage     = "https://github.com/DeIouch/DLTool"
+  spec.homepage     = "https://github.com/DeIouch"
   spec.license      = "MIT"
   spec.license      = { :type => "MIT", :file => "LICENSE" }
 
