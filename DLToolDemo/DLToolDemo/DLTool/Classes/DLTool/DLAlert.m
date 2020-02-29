@@ -71,7 +71,7 @@ static DLAlert *alert = nil;
     }];
     [self alertShow];
     __weak typeof(self) weakself = self;
-    self.alertView.sureButton.clickAction = ^ {
+    self.alertView.sureButton.clickAction = ^(UIView *view) {
         !sureBlock ? : sureBlock();
         [weakself alertHidden];
     };
@@ -95,7 +95,7 @@ static DLAlert *alert = nil;
     }];
     [self alertShow];
     __weak typeof(self) weakself = self;
-    self.alertView.sureButton.clickAction = ^ {
+    self.alertView.sureButton.clickAction = ^(UIView *view) {
         !sureBlock ? : sureBlock();
         [weakself alertHidden];
     };
@@ -142,10 +142,10 @@ static DLAlert *alert = nil;
             layout.edgeEqualTo(window);
         }];
         __weak typeof(self) weakself = self;
-        _alertView.sureButton.clickAction = ^ {
+        _alertView.sureButton.clickAction = ^(UIView *view) {
             [weakself alertHidden];
         };
-        _alertView.backView.allCorner(5);
+        _alertView.backView.dl_allCorner(5);
     }
     return _alertView;
 }

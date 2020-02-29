@@ -28,13 +28,10 @@
         view.dl_backView(self.view).frame = CGRectMake(100, 100, 100, 100);
         view.dl_backColor(@"FF0000");
         view.dl_clickTime(5);
+        view.dl_clickEdge(100);
     }];
 
-    view.clickAction = ^{
-        self.str = @"qqqq";
-        NSLog(@"%@", self.str);
-//        [self dismissViewControllerAnimated:YES completion:nil];
-    };
+    
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

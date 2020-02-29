@@ -7,40 +7,13 @@
 #import "NSString+Add.h"
 #import "DLSafeProtector.h"
 
-//static NSString *target_key = @"target_key";
-
 static const int target_key;
 
 @interface DLViewCategoryTarget : NSObject
 
-@property (nonatomic, copy) void (^tapBlock)(void);
+@property (nonatomic, copy) void (^tapBlock)(UIView *view);
 
 @property (nonatomic, strong) UIView *view;
-
--(instancetype)initWithBlock:(void (^)(void))block;
-
--(void)tapAction;
-
-@end
-
-@implementation DLViewCategoryTarget
-
--(instancetype)initWithBlock:(void (^)(void))block{
-    if (self = [super init]) {
-        _tapBlock = [block copy];
-    }
-    return self;
-}
-
-- (void)tapAction{
-    if (self.tapBlock) {
-        self.tapBlock();
-    }
-}
-
-@end
-
-@interface UIView()
 
 @property (nonatomic, assign) NSTimeInterval touchInterval;
 
@@ -52,35 +25,48 @@ static const int target_key;
 
 @property (nonatomic, assign) CGFloat leftClick;
 
+-(void)tapAction;
+
+@end
+
+@implementation DLViewCategoryTarget
+
+- (void)tapAction{
+    if (self.tapBlock) {
+        self.tapBlock(self.view);
+        if (self.touchInterval > 0) {
+            self.view.userInteractionEnabled = NO;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.touchInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                self.view.userInteractionEnabled = YES;
+            });
+        }
+        
+    }
+}
+
+@end
+
+@interface UIView()
+
 @property (nonatomic, strong) NSString *touchIdentifierStr;
 
 @end
 
 static NSString *identifierStrKey = @"identifierStrKey";
 
-static NSString *touchIntervalKey = @"touchIntervalKey";
-
-static NSString *kActionHandlerTapBlockKey = @"kActionHandlerTapBlockKey";
-
-static NSString *kActionHandlerTapGestureKey = @"kActionHandlerTapGestureKey";
-
 static NSString *classStrKey = @"classStrKey";
-
-static NSString *topClickKey = @"topClickKey";
-
-static NSString *rightClickKey = @"rightClickKey";
-
-static NSString *bottomClickKey = @"bottomClickKey";
-
-static NSString *leftClickKey = @"leftClickKey";
 
 static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 
 @implementation UIView (Add)
 
--(void)setClickAction:(void (^)(void))tapBlock{
-    DLViewCategoryTarget *target = [[DLViewCategoryTarget alloc]initWithBlock:tapBlock];
-//    target.tapBlock = [tapBlock copy];
+-(void)setClickAction:(void (^)(UIView *view))tapBlock{
+    DLViewCategoryTarget *target = objc_getAssociatedObject(self, &target_key);
+    if (!target) {
+        target = [[DLViewCategoryTarget alloc]init];
+        target.view = self;
+    }
+    target.tapBlock = [tapBlock copy];
     objc_setAssociatedObject(self, &target_key, target, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     UITapGestureRecognizer *tap;
     for (UIGestureRecognizer *gestss in self.gestureRecognizers) {
@@ -94,7 +80,7 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     }
 }
 
--(void (^)(void))clickAction{
+-(void (^)(UIView *))clickAction{
     DLViewCategoryTarget *target = objc_getAssociatedObject(self, &target_key);
     return target.tapBlock;
 }
@@ -542,9 +528,8 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     };
 }
 
--(UIView *(^) (CGFloat radius))topLeftCorner{
+-(UIView *(^) (CGFloat radius))dl_topLeftCorner{
     return ^(CGFloat radius) {
-//        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         [self layoutIfNeeded];
         UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerTopLeft cornerRadii:(CGSize){radius}];
         CAShapeLayer *shapeLayer = self.layer.mask ?: [CAShapeLayer layer];
@@ -554,9 +539,8 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     };
 }
 
--(UIView *(^) (CGFloat radius))bottomLeftCorner{
+-(UIView *(^) (CGFloat radius))dl_bottomLeftCorner{
     return ^(CGFloat radius) {
-//        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         [self layoutIfNeeded];
         UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerBottomLeft cornerRadii:(CGSize){radius}];
         CAShapeLayer *shapeLayer = self.layer.mask ?: [CAShapeLayer layer];
@@ -566,9 +550,8 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     };
 }
 
--(UIView *(^) (CGFloat radius))topRightCorner{
+-(UIView *(^) (CGFloat radius))dl_topRightCorner{
     return ^(CGFloat radius) {
-//        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         [self layoutIfNeeded];
         UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerTopRight cornerRadii:(CGSize){radius}];
         CAShapeLayer *shapeLayer = self.layer.mask ?: [CAShapeLayer layer];
@@ -578,9 +561,8 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     };
 }
 
--(UIView *(^) (CGFloat radius))bottomRightCorner{
+-(UIView *(^) (CGFloat radius))dl_bottomRightCorner{
     return ^(CGFloat radius) {
-//        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         [self layoutIfNeeded];
         UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerBottomRight cornerRadii:(CGSize){radius}];
         CAShapeLayer *shapeLayer = self.layer.mask ?: [CAShapeLayer layer];
@@ -590,9 +572,8 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     };
 }
 
--(UIView *(^) (CGFloat radius))allCorner{
+-(UIView *(^) (CGFloat radius))dl_allCorner{
     return ^(CGFloat radius) {
-//        self.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         [self layoutIfNeeded];
         UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerBottomRight | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerTopLeft cornerRadii:(CGSize){radius}];
         CAShapeLayer *shapeLayer = self.layer.mask ?: [CAShapeLayer layer];
@@ -603,73 +584,9 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     };
 }
 
-//-(void)setClickAction:(void (^)(UIView *))clickAction{
-//    UITapGestureRecognizer *tap;
-//    for (UIGestureRecognizer *gestss in self.gestureRecognizers) {
-//        if ([NSStringFromClass([gestss class]) isEqualToString:@"UITapGestureRecognizer"]) {
-//            tap = (UITapGestureRecognizer *)gestss;
-//        }
-//    }
-//    if (!tap) {
-//        tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGest)];
-//        [self addGestureRecognizer:tap];
-//    }
-//    objc_setAssociatedObject(self, &kActionHandlerTapBlockKey, clickAction, OBJC_ASSOCIATION_COPY_NONATOMIC);
-//}
-//
-//-(void (^)(UIView *))clickAction{
-//    return objc_getAssociatedObject(self, &kActionHandlerTapBlockKey);
-//}
-//
-//-(void)tapGest{
-//    if (self.clickAction) {
-//        self.clickAction(self);
-//    }
-//}
 
-//- (void)addTapGestureActionWithBlock:(void (^)(UITapGestureRecognizer *))block{
-//    UITapGestureRecognizer *gesture = objc_getAssociatedObject(self, &kActionHandlerTapGestureKey);
-//    if (!gesture){
-//        gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleActionForTapGesture)];
-//        [self addGestureRecognizer:gesture];
-//        objc_setAssociatedObject(self, &kActionHandlerTapGestureKey, gesture, OBJC_ASSOCIATION_RETAIN);
-//    }
-//    objc_setAssociatedObject(self, &kActionHandlerTapBlockKey, block, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-//}
-
-//- (void)handleActionForTapGesture{
-////    void(^action)(UIView *view) = self.clickAction;
-////    if (action){
-////        action(self);
-////        self.userInteractionEnabled = NO;
-////        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.touchInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-////            self.userInteractionEnabled = YES;
-////        });
-////    }
-//}
-
-//- (void)addLongPressGestureActionWithBlock:(void (^)(UILongPressGestureRecognizer *))block{
-//    self.userInteractionEnabled = YES;
-//    UILongPressGestureRecognizer *gesture = objc_getAssociatedObject(self, &kActionHandlerLongPressGestureKey);
-//    if (!gesture){
-//        gesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleActionForLongPressGesture:)];
-//        [self addGestureRecognizer:gesture];
-//        objc_setAssociatedObject(self, &kActionHandlerLongPressGestureKey, gesture, OBJC_ASSOCIATION_RETAIN);
-//    }
-//    objc_setAssociatedObject(self, &kActionHandlerLongPressBlockKey, block, OBJC_ASSOCIATION_COPY);
-//}
-//
-//- (void)handleActionForLongPressGesture:(UILongPressGestureRecognizer *)gesture{
-//    if (gesture.state == UIGestureRecognizerStateBegan){
-//        void(^action)(UILongPressGestureRecognizer *longPressAction) = objc_getAssociatedObject(self, &kActionHandlerLongPressBlockKey);
-//        if (action){
-//            action(gesture);
-//        }
-//    }
-//}
-
--(UIView *)viewShow{
-    [self cancelFadeOut];
+-(UIView *)dl_viewShow{
+    [self dl_cancelFadeOut];
     [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
         self.hidden = NO;
     } completion:^(BOOL finished) {
@@ -678,7 +595,7 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     return self;
 }
 
--(void)viewHidden:(NSInteger)delay{
+-(void)dl_viewHidden:(NSInteger)delay{
     int seeds = [self.fadeSeeds intValue];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (seeds == [self.fadeSeeds intValue]) {
@@ -699,7 +616,7 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     objc_setAssociatedObject(self, @selector(fadeSeeds), seeds, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (void)cancelFadeOut
+- (void)dl_cancelFadeOut
 {
     [self setFadeSeeds:@(arc4random_uniform(1000))];
 }
@@ -1050,40 +967,56 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 
 -(UIView *(^)(NSTimeInterval time))dl_clickTime{
     return ^(NSTimeInterval time) {
-        
-        
-        
-        self.touchInterval = time;
+        DLViewCategoryTarget *target = objc_getAssociatedObject(self, &target_key);
+        if (!target) {
+            target = [[DLViewCategoryTarget alloc]init];
+            target.view = self;
+        }
+        target.touchInterval = time;
+        objc_setAssociatedObject(self, &target_key, target, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         return self;
     };
 }
 
 -(UIView *(^)(CGFloat size))dl_clickEdge{
     return ^(CGFloat size) {
-        self.leftClick = size;
-        self.rightClick = size;
-        self.topClick = size;
-        self.bottomClick = size;
+        DLViewCategoryTarget *target = objc_getAssociatedObject(self, &target_key);
+        if (!target) {
+            target = [[DLViewCategoryTarget alloc]init];
+            target.view = self;
+        }
+        target.leftClick = size;
+        target.rightClick = size;
+        target.topClick = size;
+        target.bottomClick = size;
+        objc_setAssociatedObject(self, &target_key, target, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         return self;
     };
 }
 
 -(UIView *(^)(CGFloat top, CGFloat right, CGFloat bottom, CGFloat left))dl_clickFrame{
     return ^(CGFloat top, CGFloat right, CGFloat bottom, CGFloat left) {
-        self.leftClick = left;
-        self.rightClick = right;
-        self.topClick = top;
-        self.bottomClick = bottom;
+        DLViewCategoryTarget *target = objc_getAssociatedObject(self, &target_key);
+        if (!target) {
+            target = [[DLViewCategoryTarget alloc]init];
+            target.view = self;
+        }
+        target.leftClick = left;
+        target.rightClick = right;
+        target.topClick = top;
+        target.bottomClick = bottom;
+        objc_setAssociatedObject(self, &target_key, target, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         return self;
     };
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(nullable UIEvent *)event{
     CGRect myBounds = self.bounds;
-    myBounds.origin.x = myBounds.origin.x - self.leftClick;
-    myBounds.origin.y = myBounds.origin.y - self.topClick;
-    myBounds.size.width = myBounds.size.width + self.leftClick + self.rightClick;
-    myBounds.size.height = myBounds.size.height + self.topClick + self.bottomClick;
+    DLViewCategoryTarget *target = objc_getAssociatedObject(self, &target_key);
+    myBounds.origin.x = myBounds.origin.x - target.leftClick;
+    myBounds.origin.y = myBounds.origin.y - target.topClick;
+    myBounds.size.width = myBounds.size.width + target.leftClick + target.rightClick;
+    myBounds.size.height = myBounds.size.height + target.topClick + target.bottomClick;
     return CGRectContainsPoint(myBounds, point);
 }
 
@@ -1095,46 +1028,6 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 
 -(NSString *)touchIdentifierStr{
     return objc_getAssociatedObject(self, &touchIdentifierStrKey);
-}
-
--(void)setLeftClick:(CGFloat)leftClick{
-    objc_setAssociatedObject(self, &leftClickKey, @(leftClick), OBJC_ASSOCIATION_ASSIGN);
-}
-
--(CGFloat)leftClick{
-    return [objc_getAssociatedObject(self, &leftClickKey) floatValue];
-}
-
--(void)setRightClick:(CGFloat)rightClick{
-    objc_setAssociatedObject(self, &rightClickKey, @(rightClick), OBJC_ASSOCIATION_ASSIGN);
-}
-
--(CGFloat)rightClick{
-    return [objc_getAssociatedObject(self, &rightClickKey) floatValue];
-}
-
--(void)setTopClick:(CGFloat)topClick{
-    objc_setAssociatedObject(self, &topClickKey, @(topClick), OBJC_ASSOCIATION_ASSIGN);
-}
-
--(CGFloat)topClick{
-    return [objc_getAssociatedObject(self, &topClickKey) floatValue];
-}
-
--(void)setBottomClick:(CGFloat)bottomClick{
-    objc_setAssociatedObject(self, &bottomClickKey, @(bottomClick), OBJC_ASSOCIATION_ASSIGN);
-}
-
--(CGFloat)bottomClick{
-    return [objc_getAssociatedObject(self, &bottomClickKey) floatValue];
-}
-
--(void)setTouchInterval:(NSTimeInterval)touchInterval{
-    objc_setAssociatedObject(self, &touchIntervalKey, @(touchInterval), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
--(NSTimeInterval)touchInterval{
-    return [objc_getAssociatedObject(self, &touchIntervalKey) doubleValue];
 }
 
 -(void)setClassStr:(NSString *)classStr{

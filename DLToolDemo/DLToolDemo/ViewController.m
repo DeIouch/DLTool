@@ -31,10 +31,12 @@
     UIView *view = [UIView dl_view:^(UIView *view) {
         view.dl_backView(self.view).frame = CGRectMake(100, 100, 100, 100);
         view.dl_backColor(@"FF0000");
-//        view.dl_clickTime(5);
+        view.dl_clickTime(5);
+        view.dl_clickEdge(100);
+        view.dl_allCorner(40);
     }];
     
-    view.clickAction = ^ {
+    view.clickAction = ^(UIView *view) {
         NSLog(@"111111");
     };
 //
