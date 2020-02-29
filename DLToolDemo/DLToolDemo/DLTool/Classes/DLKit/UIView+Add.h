@@ -62,21 +62,21 @@
 
 #pragma mark 圆角
 
--(UIView *(^) (CGFloat radius))topLeftCorner;
+-(UIView *(^) (CGFloat radius))dl_topLeftCorner;
 
--(UIView *(^) (CGFloat radius))bottomLeftCorner;
+-(UIView *(^) (CGFloat radius))dl_bottomLeftCorner;
 
--(UIView *(^) (CGFloat radius))topRightCorner;
+-(UIView *(^) (CGFloat radius))dl_topRightCorner;
 
--(UIView *(^) (CGFloat radius))bottomRightCorner;
+-(UIView *(^) (CGFloat radius))dl_bottomRightCorner;
 
--(UIView *(^) (CGFloat radius))allCorner;
+-(UIView *(^) (CGFloat radius))dl_allCorner;
 
--(UIView *)viewShow;
+-(UIView *)dl_viewShow;
 
--(void)viewHidden:(NSInteger)delay;
+-(void)dl_viewHidden:(NSInteger)delay;
 
--(void)cancelFadeOut;
+-(void)dl_cancelFadeOut;
 
 
 
@@ -163,9 +163,6 @@
 -(UIView *(^) (CGFloat speed))dl_animationSpeed;
 
 #pragma mark 点击事件相关
-
-//@property (nonatomic, copy) void(^clickAction)(UIView *view);
-
 /**
 设置点击范围
 */
@@ -182,7 +179,7 @@
 -(UIView *(^)(NSTimeInterval time))dl_clickTime;
 
 
-@property (nonatomic, copy) void (^clickAction)(void);
+@property (nonatomic, copy) void (^clickAction)(UIView *view);
 
 @end
 
