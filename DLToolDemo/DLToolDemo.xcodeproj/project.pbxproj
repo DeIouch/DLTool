@@ -201,8 +201,6 @@
 		87D728DA2408F86A00C288F4 /* DLTool */ = {
 			isa = PBXGroup;
 			children = (
-				87D729292408F86A00C288F4 /* DLTool.h */,
-				87D7292F2408F86B00C288F4 /* DLToolMacro.h */,
 				87D728DB2408F86A00C288F4 /* Classes */,
 				87D7292A2408F86A00C288F4 /* Assets */,
 			);
@@ -212,6 +210,8 @@
 		87D728DB2408F86A00C288F4 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				87D729292408F86A00C288F4 /* DLTool.h */,
+				87D7292F2408F86B00C288F4 /* DLToolMacro.h */,
 				87D728DC2408F86A00C288F4 /* DLBaseViewControl */,
 				87D728E12408F86A00C288F4 /* DLKit */,
 				87D728E42408F86A00C288F4 /* DLCrash */,
