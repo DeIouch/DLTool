@@ -32,6 +32,14 @@ typedef NS_ENUM(NSInteger, AttributeType) {
 
 -(DLConstraint *)height;
 
+-(DLConstraint *)lessWidth;
+
+-(DLConstraint *)lessHeight;
+
+-(DLConstraint *)greatWidth;
+
+-(DLConstraint *)greatHeight;
+
 -(DLConstraint *)centerX;
 
 -(DLConstraint *)centerY;
@@ -47,10 +55,6 @@ typedef NS_ENUM(NSInteger, AttributeType) {
 -(DLConstraint *(^)(UIView *view))equal;
 
 -(DLConstraint *(^)(AttributeType type))to;
-
--(DLConstraint *(^)(UIView *view))greater_Then;
-
--(DLConstraint *(^)(UIView *view))less_Then;
 
 -(DLConstraint *(^)(CGFloat constant))multipliedBy;
 

@@ -50,7 +50,11 @@ static const int target_key;
 
 @property (nonatomic, strong) NSString *touchIdentifierStr;
 
+@property (nonatomic, strong) DLConstraintMaker *make;
+
 @end
+
+static NSString *autolayout_StrKey = @"autolayout_StrKey";
 
 static NSString *identifierStrKey = @"identifierStrKey";
 
@@ -59,6 +63,14 @@ static NSString *classStrKey = @"classStrKey";
 static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 
 @implementation UIView (Add)
+
+-(void)setMake:(DLConstraintMaker *)make{
+    objc_setAssociatedObject(self, &autolayout_StrKey, make, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(DLConstraintMaker *)make{
+    return objc_getAssociatedObject(self, &autolayout_StrKey);
+}
 
 -(void)setClickAction:(void (^)(UIView *view))tapBlock{
     DLViewCategoryTarget *target = objc_getAssociatedObject(self, &target_key);
@@ -116,9 +128,11 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 
 -(void)dl_AutoLayout:(void (^)(DLConstraintMaker *make))block{
     self.translatesAutoresizingMaskIntoConstraints = NO;
-    DLConstraintMaker *constraintMaker = [[DLConstraintMaker alloc]initWithView:self];
-    block(constraintMaker);
-    [constraintMaker install];
+    if (!self.make) {
+        self.make = [[DLConstraintMaker alloc]initWithView:self];
+    }
+    block(self.make);
+    [self.make install];
 }
 
 -(UIView *(^) (UIView *view,CGFloat constant))dl_left_to_layout{
