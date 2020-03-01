@@ -114,6 +114,13 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 
 #pragma mark autoLayout
 
+-(void)dl_AutoLayout:(void (^)(DLConstraintMaker *make))block{
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    DLConstraintMaker *constraintMaker = [[DLConstraintMaker alloc]initWithView:self];
+    block(constraintMaker);
+    [constraintMaker install];
+}
+
 -(UIView *(^) (UIView *view,CGFloat constant))dl_left_to_layout{
     return ^(UIView *view,CGFloat constant){
         if ([self isEmptySuperView]) {

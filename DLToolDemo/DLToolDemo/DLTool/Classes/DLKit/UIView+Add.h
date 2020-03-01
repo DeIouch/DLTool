@@ -1,4 +1,5 @@
 #import <UIKit/UIKit.h>
+#import "DLConstraintMaker.h"
 @class DefaulterImage;
 
 @interface UIView (Add)
@@ -9,6 +10,8 @@
 
 @property (nonatomic, strong) NSString *classStr;
 
+
+-(void)dl_AutoLayout:(void (^)(DLConstraintMaker *make))block;
 
 //  to 和 by的区别，to是从同一侧开始算起，by是从另一侧开始算起
 -(UIView *(^) (UIView *view,CGFloat constant))dl_left_to_layout;

@@ -89,7 +89,12 @@
         make.width.offset(50);
         make.height.offset(50);
     }];
+    NSLog(@"%ld", three.constraints.count);
     
+    
+    for (NSLayoutConstraint *constraint in three.constraints) {
+        NSLog(@"%@  ==  %ld  ==  %@  ==  %d", constraint.firstItem, (long)constraint.firstAttribute, constraint.secondItem, constraint.secondAttribute);
+    }
     
 }
 
