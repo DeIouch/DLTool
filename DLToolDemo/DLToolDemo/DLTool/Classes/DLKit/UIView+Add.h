@@ -52,11 +52,17 @@
 
 -(UIView *(^) (UIView *view,CGFloat constant))dl_centerY_layout;
 
+/// 获取view的高
+/// @param view view的高
 -(CGFloat)dl_fittingHeight:(UIView *)view;
 
+/// 获取view的宽
+/// @param view view的宽
 -(CGFloat)dl_fittingWidth:(UIView *)view;
 
-
+/// 查找两个view的公共父视图
+/// @param view 公共父视图
+-(instancetype)getCommonSuperView:(UIView *)view;
 
 -(UIView *(^) (id color))dl_backColor;
 

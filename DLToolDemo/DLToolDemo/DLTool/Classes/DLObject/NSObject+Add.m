@@ -1490,6 +1490,13 @@ static NSMutableDictionary *KVOSafeDeallocCrashes() {
     return KVOSafeDeallocCrashes;
 }
 
+-(double)getElapsedTime:(void (^)(void))block{
+    CFAbsoluteTime start = CFAbsoluteTimeGetCurrent();
+    block();
+    CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
+    return end-start;
+}
+
 -(BOOL)isNSString{
     if ([NSStringFromClass([self class]) isEqualToString:@"NSPlaceholderString"] || [NSStringFromClass([self class]) isEqualToString:@"__NSCFConstantString"] || [NSStringFromClass([self class]) isEqualToString:@"NSTaggedPointerString"] || [NSStringFromClass([self class]) isEqualToString:@"NSPlaceholderMutableString"]) {
         return YES;

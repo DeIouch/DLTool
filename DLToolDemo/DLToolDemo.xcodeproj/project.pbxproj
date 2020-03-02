@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		24C77204240B999000A5F612 /* DLConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 24C77203240B999000A5F612 /* DLConstraintMaker.m */; };
+		875E0BD2240CFD91003C9180 /* DLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 875E0BCF240CFD91003C9180 /* DLLayer.m */; };
+		875E0BD3240CFD91003C9180 /* UIView+AddDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 875E0BD1240CFD91003C9180 /* UIView+AddDemo.m */; };
+		875E0BD8240D11BC003C9180 /* DLPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 875E0BD7240D11BC003C9180 /* DLPlayer.m */; };
 		87D728C32408F84C00C288F4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D728C22408F84C00C288F4 /* AppDelegate.m */; };
 		87D728C62408F84C00C288F4 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D728C52408F84C00C288F4 /* SceneDelegate.m */; };
 		87D728C92408F84C00C288F4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D728C82408F84C00C288F4 /* ViewController.m */; };
@@ -60,6 +63,12 @@
 /* Begin PBXFileReference section */
 		24C77202240B999000A5F612 /* DLConstraintMaker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLConstraintMaker.h; sourceTree = "<group>"; };
 		24C77203240B999000A5F612 /* DLConstraintMaker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLConstraintMaker.m; sourceTree = "<group>"; };
+		875E0BCE240CFD91003C9180 /* DLLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLLayer.h; sourceTree = "<group>"; };
+		875E0BCF240CFD91003C9180 /* DLLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLLayer.m; sourceTree = "<group>"; };
+		875E0BD0240CFD91003C9180 /* UIView+AddDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AddDemo.h"; sourceTree = "<group>"; };
+		875E0BD1240CFD91003C9180 /* UIView+AddDemo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AddDemo.m"; sourceTree = "<group>"; };
+		875E0BD6240D11BC003C9180 /* DLPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLPlayer.h; sourceTree = "<group>"; };
+		875E0BD7240D11BC003C9180 /* DLPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLPlayer.m; sourceTree = "<group>"; };
 		87D728BE2408F84C00C288F4 /* DLToolDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DLToolDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87D728C12408F84C00C288F4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		87D728C22408F84C00C288F4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -164,6 +173,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		875E0BCD240CFD72003C9180 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				875E0BCE240CFD91003C9180 /* DLLayer.h */,
+				875E0BCF240CFD91003C9180 /* DLLayer.m */,
+				875E0BD0240CFD91003C9180 /* UIView+AddDemo.h */,
+				875E0BD1240CFD91003C9180 /* UIView+AddDemo.m */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
+		875E0BD5240D11A5003C9180 /* DLPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				875E0BD6240D11BC003C9180 /* DLPlayer.h */,
+				875E0BD7240D11BC003C9180 /* DLPlayer.m */,
+			);
+			path = DLPlayer;
+			sourceTree = "<group>";
+		};
 		87D728B52408F84C00C288F4 = {
 			isa = PBXGroup;
 			children = (
@@ -191,6 +220,7 @@
 				87D728C82408F84C00C288F4 /* ViewController.m */,
 				87D729572408FD2F00C288F4 /* OneViewController.h */,
 				87D729582408FD2F00C288F4 /* OneViewController.m */,
+				875E0BCD240CFD72003C9180 /* Demo */,
 				87D728DA2408F86A00C288F4 /* DLTool */,
 				87D728CA2408F84C00C288F4 /* Main.storyboard */,
 				87D728CD2408F84E00C288F4 /* Assets.xcassets */,
@@ -215,6 +245,7 @@
 			children = (
 				87D729292408F86A00C288F4 /* DLTool.h */,
 				87D7292F2408F86B00C288F4 /* DLToolMacro.h */,
+				875E0BD5240D11A5003C9180 /* DLPlayer */,
 				87D728DC2408F86A00C288F4 /* DLBaseViewControl */,
 				87D728E12408F86A00C288F4 /* DLKit */,
 				87D728E42408F86A00C288F4 /* DLCrash */,
@@ -435,10 +466,12 @@
 				87D729392408F86B00C288F4 /* NSArray+Add.m in Sources */,
 				87D729432408F86B00C288F4 /* NSMutableArray+Add.m in Sources */,
 				87D729522408F86B00C288F4 /* DLLoad.m in Sources */,
+				875E0BD2240CFD91003C9180 /* DLLayer.m in Sources */,
 				87D728C32408F84C00C288F4 /* AppDelegate.m in Sources */,
 				87D729472408F86B00C288F4 /* NSOrderedSet+Add.m in Sources */,
 				87D729402408F86B00C288F4 /* NSNotificationCenter+Add.m in Sources */,
 				87D729382408F86B00C288F4 /* NSMutableData+Add.m in Sources */,
+				875E0BD8240D11BC003C9180 /* DLPlayer.m in Sources */,
 				87D7293B2408F86B00C288F4 /* NSData+Add.m in Sources */,
 				87D7294E2408F86B00C288F4 /* DLThread.m in Sources */,
 				87D7294B2408F86B00C288F4 /* DLAlert.m in Sources */,
@@ -456,6 +489,7 @@
 				87D729422408F86B00C288F4 /* NSAttributedString+Add.m in Sources */,
 				87D729302408F86B00C288F4 /* UINavigationController+Add.m in Sources */,
 				87D729342408F86B00C288F4 /* DLAutoLayout.m in Sources */,
+				875E0BD3240CFD91003C9180 /* UIView+AddDemo.m in Sources */,
 				87D729482408F86B00C288F4 /* NSDictionary+Add.m in Sources */,
 				87D7294D2408F86B00C288F4 /* DLTimer.m in Sources */,
 				87D729592408FD2F00C288F4 /* OneViewController.m in Sources */,

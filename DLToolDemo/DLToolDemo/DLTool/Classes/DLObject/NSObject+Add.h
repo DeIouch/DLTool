@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface KVOObserverInfo:NSObject
 
@@ -13,6 +14,8 @@
 -(BOOL)isNSDictionary;
 
 -(BOOL)ObjectIsNil;
+
+-(double)getElapsedTime:(void (^)(void))block;
 
 + (void)dl_createModelWithJson:(NSDictionary *)json fileName:(NSString *)fileName extensionName:(NSString *)extensionName fileURL:(NSURL *)url;
 

@@ -1,4 +1,5 @@
 #import "DLConstraintMaker.h"
+#import "UIView+Add.h"
 
 typedef NS_ENUM(NSInteger, ConstraintType) {
     Left   =   1,
@@ -14,18 +15,6 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     CenterX,
     CenterY,
 };
-
-@interface ConstraintModel : NSObject
-
-@property (nonatomic, strong) NSLayoutConstraint *constraint;
-
-@property (nonatomic, weak) UIView *fatherView;
-
-@end
-
-@implementation ConstraintModel
-
-@end
 
 @interface DLConstraint ()
 
@@ -54,6 +43,8 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 @property (nonatomic, strong) NSLayoutConstraint *constraint;
 
 @property (nonatomic, weak) UIView *fatherView;
+
+@property (nonatomic, assign) BOOL needDelete;
 
 @end
 
@@ -94,18 +85,10 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 -(instancetype)initWithView:(UIView *)view{
     if ([super init]) {
         self.view = view;
-        //        self.constraintArray = [[NSMutableArray alloc]initWithObjects:self.leftConstraint, self.topConstraint, self.rightConstraint, self.bottomConstraint, self.centerXConstraint, self.centerYConstraint, self.widthConstraint, self.heightConstraint, self.lessWidthConstraint, self.lessHeightConstraint, self.greatWidthConstraint, self.greatHeightConstraint, nil];
         self.constraintArray = [[NSMutableArray alloc]init];
     }
     return self;
 }
-
-//-(NSMutableArray *)constraintArray{
-//    if (!_constraintArray) {
-//        _constraintArray = [[NSMutableArray alloc]initWithObjects:self.leftConstraint, self.topConstraint, self.rightConstraint, self.bottomConstraint, self.centerXConstraint, self.centerYConstraint, self.widthConstraint, self.heightConstraint, self.lessWidthConstraint, self.lessHeightConstraint, self.greatWidthConstraint, self.greatHeightConstraint, nil];
-//    };
-//    return _constraintArray;
-//}
 
 -(NSArray <UIView *> *)findCommonSuperView:(UIView *)viewOne other:(UIView *)viewOther{
     NSMutableArray *result = [NSMutableArray array];
@@ -145,6 +128,12 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(void)install{
     for (DLConstraint *constraint in self.constraintArray) {
+        if (constraint.needDelete) {
+            if (constraint.fatherView && constraint.constraint) {
+                [constraint.fatherView removeConstraint:constraint.constraint];
+            }
+            continue;
+        }
         if (!constraint.needInstall) {
             continue;
         }
@@ -155,10 +144,14 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
         }else if (self.view.superview == constraint.secondView) {
             view = constraint.secondView;
         }else{
-            view = [self findCommonSuperView:self.view other:constraint.secondView][0];
+            view = [self.view getCommonSuperView:constraint.secondView];;
         }
         if (constraint.type == attributeSafeBottom || constraint.type == attributeSafeTop || constraint.type == attributeSafeRight || constraint.type == attributeSafeLeft) {
-            constraint.item = view.safeAreaLayoutGuide;
+            if (@available(iOS 11.0, *)) {
+                constraint.item = view.safeAreaLayoutGuide;
+            } else {
+                constraint.item = constraint.secondView;
+            }
         }else{
             constraint.item = constraint.secondView;
         }
@@ -196,6 +189,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.leftConstraint.multiplier = 1;
     self.leftConstraint.constant = 0;
     self.leftConstraint.needInstall = YES;
+    self.leftConstraint.needDelete = NO;
     [self insertConstraint:self.leftConstraint];
     return self.leftConstraint;
 }
@@ -205,6 +199,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.rightConstraint.multiplier = 1;
     self.rightConstraint.constant = 0;
     self.rightConstraint.needInstall = YES;
+    self.rightConstraint.needDelete = NO;
     [self insertConstraint:self.rightConstraint];
     return self.rightConstraint;
 }
@@ -214,6 +209,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.topConstraint.multiplier = 1;
     self.topConstraint.constant = 0;
     self.topConstraint.needInstall = YES;
+    self.topConstraint.needDelete = NO;
     [self insertConstraint:self.topConstraint];
     return self.topConstraint;
 }
@@ -223,6 +219,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.bottomConstraint.multiplier = 1;
     self.bottomConstraint.constant = 0;
     self.bottomConstraint.needInstall = YES;
+    self.bottomConstraint.needDelete = NO;
     [self insertConstraint:self.bottomConstraint];
     return self.bottomConstraint;
 }
@@ -232,6 +229,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.widthConstraint.multiplier = 0;
     self.widthConstraint.constant = 0;
     self.widthConstraint.needInstall = YES;
+    self.widthConstraint.needDelete = NO;
     [self insertConstraint:self.widthConstraint];
     return self.widthConstraint;
 }
@@ -241,6 +239,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.heightConstraint.multiplier = 0;
     self.heightConstraint.constant = 0;
     self.heightConstraint.needInstall = YES;
+    self.heightConstraint.needDelete = NO;
     [self insertConstraint:self.heightConstraint];
     return self.heightConstraint;
 }
@@ -250,6 +249,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.lessWidthConstraint.multiplier = 0;
     self.lessWidthConstraint.constant = 0;
     self.lessWidthConstraint.needInstall = YES;
+    self.lessWidthConstraint.needDelete = NO;
     [self insertConstraint:self.lessWidthConstraint];
     return self.lessWidthConstraint;
 }
@@ -259,6 +259,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.lessHeightConstraint.multiplier = 0;
     self.lessHeightConstraint.constant = 0;
     self.lessHeightConstraint.needInstall = YES;
+    self.lessHeightConstraint.needDelete = NO;
     [self insertConstraint:self.lessHeightConstraint];
     return self.lessHeightConstraint;
 }
@@ -268,6 +269,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.greatWidthConstraint.multiplier = 0;
     self.greatWidthConstraint.constant = 0;
     self.greatWidthConstraint.needInstall = YES;
+    self.greatWidthConstraint.needDelete = NO;
     [self insertConstraint:self.greatWidthConstraint];
     return self.greatWidthConstraint;
 }
@@ -277,6 +279,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.greatHeightConstraint.multiplier = 0;
     self.greatHeightConstraint.constant = 0;
     self.greatHeightConstraint.needInstall = YES;
+    self.greatHeightConstraint.needDelete = NO;
     [self insertConstraint:self.greatHeightConstraint];
     return self.greatHeightConstraint;
 }
@@ -286,6 +289,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.centerXConstraint.multiplier = 1;
     self.centerXConstraint.constant = 0;
     self.centerXConstraint.needInstall = YES;
+    self.centerXConstraint.needDelete = NO;
     [self insertConstraint:self.centerXConstraint];
     return self.centerXConstraint;
 }
@@ -295,6 +299,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.centerYConstraint.multiplier = 1;
     self.centerYConstraint.constant = 0;
     self.centerYConstraint.needInstall = YES;
+    self.centerYConstraint.needDelete = NO;
     [self insertConstraint:self.centerYConstraint];
     return self.centerYConstraint;
 }
@@ -380,7 +385,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
         _widthConstraint.layoutRelation = NSLayoutRelationEqual;
         _widthConstraint.firstAttribute = NSLayoutAttributeWidth;
     }
-    return _leftConstraint;
+    return _widthConstraint;
 }
 
 -(DLConstraint *)heightConstraint{
@@ -525,6 +530,13 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 -(DLConstraint *(^)(CGFloat constant))offset{
     return ^(CGFloat constant) {
         self.constant = constant;
+        return self;
+    };
+}
+
+-(DLConstraint *(^)(void))remove{
+    return ^(void) {
+        self.needDelete = YES;
         return self;
     };
 }

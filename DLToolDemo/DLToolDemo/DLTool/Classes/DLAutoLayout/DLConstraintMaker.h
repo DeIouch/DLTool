@@ -60,4 +60,6 @@ typedef NS_ENUM(NSInteger, AttributeType) {
 
 -(DLConstraint *(^)(CGFloat constant))offset;
 
+-(DLConstraint *(^)(void))remove;
+
 @end

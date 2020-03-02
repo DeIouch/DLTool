@@ -261,6 +261,22 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     };
 }
 
+-(instancetype)getCommonSuperView:(UIView *)view{
+    UIView *commonSuperview = nil;
+    UIView *secondViewSuperview = view;
+    while (!commonSuperview && secondViewSuperview) {
+        UIView *firstViewSuperview = self;
+        while (!commonSuperview && firstViewSuperview) {
+            if (secondViewSuperview == firstViewSuperview) {
+                commonSuperview = secondViewSuperview;
+            }
+            firstViewSuperview = firstViewSuperview.superview;
+        }
+        secondViewSuperview = secondViewSuperview.superview;
+    }
+    return commonSuperview;
+}
+
 -(UIView *(^) (UIView *view,CGFloat constant))dl_bottom_by_layout{
     return ^(UIView *view,CGFloat constant){
         if ([self isEmptySuperView]) {
@@ -641,8 +657,6 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 {
     [self setFadeSeeds:@(arc4random_uniform(1000))];
 }
-
-
 
 -(UIView *(^) (NSString *imageString))dl_imageString{
     return ^(NSString *imageString){

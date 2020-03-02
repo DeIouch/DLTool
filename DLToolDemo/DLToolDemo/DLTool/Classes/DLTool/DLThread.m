@@ -1,5 +1,4 @@
 #import "DLThread.h"
-//#include <objc/runtime.h>
 
 static NSMutableDictionary *threadDic;
 static dispatch_semaphore_t semaphore;
@@ -50,6 +49,7 @@ static dispatch_semaphore_t semaphore;
     DLThread *thread = [[DLThread alloc]init];
     NSOperationQueue *queue = async ? [[NSOperationQueue alloc]init] : [NSOperationQueue mainQueue];
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+//    queue.maxConcurrentOperationCount = 3;
     NSString *threadIdentifier = [NSString stringWithFormat:@"%zd", threadDic.count];
     thread.threadIdent = threadIdentifier;
     [threadDic setObject:queue forKey:threadIdentifier];
@@ -81,10 +81,6 @@ static dispatch_semaphore_t semaphore;
         block = self.threadArray[a];
         NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
             block();
-            
-            if (a == self.threadArray.count - 1) {
-                NSLog(@"1111111");
-            }
         }];
         if (operationArray.count > 0) {
             [operation addDependency:operationArray.lastObject];
