@@ -17,6 +17,8 @@
 
 -(NSString *)dl_stringByTrim;
 
++(NSString *)dl_stringWithUUID;
+
 // 随机生成字符串(由大小写字母组成)
 +(NSString *)randomNoNumber:(int)len;
 

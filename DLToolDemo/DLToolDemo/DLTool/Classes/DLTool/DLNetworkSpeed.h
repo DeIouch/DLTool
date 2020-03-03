@@ -6,7 +6,7 @@
 
 @property (nonatomic, copy, readonly) NSString *uploadNetworkSpeed;
 
-+ (instancetype)shareNetworkSpeed;
++ (instancetype)shareInstance;
 //开始监听
 - (void)start;
 //停止监听

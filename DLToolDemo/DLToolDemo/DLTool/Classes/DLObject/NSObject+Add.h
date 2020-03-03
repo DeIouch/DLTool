@@ -47,6 +47,12 @@
 
 -(NSString *)dl_modelDescription;
 
+-(void)dl_addObserverBlockForKeyPath:(NSString*)keyPath block:(void (^)(id obj, id oldVal, id newVal))block;
+
+-(void)dl_removeObserverBlocksForKeyPath:(NSString*)keyPath;
+
+- (void)dl_removeObserverBlocks;
+
 @end
 
 @protocol DLModel <NSObject>

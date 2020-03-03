@@ -815,3 +815,248 @@ static UISlider * _volumeSlider;
 
 
 @end
+
+
+/*
+ AVPlayer
+ AVPlayer相比上述两种方式，播放视频功能更加强大，使用也十分灵活，因为它更加接近底层。但是AVPlayer本身是不能直接显示视频的，必须创建一个播放层AVPlayerLayer并将其添加到其他的视图Layer上才能显示。
+ 测试网络视频url  https://vdse.bdstatic.com//f11546e6b21bb6f60f025df3d5cb5735?authorization=bce-auth-v1/fb297a5cc0fb434c971b8fa103e8dd7b/2017-05-11T09:02:31Z/-1//560f50696b0d906271532cf3868d7a3baf6e4f7ffbe74e8dff982ed57f72c088.mp4
+ 
+ 
+ 
+ 1. 使用AVPlayer需要了解的常用类
+
+ AVAsset：一个用于获取多媒体信息的抽象类，但不能直接使用
+ AVURLAsset：AVAsset的子类，可以根据一个URL路径创建一个包含媒体信息的AVURLAsset对象
+ AVPlayerItem：一个媒体资源管理对象，用于管理视频的基本信息和状态，一个AVPlayerItem对应一个视频资源
+ AVPlayer：负责视频播放、暂停、时间控制等操作
+ AVPlayerLayer：负责显示视频的图层，如果不设置此属性，视频就只有声音没有图像
+ 
+ 
+ 
+ 
+ 2.AVPlayer的使用步骤
+ 
+ //第一步:引用AVFoundation框架，添加播放器属性
+         #import <AVFoundation/AVFoundation.h>
+ 
+         @property (nonatomic,strong)AVPlayer *player;//播放器对象
+ 
+         @property (nonatomic,strong)AVPlayerItem *currentPlayerItem;
+ 
+ 
+ 
+ //第二步:获取播放地址URL
+         //本地视频路径
+         NSString* localFilePath=[[NSBundle mainBundle]pathForResource:@"不能说的秘密" ofType:@"mp4"];
+         NSURL *localVideoUrl = [NSURL fileURLWithPath:localFilePath];
+         
+         //网络视频路径
+         NSString *webVideoPath = @"http://api.junqingguanchashi.net/yunpan/bd/c.php?vid=/junqing/1129.mp4";
+         NSURL *webVideoUrl = [NSURL URLWithString:webVideoPath];
+ 
+ 
+ 
+ //第三步:创建播放器(四种方法)
+         //如果使用URL创建的方式会默认为AVPlayer创建一个AVPlayerItem
+         //self.player = [AVPlayer playerWithURL:localVideoUrl];
+         //self.player = [[AVPlayer alloc] initWithURL:localVideoUrl];
+         //self.player = [AVPlayer playerWithPlayerItem:playerItem];
+ 
+         AVPlayerItem *playerItem = [[AVPlayerItem alloc] initWithURL:webVideoUrl];
+         self.currentPlayerItem = playerItem;
+         self.player = [[AVPlayer alloc] initWithPlayerItem:playerItem];
+ 
+ 
+ 
+ //第四步:创建显示视频的AVPlayerLayer,设置视频显示属性，并添加视频图层
+         //contentView是一个普通View,用于放置视频视图
+           AVLayerVideoGravityResizeAspectFill等比例铺满，宽或高有可能出屏幕
+           AVLayerVideoGravityResizeAspect 等比例  默认
+           AVLayerVideoGravityResize 完全适应宽高
+ 
+             AVPlayerLayer *avLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
+             avLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+             avLayer.frame = _containerView.bounds;
+             [_containerView.layer addSublayer:avLayer];
+
+ 
+ 
+ //第六步：执行play方法，开始播放
+             //本地视频可以直接播放
+             //网络视频需要监测AVPlayerItem的status属性为AVPlayerStatusReadyToPlay时方法才会生效
+             [self.player play];
+ 
+ 
+ 
+ 3. 添加属性观察
+ 一个AVPlayerItem对象对应着一个视频，我们需要通过AVPlayerItem来获取视频属性。但是AVPlayerItem必须是在视频资源加载到可以播放的时候才能使用，这是受限于网络的原因。解决这一问题，我们需要使用KVO监测AVPlayerItem的status属性，当其为AVPlayerItemStatusReadyToPlay的时候我们才能获取视频相关属性。相关的代码示例如下：
+ 
+     //1.注册观察者，监测播放器属性
+     //观察Status属性，可以在加载成功之后得到视频的长度
+         [self.player.currentItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+     //观察loadedTimeRanges，可以获取缓存进度，实现缓冲进度条
+         [self.player.currentItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+ 
+ 
+ 
+     //2.添加属性观察
+         - (void)observeValueForKeyPath:(NSString *)keyPath
+                               ofObject:(id)object
+                                 change:(NSDictionary *)change
+                                context:(void *)context {
+             AVPlayerItem *playerItem = (AVPlayerItem *)object;
+             if ([keyPath isEqualToString:@"status"]) {
+                 //获取playerItem的status属性最新的状态
+                 AVPlayerStatus status = [[change objectForKey:@"new"] intValue];
+                 switch (status) {
+                     case AVPlayerStatusReadyToPlay:{
+                         //获取视频长度
+                         CMTime duration = playerItem.duration;
+                         //更新显示:视频总时长(自定义方法显示时间的格式)
+                         self.totalNeedPlayTimeLabel.text = [self formatTimeWithTimeInterVal:CMTimeGetSeconds(duration)];
+                         //开启滑块的滑动功能
+                         self.sliderView.enabled = YES;
+                         //关闭加载Loading提示
+                         [self showaAtivityInDicatorView:NO];
+                         //开始播放视频
+                         [self.player play];
+                         break;
+                     }
+                     case AVPlayerStatusFailed:{//视频加载失败，点击重新加载
+                         [self showaAtivityInDicatorView:NO];//关闭Loading视图
+                         self.playerInfoButton.hidden = NO; //显示错误提示按钮，点击后重新加载视频
+                         [self.playerInfoButton setTitle:@"资源加载失败，点击继续尝试加载" forState: UIControlStateNormal];
+                         break;
+                     }
+                     case AVPlayerStatusUnknown:{
+                         NSLog(@"加载遇到未知问题:AVPlayerStatusUnknown");
+                         break;
+                     }
+                     default:
+                         break;
+                 }
+             } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
+                 //获取视频缓冲进度数组，这些缓冲的数组可能不是连续的
+                 NSArray *loadedTimeRanges = playerItem.loadedTimeRanges;
+                 //获取最新的缓冲区间
+                 CMTimeRange timeRange = [loadedTimeRanges.firstObject CMTimeRangeValue];
+                 //缓冲区间的开始的时间
+                 NSTimeInterval loadStartSeconds = CMTimeGetSeconds(timeRange.start);
+                 //缓冲区间的时长
+                 NSTimeInterval loadDurationSeconds = CMTimeGetSeconds(timeRange.duration);
+                 //当前视频缓冲时间总长度
+                 NSTimeInterval currentLoadTotalTime = loadStartSeconds + loadDurationSeconds;
+                 //NSLog(@"开始缓冲:%f,缓冲时长:%f,总时间:%f", loadStartSeconds, loadDurationSeconds, currentLoadTotalTime);
+                 //更新显示：当前缓冲总时长
+                 _currentLoadTimeLabel.text = [self formatTimeWithTimeInterVal:currentLoadTotalTime];
+                 //更新显示：视频的总时长
+                 _totalNeedLoadTimeLabel.text = [self formatTimeWithTimeInterVal:CMTimeGetSeconds(self.player.currentItem.duration)];
+                 //更新显示：缓冲进度条的值
+                 _progressView.progress = currentLoadTotalTime/CMTimeGetSeconds(self.player.currentItem.duration);
+             }
+         }
+ 
+ 
+     //转换时间格式的方法
+         - (NSString *)formatTimeWithTimeInterVal:(NSTimeInterval)timeInterVal{
+             int minute = 0, hour = 0, secend = timeInterVal;
+             minute = (secend % 3600)/60;
+             hour = secend / 3600;
+             secend = secend % 60;
+             return [NSString stringWithFormat:@"%02d:%02d:%02d", hour, minute, secend];
+         }
+ 
+ 
+ 4. 获取当前播放时间与总时间
+     在此之前我们需要首先了解一个数据类型，也就是上述操作中的CMTime, 在AVPlayer的使用中我们会经常用到它，其实CMTime是一个结构体如下：
+         typedef struct{
+             CMTimeValue    value;      // 帧数
+             CMTimeScale    timescale;  // 帧率（影片每秒有几帧）
+             CMTimeFlags    flags;
+             CMTimeEpoch    epoch;
+         } CMTime
+     
+     在上面的操作中我们看到AVPlayerItem的Duration属性就是一个CMTime类型的数据。所以获取视频的总时长(秒)需要duration.value/duration.timeScale。当然系统也为我们提供了CMTimeGetSeconds函数更加方便计算:
+             总时长: duration.value == CMTimeGetSeconds(duration) 。
+ 
+     在快进视频到某一个位置的时候我们也需要创建CMTime作为参数，那么CMTime的创建方法有两种:
+     //方法1：
+         CMTimeMakeWithSeconds(Flout64 seconds, int32_t scale)
+     //方法2：
+         CMTimeMake(int64_t value, int32_t scale)
+     //注：两者的区别在于方法一的第一个参数可以是float
+ 
+ 
+     至于获取视频的总时间在上述代码中已有体现，是在检测播放状态变为AVPlayerStatusReadyToPlay的时候获取的
+ 
+     //视频总时长，在AVPlayerItem状态为AVPlayerStatusReadyToPlay时获取
+         CMTime duration = self.player.currentItem.duration;
+         CGFloat totalTime = CMTimeGetSeconds(duration);
+     //当前AVPlayer的播放时长
+         CMTime cmTime = self.player.currentTime;
+         CGFloat currentTime  = CMTimeGetSeconds(cmTime);
+ 
+ 
+ 
+ 5. 播放进度与状态的刷新
+ 
+     实时更新当前播放时间，这时候我们不必使用定时器，因为AVPlayer已经提供了方法：
+ 
+         addPeriodicTimeObserverForInterval: queue: usingBlock。当播放进度改变的时候方法中的回调会被执行。我们可以在这里做刷新时间的操作，代码示例如下：
+         __weak __typeof(self) weakSelf = self;
+         self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 1) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+              //当前播放的时间
+              NSTimeInterval currentTime = CMTimeGetSeconds(time);
+              //视频的总时间
+              NSTimeInterval totalTime = CMTimeGetSeconds(weakSelf.player.currentItem.duration);
+              //设置滑块的当前进度
+              weakSelf.sliderView.value = currentTime/totalTime;
+              //设置显示的时间：以00:00:00的格式
+              weakSelf.currentTimeLabel.text = [weakSelf formatTimeWithTimeInterVal:currentTime];
+             }];
+
+         //移除时，调用removeTimeObserver
+         // [self.player removeTimeObserver:self.timeObserver];
+ 
+         注意：使用addPeriodicTimeObserverForInterval必须持有返回对象，且在不需要播放器的时候移除此对象；
+         否则将会导致undefined behavior，这一点可以从文档是这样说明的：
+         You must retain this returned value as long as you want the time observer to be invoked by the player.
+         Pass this object to -removeTimeObserver: to cancel time observation.
+         Releasing the observer object without a call to -removeTimeObserver: will result in undefined behavior
+ 
+ 
+ 
+ 6. 滑块拖拽修改视频播放进度
+ 
+     //UISlider的响应方法:拖动滑块，改变播放进度
+         - (IBAction)sliderViewChange:(id)sender {
+             if(self.player.status == AVPlayerStatusReadyToPlay){
+                 NSTimeInterval playTime = self.sliderView.value * CMTimeGetSeconds(self.player.currentItem.duration);
+                 CMTime seekTime = CMTimeMake(playTime, 1);
+                 [self.player seekToTime:seekTime completionHandler:^(BOOL finished) {
+                 }];
+             }
+         }
+ 
+ 
+ 
+ 7.AVPlayerItem 通知
+         // notifications description
+         AVF_EXPORT NSString *const AVPlayerItemTimeJumpedNotification            NS_AVAILABLE(10_7, 5_0);   // the item's current time has changed discontinuously
+         AVF_EXPORT NSString *const AVPlayerItemDidPlayToEndTimeNotification      NS_AVAILABLE(10_7, 4_0);   // item has played to its end time
+         AVF_EXPORT NSString *const AVPlayerItemFailedToPlayToEndTimeNotification NS_AVAILABLE(10_7, 4_3);   // item has failed to play to its end time
+         AVF_EXPORT NSString *const AVPlayerItemPlaybackStalledNotification       NS_AVAILABLE(10_9, 6_0);    // media did not arrive in time to continue playback
+         AVF_EXPORT NSString *const AVPlayerItemNewAccessLogEntryNotification     NS_AVAILABLE(10_9, 6_0);   // a new access log entry has been added
+         AVF_EXPORT NSString *const AVPlayerItemNewErrorLogEntryNotification      NS_AVAILABLE(10_9, 6_0);   // a new error log entry has been added
+
+         // notification userInfo key                                                                    type
+         AVF_EXPORT NSString *const AVPlayerItemFailedToPlayToEndTimeErrorKey     NS_AVAILABLE(10_7, 4_3);   // NSError
+ 
+ 
+ 
+ 
+ 使用 AVPlayer 的时候，一定要注意 AVPlayer 、 AVPlayerLayer 和 AVPlayerItem 三者之间的关系。 AVPlayer 负责控制播放， layer 显示播放， item 提供数据，当前播放时间， 已加载情况。 Item 中一些基本的属性, status, duration, loadedTimeRanges， currentTime（当前播放时间）。
+ 
+ 
+ */

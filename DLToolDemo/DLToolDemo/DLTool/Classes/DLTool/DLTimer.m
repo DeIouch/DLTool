@@ -1,5 +1,6 @@
 #import "DLTimer.h"
 #include <objc/runtime.h>
+#import "DLSafeProtector.h"
 
 static NSMutableDictionary *timersDic;
 static dispatch_semaphore_t semaphore;
@@ -12,6 +13,12 @@ static dispatch_semaphore_t semaphore;
         timersDic = [NSMutableDictionary dictionary];
         semaphore = dispatch_semaphore_create(1);
     });
+}
+
+-(instancetype)init{
+    DLSafeProtectionCrashLog([NSException exceptionWithName:@"DLTimer初始化失败" reason:@"使用'shareInstance'初始化" userInfo:nil],DLSafeProtectorCrashTypeInitError);
+    return [super init];
+    return self;
 }
 
 + (NSString *)doTask:(void (^)(void))task start:(NSTimeInterval)start interval:(NSTimeInterval)interval repeats:(BOOL)repeats async:(BOOL)async {

@@ -44,6 +44,7 @@ typedef NS_OPTIONS(NSUInteger,DLSafeProtectorCrashType)
     DLSafeProtectorCrashTypeNSMutableOrderedSet       = 1 << 18,
     DLSafeProtectorCrashTypeViewAsyncThread           = 1 << 19,
     DLSafeProtectorCrashTypeViewLayout                = 1 << 20,
+    DLSafeProtectorCrashTypeInitError                 = 1 << 21,
     
     DLSafeProtectorCrashTypeNSArrayContainer = DLSafeProtectorCrashTypeNSArray|DLSafeProtectorCrashTypeNSMutableArray,
     

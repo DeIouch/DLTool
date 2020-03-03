@@ -4,7 +4,7 @@
 #import <objc/runtime.h>
 
 typedef NS_ENUM(NSInteger, DLButtonState) {
-    DLStatesNone,        //  计时未开始
+    DLStatesNone,       //  计时未开始
     DLStatusRuning,     //  计时进行中
     DLStatusCancel,     //  结束了（手动结束）
     DLStatusFinish,     //  计时结束了

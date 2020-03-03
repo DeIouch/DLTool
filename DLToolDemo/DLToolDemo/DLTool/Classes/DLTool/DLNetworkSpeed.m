@@ -5,6 +5,7 @@
 #include <net/if_dl.h>
 #include <objc/runtime.h>
 #import "DLTimer.h"
+#import "DLSafeProtector.h"
 
 NSString* const GSDownloadNetworkSpeedNotificationKey = @"GSDownloadNetworkSpeedNotificationKey";
 
@@ -49,10 +50,21 @@ NSString* const GSUploadNetworkSpeedNotificationKey = @"GSUploadNetworkSpeedNoti
 
 static DLNetworkSpeed *instance = nil;
 
-+(instancetype)shareNetworkSpeed{
+- (instancetype)init {
+    DLSafeProtectionCrashLog([NSException exceptionWithName:@"DLNetworkSpeed初始化失败" reason:@"使用'shareInstance'初始化" userInfo:nil],DLSafeProtectorCrashTypeInitError);
+    return [super init];
+}
+
+- (instancetype)_init {
+    self = [super init];
+    _iBytes = _oBytes = _allFlow = _wifiIBytes = _wifiOBytes = _wifiFlow = _wwanIBytes = _wwanOBytes = _wwanFlow = 0;
+    return self;
+}
+
++(instancetype)shareInstance{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        instance = [[self alloc] init];
+        instance = [[self alloc] _init];
     });
     return instance;
 }
@@ -69,12 +81,12 @@ static DLNetworkSpeed *instance = nil;
     return instance;
 }
 
-- (instancetype)init{
-    if (self = [super init]) {
-        _iBytes = _oBytes = _allFlow = _wifiIBytes = _wifiOBytes = _wifiFlow = _wwanIBytes = _wwanOBytes = _wwanFlow = 0;
-    }
-    return self;
-}
+//- (instancetype)init{
+//    if (self = [super init]) {
+//        _iBytes = _oBytes = _allFlow = _wifiIBytes = _wifiOBytes = _wifiFlow = _wwanIBytes = _wwanOBytes = _wwanFlow = 0;
+//    }
+//    return self;
+//}
 
 #pragma mark - 开始监听网速
 - (void)start

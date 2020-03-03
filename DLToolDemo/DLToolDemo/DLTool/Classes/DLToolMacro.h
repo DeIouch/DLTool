@@ -1,3 +1,6 @@
+#import <sys/time.h>
+#import <pthread.h>
+
 #ifndef DLToolMacro_h
 #define DLToolMacro_h
 
@@ -49,6 +52,27 @@
 #endif
 
 
+#ifndef kSystemVersion
+#define kSystemVersion [UIDevice systemVersion]
+#endif
+
+#ifndef kiOS6Later
+#define kiOS6Later (kSystemVersion >= 6)
+#endif
+
+#ifndef kiOS7Later
+#define kiOS7Later (kSystemVersion >= 7)
+#endif
+
+#ifndef kiOS8Later
+#define kiOS8Later (kSystemVersion >= 8)
+#endif
+
+#ifndef kiOS9Later
+#define kiOS9Later (kSystemVersion >= 9)
+#endif
+
+
 #define DLWidth [UIScreen mainScreen].bounds.size.width
 
 #define DLHeight [UIScreen mainScreen].bounds.size.height
@@ -84,5 +108,68 @@
 #define DLColorFromRGB(__rgbValue) [UIColor colorWithRed:((float)((__rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((__rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(__rgbValue & 0xFF))/255.0 alpha:1.0]
 
 #define DLColorFromRGBAlpha(rgbValue, a) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:(a)]
+
+
+
+/**
+ Synthsize a dynamic object property in @implementation scope.
+ It allows us to add custom properties to existing classes in categories.
+ 
+ @param association  ASSIGN / RETAIN / COPY / RETAIN_NONATOMIC / COPY_NONATOMIC
+ @warning #import <objc/runtime.h>
+ *******************************************************************************
+ Example:
+     @interface NSObject (MyAdd)
+     @property (nonatomic, retain) UIColor *myColor;
+     @end
+     
+     #import <objc/runtime.h>
+     @implementation NSObject (MyAdd)
+     DLSYNTH_DYNAMIC_PROPERTY_OBJECT(myColor, setMyColor, RETAIN, UIColor *)
+     @end
+ */
+#ifndef DLSYNTH_DYNAMIC_PROPERTY_OBJECT
+#define DLSYNTH_DYNAMIC_PROPERTY_OBJECT(_getter_, _setter_, _association_, _type_) \
+- (void)_setter_ : (_type_)object { \
+    [self willChangeValueForKey:@#_getter_]; \
+    objc_setAssociatedObject(self, _cmd, object, OBJC_ASSOCIATION_ ## _association_); \
+    [self didChangeValueForKey:@#_getter_]; \
+} \
+- (_type_)_getter_ { \
+    return objc_getAssociatedObject(self, @selector(_setter_:)); \
+}
+#endif
+
+
+
+/**
+ Whether in main queue/thread.
+ */
+static inline bool dispatch_is_main_queue() {
+    return pthread_main_np() != 0;
+}
+
+/**
+ Submits a block for asynchronous execution on a main queue and returns immediately.
+ */
+static inline void dispatch_async_on_main_queue(void (^block)(void)) {
+    if (pthread_main_np()) {
+        block();
+    } else {
+        dispatch_async(dispatch_get_main_queue(), block);
+    }
+}
+
+/**
+ Submits a block for execution on a main queue and waits until the block completes.
+ */
+static inline void dispatch_sync_on_main_queue(void (^block)(void)) {
+    if (pthread_main_np()) {
+        block();
+    } else {
+        dispatch_sync(dispatch_get_main_queue(), block);
+    }
+}
+
 
 #endif

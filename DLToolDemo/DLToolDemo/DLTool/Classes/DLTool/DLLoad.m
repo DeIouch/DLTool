@@ -2,6 +2,7 @@
 #include <objc/runtime.h>
 #import "UIView+Add.h"
 #import "DLNoti.h"
+#import "DLSafeProtector.h"
 
 /// 加载视图
 @interface DLLoadView : UIView
@@ -26,10 +27,21 @@
 @implementation DLLoad
 
 static DLLoad *load = nil;
+
+- (instancetype)init {
+    DLSafeProtectionCrashLog([NSException exceptionWithName:@"DLLoad初始化失败" reason:@"使用'shareInstance'初始化" userInfo:nil],DLSafeProtectorCrashTypeInitError);
+    return [super init];
+}
+
+- (instancetype)_init {
+    self = [super init];
+    return self;
+}
+
 +(DLLoad *)shareInstance{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        load = [[self alloc] init];
+        load = [[self alloc] _init];
         load.loadShowBOOL = YES;
     });
     return load;

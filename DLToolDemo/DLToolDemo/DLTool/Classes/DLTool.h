@@ -17,6 +17,7 @@ FOUNDATION_EXPORT const unsigned char DLToolVersionString[];
 #import "DLCoreGrapView.h"
 #import "DLNetworkSpeed.h"
 #import "DLThread.h"
+#import "DLPerformanceLabel.h"
 
 #import "NSObject+Add.h"
 
@@ -27,6 +28,7 @@ FOUNDATION_EXPORT const unsigned char DLToolVersionString[];
 
 #import "NSDate+Add.h"
 
+#import "UIApplication+Add.h"
 
 #import "DLToolMacro.h"
 

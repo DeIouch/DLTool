@@ -30,7 +30,8 @@
         view.dl_clickTime(5);
         view.dl_clickEdge(100);
     }];
-
+    
+    
     
 }
 

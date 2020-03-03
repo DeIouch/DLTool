@@ -11,13 +11,18 @@ static const char TTAlphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst
     unsigned char result[CC_MD5_DIGEST_LENGTH];
     CC_MD5(cStr,
           (CC_LONG)[self length], result);
-    
     NSMutableString *output = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
     for (int i = 0; i < CC_MD5_DIGEST_LENGTH; i++) {
         [output appendFormat:@"%02x", result[i]];
     }
-    
     return output;
+}
+
++(NSString *)dl_stringWithUUID{
+    CFUUIDRef uuid = CFUUIDCreate(NULL);
+    CFStringRef string = CFUUIDCreateString(NULL, uuid);
+    CFRelease(uuid);
+    return (__bridge_transfer NSString *)string;
 }
 
 - (NSString *)sha1{

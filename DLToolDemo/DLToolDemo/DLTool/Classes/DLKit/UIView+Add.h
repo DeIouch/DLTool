@@ -190,6 +190,22 @@
 
 @property (nonatomic, copy) void (^clickAction)(UIView *view);
 
+
+
+-(UIImage *)dl_snapshotImage;
+
+-(UIImage *)dl_snapshotImageAfterScreenUpdates:(BOOL)afterUpdates;
+
+-(NSData *)dl_snapshotPDF;
+
+-(CGPoint)dl_convertPoint:(CGPoint)point toViewOrWindow:(UIView *)view;
+
+-(CGPoint)dl_convertPoint:(CGPoint)point fromViewOrWindow:(UIView *)view;
+
+-(CGRect)dl_convertRect:(CGRect)rect toViewOrWindow:(UIView *)view;
+
+-(CGRect)dl_convertRect:(CGRect)rect fromViewOrWindow:(UIView *)view;
+
 @end
 
 @interface DefaulterImage : UIImage

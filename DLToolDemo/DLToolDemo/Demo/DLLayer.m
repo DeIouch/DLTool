@@ -103,7 +103,7 @@
             [self.attributeDic removeAllObjects];
         });
         
-    } start:0 async:YES];
+    } async:YES];
 }
 
 @end
