@@ -145,14 +145,14 @@
     if (self.strokeColor) {
         UIColor *stroke;
         if (@available(iOS 13.0, *)) {
-            stroke = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                    return [DLColor DLColorWithAHEXColor:(self.strokeColor.count == 1) ? self.strokeColor[0] : self.strokeColor[1]];
-                }else if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
-                    return [DLColor DLColorWithAHEXColor:self.strokeColor[0]];
-                }
-                return [DLColor DLColorWithAHEXColor:self.strokeColor[0]];
-            }];
+//            stroke = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+//                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+//                    return [DLColor DLColorWithAHEXColor:(self.strokeColor.count == 1) ? self.strokeColor[0] : self.strokeColor[1]];
+//                }else if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+//                    return [DLColor DLColorWithAHEXColor:self.strokeColor[0]];
+//                }
+//                return [DLColor DLColorWithAHEXColor:self.strokeColor[0]];
+//            }];
         }else{
             stroke = [DLColor DLColorWithAHEXColor:self.strokeColor[0]];
         };
@@ -162,14 +162,14 @@
     
     UIColor *fill;
     if (@available(iOS 13.0, *)) {
-        fill = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                return [DLColor DLColorWithAHEXColor:(self.fillColor.count == 1) ? self.fillColor[0] : self.fillColor[1]];
-            }else if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
-                return [DLColor DLColorWithAHEXColor:self.fillColor[0]];
-            }
-            return [DLColor DLColorWithAHEXColor:self.fillColor[0]];
-        }];
+//        fill = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+//            if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+//                return [DLColor DLColorWithAHEXColor:(self.fillColor.count == 1) ? self.fillColor[0] : self.fillColor[1]];
+//            }else if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+//                return [DLColor DLColorWithAHEXColor:self.fillColor[0]];
+//            }
+//            return [DLColor DLColorWithAHEXColor:self.fillColor[0]];
+//        }];
     }else{
         fill = [DLColor DLColorWithAHEXColor:self.fillColor[0]];
     };

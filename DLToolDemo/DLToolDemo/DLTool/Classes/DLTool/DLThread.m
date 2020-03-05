@@ -145,9 +145,9 @@ static CFMutableArrayRef queueIsFreeArray;
 -(DLThread *)addTask:(void (^)(void))block{
     if (!block)  return self;
     if (@available(iOS 13.0, *)) {
-        [self.queue addBarrierBlock:^{
-            block();
-        }];
+//        [self.queue addBarrierBlock:^{
+//            block();
+//        }];
     } else {
         [self.threadArray addObject:block];
     }

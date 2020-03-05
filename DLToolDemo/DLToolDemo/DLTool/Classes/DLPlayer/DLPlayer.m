@@ -705,6 +705,9 @@ static UISlider * _volumeSlider;
                 [self.player.playerView removeFromSuperview];
                 [window addSubview:self.player.playerView];
                 self.player.playerView.dl_top_to_layout(window, 0).dl_right_by_layout(window, 0).dl_top_to_layout(window, 0).dl_bottom_to_layout(window, 0);
+                [self.player.playerView layoutIfNeeded];
+                self.player.playerLayer.frame = self.player.playerView.bounds;
+                
 //                if (self.player.ijkPlayer.naturalSize.width >= self.player.ijkPlayer.naturalSize.height) {
 //                    [self orientationToPortrait:UIInterfaceOrientationLandscapeRight];
 //                }else{
@@ -719,6 +722,10 @@ static UISlider * _volumeSlider;
                 [self orientationToPortrait:UIInterfaceOrientationPortrait];
                 [self.player.fatherView addSubview:self.player.playerView];
                 self.player.playerView.dl_top_to_layout(self.player.fatherView, 0).dl_right_by_layout(self.player.fatherView, 0).dl_top_to_layout(self.player.fatherView, 0).dl_bottom_to_layout(self.player.fatherView, 0);
+                
+                [self.player.playerView layoutIfNeeded];
+                self.player.playerLayer.frame = self.player.playerView.bounds;
+                
             }
             break;
 
