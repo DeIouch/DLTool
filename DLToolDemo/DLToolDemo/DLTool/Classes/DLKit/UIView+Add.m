@@ -73,13 +73,9 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 }
 
 -(void)setClickAction:(void (^)(UIView *view))tapBlock{
-    DLViewCategoryTarget *target = objc_getAssociatedObject(self, &target_key);
-    if (!target) {
-        target = [[DLViewCategoryTarget alloc]init];
-        target.view = self;
-    }
+    DLViewCategoryTarget *target = [[DLViewCategoryTarget alloc]init];
+    target.view = self;
     target.tapBlock = [tapBlock copy];
-    objc_setAssociatedObject(self, &target_key, target, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     UITapGestureRecognizer *tap;
     for (UIGestureRecognizer *gestss in self.gestureRecognizers) {
         if ([NSStringFromClass([gestss class]) isEqualToString:@"UITapGestureRecognizer"]) {
@@ -90,6 +86,7 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
         tap = [[UITapGestureRecognizer alloc] initWithTarget:target action:@selector(tapAction)];
         [self addGestureRecognizer:tap];
     }
+    objc_setAssociatedObject(self, &target_key, target, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 -(void (^)(UIView *))clickAction{

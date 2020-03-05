@@ -31,10 +31,9 @@
         view.dl_clickEdge(100);
     }];
     
-    Method method = class_getClassMethod([self class], @selector(adddd));
-    class_addMethod([self class], @selector(adddd), method_getImplementation(method), "v@:");
-    
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(adddd) userInfo:nil repeats:YES];
+    view.clickAction = ^(UIView *view) {
+        NSLog(@"11111");
+    };
     
 }
 

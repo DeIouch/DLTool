@@ -213,3 +213,34 @@
 +(UIImage *)createDefaulterImage:(UIImageView *)imageView;
 
 @end
+
+
+@interface UIButton(Add)
+
++(instancetype)dl_view:(void (^) (UIButton *button))block;
+
+@end
+
+@interface UITextField(Add)
+
++(instancetype)dl_view:(void (^) (UITextField *textField))block;
+
+@end
+
+@interface UIImageView(Add)
+
++(instancetype)dl_view:(void (^) (UIImageView *imageView))block;
+
+@end
+
+@interface UILabel(Add)
+
++(instancetype)dl_view:(void (^) (UILabel *label))block;
+
+@end
+
+@interface UITextView(Add)
+
++(instancetype)dl_view:(void (^) (UITextView *textView))block;
+
+@end

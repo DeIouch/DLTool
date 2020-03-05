@@ -106,6 +106,18 @@ typedef NS_ENUM(NSInteger, PanDirection){
 
 -(void)viewTouch;
 
+
+//  点播界面
+@property (nonatomic, strong) UILabel *playTimeLabel;
+
+@property (nonatomic, strong) UILabel *allTimeLabel;
+
+@property (nonatomic, strong) UIView *allProgressView;
+
+@property (nonatomic, strong) UIView *playProgressView;
+
+@property (nonatomic, strong) UIView *cacheProgressView;
+
 @end
 
 
@@ -119,15 +131,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
 /// 点播界面
 @interface DLVodPlayerSkinView : DLPlayerSkinView
 
-@property (nonatomic, strong) UILabel *playTimeLabel;
 
-@property (nonatomic, strong) UILabel *allTimeLabel;
-
-@property (nonatomic, strong) UIView *allProgressView;
-
-@property (nonatomic, strong) UIView *playProgressView;
-
-@property (nonatomic, strong) UIView *cacheProgressView;
 
 @end
 

@@ -18,17 +18,23 @@
     
     self.player = [DLPlayer shareInstance];
     self.player.fatherView = self.view;
+    
+//    [UIView dl_view:^(UIView *view) {
+//        view.dl_backView(self.view);
+//        view.frame = CGRectMake(0, 0, 100, 100);
+//    }];
+    
     self.player.videoUrl = @"https://vdse.bdstatic.com//f11546e6b21bb6f60f025df3d5cb5735?authorization=bce-auth-v1/fb297a5cc0fb434c971b8fa103e8dd7b/2017-05-11T09:02:31Z/-1//560f50696b0d906271532cf3868d7a3baf6e4f7ffbe74e8dff982ed57f72c088.mp4";
-    self.player.skinView = [[DLLivePlayerSkinView alloc]init];
+    self.player.skinView = [[DLVodPlayerSkinView alloc]init];
     [self.player start];
 }
 
 
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    OneViewController *vc = [[OneViewController alloc]init];
-    vc.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:vc animated:YES completion:nil];
+//    OneViewController *vc = [[OneViewController alloc]init];
+//    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+//    [self presentViewController:vc animated:YES completion:nil];
 
 }
 

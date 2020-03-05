@@ -7,6 +7,7 @@
 #import "UIView+Add.h"
 #import "NSObject+Add.h"
 #import "DLNoti.h"
+#include <objc/runtime.h>
 
 @interface DLPlayer()
 
@@ -22,6 +23,8 @@
 @property (nonatomic, assign) BOOL haveNoti;
 
 @property (nonatomic, strong) NSString *timeIdentifier;
+
+@property (nonatomic, strong) AVPlayerLayer *playerLayer;
 
 @end
 
@@ -41,6 +44,13 @@ static DLPlayer *player = nil;
     if (!_avPlayer) {
         _avPlayer = [[AVPlayer alloc]init];
         [_avPlayer replaceCurrentItemWithPlayerItem:self.currentPlayerItem];
+//        @dl_weakify;
+//        [_avPlayer addPeriodicTimeObserverForInterval:CMTimeMakeWithSeconds(1, NSEC_PER_SEC) queue:NULL usingBlock:^(CMTime time) {
+//            @dl_strongify;
+//            if ([self.skinView isKindOfClass:[DLVodPlayerSkinView class]]) {
+//                NSLog(@"%lf", CMTimeGetSeconds(self.avPlayer.currentTime));
+//            }
+//        }];
     }
     return _avPlayer;
 }
@@ -56,12 +66,12 @@ static DLPlayer *player = nil;
 
 -(void)setIsRefresh:(BOOL)isRefresh{
     _isRefresh = isRefresh;
-    if (isRefresh) {
-        [[DLLoad shareInstance]showLoadTitle:@"" loadType:LoadShowing backView:self.fatherView];
-//        [self.skinView.playButton viewHidden:0];
-    }else{
-        [[DLLoad shareInstance]viewHidden];
-    }
+//    if (isRefresh) {
+//        [[DLLoad shareInstance]showLoadTitle:@"" loadType:LoadShowing backView:self.fatherView];
+//        [self.skinView.playButton dl_viewHidden:0];
+//    }else{
+//        [[DLLoad shareInstance]viewHidden];
+//    }
 }
 
 /**
@@ -89,7 +99,6 @@ static DLPlayer *player = nil;
 
 -(void)pause{
     _skinView.isPlay = NO;
-    
 }
 
 -(void)setVideoUrl:(NSString *)videoUrl{
@@ -99,6 +108,8 @@ static DLPlayer *player = nil;
         self.currentPlayerItem = [[AVPlayerItem alloc]initWithURL:[NSURL URLWithString:videoUrl]];
         [self.avPlayer replaceCurrentItemWithPlayerItem:self.currentPlayerItem];
         self.playerView.dl_left_to_layout(self.fatherView, 0).dl_top_to_layout(self.fatherView, 0).dl_right_to_layout(self.fatherView, 0).dl_bottom_to_layout(self.fatherView, 0);
+        [self.playerView layoutIfNeeded];
+        self.playerLayer.frame = self.playerView.bounds;
         [self.fatherView bringSubviewToFront:self.playerView];
         [self addNoti];
         self.isRefresh = YES;
@@ -142,21 +153,29 @@ static DLPlayer *player = nil;
         switch (status) {
             case AVPlayerStatusReadyToPlay:{
                 //获取视频长度
-                CMTime duration = playerItem.duration;
-                //更新显示:视频总时长(自定义方法显示时间的格式)
+                if ([self.skinView isKindOfClass:DLVodPlayerSkinView.class]) {
+                    self.skinView.allTimeLabel.text = [self formatTimeWithTimeInterVal:CMTimeGetSeconds(playerItem.duration)];
+                }
                 //开启滑块的滑动功能
                 //关闭加载Loading提示
+                
+                [[DLLoad shareInstance]viewHidden];
+                
                 //开始播放视频
-                [self.avPlayer play];
+//                [self.avPlayer play];
                 break;
             }
             case AVPlayerStatusFailed:{//视频加载失败，点击重新加载
                 //关闭Loading视图
                 //显示错误提示按钮，点击后重新加载视频
+                
+                [[DLLoad shareInstance]showLoadTitle:@"加载失败" loadType:LoadFailed backView:self.playerView];
+                
                 break;
             }
             case AVPlayerStatusUnknown:{
                 NSLog(@"加载遇到未知问题:AVPlayerStatusUnknown");
+                [[DLLoad shareInstance]showLoadTitle:@"加载失败" loadType:LoadFailed backView:self.playerView];
                 break;
             }
             default:
@@ -173,20 +192,15 @@ static DLPlayer *player = nil;
         NSTimeInterval loadDurationSeconds = CMTimeGetSeconds(timeRange.duration);
         //当前视频缓冲时间总长度
         NSTimeInterval currentLoadTotalTime = loadStartSeconds + loadDurationSeconds;
-        //NSLog(@"开始缓冲:%f,缓冲时长:%f,总时间:%f", loadStartSeconds, loadDurationSeconds, currentLoadTotalTime);
-        //更新显示：当前缓冲总时长
-//        _currentLoadTimeLabel.text = [self formatTimeWithTimeInterVal:currentLoadTotalTime];
-        //更新显示：视频的总时长
-//        _totalNeedLoadTimeLabel.text = [self formatTimeWithTimeInterVal:CMTimeGetSeconds(self.player.currentItem.duration)];
-        //更新显示：缓冲进度条的值
-//        _progressView.progress = currentLoadTotalTime/CMTimeGetSeconds(self.player.currentItem.duration);
+        if ([self.skinView isKindOfClass:DLVodPlayerSkinView.class]) {
+                self.skinView.cacheProgressView.dl_width_multiplier_layout(self.skinView.allProgressView, currentLoadTotalTime / CMTimeGetSeconds(playerItem.duration));
+        }
     }
 }
 
 -(NSString *)formatTimeWithTimeInterVal:(NSTimeInterval)timeInterVal{
-    int minute = 0, hour = 0, secend = timeInterVal;
+    int minute = 0, secend = timeInterVal;
     minute = (secend % 3600)/60;
-//    hour = secend / 3600;
     secend = secend % 60;
     return [NSString stringWithFormat:@"%02d:%02d", minute, secend];
 }
@@ -206,6 +220,8 @@ static DLPlayer *player = nil;
     }else{
         [_fatherView addSubview:self.playerView];
         self.playerView.dl_left_to_layout(fatherView, 0).dl_top_to_layout(fatherView, 0).dl_right_to_layout(fatherView, 0).dl_bottom_to_layout(fatherView, 0);
+        [self.playerView layoutIfNeeded];
+        self.playerLayer.frame = self.playerView.bounds;
         [_fatherView bringSubviewToFront:self.playerView];
         [self addNoti];
     }
@@ -214,13 +230,11 @@ static DLPlayer *player = nil;
 -(UIView *)playerView {
     if (!_playerView) {
         _playerView = [UIView dl_view:^(UIView *view) {
-//            view.dl_backColor(@[@"FFFFFF"]);
-            view.backgroundColor = [UIColor redColor];
+            view.dl_backColor(@[@"FFFFFF"]);
         }];
-        AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
-        layer.videoGravity = AVLayerVideoGravityResizeAspect;
-        layer.frame = _playerView.bounds;
-        [_playerView.layer addSublayer:layer];
+        _playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
+        _playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
+        [_playerView.layer addSublayer:_playerLayer];
     }
     return _playerView;
 }
@@ -235,8 +249,8 @@ static DLPlayer *player = nil;
     _skinView.titleLabel.dl_text(_videoTitle);
     _skinView.dl_left_to_layout(self.playerView, 0).dl_top_to_layout(self.playerView, 0).dl_right_to_layout(self.playerView, 0).dl_bottom_to_layout(self.playerView, 0);
     _skinView.player = self;
-//    [[DLLoad shareInstance]showLoadTitle:@"" loadType:LoadShowing backView:self.fatherView];
-//    [self.skinView.playButton viewHidden:0];
+    [[DLLoad shareInstance]showLoadTitle:@"" loadType:LoadShowing backView:self.fatherView];
+    [self.skinView.playButton dl_viewHidden:0];
     self.isRefresh = YES;
     if ([@"DLVodPlayerSkinView" isEqualToString:NSStringFromClass([skinView class])]) {
         self.isVod = YES;
@@ -253,6 +267,7 @@ static DLPlayer *player = nil;
 }
 
 @end
+
 
 
 @implementation DLPlayerSkinView
@@ -472,7 +487,11 @@ static UISlider * _volumeSlider;
                 switch (self.panDirection) {
                     case PanDirectionHorizontalMoved:{
                         self.isPauseByUser = NO;
-//                        self.player.ijkPlayer.currentPlaybackTime = self.sumTime;
+                        [[DLLoad shareInstance]showLoadTitle:nil loadType:LoadShowing backView:self.player.playerView];
+                        [self.player.avPlayer seekToTime:CMTimeMake(self.sumTime, 1) completionHandler:^(BOOL finished) {
+                            [[DLLoad shareInstance] viewHidden];
+                        }];
+                        
                         // 把sumTime滞空，不然会越加越多
                         self.sumTime = 0;
                         break;
@@ -542,40 +561,45 @@ static UISlider * _volumeSlider;
 }
 
 - (CGFloat)playDuration {
-//    CMTimeGetSeconds(<#CMTime time#>)
-//    return self.player.currentPlayerItem.duration;
-    return 10;
+    return CMTimeGetSeconds(self.player.avPlayer.currentTime);
 }
 
 - (CGFloat)allDuration {
-//    return self.player.ijkPlayer.duration;
-    return 10;
+    return CMTimeGetSeconds(self.player.avPlayer.currentItem.duration);
 }
 
-//-(void)setIsPlay:(BOOL)isPlay {
-//    _isPlay = isPlay;
-//    self.playButton.selected = !isPlay;
-//    if (isPlay) {
-//        [self.player.ijkPlayer play];
-//    }else{
-//        [self.player.ijkPlayer pause];
-//    }
-//    self.isPauseByUser = NO;
-//}
+-(void)setIsPlay:(BOOL)isPlay {
+    _isPlay = isPlay;
+    self.playButton.selected = !isPlay;
+    if (isPlay) {
+        [self.player.avPlayer play];
+    }else{
+        [self.player.avPlayer pause];
+    }
+    self.isPauseByUser = NO;
+}
 
 -(UIButton *)playButton {
     if (!_playButton) {
-        _playButton = [UIButton dl_view:^(UIView *view) {
-            view.dl_backView(self).dl_normalImage(@"play").dl_selectImage(@"pause").dl_centerX_layout(self, 0).dl_centerY_layout(self, 0).dl_width_layout(50).dl_height_layout(50);
+        _playButton = [UIButton dl_view:^(UIButton *button) {
+            button.dl_backView(self).dl_normalImage(@"play").dl_selectImage(@"pause").dl_centerX_layout(self, 0).dl_centerY_layout(self, 0).dl_width_layout(50).dl_height_layout(50);
         }];
-        @dl_weakify;
-        _playButton.clickAction = ^(UIView *view) {
-            @dl_strongify;
-            self.isPlay = !self.isPlay;
-            self.isPauseByUser = YES;
-        };
+//        @dl_weakify;
+//        _playButton.clickAction = ^(UIView *view) {
+//            @dl_strongify;
+//            self.isPlay = !self.isPlay;
+//            self.isPauseByUser = YES;
+//        };
+        
+        [_playButton addTarget:self action:@selector(playerButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        
     }
     return _playButton;
+}
+
+-(void)playerButtonClick{
+    self.isPlay = !self.isPlay;
+    self.isPauseByUser = YES;
 }
 
 -(UILabel *)titleLabel {
@@ -585,6 +609,51 @@ static UISlider * _volumeSlider;
         }];
     }
     return _titleLabel;
+}
+
+-(UILabel *)playTimeLabel{
+    if (!_playTimeLabel) {
+        _playTimeLabel = [UILabel dl_view:^(UIView *view) {
+            view.dl_backView(self.bottomFuncView).dl_textColor(@"#FFFFFFF").dl_fontSize(14).dl_alignment(NSTextAlignmentCenter).dl_text(@"00:00").dl_left_to_layout(self.bottomFuncView, 4).dl_bottom_to_layout(self.bottomFuncView, 32).dl_width_layout(68);
+        }];
+    }
+    return _playTimeLabel;
+}
+
+-(UILabel *)allTimeLabel{
+    if (!_allTimeLabel) {
+        _allTimeLabel = [UILabel dl_view:^(UIView *view) {
+            view.dl_backView(self.bottomFuncView).dl_textColor(@"#FFFFFFF").dl_fontSize(14).dl_alignment(NSTextAlignmentCenter).dl_text(@"00:00").dl_right_to_layout(self.bottomFuncView, 52).dl_bottom_to_layout(self.bottomFuncView, 32).dl_width_layout(66);
+        }];
+    }
+    return _allTimeLabel;
+}
+
+-(UIView *)playProgressView{
+    if (!_playProgressView) {
+        _playProgressView = [UIView dl_view:^(UIView *view) {
+            view.dl_backView(self.bottomFuncView).dl_left_to_layout(self.bottomFuncView, 72.5).dl_bottom_to_layout(self.bottomFuncView, 39.5).dl_height_layout(2).dl_width_multiplier_layout(self.allProgressView, 1).dl_backColor(@"#279858");
+        }];
+    }
+    return _playProgressView;
+}
+
+-(UIView *)cacheProgressView{
+    if (!_cacheProgressView) {
+        _cacheProgressView = [UIView dl_view:^(UIView *view) {
+            view.dl_backView(self.bottomFuncView).dl_left_to_layout(self.bottomFuncView, 72.5).dl_bottom_to_layout(self.bottomFuncView, 39.5).dl_height_layout(2).dl_width_multiplier_layout(self.allProgressView, 1).dl_backColor(@"#F4FDF3");
+        }];
+    }
+    return _cacheProgressView;
+}
+
+-(UIView *)allProgressView{
+    if (!_allProgressView) {
+        _allProgressView = [UIView dl_view:^(UIView *view) {
+            view.dl_backView(self.bottomFuncView).dl_left_to_layout(self.bottomFuncView, 72.5).dl_bottom_to_layout(self.bottomFuncView, 39.5).dl_height_layout(2).dl_right_to_layout(self.bottomFuncView, 118).dl_backColor(@"#778666");
+        }];
+    }
+    return _allProgressView;
 }
 
 -(UIImageView *)topFuncView {
@@ -697,51 +766,6 @@ static UISlider * _volumeSlider;
 
 @implementation DLVodPlayerSkinView
 
--(UILabel *)playTimeLabel{
-    if (!_playTimeLabel) {
-        _playTimeLabel = [UILabel dl_view:^(UIView *view) {
-            view.dl_backView(self.bottomFuncView).dl_textColor(@"#FFFFFFF").dl_fontSize(14).dl_alignment(NSTextAlignmentCenter).dl_text(@"00:00").dl_left_to_layout(self.bottomFuncView, 4).dl_bottom_to_layout(self.bottomFuncView, 32).dl_width_layout(68);
-        }];
-    }
-    return _playTimeLabel;
-}
-
--(UILabel *)allTimeLabel{
-    if (!_allTimeLabel) {
-        _allTimeLabel = [UILabel dl_view:^(UIView *view) {
-            view.dl_backView(self.bottomFuncView).dl_textColor(@"#FFFFFFF").dl_fontSize(14).dl_alignment(NSTextAlignmentCenter).dl_text(@"00:00").dl_right_to_layout(self.bottomFuncView, 52).dl_bottom_to_layout(self.bottomFuncView, 32).dl_width_layout(66);
-        }];
-    }
-    return _allTimeLabel;
-}
-
--(UIView *)playProgressView{
-    if (!_playProgressView) {
-        _playProgressView = [UIView dl_view:^(UIView *view) {
-            view.dl_backView(self.bottomFuncView).dl_left_to_layout(self.bottomFuncView, 72.5).dl_bottom_to_layout(self.bottomFuncView, 39.5).dl_height_layout(2).dl_width_multiplier_layout(self.allProgressView, 1).dl_backColor(@"#279858");
-        }];
-    }
-    return _playProgressView;
-}
-
--(UIView *)cacheProgressView{
-    if (!_cacheProgressView) {
-        _cacheProgressView = [UIView dl_view:^(UIView *view) {
-            view.dl_backView(self.bottomFuncView).dl_left_to_layout(self.bottomFuncView, 72.5).dl_bottom_to_layout(self.bottomFuncView, 39.5).dl_height_layout(2).dl_width_multiplier_layout(self.allProgressView, 1).dl_backColor(@"#F4FDF3");
-        }];
-    }
-    return _cacheProgressView;
-}
-
--(UIView *)allProgressView{
-    if (!_allProgressView) {
-        _allProgressView = [UIView dl_view:^(UIView *view) {
-            view.dl_backView(self.bottomFuncView).dl_left_to_layout(self.bottomFuncView, 72.5).dl_bottom_to_layout(self.bottomFuncView, 39.5).dl_height_layout(2).dl_right_to_layout(self.bottomFuncView, 118).dl_backColor(@"#778666");
-        }];
-    }
-    return _allProgressView;
-}
-
 -(void)funcExtension{    
     [self.bottomFuncView addSubview:self.playTimeLabel];
     [self.bottomFuncView addSubview:self.allTimeLabel];
@@ -749,16 +773,11 @@ static UISlider * _volumeSlider;
     [self.bottomFuncView addSubview:self.cacheProgressView];
     [self.bottomFuncView addSubview:self.playProgressView];
     self.player.timeIdentifier = [DLTimer doTask:^{
-//        if (self.player.ijkPlayer.duration <= 0) {
-//            return;
-//        }
-//       self.playTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d", ((int)self.player.ijkPlayer.currentPlaybackTime / 60), ((int)self.player.ijkPlayer.currentPlaybackTime % 60)];
-//       self.allTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d", ((int)self.player.ijkPlayer.duration / 60), ((int)self.player.ijkPlayer.duration % 60)];
-//       self.playProgressView.dl_width_multiplier_layout(self.allProgressView, self.player.ijkPlayer.currentPlaybackTime / self.player.ijkPlayer.duration);
-//        self.cacheProgressView.dl_width_multiplier_layout(self.allProgressView, self.player.ijkPlayer.playableDuration / self.player.ijkPlayer.duration);
-//        self.allProgressView.allCorner(2);
-//        self.cacheProgressView.allCorner(2);
-//        self.playProgressView.allCorner(2);
+        if (CMTimeGetSeconds(self.player.avPlayer.currentTime) <= 1 || CMTimeGetSeconds(self.player.avPlayer.currentItem.duration) <= 1) {
+            return;
+        }
+       self.playTimeLabel.text = [NSString stringWithFormat:@"%02d:%02d", (int)CMTimeGetSeconds(self.player.avPlayer.currentTime)/ 60, (int)CMTimeGetSeconds(self.player.avPlayer.currentTime) % 60];
+       self.playProgressView.dl_width_multiplier_layout(self.allProgressView, CMTimeGetSeconds(self.player.avPlayer.currentTime) / CMTimeGetSeconds(self.player.avPlayer.currentItem.duration));
    } start:0 interval:1 repeats:YES async:NO];
 }
 
