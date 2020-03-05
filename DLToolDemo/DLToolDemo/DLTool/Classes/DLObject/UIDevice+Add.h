@@ -44,6 +44,9 @@ typedef NS_OPTIONS(NSUInteger, DLNetworkTrafficType) {
 
 -(uint64_t)dl_getNetworkTrafficBytes:(DLNetworkTrafficType)types;
 
+/// 获取当前应用的内存占用情况
++(double)getMemoryUsage;
+
 @property(nonatomic, readonly) int64_t dl_diskSpace;
 
 @property(nonatomic, readonly) int64_t dl_diskSpaceFree;

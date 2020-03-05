@@ -2,7 +2,6 @@
 #include <objc/runtime.h>
 #import "UIView+Add.h"
 #import "DLLoad.h"
-#import "DLSafeProtector.h"
 
 @interface DLNotiView : UIView
 
@@ -22,10 +21,10 @@
 
 static DLNoti *noti = nil;
 
-- (instancetype)init {
-    DLSafeProtectionCrashLog([NSException exceptionWithName:@"DLNoti初始化失败" reason:@"使用'shareInstance'初始化" userInfo:nil],DLSafeProtectorCrashTypeInitError);
-    return [super init];
-}
+//- (instancetype)init {
+//    DLSafeProtectionCrashLog([NSException exceptionWithName:@"DLNoti初始化失败" reason:@"使用'shareInstance'初始化" userInfo:nil],DLSafeProtectorCrashTypeInitError);
+//    return [super init];
+//}
 
 - (instancetype)_init {
     self = [super init];

@@ -11,7 +11,9 @@
 @interface DLPlayer()
 
 /// 播放器视图
-@property (nonatomic, strong) AVPlayer *player;
+@property (nonatomic, strong) AVPlayer *avPlayer;
+
+@property (nonatomic, strong) UIView *layerView;
 
 @property (nonatomic, strong) AVPlayerItem *currentPlayerItem;
 
@@ -26,6 +28,7 @@
 @implementation DLPlayer
 
 static DLPlayer *player = nil;
+
 +(DLPlayer *)shareInstance{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -34,13 +37,21 @@ static DLPlayer *player = nil;
     return player;
 }
 
+-(AVPlayer *)avPlayer{
+    if (!_avPlayer) {
+        _avPlayer = [[AVPlayer alloc]init];
+        [_avPlayer replaceCurrentItemWithPlayerItem:self.currentPlayerItem];
+    }
+    return _avPlayer;
+}
+
 -(void)start{
     if (self.videoUrl.length == 0) {
         [[DLAlert shareInstance]alertMessage:@"播放地址为空" cancelTitle:@"取消" sureTitle:@"确定" sureBlock:nil];
         return;
     }
     _skinView.isPlay = YES;
-    [self.player play];
+    [self.avPlayer play];
 }
 
 -(void)setIsRefresh:(BOOL)isRefresh{
@@ -64,7 +75,6 @@ static DLPlayer *player = nil;
     }else{
         [self pause];
     }
-    
 }
 
 /**
@@ -86,6 +96,8 @@ static DLPlayer *player = nil;
     _videoUrl = videoUrl;
     if (videoUrl.length > 0 && self.fatherView != nil) {
         [self.fatherView addSubview:self.playerView];
+        self.currentPlayerItem = [[AVPlayerItem alloc]initWithURL:[NSURL URLWithString:videoUrl]];
+        [self.avPlayer replaceCurrentItemWithPlayerItem:self.currentPlayerItem];
         self.playerView.dl_left_to_layout(self.fatherView, 0).dl_top_to_layout(self.fatherView, 0).dl_right_to_layout(self.fatherView, 0).dl_bottom_to_layout(self.fatherView, 0);
         [self.fatherView bringSubviewToFront:self.playerView];
         [self addNoti];
@@ -106,11 +118,77 @@ static DLPlayer *player = nil;
     if (!self.haveNoti) {
         self.haveNoti = YES;
         
+        // 观察Status属性，可以在加载成功之后得到视频的长度
+        [self.avPlayer.currentItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+        
+        // 观察loadedTimeRanges，可以获取缓存进度，实现缓冲进度条
+        [self.avPlayer.currentItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+        
         // app退到后台
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
         // app进入前台
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterPlayground:) name:UIApplicationDidBecomeActiveNotification object:nil];
     }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context {
+    AVPlayerItem *playerItem = (AVPlayerItem *)object;
+    if ([keyPath isEqualToString:@"status"]) {
+        //获取playerItem的status属性最新的状态
+        AVPlayerStatus status = [[change objectForKey:@"new"] intValue];
+        switch (status) {
+            case AVPlayerStatusReadyToPlay:{
+                //获取视频长度
+                CMTime duration = playerItem.duration;
+                //更新显示:视频总时长(自定义方法显示时间的格式)
+                //开启滑块的滑动功能
+                //关闭加载Loading提示
+                //开始播放视频
+                [self.avPlayer play];
+                break;
+            }
+            case AVPlayerStatusFailed:{//视频加载失败，点击重新加载
+                //关闭Loading视图
+                //显示错误提示按钮，点击后重新加载视频
+                break;
+            }
+            case AVPlayerStatusUnknown:{
+                NSLog(@"加载遇到未知问题:AVPlayerStatusUnknown");
+                break;
+            }
+            default:
+                break;
+        }
+    } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
+        //获取视频缓冲进度数组，这些缓冲的数组可能不是连续的
+        NSArray *loadedTimeRanges = playerItem.loadedTimeRanges;
+        //获取最新的缓冲区间
+        CMTimeRange timeRange = [loadedTimeRanges.firstObject CMTimeRangeValue];
+        //缓冲区间的开始的时间
+        NSTimeInterval loadStartSeconds = CMTimeGetSeconds(timeRange.start);
+        //缓冲区间的时长
+        NSTimeInterval loadDurationSeconds = CMTimeGetSeconds(timeRange.duration);
+        //当前视频缓冲时间总长度
+        NSTimeInterval currentLoadTotalTime = loadStartSeconds + loadDurationSeconds;
+        //NSLog(@"开始缓冲:%f,缓冲时长:%f,总时间:%f", loadStartSeconds, loadDurationSeconds, currentLoadTotalTime);
+        //更新显示：当前缓冲总时长
+//        _currentLoadTimeLabel.text = [self formatTimeWithTimeInterVal:currentLoadTotalTime];
+        //更新显示：视频的总时长
+//        _totalNeedLoadTimeLabel.text = [self formatTimeWithTimeInterVal:CMTimeGetSeconds(self.player.currentItem.duration)];
+        //更新显示：缓冲进度条的值
+//        _progressView.progress = currentLoadTotalTime/CMTimeGetSeconds(self.player.currentItem.duration);
+    }
+}
+
+-(NSString *)formatTimeWithTimeInterVal:(NSTimeInterval)timeInterVal{
+    int minute = 0, hour = 0, secend = timeInterVal;
+    minute = (secend % 3600)/60;
+//    hour = secend / 3600;
+    secend = secend % 60;
+    return [NSString stringWithFormat:@"%02d:%02d", minute, secend];
 }
 
 
@@ -135,10 +213,14 @@ static DLPlayer *player = nil;
 
 -(UIView *)playerView {
     if (!_playerView) {
-        _playerView = [UIView dl_view:^(UIView * _Nonnull view) {
-            view.dl_backColor(@[@"FFFFFF"]);
-//            [view addSubview:self.ijkPlayer.view];
+        _playerView = [UIView dl_view:^(UIView *view) {
+//            view.dl_backColor(@[@"FFFFFF"]);
+            view.backgroundColor = [UIColor redColor];
         }];
+        AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
+        layer.videoGravity = AVLayerVideoGravityResizeAspect;
+        layer.frame = _playerView.bounds;
+        [_playerView.layer addSublayer:layer];
     }
     return _playerView;
 }
@@ -660,15 +742,12 @@ static UISlider * _volumeSlider;
     return _allProgressView;
 }
 
--(void)funcExtension{
-    NSLog(@"funcExtension 3");
-    
+-(void)funcExtension{    
     [self.bottomFuncView addSubview:self.playTimeLabel];
     [self.bottomFuncView addSubview:self.allTimeLabel];
     [self.bottomFuncView addSubview:self.allProgressView];
     [self.bottomFuncView addSubview:self.cacheProgressView];
     [self.bottomFuncView addSubview:self.playProgressView];
-    
     self.player.timeIdentifier = [DLTimer doTask:^{
 //        if (self.player.ijkPlayer.duration <= 0) {
 //            return;

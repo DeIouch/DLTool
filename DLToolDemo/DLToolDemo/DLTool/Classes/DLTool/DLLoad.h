@@ -9,6 +9,9 @@ typedef NS_ENUM(NSInteger, DLLoadType) {
 
 @interface DLLoad : NSObject
 
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
++ (instancetype)new UNAVAILABLE_ATTRIBUTE;
+
 +(DLLoad *)shareInstance;
 
 -(void)showLoadTitle:(NSString *)titleString loadType:(DLLoadType)loadType backView:(UIView *)backView;

@@ -618,7 +618,6 @@ static force_inline id DLValueForMultiKeys(__unsafe_unretained NSDictionary *dic
     return self;
 }
 
-/// Returns the cached model class meta
 + (instancetype)metaWithClass:(Class)cls {
     if (!cls) return nil;
     static CFMutableDictionaryRef cache;
@@ -1582,21 +1581,21 @@ static NSMutableDictionary *KVOSafeDeallocCrashes() {
 }
 
 -(BOOL)isNSString{
-    if ([NSStringFromClass([self class]) isEqualToString:@"NSPlaceholderString"] || [NSStringFromClass([self class]) isEqualToString:@"__NSCFConstantString"] || [NSStringFromClass([self class]) isEqualToString:@"NSTaggedPointerString"] || [NSStringFromClass([self class]) isEqualToString:@"NSPlaceholderMutableString"]) {
+    if ([self isKindOfClass:NSString.class]) {
         return YES;
     }
     return NO;
 }
 
 -(BOOL)isNSArray{
-    if ([NSStringFromClass([self class]) isEqualToString:@"__NSPlaceholderArray"] || [NSStringFromClass([self class]) isEqualToString:@"__NSArrayI"] || [NSStringFromClass([self class]) isEqualToString:@"__NSArray0"] || [NSStringFromClass([self class]) isEqualToString:@"__NSArrayM"] || [NSStringFromClass([self class]) isEqualToString:@"__NSCFArray"] || [NSStringFromClass([self class]) isEqualToString:@"__NSSingleObjectArrayI"]) {
+    if ([self isKindOfClass:NSArray.class]) {
         return YES;
     }
     return NO;
 }
 
 -(BOOL)isNSDictionary{
-    if ([NSStringFromClass([self class]) isEqualToString:@"__NSPlaceholderDictionary"] || [NSStringFromClass([self class]) isEqualToString:@"__NSDictionaryM"] || [NSStringFromClass([self class]) isEqualToString:@"__NSCFDictionary"]) {
+    if ([self isKindOfClass:NSDictionary.class]) {
         return YES;
     }
     return NO;
@@ -1609,9 +1608,8 @@ static NSMutableDictionary *KVOSafeDeallocCrashes() {
     return NO;
 }
 
-+(void)load
-{
-     if ([NSStringFromClass([NSObject class]) isEqualToString:@"NSObject"]) {
++(void)load{
+//     if ([NSStringFromClass([NSObject class]) isEqualToString:@"NSObject"]) {
          static dispatch_once_t onceToken;
          dispatch_once(&onceToken, ^{
              [self safe_exchangeInstanceMethod:[self class] originalSel:@selector(methodSignatureForSelector:) newSel:@selector(safe_methodSignatureForSelector:)];
@@ -1624,11 +1622,10 @@ static NSMutableDictionary *KVOSafeDeallocCrashes() {
              [self safe_exchangeInstanceMethod:[self class] originalSel:@selector(removeObserver:forKeyPath:) newSel:@selector(safe_removeObserver:forKeyPath:)];
              
              [self safe_exchangeInstanceMethod:[self class] originalSel:@selector(removeObserver:forKeyPath:context:) newSel:@selector(safe_removeObserver:forKeyPath:context:)];
-             
          });
-     }else{
-         //只有NSObject 能调用openSafeProtector其他类调用没效果
-     }
+//     }else{
+//         //只有NSObject 能调用openSafeProtector其他类调用没效果
+//     }
 }
 
 - (NSMethodSignature *)safe_methodSignatureForSelector:(SEL)aSelector
@@ -2171,22 +2168,16 @@ NSString * DLFormatterStringFromObject(id object) {
 - (BOOL)dl_modelSetWithDictionary:(NSDictionary *)dic {
     if (!dic || dic == (id)kCFNull) return NO;
     if (![dic isKindOfClass:[NSDictionary class]]) return NO;
-    
-
     _DLModelMeta *modelMeta = [_DLModelMeta metaWithClass:object_getClass(self)];
     if (modelMeta->_keyMappedCount == 0) return NO;
-    
     if (modelMeta->_hasCustomWillTransformFromDictionary) {
         dic = [((id<DLModel>)self) modelCustomWillTransformFromDictionary:dic];
         if (![dic isKindOfClass:[NSDictionary class]]) return NO;
     }
-    
     ModelSetContext context = {0};
     context.modelMeta = (__bridge void *)(modelMeta);
     context.model = (__bridge void *)(self);
     context.dictionary = (__bridge void *)(dic);
-    
-    
     if (modelMeta->_keyMappedCount >= CFDictionaryGetCount((CFDictionaryRef)dic)) {
         CFDictionaryApplyFunction((CFDictionaryRef)dic, ModelSetWithDictionaryFunction, &context);
         if (modelMeta->_keyPathPropertyMetas) {
@@ -2207,7 +2198,6 @@ NSString * DLFormatterStringFromObject(id object) {
                              ModelSetWithPropertyMetaArrayFunction,
                              &context);
     }
-    
     if (modelMeta->_hasCustomTransformFromDictionary) {
         return [((id<DLModel>)self) modelCustomTransformFromDictionary:dic];
     }
@@ -2215,13 +2205,6 @@ NSString * DLFormatterStringFromObject(id object) {
 }
 
 - (id)dl_modelToJSONObject {
-    /*
-     Apple said:
-     The top level object is an NSArray or NSDictionary.
-     All objects are instances of NSString, NSNumber, NSArray, NSDictionary, or NSNull.
-     All dictionary keys are instances of NSString.
-     Numbers are not NaN or infinity.
-     */
     id jsonObject = ModelToJSONObjectRecursive(self);
     if ([jsonObject isKindOfClass:[NSArray class]]) return jsonObject;
     if ([jsonObject isKindOfClass:[NSDictionary class]]) return jsonObject;

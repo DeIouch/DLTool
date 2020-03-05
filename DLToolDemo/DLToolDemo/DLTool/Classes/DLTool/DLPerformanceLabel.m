@@ -6,6 +6,13 @@
 
 #define kSize CGSizeMake(55, 20)
 
+@interface DLPerformanceLabel ()
+
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
++ (instancetype)new UNAVAILABLE_ATTRIBUTE;
+
+@end
+
 @implementation DLPerformanceLabel{
     CADisplayLink *_link;
     NSUInteger _count;

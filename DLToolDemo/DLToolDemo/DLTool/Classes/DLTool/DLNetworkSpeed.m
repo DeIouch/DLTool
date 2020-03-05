@@ -5,7 +5,6 @@
 #include <net/if_dl.h>
 #include <objc/runtime.h>
 #import "DLTimer.h"
-#import "DLSafeProtector.h"
 
 NSString* const GSDownloadNetworkSpeedNotificationKey = @"GSDownloadNetworkSpeedNotificationKey";
 
@@ -50,10 +49,10 @@ NSString* const GSUploadNetworkSpeedNotificationKey = @"GSUploadNetworkSpeedNoti
 
 static DLNetworkSpeed *instance = nil;
 
-- (instancetype)init {
-    DLSafeProtectionCrashLog([NSException exceptionWithName:@"DLNetworkSpeed初始化失败" reason:@"使用'shareInstance'初始化" userInfo:nil],DLSafeProtectorCrashTypeInitError);
-    return [super init];
-}
+//- (instancetype)init {
+//    DLSafeProtectionCrashLog([NSException exceptionWithName:@"DLNetworkSpeed初始化失败" reason:@"使用'shareInstance'初始化" userInfo:nil],DLSafeProtectorCrashTypeInitError);
+//    return [super init];
+//}
 
 - (instancetype)_init {
     self = [super init];

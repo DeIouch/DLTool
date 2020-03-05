@@ -160,11 +160,11 @@ static  BOOL DLSafeProtectorKVODebugInfoEnable=NO;
     }
     else if (logType==DLSafeProtectorLogTypeAll) {
         DLSafeLog(@"%@", fullMessage);
-        assert(NO&&"检测到崩溃，详情请查看上面信息");
     }
     
     #if defined(DEBUG)||defined(_DEBUG)
-    [[DLAlert shareInstance]alertMessage:@"检测到崩溃，请查看logo信息" cancelTitle:@"取消" sureTitle:@"确定" sureBlock:nil];
+//    [[DLAlert shareInstance]alertMessage:@"检测到崩溃，请查看logo信息" cancelTitle:@"取消" sureTitle:@"确定" sureBlock:nil];
+    assert(NO&&"检测到崩溃，详情请查看上面信息");
     #endif
     
 }

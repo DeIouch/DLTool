@@ -230,6 +230,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.widthConstraint.constant = 0;
     self.widthConstraint.needInstall = YES;
     self.widthConstraint.needDelete = NO;
+    self.widthConstraint.secondView = self.view;
     [self insertConstraint:self.widthConstraint];
     return self.widthConstraint;
 }
@@ -240,6 +241,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.heightConstraint.constant = 0;
     self.heightConstraint.needInstall = YES;
     self.heightConstraint.needDelete = NO;
+    self.heightConstraint.secondView = self.view;
     [self insertConstraint:self.heightConstraint];
     return self.heightConstraint;
 }
@@ -250,6 +252,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.lessWidthConstraint.constant = 0;
     self.lessWidthConstraint.needInstall = YES;
     self.lessWidthConstraint.needDelete = NO;
+    self.lessWidthConstraint.secondView = self.view;
     [self insertConstraint:self.lessWidthConstraint];
     return self.lessWidthConstraint;
 }
@@ -260,6 +263,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.lessHeightConstraint.constant = 0;
     self.lessHeightConstraint.needInstall = YES;
     self.lessHeightConstraint.needDelete = NO;
+    self.lessHeightConstraint.secondView = self.view;
     [self insertConstraint:self.lessHeightConstraint];
     return self.lessHeightConstraint;
 }
@@ -270,6 +274,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.greatWidthConstraint.constant = 0;
     self.greatWidthConstraint.needInstall = YES;
     self.greatWidthConstraint.needDelete = NO;
+    self.greatWidthConstraint.secondView = self.view;
     [self insertConstraint:self.greatWidthConstraint];
     return self.greatWidthConstraint;
 }
@@ -279,6 +284,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.greatHeightConstraint.multiplier = 0;
     self.greatHeightConstraint.constant = 0;
     self.greatHeightConstraint.needInstall = YES;
+    self.greatHeightConstraint.secondView = self.view;
     self.greatHeightConstraint.needDelete = NO;
     [self insertConstraint:self.greatHeightConstraint];
     return self.greatHeightConstraint;
@@ -381,6 +387,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
         _widthConstraint = [[DLConstraint alloc]init];
         _widthConstraint.needInstall = NO;
         _widthConstraint.firstView = self.view;
+        _widthConstraint.secondView = self.view;
         _widthConstraint.constraintType = Height;
         _widthConstraint.layoutRelation = NSLayoutRelationEqual;
         _widthConstraint.firstAttribute = NSLayoutAttributeWidth;
@@ -393,6 +400,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
         _heightConstraint = [[DLConstraint alloc]init];
         _heightConstraint.needInstall = NO;
         _heightConstraint.firstView = self.view;
+        _heightConstraint.secondView = self.view;
         _heightConstraint.constraintType = Height;
         _heightConstraint.layoutRelation = NSLayoutRelationEqual;
         _heightConstraint.firstAttribute = NSLayoutAttributeHeight;
@@ -405,6 +413,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
         _lessWidthConstraint = [[DLConstraint alloc]init];
         _lessWidthConstraint.needInstall = NO;
         _lessWidthConstraint.firstView = self.view;
+        _lessWidthConstraint.secondView = self.view;
         _lessWidthConstraint.constraintType = LessHeight;
         _lessWidthConstraint.layoutRelation = NSLayoutRelationLessThanOrEqual;
         _lessWidthConstraint.firstAttribute = NSLayoutAttributeWidth;
@@ -418,6 +427,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
         _lessHeightConstraint.needInstall = NO;
         _lessHeightConstraint.firstView = self.view;
         _lessHeightConstraint.constraintType = LessHeight;
+        _lessHeightConstraint.secondView = self.view;
         _lessHeightConstraint.layoutRelation = NSLayoutRelationLessThanOrEqual;
         _lessHeightConstraint.firstAttribute = NSLayoutAttributeHeight;
     }
@@ -429,6 +439,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
         _greatWidthConstraint = [[DLConstraint alloc]init];
         _greatWidthConstraint.needInstall = NO;
         _greatWidthConstraint.firstView = self.view;
+        _greatWidthConstraint.secondView = self.view;
         _greatWidthConstraint.constraintType = GreatWidth;
         _greatWidthConstraint.firstAttribute = NSLayoutAttributeWidth;
         _greatWidthConstraint.layoutRelation = NSLayoutRelationGreaterThanOrEqual;
@@ -441,6 +452,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
         _greatHeightConstraint = [[DLConstraint alloc]init];
         _greatHeightConstraint.needInstall = NO;
         _greatHeightConstraint.firstView = self.view;
+        _greatHeightConstraint.secondView = self.view;
         _greatHeightConstraint.constraintType = GreatHeight;
         _greatHeightConstraint.layoutRelation = NSLayoutRelationGreaterThanOrEqual;
         _greatHeightConstraint.firstAttribute = NSLayoutAttributeHeight;

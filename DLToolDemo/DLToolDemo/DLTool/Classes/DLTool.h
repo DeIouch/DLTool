@@ -30,6 +30,17 @@ FOUNDATION_EXPORT const unsigned char DLToolVersionString[];
 
 #import "UIApplication+Add.h"
 
+#import "UIScrollView+Add.h"
+#import "UIGestureRecognizer+Add.h"
+#import "UIDevice+Add.h"
+#import "UIControl+Add.h"
+#import "UIApplication+Add.h"
+#import "NSDate+Add.h"
+#import "NSData+Add.h"
+
+#import "DLPlayer.h"
+
+
 #import "DLToolMacro.h"
 
 //  inline

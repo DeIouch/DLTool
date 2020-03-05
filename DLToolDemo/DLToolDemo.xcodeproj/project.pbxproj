@@ -64,6 +64,9 @@
 		87DB842A240E5292005CCAC2 /* UIDevice+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DB8429240E5292005CCAC2 /* UIDevice+Add.m */; };
 		87DB842D240E55D4005CCAC2 /* UIGestureRecognizer+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DB842C240E55D4005CCAC2 /* UIGestureRecognizer+Add.m */; };
 		87DB8430240E571A005CCAC2 /* UIScrollView+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 87DB842F240E571A005CCAC2 /* UIScrollView+Add.m */; };
+		87F7BCF0240FA2F7000086DC /* DLDispatchQueuePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F7BCEF240FA2F7000086DC /* DLDispatchQueuePool.m */; };
+		87F7BD1E240FBB2A000086DC /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F7BD1D240FBB2A000086DC /* Person.m */; };
+		87F7BD21240FBB36000086DC /* Son.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F7BD20240FBB36000086DC /* Son.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -178,6 +181,12 @@
 		87DB842C240E55D4005CCAC2 /* UIGestureRecognizer+Add.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+Add.m"; sourceTree = "<group>"; };
 		87DB842E240E571A005CCAC2 /* UIScrollView+Add.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+Add.h"; sourceTree = "<group>"; };
 		87DB842F240E571A005CCAC2 /* UIScrollView+Add.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+Add.m"; sourceTree = "<group>"; };
+		87F7BCEE240FA2F7000086DC /* DLDispatchQueuePool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLDispatchQueuePool.h; sourceTree = "<group>"; };
+		87F7BCEF240FA2F7000086DC /* DLDispatchQueuePool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLDispatchQueuePool.m; sourceTree = "<group>"; };
+		87F7BD1C240FBB2A000086DC /* Person.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		87F7BD1D240FBB2A000086DC /* Person.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		87F7BD1F240FBB36000086DC /* Son.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Son.h; sourceTree = "<group>"; };
+		87F7BD20240FBB36000086DC /* Son.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Son.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +205,8 @@
 			children = (
 				875E0BCE240CFD91003C9180 /* DLLayer.h */,
 				875E0BCF240CFD91003C9180 /* DLLayer.m */,
+				87F7BCEE240FA2F7000086DC /* DLDispatchQueuePool.h */,
+				87F7BCEF240FA2F7000086DC /* DLDispatchQueuePool.m */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -236,6 +247,10 @@
 				87D728C82408F84C00C288F4 /* ViewController.m */,
 				87D729572408FD2F00C288F4 /* OneViewController.h */,
 				87D729582408FD2F00C288F4 /* OneViewController.m */,
+				87F7BD1C240FBB2A000086DC /* Person.h */,
+				87F7BD1D240FBB2A000086DC /* Person.m */,
+				87F7BD1F240FBB36000086DC /* Son.h */,
+				87F7BD20240FBB36000086DC /* Son.m */,
 				875E0BCD240CFD72003C9180 /* Demo */,
 				87D728DA2408F86A00C288F4 /* DLTool */,
 				87D728CA2408F84C00C288F4 /* Main.storyboard */,
@@ -491,6 +506,7 @@
 				87D7293F2408F86B00C288F4 /* NSCache+Add.m in Sources */,
 				87DB8424240E4062005CCAC2 /* UIApplication+Add.m in Sources */,
 				87D729372408F86B00C288F4 /* NSMutableDictionary+Add.m in Sources */,
+				87F7BCF0240FA2F7000086DC /* DLDispatchQueuePool.m in Sources */,
 				87D7294F2408F86B00C288F4 /* DLColor.m in Sources */,
 				87DB8421240E399D005CCAC2 /* DLWeakProxy.m in Sources */,
 				87D7293A2408F86B00C288F4 /* NSMutableAttributedString+Add.m in Sources */,
@@ -508,6 +524,7 @@
 				87DB841E240E38F9005CCAC2 /* DLPerformanceLabel.m in Sources */,
 				87D7293B2408F86B00C288F4 /* NSData+Add.m in Sources */,
 				87D7294E2408F86B00C288F4 /* DLThread.m in Sources */,
+				87F7BD1E240FBB2A000086DC /* Person.m in Sources */,
 				87DB842D240E55D4005CCAC2 /* UIGestureRecognizer+Add.m in Sources */,
 				87D7294B2408F86B00C288F4 /* DLAlert.m in Sources */,
 				87D729322408F86B00C288F4 /* UIView+Add.m in Sources */,
@@ -528,6 +545,7 @@
 				87D729482408F86B00C288F4 /* NSDictionary+Add.m in Sources */,
 				87D7294D2408F86B00C288F4 /* DLTimer.m in Sources */,
 				87D729592408FD2F00C288F4 /* OneViewController.m in Sources */,
+				87F7BD21240FBB36000086DC /* Son.m in Sources */,
 				87D7294A2408F86B00C288F4 /* DLJsonToModel.m in Sources */,
 				87D729502408F86B00C288F4 /* DLNoti.m in Sources */,
 				87D7293C2408F86B00C288F4 /* NSDate+Add.m in Sources */,

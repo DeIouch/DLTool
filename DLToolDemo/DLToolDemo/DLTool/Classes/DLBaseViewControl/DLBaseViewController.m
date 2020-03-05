@@ -14,6 +14,11 @@
     [super viewDidLoad];
 }
 
+//  parent添加到父视图有值，从父视图移除就是nil
+-(void)didMoveToParentViewController:(UIViewController *)parent{
+    
+}
+
 ///获取当前活动的控制器
 + (UIViewController *)getCurrentActivityViewController {
     UIWindow *window = [UIApplication sharedApplication].delegate.window;

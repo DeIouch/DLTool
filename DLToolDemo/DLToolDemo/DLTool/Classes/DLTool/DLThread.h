@@ -7,7 +7,8 @@
 /// @param async 是否异步
 +(void)doTask:(void(^)(void))task async:(BOOL)async;
 
-
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
++ (instancetype)new UNAVAILABLE_ATTRIBUTE;
 
 /// 开启线程
 /// @param async 是否异步

@@ -2,6 +2,9 @@
 
 @interface DLNetworkSpeed : NSObject
 
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
++ (instancetype)new UNAVAILABLE_ATTRIBUTE;
+
 @property (nonatomic, copy, readonly) NSString*downloadNetworkSpeed;
 
 @property (nonatomic, copy, readonly) NSString *uploadNetworkSpeed;

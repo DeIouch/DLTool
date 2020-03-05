@@ -313,6 +313,16 @@ static dl_net_interface_counter dl_get_net_interface_counter(){
     return name;
 }
 
++(double)getMemoryUsage{
+    task_vm_info_data_t vmInfo;
+    mach_msg_type_number_t count = TASK_VM_INFO_COUNT;
+    if(task_info(mach_task_self(), TASK_VM_INFO, (task_info_t) &vmInfo, &count) == KERN_SUCCESS) {
+        return (double)vmInfo.phys_footprint / (1024 * 1024);
+    } else {
+        return -1.0;
+    }
+}
+
 -(NSDate *)dl_systemUptime{
     NSTimeInterval time = [[NSProcessInfo processInfo] systemUptime];
     return [[NSDate alloc] initWithTimeIntervalSinceNow:(0 - time)];

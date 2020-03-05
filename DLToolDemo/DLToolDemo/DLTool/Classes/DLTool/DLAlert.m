@@ -2,7 +2,6 @@
 #include <objc/runtime.h>
 #import "UIView+Add.h"
 #import "DLAutoLayout.h"
-#import "DLSafeProtector.h"
 @class DLAlertView;
 
 @interface DLAlert ()
@@ -32,10 +31,10 @@
 
 static DLAlert *alert = nil;
 
-- (instancetype)init {
-    DLSafeProtectionCrashLog([NSException exceptionWithName:@"DLAlert初始化失败" reason:@"使用'shareInstance'初始化" userInfo:nil],DLSafeProtectorCrashTypeInitError);
-    return [super init];
-}
+//- (instancetype)init {
+//    DLSafeProtectionCrashLog([NSException exceptionWithName:@"DLAlert初始化失败" reason:@"使用'shareInstance'初始化" userInfo:nil],DLSafeProtectorCrashTypeInitError);
+//    return [super init];
+//}
 
 - (instancetype)_init {
     self = [super init];
