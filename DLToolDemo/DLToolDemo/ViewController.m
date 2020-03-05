@@ -28,6 +28,7 @@
     self.player.fatherView = self.view;
     self.player.videoUrl = @"https://vdse.bdstatic.com//f11546e6b21bb6f60f025df3d5cb5735?authorization=bce-auth-v1/fb297a5cc0fb434c971b8fa103e8dd7b/2017-05-11T09:02:31Z/-1//560f50696b0d906271532cf3868d7a3baf6e4f7ffbe74e8dff982ed57f72c088.mp4";
     self.player.skinView = [[DLVodPlayerSkinView alloc]init];
+    self.player.videoTitle = @"12222";
     [self.player start];
 }
 

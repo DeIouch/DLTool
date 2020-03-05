@@ -66,12 +66,12 @@ static DLPlayer *player = nil;
 
 -(void)setIsRefresh:(BOOL)isRefresh{
     _isRefresh = isRefresh;
-//    if (isRefresh) {
-//        [[DLLoad shareInstance]showLoadTitle:@"" loadType:LoadShowing backView:self.fatherView];
-//        [self.skinView.playButton dl_viewHidden:0];
-//    }else{
-//        [[DLLoad shareInstance]viewHidden];
-//    }
+    if (isRefresh) {
+        [[DLLoad shareInstance]showLoadTitle:@"" loadType:LoadShowing backView:self.fatherView];
+        [self.skinView.playButton dl_viewHidden:0];
+    }else{
+        [[DLLoad shareInstance]viewHidden];
+    }
 }
 
 /**
@@ -107,7 +107,15 @@ static DLPlayer *player = nil;
         [self.fatherView addSubview:self.playerView];
         self.currentPlayerItem = [[AVPlayerItem alloc]initWithURL:[NSURL URLWithString:videoUrl]];
         [self.avPlayer replaceCurrentItemWithPlayerItem:self.currentPlayerItem];
-        self.playerView.dl_left_to_layout(self.fatherView, 0).dl_top_to_layout(self.fatherView, 0).dl_right_to_layout(self.fatherView, 0).dl_bottom_to_layout(self.fatherView, 0);
+//        self.playerView.dl_left_to_layout(self.fatherView, 0).dl_top_to_layout(self.fatherView, 0).dl_right_to_layout(self.fatherView, 0).dl_bottom_to_layout(self.fatherView, 0);
+        
+        [self.playerView dl_AutoLayout:^(DLConstraintMaker *make) {
+            make.left.equal(self.fatherView).offset(0);
+            make.right.equal(self.fatherView).offset(0);
+            make.top.equal(self.fatherView).offset(0);
+            make.bottom.equal(self.fatherView).offset(0);
+        }];
+        
         [self.playerView layoutIfNeeded];
         self.playerLayer.frame = self.playerView.bounds;
         [self.fatherView bringSubviewToFront:self.playerView];
@@ -219,7 +227,15 @@ static DLPlayer *player = nil;
         [self removeNoti];
     }else{
         [_fatherView addSubview:self.playerView];
-        self.playerView.dl_left_to_layout(fatherView, 0).dl_top_to_layout(fatherView, 0).dl_right_to_layout(fatherView, 0).dl_bottom_to_layout(fatherView, 0);
+//        self.playerView.dl_left_to_layout(fatherView, 0).dl_top_to_layout(fatherView, 0).dl_right_to_layout(fatherView, 0).dl_bottom_to_layout(fatherView, 0);
+        
+        [self.playerView dl_AutoLayout:^(DLConstraintMaker *make) {
+            make.left.equal(fatherView).offset(0);
+            make.right.equal(fatherView).offset(0);
+            make.top.equal(fatherView).offset(0);
+            make.bottom.equal(fatherView).offset(0);
+        }];
+        
         [self.playerView layoutIfNeeded];
         self.playerLayer.frame = self.playerView.bounds;
         [_fatherView bringSubviewToFront:self.playerView];
@@ -235,6 +251,7 @@ static DLPlayer *player = nil;
         _playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
         _playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
         [_playerView.layer addSublayer:_playerLayer];
+//        [_playerView setValue:_playerLayer forKey:@"_layer"];
     }
     return _playerView;
 }
@@ -247,7 +264,13 @@ static DLPlayer *player = nil;
     _skinView = skinView;
     [self.playerView addSubview:_skinView];
     _skinView.titleLabel.dl_text(_videoTitle);
-    _skinView.dl_left_to_layout(self.playerView, 0).dl_top_to_layout(self.playerView, 0).dl_right_to_layout(self.playerView, 0).dl_bottom_to_layout(self.playerView, 0);
+    [_skinView dl_AutoLayout:^(DLConstraintMaker *make) {
+        make.left.equal(self.playerView).offset(0);
+        make.top.equal(self.playerView).offset(0);
+        make.right.equal(self.playerView).offset(0);
+        make.bottom.equal(self.playerView).offset(0);
+    }];
+    
     _skinView.player = self;
     [[DLLoad shareInstance]showLoadTitle:@"" loadType:LoadShowing backView:self.fatherView];
     [self.skinView.playButton dl_viewHidden:0];
@@ -583,7 +606,16 @@ static UISlider * _volumeSlider;
     if (!_playButton) {
         _playButton = [UIButton dl_view:^(UIButton *button) {
             button.dl_backView(self).dl_normalImage(@"play").dl_selectImage(@"pause").dl_centerX_layout(self, 0).dl_centerY_layout(self, 0).dl_width_layout(50).dl_height_layout(50);
+            
+            [button dl_AutoLayout:^(DLConstraintMaker *make) {
+                make.width.offset(50);
+                make.height.offset(50);
+                make.centerX.equal(self).offset(0);
+                make.centerY.equal(self).offset(0);
+            }];
+            
         }];
+        
 //        @dl_weakify;
 //        _playButton.clickAction = ^(UIView *view) {
 //            @dl_strongify;
@@ -659,7 +691,14 @@ static UISlider * _volumeSlider;
 -(UIImageView *)topFuncView {
     if (!_topFuncView) {
         _topFuncView = [UIImageView dl_view:^(UIView * _Nonnull view) {
-            view.dl_backView(self).dl_imageString(@"video_top_gray").dl_left_to_layout(self, 0).dl_right_to_layout(self, 0).dl_top_to_layout(self, 0).dl_height_layout(70);
+            view.dl_backView(self).dl_imageString(@"video_top_gray");
+            [view dl_AutoLayout:^(DLConstraintMaker *make) {
+                make.left.equal(self).offset(0);
+                make.right.equal(self).offset(0);
+                make.top.equal(self).offset(0);
+                make.height.offset(70);
+            }];
+            
         }];
     }
     return _topFuncView;
@@ -676,10 +715,16 @@ static UISlider * _volumeSlider;
 
 -(UIButton *)screenButton{
     if (!_screenButton) {
-        _screenButton = [UIButton dl_view:^(UIView *view) {
-            view.dl_backView(self.bottomFuncView).dl_normalImage(@"video_full_screen").dl_selectImage(@"video_small_screen").dl_right_to_layout(self.bottomFuncView, 22).dl_bottom_to_layout(self.bottomFuncView, 32).dl_width_layout(16).dl_height_layout(16).dl_clickEdge(30);
+        _screenButton = [UIButton dl_view:^(UIButton *button) {
+            button.dl_backView(self.bottomFuncView).dl_normalImage(@"video_full_screen").dl_selectImage(@"video_small_screen").dl_clickEdge(30);
+            [button dl_AutoLayout:^(DLConstraintMaker *make) {
+                make.height.offset(16);
+                make.width.offset(16);
+                make.right.equal(self.bottomFuncView).offset(-22);
+                make.top.equal(self.bottomFuncView).offset(22);
+            }];            
             @dl_weakify;
-            view.clickAction = ^(UIView *view) {
+            button.clickAction = ^(UIView *view) {
                 @dl_strongify;
                 self.screenType = !self.screenType;
             };
@@ -704,12 +749,15 @@ static UISlider * _volumeSlider;
                 window.windowLevel = UIWindowLevelStatusBar + 1;
                 [self.player.playerView removeFromSuperview];
                 [window addSubview:self.player.playerView];
-                self.player.playerView.dl_top_to_layout(window, 0).dl_right_by_layout(window, 0).dl_top_to_layout(window, 0).dl_bottom_to_layout(window, 0);
-                [self.player.playerView layoutIfNeeded];
-                self.player.playerLayer.frame = self.player.playerView.bounds;
-                
+                [self.player.playerView dl_AutoLayout:^(DLConstraintMaker *make) {
+                    make.left.equal(window).offset(0);
+                    make.right.equal(window).offset(0);
+                    make.top.equal(window).offset(0);
+                    make.bottom.equal(window).offset(0);
+                }];
+                self.player.playerLayer.frame = CGRectMake(0, 0, DLHeight, DLWidth);
 //                if (self.player.ijkPlayer.naturalSize.width >= self.player.ijkPlayer.naturalSize.height) {
-//                    [self orientationToPortrait:UIInterfaceOrientationLandscapeRight];
+                    [self orientationToPortrait:UIInterfaceOrientationLandscapeRight];
 //                }else{
 //                    [self orientationToPortrait:UIInterfaceOrientationPortrait];
 //                }
@@ -721,7 +769,13 @@ static UISlider * _volumeSlider;
                 window.windowLevel = UIWindowLevelNormal;
                 [self orientationToPortrait:UIInterfaceOrientationPortrait];
                 [self.player.fatherView addSubview:self.player.playerView];
-                self.player.playerView.dl_top_to_layout(self.player.fatherView, 0).dl_right_by_layout(self.player.fatherView, 0).dl_top_to_layout(self.player.fatherView, 0).dl_bottom_to_layout(self.player.fatherView, 0);
+                [self.player.playerView dl_AutoLayout:^(DLConstraintMaker *make) {
+                    make.left.equal(self.player.fatherView).offset(0);
+                    make.right.equal(self.player.fatherView).offset(0);
+                    make.top.equal(self.player.fatherView).offset(0);
+                    make.bottom.equal(self.player.fatherView).offset(0);
+                }];
+                
                 
                 [self.player.playerView layoutIfNeeded];
                 self.player.playerLayer.frame = self.player.playerView.bounds;
