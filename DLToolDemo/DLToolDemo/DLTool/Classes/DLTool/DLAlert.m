@@ -81,10 +81,10 @@ static DLAlert *alert = nil;
     }];
     [self alertShow];
     __weak typeof(self) weakself = self;
-    self.alertView.sureButton.clickAction = ^(UIView *view) {
+    [self.alertView.sureButton addClickAction:^(UIView *view) {
         !sureBlock ? : sureBlock();
         [weakself alertHidden];
-    };
+    }];
 }
 
 -(void)alertMessage:(NSString *)message
@@ -105,11 +105,10 @@ static DLAlert *alert = nil;
     }];
     [self alertShow];
     __weak typeof(self) weakself = self;
-    self.alertView.sureButton.clickAction = ^(UIView *view) {
+    [self.alertView.sureButton addClickAction:^(UIView *view) {
         !sureBlock ? : sureBlock();
         [weakself alertHidden];
-    };
-    
+    }];
 }
 
 -(void)alertShow{
@@ -152,9 +151,9 @@ static DLAlert *alert = nil;
             layout.edgeEqualTo(window);
         }];
         __weak typeof(self) weakself = self;
-        _alertView.sureButton.clickAction = ^(UIView *view) {
+        [_alertView.sureButton addClickAction:^(UIView *view) {
             [weakself alertHidden];
-        };
+        }];
         _alertView.backView.dl_allCorner(5);
     }
     return _alertView;
@@ -169,7 +168,7 @@ static DLAlert *alert = nil;
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height);
         self.backgroundColor = [[UIColor colorWithRed:16/255.0 green:16/255.0 blue:16/255.0 alpha:1] colorWithAlphaComponent:0.6];
-        self.backView = [UIView dl_view:^(UIView * _Nonnull view) {
+        self.backView = [UIView dl_view:^(UIView *view) {
             view.dl_backView(self).dl_backColor(@[@"#FFFFFF"]);
             [view dl_addAutoLayouts:^{
                 dl_layout_rightEqualTo(self, 38);
@@ -179,11 +178,11 @@ static DLAlert *alert = nil;
             }];
         }];
         
-        self.messageLabel = [UILabel dl_view:^(UIView *view) {
-            view.dl_backView(self.backView);
-            view.dl_backColor(@[@"#FFFFFF"]);
-            view.dl_fontSize(15).dl_alignment(NSTextAlignmentCenter).dl_textColor(@[@"#777777"]).dl_lines(0);
-            [view dl_addAutoLayouts:^{
+        self.messageLabel = [UILabel dl_view:^(UILabel *label) {
+            label.dl_backView(self.backView);
+            label.dl_backColor(@[@"#FFFFFF"]);
+            label.dl_fontSize(15).dl_alignment(NSTextAlignmentCenter).dl_textColor(@[@"#777777"]).dl_lines(0);
+            [label dl_addAutoLayouts:^{
                 dl_layout_leftEqualTo(self.backView, 40);
                 dl_layout_rightEqualTo(self.backView, 40);
                 dl_layout_topEqualTo(self.backView, 25);
@@ -191,10 +190,10 @@ static DLAlert *alert = nil;
             }];
         }];
 
-        self.cancelButton = [UIButton dl_view:^(UIView *view) {
-            view.dl_backView(self.backView).dl_backColor(@[@"#FFFFFF"]);
-            view.dl_normalTitle(@"取消").dl_normalTitleColor(@[@"#777777"]).dl_fontSize(16);
-            [view dl_addAutoLayouts:^{
+        self.cancelButton = [UIButton dl_view:^(UIButton *button) {
+            button.dl_backView(self.backView).dl_backColor(@[@"#FFFFFF"]);
+            button.dl_normalTitle(@"取消").dl_normalTitleColor(@[@"#777777"]).dl_fontSize(16);
+            [button dl_addAutoLayouts:^{
                 dl_layout_leftEqualTo(self.backView, 0);
                 dl_layout_bottomEqualTo(self.backView, 0);
                 dl_layout_width(([UIScreen mainScreen].bounds.size.width - 76) * 0.5);
@@ -202,10 +201,10 @@ static DLAlert *alert = nil;
             }];
         }];
         
-        self.sureButton = [UIButton dl_view:^(UIView *view) {
-            view.dl_backView(self.backView).dl_backColor(@[@"#FFFFFF"]);
-            view.dl_normalTitle(@"确定").dl_normalTitleColor(@[@"#4AB134"]).dl_fontSize(16);
-            [view dl_addAutoLayouts:^{
+        self.sureButton = [UIButton dl_view:^(UIButton *button) {
+            button.dl_backView(self.backView).dl_backColor(@[@"#FFFFFF"]);
+            button.dl_normalTitle(@"确定").dl_normalTitleColor(@[@"#4AB134"]).dl_fontSize(16);
+            [button dl_addAutoLayouts:^{
                 dl_layout_rightEqualTo(self.backView, 0);
                 dl_layout_bottomEqualTo(self.backView, 0);
                 dl_layout_width(([UIScreen mainScreen].bounds.size.width - 76) * 0.5);
@@ -213,7 +212,7 @@ static DLAlert *alert = nil;
             }];
         }];
         
-        [UIView dl_view:^(UIView * _Nonnull view) {
+        [UIView dl_view:^(UIView *view) {
             view.dl_backView(self.backView);
             view.dl_backColor(@[@"#E6E6E6"]);
             [view dl_addAutoLayouts:^{
@@ -224,7 +223,7 @@ static DLAlert *alert = nil;
             }];
         }];
 
-        [UIView dl_view:^(UIView * _Nonnull view) {
+        [UIView dl_view:^(UIView *view) {
             view.dl_backView(self.backView);
             view.translatesAutoresizingMaskIntoConstraints = NO;
             view.dl_backColor(@[@"#E6E6E6"]);

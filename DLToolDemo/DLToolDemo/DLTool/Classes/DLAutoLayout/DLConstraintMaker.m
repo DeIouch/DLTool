@@ -146,7 +146,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
         }else{
             view = [self.view getCommonSuperView:constraint.secondView];;
         }
-        if (constraint.type == attributeSafeBottom || constraint.type == attributeSafeTop || constraint.type == attributeSafeRight || constraint.type == attributeSafeLeft) {
+        if (constraint.type == DLAttributeSafeBottom || constraint.type == DLAttributeSafeTop || constraint.type == DLAttributeSafeRight || constraint.type == DLAttributeSafeLeft) {
             if (@available(iOS 11.0, *)) {
                 constraint.item = view.safeAreaLayoutGuide;
             } else {
@@ -476,51 +476,51 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     return ^(AttributeType type) {
         self.type = type;
         switch (type) {
-            case attributeLeft:
+            case DLAttributeLeft:
                 self.secondAttribute = NSLayoutAttributeLeft;
                 break;
                 
-            case attributeRight:
+            case DLAttributeRight:
                 self.secondAttribute = NSLayoutAttributeRight;
                 break;
                 
-            case attributeTop:
+            case DLAttributeTop:
                 self.secondAttribute = NSLayoutAttributeTop;
                 break;
                 
-            case attributeBottom:
+            case DLAttributeBottom:
                 self.secondAttribute = NSLayoutAttributeBottom;
                 break;
                 
-            case attributeWidth:
+            case DLAttributeWidth:
                 self.secondAttribute = NSLayoutAttributeWidth;
                 break;
                 
-            case attributeHeight:
+            case DLAttributeHeight:
                 self.secondAttribute = NSLayoutAttributeHeight;
                 break;
                 
-            case attributeCenterX:
+            case DLAttributeCenterX:
                 self.secondAttribute = NSLayoutAttributeCenterX;
                 break;
                 
-            case attributeCenterY:
+            case DLAttributeCenterY:
                 self.secondAttribute = NSLayoutAttributeCenterY;
                 break;
                 
-            case attributeSafeTop:
+            case DLAttributeSafeTop:
                 self.secondAttribute = NSLayoutAttributeTop;
                 break;
                 
-            case attributeSafeLeft:
+            case DLAttributeSafeLeft:
                 self.secondAttribute = NSLayoutAttributeLeft;
                 break;
                 
-            case attributeSafeRight:
+            case DLAttributeSafeRight:
                 self.secondAttribute = NSLayoutAttributeRight;
                 break;
                 
-            case attributeSafeBottom:
+            case DLAttributeSafeBottom:
                 self.secondAttribute = NSLayoutAttributeBottom;
                 break;
                 
@@ -534,6 +534,11 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLConstraint *(^)(CGFloat constant))multipliedBy{
     return ^(CGFloat constant) {
+        if (constant > 1) {
+            constant = 1;
+        }else if (constant < 0) {
+            constant = 0;
+        }
         self.multiplier = constant;
         return self;
     };

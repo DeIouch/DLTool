@@ -45,15 +45,13 @@ typedef NS_ENUM(NSInteger, PanDirection){
 
 @interface DLPlayerSkinView : UIView<UIGestureRecognizerDelegate>
 
-@property (nonatomic, assign) NSInteger hiddenTime;
-
 @property (nonatomic, assign) BOOL isPlay;
 
 @property (nonatomic, strong) DLPlayer *player;
 
 @property (nonatomic, assign) VideoScreenType screenType;
 
-@property (nonatomic, strong) UIButton *playButton;
+@property (nonatomic, strong) UIImageView *playButton;
 
 @property (nonatomic, strong) UIButton *screenButton;
 
@@ -87,6 +85,9 @@ typedef NS_ENUM(NSInteger, PanDirection){
 /** 是否在调节音量*/
 @property (nonatomic, assign) BOOL                   isVolume;
 
+/// 是否主动选择屏幕
+@property (nonatomic, assign) BOOL                   initiativeRotate;
+
 /** 是否被用户暂停 */
 @property (nonatomic, assign) BOOL                   isPauseByUser;
 /** 播放完了*/
@@ -101,22 +102,16 @@ typedef NS_ENUM(NSInteger, PanDirection){
 
 @property MPVolumeView *volumeView;
 
+@property (nonatomic, assign) NSTimeInterval cacheTime;
+
+@property (nonatomic, assign) NSTimeInterval durationTime;
+
+@property (nonatomic, assign) NSTimeInterval playTime;
+
 //  功能扩展
 -(void)funcExtension;
 
 -(void)viewTouch;
-
-
-//  点播界面
-@property (nonatomic, strong) UILabel *playTimeLabel;
-
-@property (nonatomic, strong) UILabel *allTimeLabel;
-
-@property (nonatomic, strong) UIView *allProgressView;
-
-@property (nonatomic, strong) UIView *playProgressView;
-
-@property (nonatomic, strong) UIView *cacheProgressView;
 
 @end
 
@@ -131,7 +126,16 @@ typedef NS_ENUM(NSInteger, PanDirection){
 /// 点播界面
 @interface DLVodPlayerSkinView : DLPlayerSkinView
 
+//  点播界面
+@property (nonatomic, strong) UILabel *playTimeLabel;
 
+@property (nonatomic, strong) UILabel *allTimeLabel;
+
+@property (nonatomic, strong) UIView *allProgressView;
+
+@property (nonatomic, strong) UIView *playProgressView;
+
+@property (nonatomic, strong) UIView *cacheProgressView;
 
 @end
 
@@ -181,9 +185,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
 /// 背景图片
 @property (nonatomic, strong) UIImageView *backImageView;
 
-/**
- 清晰度
- */
+/// 清晰度
 @property (nonatomic, strong) UILabel *clarityLabel;
 
 /// 清晰度链接
@@ -195,6 +197,13 @@ typedef NS_ENUM(NSInteger, PanDirection){
 @end
 
 @interface FastView : UIView
+
+
+
+@end
+
+
+@interface BannerViewManager : UIView
 
 
 

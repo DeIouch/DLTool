@@ -7,60 +7,35 @@
 #import "NSString+Add.h"
 #import "DLSafeProtector.h"
 
-static const int target_key;
-
-@interface DLViewCategoryTarget : NSObject
-
-@property (nonatomic, copy) void (^tapBlock)(UIView *view);
-
-@property (nonatomic, strong) UIView *view;
-
-@property (nonatomic, assign) NSTimeInterval touchInterval;
-
-@property (nonatomic, assign) CGFloat topClick;
-
-@property (nonatomic, assign) CGFloat rightClick;
-
-@property (nonatomic, assign) CGFloat bottomClick;
-
-@property (nonatomic, assign) CGFloat leftClick;
-
--(void)tapAction;
-
-@end
-
-@implementation DLViewCategoryTarget
-
-- (void)tapAction{
-    if (self.tapBlock) {
-        self.tapBlock(self.view);
-        if (self.touchInterval > 0) {
-            self.view.userInteractionEnabled = NO;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.touchInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                self.view.userInteractionEnabled = YES;
-            });
-        }
-        
-    }
-}
-
-@end
-
 @interface UIView()
 
 @property (nonatomic, strong) NSString *touchIdentifierStr;
 
 @property (nonatomic, strong) DLConstraintMaker *make;
 
+/// 按钮点击间隔（防重复点击）
+@property (nonatomic, assign) NSTimeInterval qi_eventInterval;
+
 @end
 
-static NSString *autolayout_StrKey = @"autolayout_StrKey";
+static char const autolayout_StrKey;
 
-static NSString *identifierStrKey = @"identifierStrKey";
+static char const identifierStrKey;
 
-static NSString *classStrKey = @"classStrKey";
+static char const touchIdentifierStrKey;
 
-static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
+static char const qi_eventIntervalKey;
+
+static char const kActionHandlerTapBlockKey;
+static char const kActionHandlerTapGestureKey;
+static char const kActionHandlerLongPressBlockKey;
+static char const kActionHandlerLongPressGestureKey;
+
+static char topNameKey;
+static char rightNameKey;
+static char bottomNameKey;
+static char leftNameKey;
+
 
 @implementation UIView (Add)
 
@@ -72,34 +47,11 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     return objc_getAssociatedObject(self, &autolayout_StrKey);
 }
 
--(void)setClickAction:(void (^)(UIView *view))tapBlock{
-    DLViewCategoryTarget *target = [[DLViewCategoryTarget alloc]init];
-    target.view = self;
-    target.tapBlock = [tapBlock copy];
-    UITapGestureRecognizer *tap;
-    for (UIGestureRecognizer *gestss in self.gestureRecognizers) {
-        if ([NSStringFromClass([gestss class]) isEqualToString:@"UITapGestureRecognizer"]) {
-            tap = (UITapGestureRecognizer *)gestss;
-        }
-    }
-    if (!tap) {
-        tap = [[UITapGestureRecognizer alloc] initWithTarget:target action:@selector(tapAction)];
-        [self addGestureRecognizer:tap];
-    }
-    objc_setAssociatedObject(self, &target_key, target, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
--(void (^)(UIView *))clickAction{
-    DLViewCategoryTarget *target = objc_getAssociatedObject(self, &target_key);
-    return target.tapBlock;
-}
-
 +(instancetype)dl_view:(void (^) (UIView *view))block{
     UIView *view;
     @try {
         view = [[UIView alloc]init];
         view.userInteractionEnabled = YES;
-        view.classStr = @"UIView";
         view.layer.drawsAsynchronously = true;
         block(view);
     } @catch (NSException *exception) {
@@ -525,7 +477,7 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     return ^(id color) {
         if ([color isNSArray]) {
             NSArray *colorArray = (NSArray *)color;
-            if (@available(iOS 13.0, *)) {
+//            if (@available(iOS 13.0, *)) {
 //                self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
 //                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
 //                        return [DLColor DLColorWithAHEXColor:(colorArray.count == 1) ? colorArray[0] : colorArray[1]];
@@ -534,12 +486,12 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 //                    }
 //                    return [DLColor DLColorWithAHEXColor:colorArray[0]];
 //                }];
-            }else{
+//            }else{
                 self.backgroundColor = [DLColor DLColorWithAHEXColor:colorArray[0]];
-            };
+//            };
         }else if ([color isNSString]) {
             NSString *colorStr = (NSString *)color;
-            if (@available(iOS 13.0, *)) {
+//            if (@available(iOS 13.0, *)) {
 //                self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
 //                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
 //                        return [DLColor DLColorWithAHEXColor:colorStr];
@@ -548,9 +500,9 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 //                    }
 //                    return [DLColor DLColorWithAHEXColor:colorStr];
 //                }];
-            }else{
+//            }else{
                 self.backgroundColor = [DLColor DLColorWithAHEXColor:colorStr];
-            };
+//            };
         }
         return self;
     };
@@ -754,7 +706,7 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
             UIButton *button = (UIButton *)self;
             if ([color isNSArray]) {
                 NSArray *colorArray = (NSArray *)color;
-                if (@available(iOS 13.0, *)) {
+//                if (@available(iOS 13.0, *)) {
 //                    [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
 //                        if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
 //                            return [DLColor DLColorWithAHEXColor:colorArray.count > 1 ? colorArray[1] : colorArray[0]];
@@ -763,12 +715,12 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 //                        }
 //                        return [DLColor DLColorWithAHEXColor:colorArray[0]];
 //                    }] forState:UIControlStateNormal];
-                }else{
+//                }else{
                     [button setTitleColor:[DLColor DLColorWithAHEXColor:colorArray[0]] forState:UIControlStateNormal];
-                };
+//                };
             }else if ([color isNSString]) {
                 NSString *colorStr = (NSString *)color;
-                if (@available(iOS 13.0, *)) {
+//                if (@available(iOS 13.0, *)) {
 //                    [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
 //                        if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
 //                            return [DLColor DLColorWithAHEXColor:colorStr];
@@ -777,9 +729,9 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 //                        }
 //                        return [DLColor DLColorWithAHEXColor:colorStr];
 //                    }] forState:UIControlStateNormal];
-                }else{
+//                }else{
                     [button setTitleColor:[DLColor DLColorWithAHEXColor:colorStr] forState:UIControlStateNormal];
-                };
+//                };
             }
         }
         return self;
@@ -792,7 +744,7 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
             UIButton *button = (UIButton *)self;
             if ([color isNSArray]) {
                 NSArray *colorArray = (NSArray *)color;
-                if (@available(iOS 13.0, *)) {
+//                if (@available(iOS 13.0, *)) {
 //                    [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
 //                        if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
 //                            return [DLColor DLColorWithAHEXColor:colorArray.count > 1 ? colorArray[1] : colorArray[0]];
@@ -801,12 +753,12 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 //                        }
 //                        return [DLColor DLColorWithAHEXColor:colorArray[0]];
 //                    }] forState:UIControlStateSelected];
-                }else{
+//                }else{
                     [button setTitleColor:[DLColor DLColorWithAHEXColor:colorArray[0]] forState:UIControlStateSelected];
-                };
+//                };
             }else if ([color isNSString]) {
                 NSString *colorStr = (NSString *)color;
-                if (@available(iOS 13.0, *)) {
+//                if (@available(iOS 13.0, *)) {
 //                    [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
 //                        if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
 //                            return [DLColor DLColorWithAHEXColor:colorStr];
@@ -815,9 +767,9 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 //                        }
 //                        return [DLColor DLColorWithAHEXColor:colorStr];
 //                    }] forState:UIControlStateSelected];
-                }else{
+//                }else{
                     [button setTitleColor:[DLColor DLColorWithAHEXColor:colorStr] forState:UIControlStateSelected];
-                };
+//                };
             }
         }
         return self;
@@ -830,7 +782,7 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
             UIButton *button = (UIButton *)self;
             if ([color isNSArray]) {
                 NSArray *colorArray = (NSArray *)color;
-                if (@available(iOS 13.0, *)) {
+//                if (@available(iOS 13.0, *)) {
 //                    [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
 //                        if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
 //                            return [DLColor DLColorWithAHEXColor:colorArray.count > 1 ? colorArray[1] : colorArray[0]];
@@ -839,12 +791,12 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 //                        }
 //                        return [DLColor DLColorWithAHEXColor:colorArray[0]];
 //                    }] forState:UIControlStateHighlighted];
-                }else{
+//                }else{
                     [button setTitleColor:[DLColor DLColorWithAHEXColor:colorArray[0]] forState:UIControlStateHighlighted];
-                };
+//                };
             }else if ([color isNSString]) {
                 NSString *colorStr = (NSString *)color;
-                if (@available(iOS 13.0, *)) {
+//                if (@available(iOS 13.0, *)) {
 //                    [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
 //                        if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
 //                            return [DLColor DLColorWithAHEXColor:colorStr];
@@ -853,9 +805,9 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 //                        }
 //                        return [DLColor DLColorWithAHEXColor:colorStr];
 //                    }] forState:UIControlStateHighlighted];
-                }else{
+//                }else{
                     [button setTitleColor:[DLColor DLColorWithAHEXColor:colorStr] forState:UIControlStateHighlighted];
-                };
+//                };
             }
         }
         return self;
@@ -881,7 +833,7 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
             UILabel *label = (UILabel *)self;
             if ([color isNSArray]) {
                 NSArray *colorArray = (NSArray *)color;
-                if (@available(iOS 13.0, *)) {
+//                if (@available(iOS 13.0, *)) {
 //                    label.textColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
 //                        if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
 //                            return [DLColor DLColorWithAHEXColor:colorArray.count > 1 ? colorArray[1] : colorArray[0]];
@@ -890,12 +842,12 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 //                        }
 //                        return [DLColor DLColorWithAHEXColor:colorArray[0]];
 //                    }];
-                }else{
+//                }else{
                     label.textColor = [DLColor DLColorWithAHEXColor:colorArray[0]];
-                };
+//                };
             }else if ([color isNSString]) {
                 NSString *colorStr = (NSString *)color;
-                if (@available(iOS 13.0, *)) {
+//                if (@available(iOS 13.0, *)) {
 //                    label.textColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
 //                        if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
 //                            return [DLColor DLColorWithAHEXColor:colorStr];
@@ -904,15 +856,15 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 //                        }
 //                        return [DLColor DLColorWithAHEXColor:colorStr];
 //                    }];
-                }else{
+//                }else{
                     label.textColor = [DLColor DLColorWithAHEXColor:colorStr];
-                };
+//                };
             }
         }else if ([NSStringFromClass([self class]) isEqualToString:@"UITextView"]) {
             UITextView *textView = (UITextView *)self;
             if ([color isNSArray]) {
                 NSArray *colorArray = (NSArray *)color;
-                if (@available(iOS 13.0, *)) {
+//                if (@available(iOS 13.0, *)) {
 //                    textView.textColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
 //                        if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
 //                            return [DLColor DLColorWithAHEXColor:colorArray.count > 1 ? colorArray[1] : colorArray[0]];
@@ -921,12 +873,12 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 //                        }
 //                        return [DLColor DLColorWithAHEXColor:colorArray[0]];
 //                    }];
-                }else{
+//                }else{
                     textView.textColor = [DLColor DLColorWithAHEXColor:colorArray[0]];
-                };
+//                };
             }else if ([color isNSString]) {
                 NSString *colorStr = (NSString *)color;
-                if (@available(iOS 13.0, *)) {
+//                if (@available(iOS 13.0, *)) {
 //                    textView.textColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
 //                        if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
 //                            return [DLColor DLColorWithAHEXColor:colorStr];
@@ -935,9 +887,9 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 //                        }
 //                        return [DLColor DLColorWithAHEXColor:colorStr];
 //                    }];
-                }else{
+//                }else{
                     textView.textColor = [DLColor DLColorWithAHEXColor:colorStr];
-                };
+//                };
             }
         }
         return self;
@@ -998,58 +950,95 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     };
 }
 
+-(void)addClickAction:(void (^)(UIView *view))block{
+    self.userInteractionEnabled = YES;
+    UITapGestureRecognizer *gesture = objc_getAssociatedObject(self, &kActionHandlerTapGestureKey);
+    if (!gesture){
+        gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleActionForTapGesture:)];
+        [self addGestureRecognizer:gesture];
+        objc_setAssociatedObject(self, &kActionHandlerTapGestureKey, gesture, OBJC_ASSOCIATION_RETAIN);
+    }
+    objc_setAssociatedObject(self, &kActionHandlerTapBlockKey, block, OBJC_ASSOCIATION_COPY);
+}
+
+- (void)handleActionForTapGesture:(UITapGestureRecognizer *)gesture{
+    if (gesture.state == UIGestureRecognizerStateRecognized){
+        void(^action)(UIView *view) = objc_getAssociatedObject(self, &kActionHandlerTapBlockKey);
+        if (action){
+            action(self);
+            if (self.qi_eventInterval > 0) {
+                self.userInteractionEnabled = NO;
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.qi_eventInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                   self.userInteractionEnabled = YES;
+               });
+            }
+        }
+    }
+}
+
+- (void)handleActionForLongPressGesture:(UILongPressGestureRecognizer *)gesture{
+    if (gesture.state == UIGestureRecognizerStateBegan){
+        void(^action)(UIView *view) = objc_getAssociatedObject(self, &kActionHandlerLongPressBlockKey);
+        if (action){
+            if (self.qi_eventInterval > 0) {
+                self.userInteractionEnabled = NO;
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(self.qi_eventInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                   self.userInteractionEnabled = YES;
+               });
+            }
+            action(self);
+        }
+    }
+}
+
+-(void)addLongClickAction:(void (^)(UIView *view))block{
+    self.userInteractionEnabled = YES;
+    UILongPressGestureRecognizer *gesture = objc_getAssociatedObject(self, &kActionHandlerLongPressGestureKey);
+    if (!gesture){
+        gesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleActionForLongPressGesture:)];
+        [self addGestureRecognizer:gesture];
+        objc_setAssociatedObject(self, &kActionHandlerLongPressGestureKey, gesture, OBJC_ASSOCIATION_RETAIN);
+    }
+    objc_setAssociatedObject(self, &kActionHandlerLongPressBlockKey, block, OBJC_ASSOCIATION_COPY);
+}
+
 -(UIView *(^)(NSTimeInterval time))dl_clickTime{
     return ^(NSTimeInterval time) {
-        DLViewCategoryTarget *target = objc_getAssociatedObject(self, &target_key);
-        if (!target) {
-            target = [[DLViewCategoryTarget alloc]init];
-            target.view = self;
-        }
-        target.touchInterval = time;
-        objc_setAssociatedObject(self, &target_key, target, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        self.qi_eventInterval = time;
         return self;
     };
 }
 
 -(UIView *(^)(CGFloat size))dl_clickEdge{
     return ^(CGFloat size) {
-        DLViewCategoryTarget *target = objc_getAssociatedObject(self, &target_key);
-        if (!target) {
-            target = [[DLViewCategoryTarget alloc]init];
-            target.view = self;
-        }
-        target.leftClick = size;
-        target.rightClick = size;
-        target.topClick = size;
-        target.bottomClick = size;
-        objc_setAssociatedObject(self, &target_key, target, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(self, &topNameKey, [NSNumber numberWithFloat:size], OBJC_ASSOCIATION_COPY_NONATOMIC);
+        objc_setAssociatedObject(self, &rightNameKey, [NSNumber numberWithFloat:size], OBJC_ASSOCIATION_COPY_NONATOMIC);
+        objc_setAssociatedObject(self, &bottomNameKey, [NSNumber numberWithFloat:size], OBJC_ASSOCIATION_COPY_NONATOMIC);
+        objc_setAssociatedObject(self, &leftNameKey, [NSNumber numberWithFloat:size], OBJC_ASSOCIATION_COPY_NONATOMIC);
         return self;
     };
 }
 
 -(UIView *(^)(CGFloat top, CGFloat right, CGFloat bottom, CGFloat left))dl_clickFrame{
     return ^(CGFloat top, CGFloat right, CGFloat bottom, CGFloat left) {
-        DLViewCategoryTarget *target = objc_getAssociatedObject(self, &target_key);
-        if (!target) {
-            target = [[DLViewCategoryTarget alloc]init];
-            target.view = self;
-        }
-        target.leftClick = left;
-        target.rightClick = right;
-        target.topClick = top;
-        target.bottomClick = bottom;
-        objc_setAssociatedObject(self, &target_key, target, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        objc_setAssociatedObject(self, &topNameKey, [NSNumber numberWithFloat:top], OBJC_ASSOCIATION_COPY_NONATOMIC);
+        objc_setAssociatedObject(self, &rightNameKey, [NSNumber numberWithFloat:right], OBJC_ASSOCIATION_COPY_NONATOMIC);
+        objc_setAssociatedObject(self, &bottomNameKey, [NSNumber numberWithFloat:bottom], OBJC_ASSOCIATION_COPY_NONATOMIC);
+        objc_setAssociatedObject(self, &leftNameKey, [NSNumber numberWithFloat:left], OBJC_ASSOCIATION_COPY_NONATOMIC);
         return self;
     };
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(nullable UIEvent *)event{
     CGRect myBounds = self.bounds;
-    DLViewCategoryTarget *target = objc_getAssociatedObject(self, &target_key);
-    myBounds.origin.x = myBounds.origin.x - target.leftClick;
-    myBounds.origin.y = myBounds.origin.y - target.topClick;
-    myBounds.size.width = myBounds.size.width + target.leftClick + target.rightClick;
-    myBounds.size.height = myBounds.size.height + target.topClick + target.bottomClick;
+    NSNumber* topEdge = objc_getAssociatedObject(self, &topNameKey);
+    NSNumber* rightEdge = objc_getAssociatedObject(self, &rightNameKey);
+    NSNumber* bottomEdge = objc_getAssociatedObject(self, &bottomNameKey);
+    NSNumber* leftEdge = objc_getAssociatedObject(self, &leftNameKey);
+    myBounds.origin.x = myBounds.origin.x - leftEdge.floatValue;
+    myBounds.origin.y = myBounds.origin.y - topEdge.floatValue;
+    myBounds.size.width = myBounds.size.width + leftEdge.floatValue + rightEdge.floatValue;
+    myBounds.size.height = myBounds.size.height + topEdge.floatValue + bottomEdge.floatValue;
     return CGRectContainsPoint(myBounds, point);
 }
 
@@ -1172,20 +1161,20 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     return objc_getAssociatedObject(self, &touchIdentifierStrKey);
 }
 
--(void)setClassStr:(NSString *)classStr{
-    objc_setAssociatedObject(self, &classStrKey, classStr, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-
--(NSString *)classStr{
-    return objc_getAssociatedObject(self, &classStrKey);
-}
-
 -(void)setIdentifierStr:(NSString *)identifierStr{
     objc_setAssociatedObject(self, &identifierStrKey, identifierStr, OBJC_ASSOCIATION_COPY_NONATOMIC);
 }
 
 -(NSString *)identifierStr{
     return objc_getAssociatedObject(self, &identifierStrKey);
+}
+
+- (NSTimeInterval)qi_eventInterval {
+    return [objc_getAssociatedObject(self, &qi_eventIntervalKey) doubleValue];
+}
+
+- (void)setQi_eventInterval:(NSTimeInterval)qi_eventInterval {
+    objc_setAssociatedObject(self, &qi_eventIntervalKey, @(qi_eventInterval), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 @end
@@ -1212,9 +1201,8 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
 +(instancetype)dl_view:(void (^) (UIButton *button))block{
     UIButton *button;
     @try {
-        UIButton *button = [[UIButton alloc]init];
+        button = [[UIButton alloc]init];
         button.userInteractionEnabled = YES;
-        button.classStr = @"UIButton";
         button.layer.drawsAsynchronously = true;
         block(button);
     } @catch (NSException *exception) {
@@ -1234,7 +1222,6 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     @try {
         textField = [[UITextField alloc]init];
         textField.userInteractionEnabled = YES;
-        textField.classStr = @"UITextField";
         textField.layer.drawsAsynchronously = true;
         block(textField);
     } @catch (NSException *exception) {
@@ -1254,7 +1241,6 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     @try {
         imageView = [[UIImageView alloc]init];
         imageView.userInteractionEnabled = YES;
-        imageView.classStr = @"UIImageView";
         imageView.layer.drawsAsynchronously = true;
         block(imageView);
     } @catch (NSException *exception) {
@@ -1274,7 +1260,6 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     @try {
         label = [[UILabel alloc]init];
         label.userInteractionEnabled = YES;
-        label.classStr = @"UILabel";
         label.layer.drawsAsynchronously = true;
         block(label);
     } @catch (NSException *exception) {
@@ -1294,7 +1279,6 @@ static NSString *touchIdentifierStrKey = @"touchIdentifierStrKey";
     @try {
         textView = [[UITextView alloc]init];
         textView.userInteractionEnabled = YES;
-        textView.classStr = @"UITextView";
         textView.layer.drawsAsynchronously = true;
         block(textView);
     } @catch (NSException *exception) {

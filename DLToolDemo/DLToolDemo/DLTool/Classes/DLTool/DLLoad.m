@@ -149,27 +149,27 @@ static DLLoad *load = nil;
     if (self = [super init]) {
         self.dl_backColor(@[@"#00000030"]);
         self.translatesAutoresizingMaskIntoConstraints = NO;
-        self.loadImageView = [UIImageView dl_view:^(UIView *view) {
-            view.dl_backView(self);
-            view.translatesAutoresizingMaskIntoConstraints = NO;
+        self.loadImageView = [UIImageView dl_view:^(UIImageView *imageView) {
+            imageView.dl_backView(self);
+            imageView.translatesAutoresizingMaskIntoConstraints = NO;
             [self addConstraints:@[
-                [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:50],
-                [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:50],
-                [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:20],
-                [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:-20],
-                [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:20],
+                [NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:50],
+                [NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeNotAnAttribute multiplier:1 constant:50],
+                [NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:20],
+                [NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:-20],
+                [NSLayoutConstraint constraintWithItem:imageView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:20],
             ]];
         }];
         
-        self.titleLabel = [UILabel dl_view:^(UIView *view) {
-            view.translatesAutoresizingMaskIntoConstraints = NO;
-            view.dl_backView(self);
-            view.dl_lines(1).dl_textColor(@[@"#FFFFFF"]).dl_fontSize(12).dl_alignment(NSTextAlignmentCenter);
+        self.titleLabel = [UILabel dl_view:^(UILabel *label) {
+            label.translatesAutoresizingMaskIntoConstraints = NO;
+            label.dl_backView(self);
+            label.dl_lines(1).dl_textColor(@[@"#FFFFFF"]).dl_fontSize(12).dl_alignment(NSTextAlignmentCenter);
             [self addConstraints:@[
-                [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:20],
-                [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:-20],
-                [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.loadImageView attribute:NSLayoutAttributeBottom multiplier:1 constant:10],
-                [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:-25],
+                [NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:20],
+                [NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:-20],
+                [NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.loadImageView attribute:NSLayoutAttributeBottom multiplier:1 constant:10],
+                [NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:-25],
             ]];
         }];
     }

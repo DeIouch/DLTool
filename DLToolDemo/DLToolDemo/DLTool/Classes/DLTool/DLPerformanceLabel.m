@@ -63,7 +63,7 @@
         [window addSubview:self];
         [self dl_AutoLayout:^(DLConstraintMaker *make) {
             make.right.equal(window).offset(-10);
-            make.top.equal(window).to(attributeSafeTop).offset(65);
+            make.top.equal(window).to(DLAttributeSafeTop).offset(65);
             make.height.offset(50);
         }];
     }

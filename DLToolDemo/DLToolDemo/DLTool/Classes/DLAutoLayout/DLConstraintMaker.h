@@ -3,19 +3,19 @@
 @class DLConstraint;
 
 typedef NS_ENUM(NSInteger, AttributeType) {
-    attributeLeft   =   1,
-    attributeRight,
-    attributeTop,
-    attributeBottom,
-    attributeWidth,
-    attributeHeight,
-    attributeCenterX,
-    attributeCenterY,
-    attributeNotAn,
-    attributeSafeLeft,
-    attributeSafeRight,
-    attributeSafeTop,
-    attributeSafeBottom,
+    DLAttributeLeft   =   1,
+    DLAttributeRight,
+    DLAttributeTop,
+    DLAttributeBottom,
+    DLAttributeWidth,
+    DLAttributeHeight,
+    DLAttributeCenterX,
+    DLAttributeCenterY,
+    DLAttributeNotAn,
+    DLAttributeSafeLeft,
+    DLAttributeSafeRight,
+    DLAttributeSafeTop,
+    DLAttributeSafeBottom,
 };
 
 @interface DLConstraintMaker : NSObject

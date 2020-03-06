@@ -75,8 +75,6 @@
 		2442059B2411204C00E442C6 /* DLTimerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442055D2411204C00E442C6 /* DLTimerButton.m */; };
 		2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442055F2411204C00E442C6 /* DLWeakProxy.m */; };
 		244205A32411205700E442C6 /* OneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442059D2411205600E442C6 /* OneViewController.m */; };
-		244205A42411205700E442C6 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205A02411205600E442C6 /* Person.m */; };
-		244205A52411205700E442C6 /* Son.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205A22411205700E442C6 /* Son.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -222,11 +220,7 @@
 		244205602411204C00E442C6 /* DLTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLTool.h; sourceTree = "<group>"; };
 		244205612411204C00E442C6 /* DLToolMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLToolMacro.h; sourceTree = "<group>"; };
 		2442059D2411205600E442C6 /* OneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneViewController.m; sourceTree = "<group>"; };
-		2442059E2411205600E442C6 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
 		2442059F2411205600E442C6 /* OneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneViewController.h; sourceTree = "<group>"; };
-		244205A02411205600E442C6 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
-		244205A12411205700E442C6 /* Son.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Son.h; sourceTree = "<group>"; };
-		244205A22411205700E442C6 /* Son.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Son.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -283,10 +277,6 @@
 				244204BD2411202C00E442C6 /* ViewController.m */,
 				2442059F2411205600E442C6 /* OneViewController.h */,
 				2442059D2411205600E442C6 /* OneViewController.m */,
-				2442059E2411205600E442C6 /* Person.h */,
-				244205A02411205600E442C6 /* Person.m */,
-				244205A12411205700E442C6 /* Son.h */,
-				244205A22411205700E442C6 /* Son.m */,
 				244204EB2411204B00E442C6 /* Demo */,
 				244204F02411204C00E442C6 /* DLTool */,
 				244204BF2411202C00E442C6 /* Main.storyboard */,
@@ -672,13 +662,11 @@
 				244205872411204C00E442C6 /* NSOrderedSet+Add.m in Sources */,
 				2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */,
 				2442058D2411204C00E442C6 /* UIDevice+Add.m in Sources */,
-				244205A52411205700E442C6 /* Son.m in Sources */,
 				2442057D2411204C00E442C6 /* NSDictionary+Add.m in Sources */,
 				244205982411204C00E442C6 /* DLPerformanceLabel.m in Sources */,
 				244205782411204C00E442C6 /* NSArray+Add.m in Sources */,
 				244205762411204C00E442C6 /* UIView+Add.m in Sources */,
 				244205832411204C00E442C6 /* NSMutableSet+Add.m in Sources */,
-				244205A42411205700E442C6 /* Person.m in Sources */,
 				2442057B2411204C00E442C6 /* NSData+Add.m in Sources */,
 				2442058A2411204C00E442C6 /* NSUserDefaults+Add.m in Sources */,
 				2442057E2411204C00E442C6 /* NSMutableArray+Add.m in Sources */,
@@ -871,7 +859,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D748GV4LD4;
 				INFOPLIST_FILE = DLToolDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.delouch.DLToolDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -884,7 +874,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = D748GV4LD4;
 				INFOPLIST_FILE = DLToolDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.delouch.DLToolDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";

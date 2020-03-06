@@ -171,5 +171,9 @@ static inline void dispatch_sync_on_main_queue(void (^block)(void)) {
     }
 }
 
+static inline NSString* converTimeStr(int time){
+    return [NSString stringWithFormat:@"%0.2d:%0.2d", time / 60 , time % 60];
+}
+
 
 #endif

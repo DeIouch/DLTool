@@ -8,9 +8,6 @@
 
 @property (nonatomic, strong) NSString *identifierStr;
 
-@property (nonatomic, strong) NSString *classStr;
-
-
 -(void)dl_AutoLayout:(void (^)(DLConstraintMaker *make))block;
 
 //  to 和 by的区别，to是从同一侧开始算起，by是从另一侧开始算起
@@ -188,7 +185,16 @@
 -(UIView *(^)(NSTimeInterval time))dl_clickTime;
 
 
-@property (nonatomic, copy) void (^clickAction)(UIView *view);
+
+/**
+ 添加点击事件
+ */
+- (void)addClickAction:(void (^)(UIView *view))block;
+
+/**
+ 添加长按事件
+ */
+- (void)addLongClickAction:(void (^)(UIView *view))block;
 
 
 

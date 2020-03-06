@@ -31,9 +31,6 @@
         view.dl_clickEdge(100);
     }];
     
-    view.clickAction = ^(UIView *view) {
-        NSLog(@"11111");
-    };
     
 }
 
