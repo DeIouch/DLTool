@@ -15,6 +15,11 @@ typedef NS_ENUM(NSInteger, PanDirection){
     PanDirectionVerticalMoved    // 纵向移动
 };
 
+typedef NS_ENUM(NSInteger, BarrageShowType) {
+    BarrageShowFullScreen       =   0,  //  全屏显示弹幕
+    BarrageShowCleanScreen,             //  隐藏弹幕
+};
+
 @class DLPlayerSkinView;
 @class ClarityView;
 @class PlaysUrlModel;
@@ -26,18 +31,45 @@ typedef NS_ENUM(NSInteger, PanDirection){
 /// 所有播放器的父视图
 @property (nonatomic, strong) UIView *fatherView;
 
+/// 视频网址
 @property (nonatomic, strong) NSString *videoUrl;
 
+/// 视频标题
 @property (nonatomic, strong) NSString *videoTitle;
 
+/// 视频皮肤
 @property (nonatomic, strong) DLPlayerSkinView *skinView;
 
+/// 是否是点播
 @property (nonatomic, assign) BOOL isVod;
 
+/// 是否正在刷新
 @property (nonatomic, assign) BOOL isRefresh;
 
+/// 弹幕文字大小
+@property (nonatomic, assign) CGFloat barrageTitleSize;
+
+/// 弹幕飘过的时间
+@property (nonatomic, assign) NSTimeInterval barrageDuration;
+
+/// 会员字体颜色
+@property (nonatomic, copy) NSString *barrageMemberColorHexStr;
+
+/// 正常的颜色
+@property (nonatomic, copy) NSString *barrageNormalColorHexStr;
+
+/// 弹幕显示类型
+@property (nonatomic, assign) BarrageShowType barrageShowType;
+
+/// 添加弹幕
+/// @param barrageStr 弹幕内容
+/// @param isMember 是否是会员
+-(void)addBarrageString:(NSString *)barrageStr isMember:(BOOL)isMember;
+
+/// 开始播放
 -(void)start;
 
+/// 暂停播放
 -(void)pause;
 
 @end
@@ -45,54 +77,64 @@ typedef NS_ENUM(NSInteger, PanDirection){
 
 @interface DLPlayerSkinView : UIView<UIGestureRecognizerDelegate>
 
+/// 是否正在播放
 @property (nonatomic, assign) BOOL isPlay;
 
-@property (nonatomic, strong) DLPlayer *player;
-
+/// 格式
 @property (nonatomic, assign) VideoScreenType screenType;
 
+/// 播放按钮
 @property (nonatomic, strong) UIImageView *playButton;
 
+/// 全屏按钮
 @property (nonatomic, strong) UIButton *screenButton;
 
+/// 重播按钮
+@property (nonatomic, strong) UIImageView *repeatPlayButton;
+
+/// 标题
 @property (nonatomic, strong) UILabel *titleLabel;
 
+/// 上功能视图
 @property (nonatomic, strong) UIImageView *topFuncView;
 
+/// 下功能视图
 @property (nonatomic, strong) UIImageView *bottomFuncView;
 
+/// 清晰度选择
 @property (nonatomic, strong) UIButton *clarityButton;
 
+/// 清晰度数组
 @property (nonatomic, strong) NSArray *clarityArray;
 
+/// 清晰度选择视图
 @property (nonatomic, strong) ClarityView *clarityView;
 
+/// 正在播放的视频model
 @property (nonatomic, strong) PlaysUrlModel *urlModel;
 
-/** 单击 */
+/// 单击手势
 @property (nonatomic, strong) UITapGestureRecognizer *singleTap;
 
+/// 拖动手势
 @property (nonatomic, strong) UIPanGestureRecognizer *panRecognizer;
 
-/** 用来保存快进的总时长 */
+/// 用来保存快进的总时长
 @property (nonatomic, assign) CGFloat                sumTime;
 
-@property (nonatomic, assign) CGFloat                startVeloctyPoint;
-
-/** 定义一个实例变量，保存枚举值 */
+/// 定义一个实例变量，保存枚举值
 @property (nonatomic, assign) PanDirection           panDirection;
 
-/** 是否在调节音量*/
+/// 是否在调节音量
 @property (nonatomic, assign) BOOL                   isVolume;
 
-/// 是否主动选择屏幕
+/// 是否主动旋转屏幕
 @property (nonatomic, assign) BOOL                   initiativeRotate;
 
-/** 是否被用户暂停 */
+/// 是否被用户暂停
 @property (nonatomic, assign) BOOL                   isPauseByUser;
-/** 播放完了*/
-@property (nonatomic, assign) BOOL                   playDidEnd;
-/** 进入后台*/
+
+/// 进入后台
 @property (nonatomic, assign) BOOL                   didEnterBackground;
 
 /// 是否在手势中
@@ -102,10 +144,13 @@ typedef NS_ENUM(NSInteger, PanDirection){
 
 @property MPVolumeView *volumeView;
 
+/// 视频缓存的时间
 @property (nonatomic, assign) NSTimeInterval cacheTime;
 
+/// 视频总时长
 @property (nonatomic, assign) NSTimeInterval durationTime;
 
+/// 视频的已播放时长
 @property (nonatomic, assign) NSTimeInterval playTime;
 
 //  功能扩展
@@ -197,13 +242,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
 @end
 
 @interface FastView : UIView
-
-
-
-@end
-
-
-@interface BannerViewManager : UIView
 
 
 

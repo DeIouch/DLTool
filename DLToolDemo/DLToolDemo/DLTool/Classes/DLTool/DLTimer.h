@@ -10,4 +10,8 @@
 // 根据timer的唯一标示，取消对应的timer。
 + (void)cancelTask:(NSString *)timerIdentifier;
 
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+
++ (instancetype)new UNAVAILABLE_ATTRIBUTE;
+
 @end

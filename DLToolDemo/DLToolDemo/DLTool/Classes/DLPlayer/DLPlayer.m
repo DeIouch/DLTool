@@ -8,30 +8,192 @@
 #import "NSObject+Add.h"
 #import "DLNoti.h"
 #include <objc/runtime.h>
+#import "DLColor.h"
+#import <UIKit/UIKit.h>
 
-@interface DLPlayer()
 
-/// 播放器视图
+typedef NS_ENUM(NSInteger, DLBarrageDataType) {
+    DLBarrageNormalType      =   0,        //  普通用户
+    DLBarrageMemberType,                   //  VIP用户
+};
+
+
+typedef NS_ENUM(NSUInteger, DLBarrageViewStatus) {
+    DLBarrageViewStatusStart         = 0,  //开始
+    DLBarrageViewStatusEnter         = 1,  //完全进入到屏幕
+    DLBarrageViewStatusEnd           = 2   //完全离开屏幕
+};
+
+@interface DLBarrageModel : NSObject
+
+@property (nonatomic, strong) NSString *title;
+
+@property (nonatomic, assign) DLBarrageDataType dataType;
+
+-(instancetype)initWithTitle:(NSString *)title
+                    dataType:(DLBarrageDataType)dataType;
+
+@end
+
+@interface DLBarrageView : UIView
+
+typedef void(^MovementStatus)(DLBarrageViewStatus status,NSUInteger indexOfTracks,DLBarrageView *view);
+
+@property (nonatomic, strong) DLBarrageModel *model;
+
+@property (nonatomic, copy) MovementStatus movementStatus;
+
+@property (nonatomic, assign) DLBarrageViewStatus status;
+
+@property (nonatomic, assign) NSTimeInterval animationDuration;
+
+@property (nonatomic, assign) NSUInteger indexOfTracks;
+
+- (void)srartWithAnimationDuration:(NSTimeInterval)duration animationScreenWidth:(CGFloat)Width;
+
+@property (nonatomic, strong) UILabel *title;
+
+@property (nonatomic, strong) UIImageView *imageView;
+
+@end
+
+
+@protocol DLBarrageMangerDataSource;
+
+@interface DLBarrageViewManager : NSObject
+
+@property (nonatomic, weak) id<DLBarrageMangerDataSource> dataSource;
+
+@property (nonatomic, assign) BOOL isStarted;
+
+@property (nonatomic, assign) BOOL isFinished;
+
++(DLBarrageViewManager *)shareInstance;
+
+-(void)packageData;
+
+-(void)start;
+
+-(void)stop;
+
+-(void)appendData;
+
+@end
+
+@protocol DLBarrageMangerDataSource <NSObject>
+
+@required;
+
+- (NSUInteger)numberOfItemsControlleredByDanmakuManger:(DLBarrageViewManager *)manger;
+
+- (DLBarrageModel *)danmakuManger:(DLBarrageViewManager *)manger informationForItem:(NSUInteger)index;
+
+@end
+
+@interface DLPlayer()<DLBarrageMangerDataSource>
+
+/// 播放器
 @property (nonatomic, strong) AVPlayer *avPlayer;
 
-@property (nonatomic, strong) UIView *layerView;
-
+/// 播放器的视图
 @property (nonatomic, strong) UIView *playerView;
 
+/// 是否已经添加通知
 @property (nonatomic, assign) BOOL haveNoti;
 
+/// 弹幕管理器
+@property (nonatomic, strong) DLBarrageViewManager *manager;
+
+/// 弹道数
+@property (nonatomic, assign) NSInteger numberOfTrack;
+
+/// 定时器标识符
 @property (nonatomic, strong) NSString *timeIdentifier;
 
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 
+/// 视频是否播放完成
+@property (nonatomic, assign) BOOL isFinish;
+
 /// 缓存长度
 @property (nonatomic, assign) NSTimeInterval cacheTime;
+
+/// 弹幕数组
+@property (nonatomic, strong) NSMutableArray *barrageArray;
 
 @end
 
 @implementation DLPlayer
 
 static DLPlayer *player = nil;
+
+-(NSMutableArray *)barrageArray{
+    if (!_barrageArray) {
+        _barrageArray = [[NSMutableArray alloc]init];
+    }
+    return _barrageArray;
+}
+
+-(NSTimeInterval)barrageDuration{
+    return _barrageDuration > 0 ? _barrageDuration : 10.f;
+}
+
+-(void)setBarrageShowType:(BarrageShowType)barrageShowType{
+    _barrageShowType = barrageShowType;
+    switch (barrageShowType) {
+        case BarrageShowFullScreen:
+            [self.manager start];
+            break;
+            
+        case BarrageShowCleanScreen:
+            [self.manager stop];
+            break;
+            
+        default:
+            break;
+    }
+}
+
+-(void)addBarrageString:(NSString *)barrageStr isMember:(BOOL)isMember{
+    if (self.barrageShowType == BarrageShowFullScreen && self.skinView.screenType == VideoFullScreen) {
+        [self.barrageArray addObject: [[DLBarrageModel alloc]initWithTitle:barrageStr dataType:isMember]];
+        [self.manager packageData];
+        [self.manager start];
+    }
+}
+
+- (NSUInteger)numberOfItemsControlleredByDanmakuManger:(DLBarrageViewManager *)manger {
+    return self.barrageArray.count;
+}
+
+- (DLBarrageModel *)danmakuManger:(DLBarrageViewManager *)manger informationForItem:(NSUInteger)index {
+    return self.barrageArray[index];
+}
+
+-(NSString *)barrageNormalColorHexStr{
+    return _barrageNormalColorHexStr.length > 0 ? _barrageNormalColorHexStr : @"#FFFFFF";
+}
+
+-(NSString *)barrageMemberColorHexStr{
+    return _barrageMemberColorHexStr.length > 0 ? _barrageMemberColorHexStr : @"#FFFFFF";
+}
+
+-(NSInteger)numberOfTrack{
+    return ([UIScreen mainScreen].bounds.size.width - 40)/(self.barrageTitleSize + 4);
+}
+
+-(DLBarrageViewManager *)manager{
+    if (!_manager) {
+        _manager = [DLBarrageViewManager shareInstance];
+        _manager.dataSource = self;
+        [_manager packageData];
+    }
+    return _manager;
+}
+
+-(CGFloat)barrageTitleSize{
+    return _barrageTitleSize > 0 ? _barrageTitleSize : 16;
+}
 
 +(DLPlayer *)shareInstance{
     static dispatch_once_t onceToken;
@@ -55,9 +217,13 @@ static DLPlayer *player = nil;
     }
     _skinView.isPlay = YES;
     [self.avPlayer play];
+    self.skinView.repeatPlayButton.hidden = YES;
 }
 
 -(void)setIsRefresh:(BOOL)isRefresh{
+    if (_isRefresh == isRefresh) {
+        return;
+    }
     _isRefresh = isRefresh;
     if (isRefresh) {
         [[DLLoad shareInstance]showLoadTitle:@"" loadType:LoadShowing backView:self.fatherView];
@@ -96,6 +262,7 @@ static DLPlayer *player = nil;
 
 -(void)setVideoUrl:(NSString *)videoUrl{
     _videoUrl = videoUrl;
+    self.isFinish = NO;
     if (videoUrl.length > 0 && self.fatherView != nil) {
         [self.fatherView addSubview:self.playerView];
         [self.avPlayer replaceCurrentItemWithPlayerItem:[[AVPlayerItem alloc]initWithURL:[NSURL URLWithString:videoUrl]]];
@@ -118,7 +285,7 @@ static DLPlayer *player = nil;
 
 -(void)removeNoti{
     if (self.haveNoti) {
-        
+        [[NSNotificationCenter defaultCenter] dl_removeObserverBlocks];
         self.haveNoti = NO;
     }
 }
@@ -136,6 +303,9 @@ static DLPlayer *player = nil;
         // app退到后台
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground:) name:UIApplicationWillResignActiveNotification object:nil];
         
+        // 视频播放完成
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(avPlayToEndTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+        
         // app进入前台
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterPlayground:) name:UIApplicationDidBecomeActiveNotification object:nil];
         
@@ -144,7 +314,13 @@ static DLPlayer *player = nil;
     }
 }
 
-- (void)didChangeRotate:(NSNotification*)notice {
+-(void)avPlayToEndTime:(NSNotification*)notice{
+    [[DLLoad shareInstance] viewHidden];
+    self.isFinish = YES;
+    self.skinView.repeatPlayButton.hidden = NO;
+}
+
+-(void)didChangeRotate:(NSNotification*)notice{
     switch ([[UIDevice currentDevice] orientation]) {
         case UIInterfaceOrientationUnknown:
             {
@@ -154,7 +330,6 @@ static DLPlayer *player = nil;
             
         case UIInterfaceOrientationPortrait:
             {
-                NSLog(@"竖屏");
                 self.skinView.screenButton.selected = NO;
                 if (self.skinView.initiativeRotate) {
                     _skinView.screenType = VideoSmallScreen;
@@ -171,9 +346,8 @@ static DLPlayer *player = nil;
             }
             break;
             
-            case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeLeft:
             {
-                NSLog(@"左侧");
                 self.skinView.screenButton.selected = YES;
                 if (self.skinView.initiativeRotate) {
                     _skinView.screenType = VideoFullScreen;
@@ -183,9 +357,8 @@ static DLPlayer *player = nil;
             }
             break;
             
-            case UIInterfaceOrientationLandscapeRight:
+        case UIInterfaceOrientationLandscapeRight:
             {
-                NSLog(@"右侧");
                 self.skinView.screenButton.selected = YES;
                 if (self.skinView.initiativeRotate) {
                     _skinView.screenType = VideoFullScreen;
@@ -296,7 +469,6 @@ static DLPlayer *player = nil;
         make.right.equal(self.playerView).offset(0);
         make.bottom.equal(self.playerView).offset(0);
     }];
-    _skinView.player = self;
     _skinView.clarityArray = @[
                             @{
                                 @"zhTitle" : @"标清",
@@ -326,6 +498,11 @@ static DLPlayer *player = nil;
 @end
 
 
+@interface DLPlayerSkinView()
+
+@property (nonatomic, strong) DLPlayer *player;
+
+@end
 
 @implementation DLPlayerSkinView
 
@@ -416,7 +593,6 @@ static UISlider * _volumeSlider;
                 [self layoutIfNeeded];
             }];
         }];
-        
     }
     return _clarityButton;
 }
@@ -438,7 +614,9 @@ static UISlider * _volumeSlider;
             [UIView animateWithDuration:0.5 animations:^{
                 [self.clarityView dl_AutoLayout:^(DLConstraintMaker *make) {
                     make.left.equal(self).to(DLAttributeRight).offset(0);
-                    make.width.offset(0);
+                    make.top.equal(self).offset(0);
+                    make.bottom.equal(self).offset(0);
+                    make.right.remove();
                 }];
                 [self layoutIfNeeded];
             } completion:^(BOOL finished) {
@@ -452,7 +630,7 @@ static UISlider * _volumeSlider;
     return _clarityView;
 }
 
--(UITapGestureRecognizer *)singleTap {
+-(UITapGestureRecognizer *)singleTap{
     if (!_singleTap) {
         _singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTouch)];
         _singleTap.delegate                = self;
@@ -473,11 +651,16 @@ static UISlider * _volumeSlider;
 -(void)viewTouch {
     if (self.topFuncView.hidden) {
         [[self.topFuncView dl_viewShow] dl_viewHidden:5];
-        [[self.bottomFuncView dl_viewShow] dl_viewHidden:5];
-        if ([DLLoad shareInstance].loadShowBOOL) {
-            [[self.playButton dl_viewShow] dl_viewHidden:5];
-        }else{
+        if (self.player.isFinish) {
+            [self.bottomFuncView dl_viewHidden:5];
             [self.playButton dl_viewHidden:5];
+        }else{
+            [[self.bottomFuncView dl_viewShow] dl_viewHidden:5];
+            if ([DLLoad shareInstance].loadShowBOOL) {
+                [[self.playButton dl_viewShow] dl_viewHidden:5];
+            }else{
+                [self.playButton dl_viewHidden:5];
+            }
         }
     }else{
         [self.topFuncView dl_viewHidden:0];
@@ -766,11 +949,6 @@ static UISlider * _volumeSlider;
                     make.top.equal(window).offset(0);
                     make.bottom.equal(window).offset(0);
                 }];
-//                if (self.player.ijkPlayer.naturalSize.width >= self.player.ijkPlayer.naturalSize.height) {
-//                    [self orientationToPortrait:UIInterfaceOrientationLandscapeRight];
-//                }else{
-//                    [self orientationToPortrait:UIInterfaceOrientationPortrait];
-//                }
                 self.player.playerLayer.frame = CGRectMake(0, 0, DLWidth, DLHeight);
             }
             break;
@@ -795,6 +973,32 @@ static UISlider * _volumeSlider;
     }
 }
 
+-(UIImageView *)repeatPlayButton{
+    if (!_repeatPlayButton) {
+        _repeatPlayButton = [UIImageView dl_view:^(UIImageView *imageView) {
+            imageView.dl_backView(self).dl_imageString(@"repeatPlay");
+            [imageView dl_AutoLayout:^(DLConstraintMaker *make) {
+                make.centerX.equal(self);
+                make.centerY.equal(self);
+                make.width.offset(60);
+                make.height.offset(60);
+            }];
+        }];
+        
+        @dl_weakify;
+        [_repeatPlayButton addClickAction:^(UIView *view) {
+            @dl_strongify;
+            [[DLLoad shareInstance]showLoadTitle:nil loadType:LoadShowing backView:self.player.playerView];
+            [self.player.avPlayer seekToTime:CMTimeMake(0, 1) completionHandler:^(BOOL finished) {
+                [[DLLoad shareInstance] viewHidden];
+            }];
+            view.hidden = YES;
+            self.player.isFinish = NO;
+        }];
+    }
+    return _repeatPlayButton;
+}
+
 -(DLPlayer *)player{
     if (!_player) {
         _player = [DLPlayer shareInstance];
@@ -804,19 +1008,12 @@ static UISlider * _volumeSlider;
 
 //强制旋转屏幕
 - (void)orientationToPortrait:(UIInterfaceOrientation)orientation{
-    
     SEL selector = NSSelectorFromString(@"setOrientation:");
-    
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-    
     [invocation setSelector:selector];
-    
     [invocation setTarget:[UIDevice currentDevice]];
-    
     int val = (int)orientation;
-    
     [invocation setArgument:&val atIndex:2];//前两个参数已被target和selector占用
-    
     [invocation invoke];
 }
 
@@ -846,8 +1043,12 @@ static UISlider * _volumeSlider;
     [self.bottomFuncView addSubview:self.playProgressView];
     
     self.player.timeIdentifier = [DLTimer doTask:^{
-        if (vodCacheTime < 0.5) {
+        if (vodCacheTime < 0.5 && self.player.isFinish) {
             self.player.isRefresh = YES;
+            return;
+        }
+        if (self.player.isFinish) {
+            self.player.isRefresh = NO;
             return;
         }
         if (CMTimeGetSeconds(self.player.avPlayer.currentTime) <= 1 || CMTimeGetSeconds(self.player.avPlayer.currentItem.duration) <= 1) {
@@ -1114,21 +1315,273 @@ static UISlider * _volumeSlider;
 
 @end
 
+@interface DLBarrageViewManager ()
 
-@implementation BannerViewManager
+@property (nonatomic, strong) NSMutableArray *widthArr;
+
+@property (nonatomic, strong) NSMutableArray *sourceArr;     //数据
+
+@property (nonatomic, strong) NSMutableArray *cacheArr;      //缓存复用
+
+@property (nonatomic, strong) NSMutableArray *trackArray;    //记录弹道
+
+@property (nonatomic, strong) NSMutableDictionary *displayingDic;
+
+@property (nonatomic, assign) BOOL isBeingExecuted;
+
+@property (nonatomic, assign) NSUInteger index;              //出现弹幕的序列号
+
+@property (nonatomic, assign) NSUInteger count;              //记录
+
+@property (nonatomic, strong) DLPlayer *player;
+
+@end
+
+@implementation DLBarrageViewManager
+
+-(DLPlayer *)player{
+    if (!_player) {
+        _player = [DLPlayer shareInstance];
+    }
+    return _player;
+}
+
+static DLBarrageViewManager *manager = nil;
+
++(DLBarrageViewManager *)shareInstance{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        manager = [[self alloc] init];
+    });
+    return manager;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        self.widthArr = [NSMutableArray array];
+        self.sourceArr = [NSMutableArray array];
+        self.cacheArr = [NSMutableArray array];
+        self.trackArray = [NSMutableArray array];
+        self.displayingDic = [NSMutableDictionary dictionary];
+        for (int i = 0; i < self.player.numberOfTrack; i++) {
+            [self.trackArray addObject:@(i)];
+        }
+    }
+    return self;
+}
+
+#pragma mark - Public Method
+- (void)packageData {
+    [self _getData];
+}
+
+- (void)appendData {
+    [self _getData];
+    if (self.isBeingExecuted == NO &&self.isStarted == YES) {
+        [self start];
+    }
+}
+
+- (void)start {
+    [self _updateStatusStart:YES isFinished:NO];
+    [self go];
+}
+
+- (void)stop {
+    self.index = 0;
+    [self _updateStatusStart:NO isFinished:YES];
+    for (UIView *view in self.player.playerView.subviews) {
+        if ([view isMemberOfClass:[DLBarrageView class]]) {
+          [view removeFromSuperview];
+        }
+    }
+}
+
+#pragma mark - Private Method
+- (void)_updateStatusStart:(BOOL)isStarted isFinished:(BOOL)isFinished {
+    self.isFinished = isFinished;
+    self.isStarted = isStarted;
+}
+
+- (BOOL)_isContainedKey:(NSString *)key {
+    if ([self.displayingDic.allKeys containsObject:key]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (NSInteger)_getIndexOfTracks {
+    if (self.trackArray.count == 0)  return -1;
+    NSUInteger randomIndex = random()%self.trackArray.count;
+    NSInteger indexOfTracks = [self.trackArray[randomIndex] integerValue];
+    return indexOfTracks;
+}
+
+-(void)go{
+    NSUInteger indexOfTrack;
+    if (((indexOfTrack = [self _getIndexOfTracks]) == -1 || self.index >= self.sourceArr.count) || self.isFinished == YES) {
+        if(self.index >= self.sourceArr.count) {
+           self.isBeingExecuted = NO;
+        }
+        return;
+    }
+    self.isBeingExecuted = YES;
+    [self.trackArray removeObject:@(indexOfTrack)];
+    //生成弹幕视图
+    DLBarrageView *barrageView;
+    if (self.cacheArr.count != 0) {
+        barrageView  = [self.cacheArr firstObject];
+        [self.cacheArr removeObjectAtIndex:0];
+    }
+    if (barrageView == nil) {
+        barrageView = [[DLBarrageView alloc] init];
+    }
+    barrageView.frame = CGRectMake(self.player.playerView.frame.size.width + [UIScreen mainScreen].bounds.size.width, indexOfTrack * (self.player.barrageTitleSize + 4), [self.widthArr[self.index] floatValue], (self.player.barrageTitleSize + 4));
+    DLBarrageModel *model = self.sourceArr[self.index];
+    barrageView.indexOfTracks = indexOfTrack;
+    barrageView.model = model;
+    barrageView.tag = self.index;
+    switch (model.dataType) {
+        case DLBarrageNormalType:
+            barrageView.title.textColor = [DLColor DLColorWithAHEXColor:self.player.barrageNormalColorHexStr];
+            break;
+            
+        case DLBarrageMemberType:
+            barrageView.title.textColor = [DLColor DLColorWithAHEXColor:self.player.barrageMemberColorHexStr];
+            break;
+            
+        default:
+            break;
+    }
+    barrageView.title.font = [UIFont systemFontOfSize:self.player.barrageTitleSize];
+    [self.player.playerView addSubview:barrageView];
+    barrageView.movementStatus = ^(DLBarrageViewStatus status,NSUInteger indexOfTracks,DLBarrageView *view) {
+        switch (status) {
+            case DLBarrageViewStatusStart:{
+                //将出现的视图根据轨道编号添加字典中，当点击时候直接取出相应轨道的数组来遍历。
+                NSString *key = [NSString stringWithFormat:@"%lu",(unsigned long)indexOfTrack];
+                if ([self _isContainedKey:key]) {
+                    NSMutableArray *arr =  self.displayingDic[key];
+                    [arr addObject:view];
+                }else {
+                    NSMutableArray *arr = [NSMutableArray array];
+                    [arr addObject:view];
+                    [self.displayingDic setObject:arr forKey:key];
+                }
+                break;}
+            case DLBarrageViewStatusEnter:{
+                if (![self.trackArray containsObject:@(indexOfTrack)]) {
+                    [self.trackArray addObject:@(indexOfTrack)];
+                }
+                break;}
+            case DLBarrageViewStatusEnd:{
+                //将消失的视图从字典中移除掉。
+                NSString *key = [NSString stringWithFormat:@"%lu",(unsigned long)indexOfTrack];
+                if ([self _isContainedKey:key]) {
+                    [self.displayingDic[key] removeObject:view];
+                }
+                //将消息的视图添加到缓存数组中，这样直接先从缓存来拿，拿不到再创建
+                [self.cacheArr addObject:view];
+                if (self.isBeingExecuted == NO) { //如果因为轨道满了停止了则继续递归
+                  [self go];
+                }
+                
+                break; }
+            default:
+                break;
+        }
+    };
+    [barrageView srartWithAnimationDuration:self.player.barrageDuration animationScreenWidth:CGRectGetWidth(self.player.playerView.frame)];
+    self.index ++;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self go];
+    });
+}
+
+- (void)_getData {
+    if ([self.dataSource respondsToSelector:@selector(numberOfItemsControlleredByDanmakuManger:)] && [self.dataSource respondsToSelector:@selector(danmakuManger:informationForItem:)]) {
+        NSUInteger number = [self.dataSource numberOfItemsControlleredByDanmakuManger:self];
+        while ((number - self.count)>0) {
+            DLBarrageModel *model = [self.dataSource danmakuManger:self informationForItem:self.count];
+            CGFloat eachWidth = [self widthFromString:model.title withFont:[UIFont systemFontOfSize:self.player.barrageTitleSize] constraintToHeight:(self.player.barrageTitleSize + 4)];
+            [self.sourceArr addObject:model];
+            [self.widthArr addObject:@(eachWidth)];
+            self.count ++;
+        }
+    }
+}
+
+-(CGFloat)widthFromString:(NSString*)text withFont:(UIFont*)font constraintToHeight:(CGFloat)height{
+    return [text boundingRectWithSize:CGSizeMake(1000, height) options:NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading attributes:@{NSFontAttributeName:font} context:nil].size.width;
+}
+
+@end
+
+@implementation DLBarrageView
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    _title.frame = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width + 40, self.bounds.size.height + 10);
+}
+
+- (void)setModel:(DLBarrageModel *)model {
+    _model = model;
+    self.title.text = model.title;
+    self.title.textColor = [UIColor whiteColor];
+}
+
+- (void)srartWithAnimationDuration:(NSTimeInterval)duration animationScreenWidth:(CGFloat)Width {
+    self.animationDuration  = duration;
+    CGFloat totalWidth = self.frame.size.width + Width;
+    CGFloat speed = totalWidth/self.animationDuration;
+    CGFloat timeToenterScreenCompletely = self.frame.size.width/speed;
+    if (self.movementStatus) {
+        self.movementStatus(DLBarrageViewStatusStart,self.indexOfTracks,self);
+    }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeToenterScreenCompletely * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (self.movementStatus) {
+            self.movementStatus(DLBarrageViewStatusEnter,self.indexOfTracks,self);
+        }
+    });
+    __block CGRect frame  = self.frame;
+    [UIView animateWithDuration:self.animationDuration delay:0 options:UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionCurveLinear animations:^{
+        frame.origin.x = -CGRectGetWidth(frame);
+        self.frame = frame;
+    } completion:^(BOOL finished) {
+        if (self.movementStatus) {
+            self.movementStatus(DLBarrageViewStatusEnd,self.indexOfTracks,self);
+        }
+        if (self.superview) {
+            [self removeFromSuperview];
+        }
+    }];
+}
+
+#pragma mark - get
+- (UILabel *)title {
+    if (_title == nil) {
+        _title = [[UILabel alloc] init];
+        _title.textAlignment = NSTextAlignmentRight;
+        [self addSubview:_title];
+    }
+    return _title;
+}
 
 
 @end
 
+@implementation DLBarrageModel
 
+-(instancetype)initWithTitle:(NSString *)title dataType:(DLBarrageDataType)dataType{
+    if (self = [super init]) {
+        self.title = title;
+        self.dataType = dataType;
+    }
+    return self;
+}
 
-
-
-
-
-
-
-
+@end
 
 
 

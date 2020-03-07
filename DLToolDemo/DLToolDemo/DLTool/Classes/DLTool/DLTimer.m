@@ -5,13 +5,6 @@
 static NSMutableDictionary *timersDic;
 static dispatch_semaphore_t semaphore;
 
-@interface DLTimer()
-
-- (instancetype)init UNAVAILABLE_ATTRIBUTE;
-+ (instancetype)new UNAVAILABLE_ATTRIBUTE;
-
-@end
-
 @implementation DLTimer
 
 + (void)initialize {
@@ -21,12 +14,6 @@ static dispatch_semaphore_t semaphore;
         semaphore = dispatch_semaphore_create(1);
     });
 }
-
-//-(instancetype)init{
-//    DLSafeProtectionCrashLog([NSException exceptionWithName:@"DLTimer初始化失败" reason:@"使用'shareInstance'初始化" userInfo:nil],DLSafeProtectorCrashTypeInitError);
-//    return [super init];
-//    return self;
-//}
 
 + (NSString *)doTask:(void (^)(void))task start:(NSTimeInterval)start interval:(NSTimeInterval)interval repeats:(BOOL)repeats async:(BOOL)async {
     // 没有任务、开始时间小于0、重复执行且间隔小于0， 视为无效操作

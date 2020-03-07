@@ -75,6 +75,7 @@
 		2442059B2411204C00E442C6 /* DLTimerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442055D2411204C00E442C6 /* DLTimerButton.m */; };
 		2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442055F2411204C00E442C6 /* DLWeakProxy.m */; };
 		244205A32411205700E442C6 /* OneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442059D2411205600E442C6 /* OneViewController.m */; };
+		8755A81D2413AB350064E7E4 /* repeatPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 8755A81C2413AB350064E7E4 /* repeatPlay.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -221,6 +222,7 @@
 		244205612411204C00E442C6 /* DLToolMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLToolMacro.h; sourceTree = "<group>"; };
 		2442059D2411205600E442C6 /* OneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneViewController.m; sourceTree = "<group>"; };
 		2442059F2411205600E442C6 /* OneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneViewController.h; sourceTree = "<group>"; };
+		8755A81C2413AB350064E7E4 /* repeatPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repeatPlay.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -337,6 +339,7 @@
 				244204F72411204C00E442C6 /* loading.png */,
 				244204F82411204C00E442C6 /* loadSuccess.png */,
 				244204F92411204C00E442C6 /* pause.png */,
+				8755A81C2413AB350064E7E4 /* repeatPlay.png */,
 				244204FA2411204C00E442C6 /* play.png */,
 				244204FB2411204C00E442C6 /* video_bottom_gray.png */,
 				244204FC2411204C00E442C6 /* video_full_screen.png */,
@@ -611,6 +614,7 @@
 				244204C62411202C00E442C6 /* LaunchScreen.storyboard in Resources */,
 				2442056F2411204C00E442C6 /* video_small_screen.png in Resources */,
 				2442056E2411204C00E442C6 /* video_full_screen.png in Resources */,
+				8755A81D2413AB350064E7E4 /* repeatPlay.png in Resources */,
 				244204C32411202C00E442C6 /* Assets.xcassets in Resources */,
 				244205662411204C00E442C6 /* close_white.png in Resources */,
 				2442056B2411204C00E442C6 /* pause.png in Resources */,

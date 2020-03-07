@@ -41,6 +41,17 @@
     self.player.skinView = [[DLVodPlayerSkinView alloc]init];
     self.player.videoTitle = @"12222";
     [self.player start];
+    
+//    self.player.barrageShowType = BarrageShowFullScreen;
+    
+    self.player.barrageMemberColorHexStr = @"FF0000";
+    
+    [DLTimer doTask:^{
+        [self.player addBarrageString:@"123123" isMember:random() % 2];
+    } start:0 interval:1 repeats:YES async:NO];
+    
 }
+
+
 
 @end
