@@ -76,6 +76,8 @@
 		2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442055F2411204C00E442C6 /* DLWeakProxy.m */; };
 		244205A32411205700E442C6 /* OneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442059D2411205600E442C6 /* OneViewController.m */; };
 		8755A81D2413AB350064E7E4 /* repeatPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 8755A81C2413AB350064E7E4 /* repeatPlay.png */; };
+		87D8DFBD2413E1BF00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8DFB92413E1BD00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m */; };
+		87D8DFBE2413E1BF00DCEE30 /* UIView+SDAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8DFBC2413E1BF00DCEE30 /* UIView+SDAutoLayout.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -223,6 +225,10 @@
 		2442059D2411205600E442C6 /* OneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneViewController.m; sourceTree = "<group>"; };
 		2442059F2411205600E442C6 /* OneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneViewController.h; sourceTree = "<group>"; };
 		8755A81C2413AB350064E7E4 /* repeatPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repeatPlay.png; sourceTree = "<group>"; };
+		87D8DFB92413E1BD00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+SDAutoTableViewCellHeight.m"; sourceTree = "<group>"; };
+		87D8DFBA2413E1BE00DCEE30 /* UITableView+SDAutoTableViewCellHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+SDAutoTableViewCellHeight.h"; sourceTree = "<group>"; };
+		87D8DFBB2413E1BE00DCEE30 /* UIView+SDAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDAutoLayout.h"; sourceTree = "<group>"; };
+		87D8DFBC2413E1BF00DCEE30 /* UIView+SDAutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDAutoLayout.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -315,6 +321,10 @@
 				244204ED2411204B00E442C6 /* DLDispatchQueuePool.m */,
 				244204EE2411204B00E442C6 /* DLLayer.h */,
 				244204EF2411204B00E442C6 /* DLLayer.m */,
+				87D8DFBA2413E1BE00DCEE30 /* UITableView+SDAutoTableViewCellHeight.h */,
+				87D8DFB92413E1BD00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m */,
+				87D8DFBB2413E1BE00DCEE30 /* UIView+SDAutoLayout.h */,
+				87D8DFBC2413E1BF00DCEE30 /* UIView+SDAutoLayout.m */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -660,6 +670,7 @@
 				244204BE2411202C00E442C6 /* ViewController.m in Sources */,
 				2442058C2411204C00E442C6 /* UIControl+Add.m in Sources */,
 				244205632411204C00E442C6 /* DLLayer.m in Sources */,
+				87D8DFBE2413E1BF00DCEE30 /* UIView+SDAutoLayout.m in Sources */,
 				244205942411204C00E442C6 /* DLJsonToModel.m in Sources */,
 				244205852411204C00E442C6 /* NSNotificationCenter+Add.m in Sources */,
 				244205952411204C00E442C6 /* DLLoad.m in Sources */,
@@ -693,6 +704,7 @@
 				2442058F2411204C00E442C6 /* UIScrollView+Add.m in Sources */,
 				244205A32411205700E442C6 /* OneViewController.m in Sources */,
 				244205822411204C00E442C6 /* NSMutableOrderedSet+Add.m in Sources */,
+				87D8DFBD2413E1BF00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m in Sources */,
 				244205912411204C00E442C6 /* DLAlert.m in Sources */,
 				244205862411204C00E442C6 /* NSObject+Add.m in Sources */,
 				244205812411204C00E442C6 /* NSMutableDictionary+Add.m in Sources */,
