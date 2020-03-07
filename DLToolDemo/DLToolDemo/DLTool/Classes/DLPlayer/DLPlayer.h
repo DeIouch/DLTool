@@ -43,6 +43,9 @@ typedef NS_ENUM(NSInteger, BarrageShowType) {
 /// 是否是点播
 @property (nonatomic, assign) BOOL isVod;
 
+/// 开启小屏播放
+@property (nonatomic, assign) BOOL isSmallScreenPlay;
+
 /// 是否正在刷新
 @property (nonatomic, assign) BOOL isRefresh;
 
