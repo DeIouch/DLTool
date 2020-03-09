@@ -1685,11 +1685,8 @@ static NSMutableDictionary *KVOSafeDeallocCrashes() {
     @synchronized (KVOSafeSwizzledClasses()) {
         NSString *className = NSStringFromClass(classToSwizzle);
         if ([KVOSafeSwizzledClasses() containsObject:className]) return;
-        
         SEL deallocSelector = sel_registerName("dealloc");
-        
         __block void (*originalDealloc)(__unsafe_unretained id, SEL) = NULL;
-        
         id newDealloc = ^(__unsafe_unretained id self) {
             [self safe_KVODealloc];
             NSString *classAddress=[NSString stringWithFormat:@"%p",self];
@@ -1705,25 +1702,15 @@ static NSMutableDictionary *KVOSafeDeallocCrashes() {
             }
             [NSClassFromString(className) safe_dealloc_crash:classAddress];
         };
-        
         IMP newDeallocIMP = imp_implementationWithBlock(newDealloc);
-        
         if (!class_addMethod(classToSwizzle, deallocSelector, newDeallocIMP, "v@:")) {
-            // The class already contains a method implementation.
             Method deallocMethod = class_getInstanceMethod(classToSwizzle, deallocSelector);
-            
-            // We need to store original implementation before setting new implementation
-            // in case method is called at the time of setting.
             originalDealloc = (__typeof__(originalDealloc))method_getImplementation(deallocMethod);
-            
-            // We need to store original implementation again, in case it just changed.
             originalDealloc = (__typeof__(originalDealloc))method_setImplementation(deallocMethod, newDeallocIMP);
         }
-        
         [KVOSafeSwizzledClasses() addObject:className];
     }
 }
-
 
 #pragma mark - 被监听的所有keypath 字典
 - (NSMutableArray *)safe_downObservedKeyPathArray{
@@ -1809,8 +1796,7 @@ static NSMutableDictionary *KVOSafeDeallocCrashes() {
 }
 
 // keyPath为对象的属性，通过keyPath作为Key创建对应对应的一条观察者关键路径：keyPath --> observers-self
-- (void)safe_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context
-{
+- (void)safe_addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context{
     if(!observer||!keyPath||([keyPath isKindOfClass:[NSString class]]&&keyPath.length<=0)){
         return ;
     }
@@ -1854,7 +1840,6 @@ static NSMutableDictionary *KVOSafeDeallocCrashes() {
             [observer.safe_upObservedArray addObject:info];
         }
         [self safe_addObserver:observer forKeyPath:keyPath options:options context:context];
-        
         //交换dealloc方法
         [observer safe_KVOChangeDidDeallocSignal];
         [self safe_KVOChangeDidDeallocSignal];
@@ -2103,9 +2088,8 @@ static NSMutableDictionary *KVOSafeDeallocCrashes() {
     }
     self.safe_notNeedRemoveKeypathFromCrashArray=NO;
 }
-+(void)safe_dealloc_crash:(NSString*)classAddress
-{
-    //比如A先释放了然后走到此处，然后地址又被B重新使用了，A又释放了走了safe_KVODealloc方法，KVOSafeDeallocCrashes以地址为key的值又被重新赋值，导致误报(A还监听着B监听的内容)，赋值KVOSafeDeallocCrashes以地址为kay的字典的时候，导致字典被释放其他地方又使用，导致野指针
+
++(void)safe_dealloc_crash:(NSString*)classAddress{    //比如A先释放了然后走到此处，然后地址又被B重新使用了，A又释放了走了safe_KVODealloc方法，KVOSafeDeallocCrashes以地址为key的值又被重新赋值，导致误报(A还监听着B监听的内容)，赋值KVOSafeDeallocCrashes以地址为kay的字典的时候，导致字典被释放其他地方又使用，导致野指针
     @synchronized(KVOSafeDeallocCrashes()){
         NSString *currentKey=[NSString stringWithFormat:@"%@-%@",classAddress,NSStringFromClass(self)];
         NSDictionary *crashDic = KVOSafeDeallocCrashes()[currentKey];

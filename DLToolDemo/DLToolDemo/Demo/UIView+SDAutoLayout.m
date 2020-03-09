@@ -22,7 +22,6 @@
 
 #import "UIView+SDAutoLayout.h"
 #import "UITableView+SDAutoTableViewCellHeight.h"
-
 #import <objc/runtime.h>
 
 @interface SDAutoLayoutModel ()

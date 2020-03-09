@@ -11,6 +11,7 @@
 #import "DLTool.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
+#import "UIScrollView+AddAdd.h"
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
 
@@ -18,11 +19,13 @@
 
 #define VideoUrl2 @"http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4"
 
-@interface ViewController ()
-
-@property (nonatomic, strong) NSMutableArray *array;
+@interface ViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) DLPlayer *player;
+
+@property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) NSMutableArray *array;
 
 @end
 
@@ -35,23 +38,68 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.player = [DLPlayer shareInstance];
-    self.player.fatherView = self.view;
-    self.player.videoUrl = VideoUrl2;
-    self.player.skinView = [[DLVodPlayerSkinView alloc]init];
-    self.player.videoTitle = @"12222";
-    [self.player start];
+//    self.player = [DLPlayer shareInstance];
+//    self.player.fatherView = self.view;
+//    self.player.videoUrl = VideoUrl2;
+//    self.player.skinView = [[DLVodPlayerSkinView alloc]init];
+//    self.player.videoTitle = @"12222";
+//    [self.player start];
     
-//    self.player.barrageShowType = BarrageShowFullScreen;
     
-    self.player.barrageMemberColorHexStr = @"FF0000";
+    self.array = [[NSMutableArray alloc]init];
+    for (int a = 0; a < 20; a++) {
+        [self.array addObject:@"normal"];
+    }
     
-    [DLTimer doTask:^{
-        [self.player addBarrageString:@"123123" isMember:random() % 2];
-    } start:0 interval:1 repeats:YES async:NO];
+    [UIScrollView setUpHeadFreshDefaultView:self.view];
     
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, DLWidth, DLHeight)];
+    [self.view addSubview:self.tableView];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+    
+    
+    @dl_weakify;
+    [self.tableView headFreshBlock:^{
+        @dl_strongify;
+        for (int a = 0; a < 20; a++) {
+            [self.array insertObject:[NSString stringWithFormat:@"head %u", arc4random() % 10000] atIndex:0];
+        }
+        [self.tableView reloadData];
+    }];
+    
+    [self.tableView footFreshBlock:^{
+        @dl_strongify;
+        for (int a = 0; a < 20; a++) {
+            [self.array addObject:[NSString stringWithFormat:@"foot %u", arc4random() % 10000]];
+        }
+        [self.tableView reloadData];
+    }];
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    OneViewController *vc = [[OneViewController alloc]init];
+    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:vc animated:YES completion:nil];
+}
 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return self.array.count;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 30;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    }
+    cell.textLabel.text = self.array[indexPath.row];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
+}
 
 @end
