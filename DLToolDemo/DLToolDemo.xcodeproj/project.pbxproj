@@ -75,11 +75,10 @@
 		2442059B2411204C00E442C6 /* DLTimerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442055D2411204C00E442C6 /* DLTimerButton.m */; };
 		2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442055F2411204C00E442C6 /* DLWeakProxy.m */; };
 		244205A32411205700E442C6 /* OneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442059D2411205600E442C6 /* OneViewController.m */; };
-		873FF7362415D782004B03D0 /* UIScrollView+AddAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 873FF7352415D782004B03D0 /* UIScrollView+AddAdd.m */; };
 		8755A81D2413AB350064E7E4 /* repeatPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 8755A81C2413AB350064E7E4 /* repeatPlay.png */; };
 		87D8DFBD2413E1BF00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8DFB92413E1BD00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m */; };
 		87D8DFBE2413E1BF00DCEE30 /* UIView+SDAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8DFBC2413E1BF00DCEE30 /* UIView+SDAutoLayout.m */; };
-		87EB52FE24164BA20063D4B1 /* common_refresh_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 87EB52FD24164BA20063D4B1 /* common_refresh_arrow.png */; };
+		87EB52FE24164BA20063D4B1 /* common_refresh_arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87EB52FD24164BA20063D4B1 /* common_refresh_arrow@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -226,14 +225,12 @@
 		244205612411204C00E442C6 /* DLToolMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLToolMacro.h; sourceTree = "<group>"; };
 		2442059D2411205600E442C6 /* OneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneViewController.m; sourceTree = "<group>"; };
 		2442059F2411205600E442C6 /* OneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneViewController.h; sourceTree = "<group>"; };
-		873FF7342415D782004B03D0 /* UIScrollView+AddAdd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+AddAdd.h"; sourceTree = "<group>"; };
-		873FF7352415D782004B03D0 /* UIScrollView+AddAdd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+AddAdd.m"; sourceTree = "<group>"; };
 		8755A81C2413AB350064E7E4 /* repeatPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repeatPlay.png; sourceTree = "<group>"; };
 		87D8DFB92413E1BD00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+SDAutoTableViewCellHeight.m"; sourceTree = "<group>"; };
 		87D8DFBA2413E1BE00DCEE30 /* UITableView+SDAutoTableViewCellHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+SDAutoTableViewCellHeight.h"; sourceTree = "<group>"; };
 		87D8DFBB2413E1BE00DCEE30 /* UIView+SDAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDAutoLayout.h"; sourceTree = "<group>"; };
 		87D8DFBC2413E1BF00DCEE30 /* UIView+SDAutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDAutoLayout.m"; sourceTree = "<group>"; };
-		87EB52FD24164BA20063D4B1 /* common_refresh_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = common_refresh_arrow.png; sourceTree = "<group>"; };
+		87EB52FD24164BA20063D4B1 /* common_refresh_arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_refresh_arrow@3x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,8 +327,6 @@
 				87D8DFB92413E1BD00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m */,
 				87D8DFBB2413E1BE00DCEE30 /* UIView+SDAutoLayout.h */,
 				87D8DFBC2413E1BF00DCEE30 /* UIView+SDAutoLayout.m */,
-				873FF7342415D782004B03D0 /* UIScrollView+AddAdd.h */,
-				873FF7352415D782004B03D0 /* UIScrollView+AddAdd.m */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -348,7 +343,7 @@
 		244204F12411204C00E442C6 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				87EB52FD24164BA20063D4B1 /* common_refresh_arrow.png */,
+				87EB52FD24164BA20063D4B1 /* common_refresh_arrow@3x.png */,
 				244204F22411204C00E442C6 /* ClarityDefault.png */,
 				244204F32411204C00E442C6 /* ClaritySelected.png */,
 				244204F42411204C00E442C6 /* close_white.png */,
@@ -641,7 +636,7 @@
 				244205672411204C00E442C6 /* defaulteImage.png in Resources */,
 				244205652411204C00E442C6 /* ClaritySelected.png in Resources */,
 				2442056D2411204C00E442C6 /* video_bottom_gray.png in Resources */,
-				87EB52FE24164BA20063D4B1 /* common_refresh_arrow.png in Resources */,
+				87EB52FE24164BA20063D4B1 /* common_refresh_arrow@3x.png in Resources */,
 				2442056A2411204C00E442C6 /* loadSuccess.png in Resources */,
 				244205642411204C00E442C6 /* ClarityDefault.png in Resources */,
 				244204C12411202C00E442C6 /* Main.storyboard in Resources */,
@@ -710,7 +705,6 @@
 				244205972411204C00E442C6 /* DLNoti.m in Sources */,
 				244205992411204C00E442C6 /* DLThread.m in Sources */,
 				2442057C2411204C00E442C6 /* NSDate+Add.m in Sources */,
-				873FF7362415D782004B03D0 /* UIScrollView+AddAdd.m in Sources */,
 				2442058F2411204C00E442C6 /* UIScrollView+Add.m in Sources */,
 				244205A32411205700E442C6 /* OneViewController.m in Sources */,
 				244205822411204C00E442C6 /* NSMutableOrderedSet+Add.m in Sources */,

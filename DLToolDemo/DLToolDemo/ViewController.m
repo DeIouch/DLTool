@@ -11,7 +11,6 @@
 #import "DLTool.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
-#import "UIScrollView+AddAdd.h"
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
 
@@ -46,32 +45,42 @@
 //    [self.player start];
     
     
+    
+    
     self.array = [[NSMutableArray alloc]init];
-    for (int a = 0; a < 20; a++) {
+    for (int a = 0; a < 5; a++) {
         [self.array addObject:@"normal"];
     }
     
-    [UIScrollView setUpHeadFreshDefaultView:self.view];
+//    [UIScrollView setUpHeadFreshDefaultView:self.view];
     
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, DLWidth, DLHeight)];
+    self.tableView = [[UITableView alloc]init];
+//                      WithFrame:CGRectMake(0, 0, DLWidth, DLHeight)];
     [self.view addSubview:self.tableView];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.backgroundColor = [UIColor whiteColor];
     
+    [self.tableView dl_AutoLayout:^(DLConstraintMaker *make) {
+        make.left.equal(self.view).offset(0);
+        make.right.equal(self.view).to(DLAttributeBottom).offset(0);
+        make.top.equal(self.view).offset(0);
+        make.bottom.equal(self.view).offset(0);
+    }];
+    
     
     @dl_weakify;
-    [self.tableView headFreshBlock:^{
-        @dl_strongify;
-        for (int a = 0; a < 20; a++) {
-            [self.array insertObject:[NSString stringWithFormat:@"head %u", arc4random() % 10000] atIndex:0];
-        }
-        [self.tableView reloadData];
-    }];
+//    [self.tableView headFreshBlock:^{
+//        @dl_strongify;
+//        for (int a = 0; a < 5; a++) {
+//            [self.array insertObject:[NSString stringWithFormat:@"head %u", arc4random() % 10000] atIndex:0];
+//        }
+//        [self.tableView reloadData];
+//    }];
     
     [self.tableView footFreshBlock:^{
         @dl_strongify;
-        for (int a = 0; a < 20; a++) {
+        for (int a = 0; a < 5; a++) {
             [self.array addObject:[NSString stringWithFormat:@"foot %u", arc4random() % 10000]];
         }
         [self.tableView reloadData];

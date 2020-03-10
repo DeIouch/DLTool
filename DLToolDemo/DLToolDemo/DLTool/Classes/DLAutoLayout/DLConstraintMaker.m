@@ -1,5 +1,6 @@
 #import "DLConstraintMaker.h"
 #import "UIView+Add.h"
+#import "DLSafeProtector.h"
 
 typedef NS_ENUM(NSInteger, ConstraintType) {
     Left   =   1,
@@ -159,7 +160,11 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
         constraint.constraint = constra;
         constraint.fatherView = view;
         constraint.needInstall = NO;
-        [view addConstraint:constra];
+        @try {
+            [view addConstraint:constra];
+        } @catch (NSException *exception) {
+            DLSafeProtectionCrashLog(exception, DLSafeProtectorCrashTypeViewLayout);
+        }
     }
     [self.constraintArray removeAllObjects];
 }

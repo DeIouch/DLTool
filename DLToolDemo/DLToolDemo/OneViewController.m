@@ -10,7 +10,6 @@
 #import "DLTool.h"
 #import "AppDelegate.h"
 #import "ViewController.h"
-#import "UIScrollView+AddAdd.h"
 
 @interface OneViewController ()<UITableViewDelegate, UITableViewDataSource>
 
