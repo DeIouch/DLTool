@@ -2,12 +2,14 @@
 #import <objc/runtime.h>
 #import "NSObject+Add.h"
 #import "DLToolMacro.h"
+#import "UIView+Add.h"
 @class FootFreshDefaultView;
 @class HeadFreshDefaultView;
 @class FreshBaseView;
 @class CircleRefreshView;
 
 #define ANIMATETIME 0.75
+#define FRESHHEIGHT 60
 #define LINEWIDTH 2
 #define RADIUS 12
 
@@ -313,6 +315,8 @@ static FreshBaseView *footFreshDefaultView;
 
 @property (nonatomic, assign) int insetCount;
 
+@property (nonatomic, assign) int tableViewCellCount;
+
 @end
 
 @implementation UIScrollView (Add)
@@ -344,10 +348,10 @@ static FreshBaseView *footFreshDefaultView;
 + (void)initialize {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        headFreshDefaultView = [[HeadFreshDefaultView alloc]initWithFrame:CGRectMake(0, -60, DLWidth, 60)];
+        headFreshDefaultView = [[HeadFreshDefaultView alloc]initWithFrame:CGRectMake(0, -FRESHHEIGHT, DLWidth, FRESHHEIGHT)];
         headFreshDefaultView.hidden = YES;
         headFreshDefaultView.backgroundColor = [UIColor whiteColor];
-        footFreshDefaultView = [[FootFreshDefaultView alloc]initWithFrame:CGRectMake(0, -60, DLWidth, 60)];
+        footFreshDefaultView = [[FootFreshDefaultView alloc]initWithFrame:CGRectMake(0, -FRESHHEIGHT, DLWidth, FRESHHEIGHT)];
         footFreshDefaultView.hidden = YES;
         footFreshDefaultView.backgroundColor = [UIColor whiteColor];
     });
@@ -373,7 +377,34 @@ static FreshBaseView *footFreshDefaultView;
             return;
         }
         CGSize size = [((NSValue *)[self valueForKey:@"contentSize"]) CGSizeValue];
-        footFreshDefaultView.frame = CGRectMake(0, size.height > self.frame.size.height ? size.height : self.frame.size.height, DLWidth, 60);
+        footFreshDefaultView.frame = CGRectMake(0, size.height > self.frame.size.height ? size.height : self.frame.size.height, DLWidth, FRESHHEIGHT);
+        if ([self isKindOfClass:UITableView.class]) {
+            UITableView *tableView = (UITableView *)self;
+            if (tableView.numberOfSections == 1 && [tableView numberOfRowsInSection:0] == 0 && self.tableViewCellCount != 0) {
+                self.tableViewCellCount = 0;
+                [tableView addSubview:self.emptyView];
+                self.emptyView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+                return;
+            }else if(self.tableViewCellCount == 0){
+                if ([tableView numberOfRowsInSection:0] != 0) {
+                    self.tableViewCellCount = 1;                    
+                    [self.emptyView removeFromSuperview];
+                    return;
+                }
+                NSInteger number = tableView.numberOfSections;
+                for (NSInteger a = 0; a < number; a++) {
+                    if ([tableView numberOfRowsInSection:a] > 0) {
+                        self.tableViewCellCount = 1;
+                        NSLog(@"have");
+                        
+                        [self.emptyView removeFromSuperview];
+                        
+                        return;
+                    }
+                }
+            }
+        }
+        
     }];
 }
 
@@ -384,7 +415,6 @@ static FreshBaseView *footFreshDefaultView;
         }
         CGPoint point = [((NSValue *)[self valueForKey:@"contentOffset"]) CGPointValue];
         CGFloat distance = self.frame.size.height>self.contentSize.height?point.y:point.y+self.frame.size.height-self.contentSize.height;
-        
         if (self.insetCount == 5) {
             self.scrollViewOriginalInset = point.y;
         }
@@ -393,7 +423,7 @@ static FreshBaseView *footFreshDefaultView;
             if (point.y > 0) {
                 if (self.footFreshBlock) {
                     if (!self.needFootFreshBOOL) {
-                        if (distance < 60) {
+                        if (distance < FRESHHEIGHT) {
                             footFreshDefaultView.hidden = NO;
                             [footFreshDefaultView normalRefresh:0];
                         }else{
@@ -406,7 +436,7 @@ static FreshBaseView *footFreshDefaultView;
                 if (self.headFreshBlock) {
                     if (!self.needHeadFreshBOOL) {
                         headFreshDefaultView.hidden = NO;
-                        if (self.scrollViewOriginalInset - point.y < 60) {
+                        if (self.scrollViewOriginalInset - point.y < FRESHHEIGHT) {
                             [headFreshDefaultView normalRefresh:0];
                         }else{
                             [headFreshDefaultView beginRefresh];
@@ -418,7 +448,6 @@ static FreshBaseView *footFreshDefaultView;
         }else{
             if (self.needHeadFreshBOOL) {
                 self.needHeadFreshBOOL = NO;
-                headFreshDefaultView.hidden = YES;
                 [headFreshDefaultView readyRefresh];
                 self.headFreshBlock();
                 [headFreshDefaultView endRefresh];
@@ -426,9 +455,10 @@ static FreshBaseView *footFreshDefaultView;
                 self.needFootFreshBOOL = NO;
                 [footFreshDefaultView readyRefresh];
                 self.footFreshBlock();
-                footFreshDefaultView.hidden = YES;
                 [footFreshDefaultView endRefresh];
             }
+            headFreshDefaultView.hidden = YES;
+            footFreshDefaultView.hidden = YES;
         }
     }];
 }
@@ -506,6 +536,20 @@ static FreshBaseView *footFreshDefaultView;
     [self didChangeValueForKey:@"insetCount"];
 }
 
+-(int)tableViewCellCount{
+    int cValue = {1};
+    NSValue *value = objc_getAssociatedObject(self, @selector(setTableViewCellCount:));
+    [value getValue:&cValue];
+    return cValue;
+}
+
+-(void)setTableViewCellCount:(int)tableViewCellCount{
+    [self willChangeValueForKey:@"tableViewCellCount"];
+    NSValue *value = [NSValue value:&tableViewCellCount withObjCType:@encode(int)];
+    objc_setAssociatedObject(self, _cmd, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self didChangeValueForKey:@"tableViewCellCount"];
+}
+
 +(void)setUpHeadFreshDefaultView:(FreshBaseView *)view{
     headFreshDefaultView = view;
 }
@@ -516,5 +560,7 @@ static FreshBaseView *footFreshDefaultView;
 DLSYNTH_DYNAMIC_PROPERTY_OBJECT(headFreshView, setHeadFreshView, RETAIN_NONATOMIC, FreshBaseView *);
 
 DLSYNTH_DYNAMIC_PROPERTY_OBJECT(footFreshView, setFootFreshView, RETAIN_NONATOMIC, FreshBaseView *);
+
+DLSYNTH_DYNAMIC_PROPERTY_OBJECT(emptyView, setEmptyView, RETAIN_NONATOMIC, UIView *);
 
 @end

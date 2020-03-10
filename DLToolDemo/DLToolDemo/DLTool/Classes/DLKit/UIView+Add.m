@@ -582,7 +582,7 @@ static char leftNameKey;
     return self;
 }
 
--(void)dl_viewHidden:(NSInteger)delay{
+-(void)dl_viewHidden:(float)delay{
     int seeds = [self.fadeSeeds intValue];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (seeds == [self.fadeSeeds intValue]) {

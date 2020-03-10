@@ -80,7 +80,7 @@
 
 -(UIView *)dl_viewShow;
 
--(void)dl_viewHidden:(NSInteger)delay;
+-(void)dl_viewHidden:(float)delay;
 
 -(void)dl_cancelFadeOut;
 

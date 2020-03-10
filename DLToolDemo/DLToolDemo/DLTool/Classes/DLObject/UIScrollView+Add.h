@@ -23,12 +23,16 @@
 -(void)dl_scrollToRightAnimated:(BOOL)animated;
 
 
+
 -(void)headFreshBlock:(void (^)(void))block;
 
 -(void)footFreshBlock:(void (^)(void))block;
 
 /// 设置单个的刷新头视图
 @property (nonatomic, strong) FreshBaseView *headFreshView;
+
+/// 设置单个的刷新头视图
+@property (nonatomic, strong) UIView *emptyView;
 
 /// 设置单个的刷新尾视图
 @property (nonatomic, strong) FreshBaseView *footFreshView;

@@ -35,7 +35,7 @@
 }
 
 -(void)displayLayer:(CALayer *)layer{
-    NSLog(@"11111");
+//    NSLog(@"11111");
 }
 
 - (void)drawLayer:(CALayer *)layer inContext:(CGContextRef)ctx{

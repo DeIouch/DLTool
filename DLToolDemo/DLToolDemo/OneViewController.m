@@ -89,9 +89,9 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
--(void)dealloc{
-    
-    NSLog(@"11111");
-}
+//-(void)dealloc{
+//    
+//    NSLog(@"11111");
+//}
 
 @end
