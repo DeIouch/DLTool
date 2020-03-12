@@ -11,6 +11,8 @@
 #import "DLTool.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
+#import "DLSQLManager.h"
+#import "DLModelDemo.h"
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
 
@@ -48,21 +50,15 @@
 //    [self.player start];
     
     
+    NSLog(@"%@", NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject);
     
+    DLModelDemo *model = [[DLModelDemo alloc]init];
+    model.code = @"111";
+    model.codee = @"222";
+    model.isHave = YES;
+    model.number = 2;
     
-    
+    [DLSQLManager insertOrUpdateModel:model];
 }
-
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-//    [DLMenu createDLMenuWithTitleArray:@[@"目录一", @"目录二", @"目录三"] ];
-    
-//    [[DLMenu shareInstance]titleArray:@[@"目录一", @"目录二", @"目录三"]];
-    
-    [DLMenu createDLMenuWithTitleArray:@[@"目录一", @"目录二", ] selectBlock:^(NSInteger target) {
-        NSLog(@"%ld", target);
-    }];
-    
-}
-
 
 @end

@@ -36,19 +36,14 @@
     #endif
 #endif
 
+/***************************打印日志*****************************/
+
+//输出语句
 
 #ifdef DEBUG
-
-#define DLLog(...) NSLog(__VA_ARGS__)
-
-#define debugMethod() NSLog(@"%s", __func__)
-
+# define NSLog(FORMAT, ...) printf("[%s<%p>行号:%d]:\n%s\n",__FUNCTION__,self,__LINE__,[[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String])
 #else
-
-#define DLLog(...)
-
-#define debugMethod()
-
+# define NSLog(FORMAT, ...)
 #endif
 
 

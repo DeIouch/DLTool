@@ -77,6 +77,10 @@
 		244205A32411205700E442C6 /* OneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442059D2411205600E442C6 /* OneViewController.m */; };
 		24CAA07724178E08005A7C56 /* DLMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 24CAA07624178E08005A7C56 /* DLMenu.m */; };
 		8755A81D2413AB350064E7E4 /* repeatPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 8755A81C2413AB350064E7E4 /* repeatPlay.png */; };
+		8761C1EA241873A100E94C8F /* DLBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 8761C1E9241873A100E94C8F /* DLBanner.m */; };
+		87663A7A241A2A12005052C4 /* DLModelDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 87663A79241A2A12005052C4 /* DLModelDemo.m */; };
+		87C3332E2418E8EF00EE14D9 /* DLSQLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C3332D2418E8EF00EE14D9 /* DLSQLManager.m */; };
+		87C333312418E92B00EE14D9 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C333302418E92B00EE14D9 /* libsqlite3.tbd */; };
 		87D8DFBD2413E1BF00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8DFB92413E1BD00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m */; };
 		87D8DFBE2413E1BF00DCEE30 /* UIView+SDAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8DFBC2413E1BF00DCEE30 /* UIView+SDAutoLayout.m */; };
 		87EB52FE24164BA20063D4B1 /* common_refresh_arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87EB52FD24164BA20063D4B1 /* common_refresh_arrow@3x.png */; };
@@ -229,6 +233,13 @@
 		24CAA07524178E08005A7C56 /* DLMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLMenu.h; sourceTree = "<group>"; };
 		24CAA07624178E08005A7C56 /* DLMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLMenu.m; sourceTree = "<group>"; };
 		8755A81C2413AB350064E7E4 /* repeatPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repeatPlay.png; sourceTree = "<group>"; };
+		8761C1E8241873A100E94C8F /* DLBanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLBanner.h; sourceTree = "<group>"; };
+		8761C1E9241873A100E94C8F /* DLBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLBanner.m; sourceTree = "<group>"; };
+		87663A78241A2A12005052C4 /* DLModelDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLModelDemo.h; sourceTree = "<group>"; };
+		87663A79241A2A12005052C4 /* DLModelDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLModelDemo.m; sourceTree = "<group>"; };
+		87C3332C2418E8EF00EE14D9 /* DLSQLManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLSQLManager.h; sourceTree = "<group>"; };
+		87C3332D2418E8EF00EE14D9 /* DLSQLManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLSQLManager.m; sourceTree = "<group>"; };
+		87C333302418E92B00EE14D9 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		87D8DFB92413E1BD00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+SDAutoTableViewCellHeight.m"; sourceTree = "<group>"; };
 		87D8DFBA2413E1BE00DCEE30 /* UITableView+SDAutoTableViewCellHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+SDAutoTableViewCellHeight.h"; sourceTree = "<group>"; };
 		87D8DFBB2413E1BE00DCEE30 /* UIView+SDAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDAutoLayout.h"; sourceTree = "<group>"; };
@@ -241,6 +252,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87C333312418E92B00EE14D9 /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +280,7 @@
 				244204D12411202D00E442C6 /* DLToolDemoTests */,
 				244204DC2411202D00E442C6 /* DLToolDemoUITests */,
 				244204B72411202C00E442C6 /* Products */,
+				87C3332F2418E92B00EE14D9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -288,6 +301,8 @@
 				244204BA2411202C00E442C6 /* AppDelegate.m */,
 				244204BC2411202C00E442C6 /* ViewController.h */,
 				244204BD2411202C00E442C6 /* ViewController.m */,
+				87663A78241A2A12005052C4 /* DLModelDemo.h */,
+				87663A79241A2A12005052C4 /* DLModelDemo.m */,
 				2442059F2411205600E442C6 /* OneViewController.h */,
 				2442059D2411205600E442C6 /* OneViewController.m */,
 				244204EB2411204B00E442C6 /* Demo */,
@@ -330,6 +345,8 @@
 				87D8DFB92413E1BD00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m */,
 				87D8DFBB2413E1BE00DCEE30 /* UIView+SDAutoLayout.h */,
 				87D8DFBC2413E1BF00DCEE30 /* UIView+SDAutoLayout.m */,
+				8761C1E8241873A100E94C8F /* DLBanner.h */,
+				8761C1E9241873A100E94C8F /* DLBanner.m */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -517,8 +534,18 @@
 				2442055F2411204C00E442C6 /* DLWeakProxy.m */,
 				24CAA07524178E08005A7C56 /* DLMenu.h */,
 				24CAA07624178E08005A7C56 /* DLMenu.m */,
+				87C3332C2418E8EF00EE14D9 /* DLSQLManager.h */,
+				87C3332D2418E8EF00EE14D9 /* DLSQLManager.m */,
 			);
 			path = DLTool;
+			sourceTree = "<group>";
+		};
+		87C3332F2418E92B00EE14D9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				87C333302418E92B00EE14D9 /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -682,6 +709,7 @@
 				87D8DFBE2413E1BF00DCEE30 /* UIView+SDAutoLayout.m in Sources */,
 				244205942411204C00E442C6 /* DLJsonToModel.m in Sources */,
 				244205852411204C00E442C6 /* NSNotificationCenter+Add.m in Sources */,
+				87C3332E2418E8EF00EE14D9 /* DLSQLManager.m in Sources */,
 				244205952411204C00E442C6 /* DLLoad.m in Sources */,
 				244205872411204C00E442C6 /* NSOrderedSet+Add.m in Sources */,
 				2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */,
@@ -710,6 +738,7 @@
 				244205972411204C00E442C6 /* DLNoti.m in Sources */,
 				244205992411204C00E442C6 /* DLThread.m in Sources */,
 				2442057C2411204C00E442C6 /* NSDate+Add.m in Sources */,
+				8761C1EA241873A100E94C8F /* DLBanner.m in Sources */,
 				2442058F2411204C00E442C6 /* UIScrollView+Add.m in Sources */,
 				244205A32411205700E442C6 /* OneViewController.m in Sources */,
 				244205822411204C00E442C6 /* NSMutableOrderedSet+Add.m in Sources */,
@@ -721,6 +750,7 @@
 				244205622411204C00E442C6 /* DLDispatchQueuePool.m in Sources */,
 				244205962411204C00E442C6 /* DLNetworkSpeed.m in Sources */,
 				244205792411204C00E442C6 /* NSAttributedString+Add.m in Sources */,
+				87663A7A241A2A12005052C4 /* DLModelDemo.m in Sources */,
 				24CAA07724178E08005A7C56 /* DLMenu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -824,7 +854,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -873,7 +903,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
