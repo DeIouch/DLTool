@@ -47,8 +47,8 @@
             view.dl_backView(self).dl_backColor(@"FFFFFF");
         }];
         [self.backview dl_AutoLayout:^(DLConstraintMaker *make) {
-            make.left.equal(self).offset(30);
-            make.right.equal(self).offset(-30);
+            make.left.equal(self).offset(20);
+            make.right.equal(self).offset(-20);
             make.top.equal(self).to(DLAttributeBottom).offset(0);
             make.centerX.equal(self);
         }];

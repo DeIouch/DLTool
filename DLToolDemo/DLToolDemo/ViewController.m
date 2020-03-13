@@ -54,13 +54,6 @@
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-//    [DLMenu createDLMenuWithTitleArray:@[@"目录一", @"目录二", @"目录三"] ];
-    
-//    [[DLMenu shareInstance]titleArray:@[@"目录一", @"目录二", @"目录三"]];
-    
-    [DLMenu createDLMenuWithTitleArray:@[@"目录一", @"目录二", ] selectBlock:^(NSInteger target) {
-        NSLog(@"%ld", target);
-    }];
     
 }
 
