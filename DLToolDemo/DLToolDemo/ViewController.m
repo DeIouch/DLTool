@@ -58,7 +58,6 @@
 //
 //    model.adCount = 3;
 //    model.pushUrl = @"11111";
-//    model.countdownShow = YES;
     
     
     
