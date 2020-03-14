@@ -1,3 +1,6 @@
+//  线程池管理
+
+
 #import <Foundation/Foundation.h>
 
 @interface DLThread : NSObject

@@ -1,3 +1,6 @@
+//  数据库操作
+
+
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger,DLSQLRelationType) {
@@ -8,7 +11,7 @@ typedef NS_ENUM(NSUInteger,DLSQLRelationType) {
     DLSQLRelationTypeLessEqual        // 小于等于 <=
 };
 
-@interface DLSQLManager : NSObject
+@interface DLSQL : NSObject
 
 //  设置主键（model中必须实现）
 +(NSString *)primaryKey;
@@ -56,7 +59,8 @@ typedef NS_ENUM(NSUInteger,DLSQLRelationType) {
 // 删除指定模型
 +(BOOL)deleteModel:(id)model;
 
-//删除数据表所有数据
+// 删除数据表所有数据
+// isKeep：是否把表一起删除
 +(BOOL)deleteTableAllData:(Class)cls isKeepTable:(BOOL)isKeep;
 
 // 根据单个条件删除
@@ -66,7 +70,6 @@ typedef NS_ENUM(NSUInteger,DLSQLRelationType) {
 +(BOOL)deleteModels:(Class)cls columnNames:(NSArray <NSString *>*)columnNames relations:(NSArray <NSNumber *>*)relations values:(NSArray *)values isAnd:(BOOL)isAnd;
 
 // 删除数据库表中所有数据
-// isKeep：是否把表一起删除
 +(BOOL)deleteTableAllData:(Class)cls uid:(NSString *)uid targetId:(NSString *)targetId isKeepTable:(BOOL)isKeep;
 
 // 根据模型的主键来删除删除指定模型

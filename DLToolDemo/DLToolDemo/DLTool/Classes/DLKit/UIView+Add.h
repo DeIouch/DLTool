@@ -49,6 +49,44 @@
 
 -(UIView *(^) (UIView *view,CGFloat constant))dl_centerY_layout;
 
+
+@property (nonatomic) CGFloat left_dl;
+
+@property (nonatomic) CGFloat top_dl;
+
+@property (nonatomic) CGFloat right_dl;
+
+@property (nonatomic) CGFloat bottom_dl;
+
+@property (assign,nonatomic) CGFloat x_dl;
+
+@property (assign,nonatomic) CGFloat y_dl;
+
+@property (nonatomic, assign) CGSize size_dl;
+
+@property (nonatomic, assign) CGPoint origin_dl;
+
+@property (nonatomic, assign) CGFloat centerX_dl;
+
+@property (nonatomic, assign) CGFloat centerY_dl;
+
+@property (nonatomic, assign) CGFloat width_dl;
+
+@property (nonatomic, assign) CGFloat height_dl;
+
+@property (nonatomic, assign ,readonly) CGFloat maxX_dl;
+
+@property (nonatomic, assign ,readonly) CGFloat maxY_dl;
+
+@property (nonatomic, assign ,readonly) CGFloat minX_dl;
+
+@property (nonatomic, assign ,readonly) CGFloat minY_dl;
+
+@property (nonatomic, assign ,readonly) CGFloat midX_dl;
+
+@property (nonatomic, assign ,readonly) CGFloat midY_dl;
+
+
 /// 获取view的高
 /// @param view view的高
 -(CGFloat)dl_fittingHeight:(UIView *)view;

@@ -1,3 +1,6 @@
+
+
+
 #import <Foundation/Foundation.h>
 
 #define DLJsonToModelDeprecated(instead) __attribute__((deprecated(instead)))
@@ -8,14 +11,14 @@ typedef enum {
     DLJsonToModelToMJExtension // 生成 MJExtension 格式
 } DLJsonToModelToType;
 
-static NSString *const kkPropertyTypeString = @"kkDLMonsterNSString";
-static NSString *const kkPropertyTypeArray = @"kkDLMonsterNSArray";
-static NSString *const kkPropertyTypeDictionary = @"kkDLMonsterNSDictionary";
-static NSString *const kkPropertyTypeDouble = @"kkDLMonsterDouble";
-static NSString *const kkPropertyTypeLong = @"kkDLMonsterNSInteger";
-static NSString *const kkPropertyTypeBool = @"kkDLMonsterBOOL";
-static NSString *const kkPropertyTypeNull = @"kkDLMonsterNull";
-static NSString *const kkPropertyTypeOther = @"kkDLMonsterOther";
+static NSString *const DLPropertyTypeString = @"dlMonsterNSString";
+static NSString *const DLPropertyTypeArray = @"dlMonsterNSArray";
+static NSString *const DLPropertyTypeDictionary = @"dlMonsterNSDictionary";
+static NSString *const DLPropertyTypeDouble = @"dlMonsterDouble";
+static NSString *const DLPropertyTypeLong = @"dlMonsterNSInteger";
+static NSString *const DLPropertyTypeBool = @"dlMonsterBOOL";
+static NSString *const DLPropertyTypeNull = @"dlMonsterNull";
+static NSString *const DLPropertyTypeOther = @"dlMonsterOther";
 
 @interface DLClassObject : NSObject
 @property (nonatomic,copy  ) NSString *className;

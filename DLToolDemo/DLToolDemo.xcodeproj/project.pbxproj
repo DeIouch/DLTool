@@ -79,7 +79,14 @@
 		8755A81D2413AB350064E7E4 /* repeatPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 8755A81C2413AB350064E7E4 /* repeatPlay.png */; };
 		8761C1EA241873A100E94C8F /* DLBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 8761C1E9241873A100E94C8F /* DLBanner.m */; };
 		87663A7A241A2A12005052C4 /* DLModelDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 87663A79241A2A12005052C4 /* DLModelDemo.m */; };
-		87C3332E2418E8EF00EE14D9 /* DLSQLManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C3332D2418E8EF00EE14D9 /* DLSQLManager.m */; };
+		876F64F5241B183D00C383F5 /* DLCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 876F64F4241B183D00C383F5 /* DLCode.m */; };
+		87712A93241C74AD0077A296 /* DLLaunchAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 87712A92241C74AD0077A296 /* DLLaunchAd.m */; };
+		87712A99241C7F2E0077A296 /* DLImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 87712A98241C7F2E0077A296 /* DLImageCache.m */; };
+		87712A9B241C86BD0077A296 /* skipButton_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87712A9A241C86BD0077A296 /* skipButton_background@3x.png */; };
+		87712A9E241CAAD40077A296 /* DLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 87712A9D241CAAD40077A296 /* DLCache.m */; };
+		87835A28241B2FEF00F5D372 /* return_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87835A27241B2FEE00F5D372 /* return_white@2x.png */; };
+		87835A2C241B36D500F5D372 /* DLAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 87835A2B241B36D500F5D372 /* DLAuthority.m */; };
+		87C3332E2418E8EF00EE14D9 /* DLSQL.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C3332D2418E8EF00EE14D9 /* DLSQL.m */; };
 		87C333312418E92B00EE14D9 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C333302418E92B00EE14D9 /* libsqlite3.tbd */; };
 		87D8DFBD2413E1BF00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8DFB92413E1BD00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m */; };
 		87D8DFBE2413E1BF00DCEE30 /* UIView+SDAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8DFBC2413E1BF00DCEE30 /* UIView+SDAutoLayout.m */; };
@@ -237,8 +244,20 @@
 		8761C1E9241873A100E94C8F /* DLBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLBanner.m; sourceTree = "<group>"; };
 		87663A78241A2A12005052C4 /* DLModelDemo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLModelDemo.h; sourceTree = "<group>"; };
 		87663A79241A2A12005052C4 /* DLModelDemo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLModelDemo.m; sourceTree = "<group>"; };
-		87C3332C2418E8EF00EE14D9 /* DLSQLManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLSQLManager.h; sourceTree = "<group>"; };
-		87C3332D2418E8EF00EE14D9 /* DLSQLManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLSQLManager.m; sourceTree = "<group>"; };
+		876F64F3241B183D00C383F5 /* DLCode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLCode.h; sourceTree = "<group>"; };
+		876F64F4241B183D00C383F5 /* DLCode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLCode.m; sourceTree = "<group>"; };
+		87712A91241C74AD0077A296 /* DLLaunchAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLLaunchAd.h; sourceTree = "<group>"; };
+		87712A92241C74AD0077A296 /* DLLaunchAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLLaunchAd.m; sourceTree = "<group>"; };
+		87712A97241C7F2E0077A296 /* DLImageCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLImageCache.h; sourceTree = "<group>"; };
+		87712A98241C7F2E0077A296 /* DLImageCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLImageCache.m; sourceTree = "<group>"; };
+		87712A9A241C86BD0077A296 /* skipButton_background@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skipButton_background@3x.png"; sourceTree = "<group>"; };
+		87712A9C241CAAD40077A296 /* DLCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLCache.h; sourceTree = "<group>"; };
+		87712A9D241CAAD40077A296 /* DLCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLCache.m; sourceTree = "<group>"; };
+		87835A27241B2FEE00F5D372 /* return_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "return_white@2x.png"; sourceTree = "<group>"; };
+		87835A2A241B36D500F5D372 /* DLAuthority.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLAuthority.h; sourceTree = "<group>"; };
+		87835A2B241B36D500F5D372 /* DLAuthority.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLAuthority.m; sourceTree = "<group>"; };
+		87C3332C2418E8EF00EE14D9 /* DLSQL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLSQL.h; sourceTree = "<group>"; };
+		87C3332D2418E8EF00EE14D9 /* DLSQL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLSQL.m; sourceTree = "<group>"; };
 		87C333302418E92B00EE14D9 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		87D8DFB92413E1BD00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+SDAutoTableViewCellHeight.m"; sourceTree = "<group>"; };
 		87D8DFBA2413E1BE00DCEE30 /* UITableView+SDAutoTableViewCellHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+SDAutoTableViewCellHeight.h"; sourceTree = "<group>"; };
@@ -363,6 +382,8 @@
 		244204F12411204C00E442C6 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				87712A9A241C86BD0077A296 /* skipButton_background@3x.png */,
+				87835A27241B2FEE00F5D372 /* return_white@2x.png */,
 				87EB52FD24164BA20063D4B1 /* common_refresh_arrow@3x.png */,
 				244204F22411204C00E442C6 /* ClarityDefault.png */,
 				244204F32411204C00E442C6 /* ClaritySelected.png */,
@@ -385,6 +406,7 @@
 		244204FF2411204C00E442C6 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				87835A29241B33F200F5D372 /* DLKeyboard */,
 				244205002411204C00E442C6 /* DLAutoLayout */,
 				244205052411204C00E442C6 /* DLBaseViewControl */,
 				2442050A2411204C00E442C6 /* DLCrash */,
@@ -534,10 +556,27 @@
 				2442055F2411204C00E442C6 /* DLWeakProxy.m */,
 				24CAA07524178E08005A7C56 /* DLMenu.h */,
 				24CAA07624178E08005A7C56 /* DLMenu.m */,
-				87C3332C2418E8EF00EE14D9 /* DLSQLManager.h */,
-				87C3332D2418E8EF00EE14D9 /* DLSQLManager.m */,
+				87C3332C2418E8EF00EE14D9 /* DLSQL.h */,
+				87C3332D2418E8EF00EE14D9 /* DLSQL.m */,
+				876F64F3241B183D00C383F5 /* DLCode.h */,
+				876F64F4241B183D00C383F5 /* DLCode.m */,
+				87835A2A241B36D500F5D372 /* DLAuthority.h */,
+				87835A2B241B36D500F5D372 /* DLAuthority.m */,
+				87712A91241C74AD0077A296 /* DLLaunchAd.h */,
+				87712A92241C74AD0077A296 /* DLLaunchAd.m */,
+				87712A97241C7F2E0077A296 /* DLImageCache.h */,
+				87712A98241C7F2E0077A296 /* DLImageCache.m */,
+				87712A9C241CAAD40077A296 /* DLCache.h */,
+				87712A9D241CAAD40077A296 /* DLCache.m */,
 			);
 			path = DLTool;
+			sourceTree = "<group>";
+		};
+		87835A29241B33F200F5D372 /* DLKeyboard */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DLKeyboard;
 			sourceTree = "<group>";
 		};
 		87C3332F2418E92B00EE14D9 /* Frameworks */ = {
@@ -658,6 +697,7 @@
 				244205692411204C00E442C6 /* loading.png in Resources */,
 				244204C62411202C00E442C6 /* LaunchScreen.storyboard in Resources */,
 				2442056F2411204C00E442C6 /* video_small_screen.png in Resources */,
+				87712A9B241C86BD0077A296 /* skipButton_background@3x.png in Resources */,
 				2442056E2411204C00E442C6 /* video_full_screen.png in Resources */,
 				8755A81D2413AB350064E7E4 /* repeatPlay.png in Resources */,
 				244204C32411202C00E442C6 /* Assets.xcassets in Resources */,
@@ -672,6 +712,7 @@
 				2442056A2411204C00E442C6 /* loadSuccess.png in Resources */,
 				244205642411204C00E442C6 /* ClarityDefault.png in Resources */,
 				244204C12411202C00E442C6 /* Main.storyboard in Resources */,
+				87835A28241B2FEF00F5D372 /* return_white@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -709,7 +750,7 @@
 				87D8DFBE2413E1BF00DCEE30 /* UIView+SDAutoLayout.m in Sources */,
 				244205942411204C00E442C6 /* DLJsonToModel.m in Sources */,
 				244205852411204C00E442C6 /* NSNotificationCenter+Add.m in Sources */,
-				87C3332E2418E8EF00EE14D9 /* DLSQLManager.m in Sources */,
+				87C3332E2418E8EF00EE14D9 /* DLSQL.m in Sources */,
 				244205952411204C00E442C6 /* DLLoad.m in Sources */,
 				244205872411204C00E442C6 /* NSOrderedSet+Add.m in Sources */,
 				2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */,
@@ -721,6 +762,7 @@
 				244205832411204C00E442C6 /* NSMutableSet+Add.m in Sources */,
 				2442057B2411204C00E442C6 /* NSData+Add.m in Sources */,
 				2442058A2411204C00E442C6 /* NSUserDefaults+Add.m in Sources */,
+				87712A93241C74AD0077A296 /* DLLaunchAd.m in Sources */,
 				2442057E2411204C00E442C6 /* NSMutableArray+Add.m in Sources */,
 				2442059B2411204C00E442C6 /* DLTimerButton.m in Sources */,
 				244205902411204C00E442C6 /* DLPlayer.m in Sources */,
@@ -730,9 +772,11 @@
 				2442057F2411204C00E442C6 /* NSMutableAttributedString+Add.m in Sources */,
 				244205882411204C00E442C6 /* NSSet+Add.m in Sources */,
 				2442058B2411204C00E442C6 /* UIApplication+Add.m in Sources */,
+				87712A9E241CAAD40077A296 /* DLCache.m in Sources */,
 				244204C92411202C00E442C6 /* main.m in Sources */,
 				244204BB2411202C00E442C6 /* AppDelegate.m in Sources */,
 				244205922411204C00E442C6 /* DLColor.m in Sources */,
+				876F64F5241B183D00C383F5 /* DLCode.m in Sources */,
 				244205712411204C00E442C6 /* DLAutoLayout.m in Sources */,
 				244205772411204C00E442C6 /* DLClassInfo.m in Sources */,
 				244205972411204C00E442C6 /* DLNoti.m in Sources */,
@@ -742,6 +786,7 @@
 				2442058F2411204C00E442C6 /* UIScrollView+Add.m in Sources */,
 				244205A32411205700E442C6 /* OneViewController.m in Sources */,
 				244205822411204C00E442C6 /* NSMutableOrderedSet+Add.m in Sources */,
+				87835A2C241B36D500F5D372 /* DLAuthority.m in Sources */,
 				87D8DFBD2413E1BF00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m in Sources */,
 				244205912411204C00E442C6 /* DLAlert.m in Sources */,
 				244205862411204C00E442C6 /* NSObject+Add.m in Sources */,
@@ -749,6 +794,7 @@
 				244205892411204C00E442C6 /* NSString+Add.m in Sources */,
 				244205622411204C00E442C6 /* DLDispatchQueuePool.m in Sources */,
 				244205962411204C00E442C6 /* DLNetworkSpeed.m in Sources */,
+				87712A99241C7F2E0077A296 /* DLImageCache.m in Sources */,
 				244205792411204C00E442C6 /* NSAttributedString+Add.m in Sources */,
 				87663A7A241A2A12005052C4 /* DLModelDemo.m in Sources */,
 				24CAA07724178E08005A7C56 /* DLMenu.m in Sources */,

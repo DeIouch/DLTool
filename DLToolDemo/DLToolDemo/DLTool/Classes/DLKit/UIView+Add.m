@@ -471,6 +471,152 @@ static char leftNameKey;
     return [self dl_fittingWidth:view];
 }
 
+- (CGFloat)left_dl {
+    return self.frame.origin.x;
+}
+
+- (void)setLeft_dl:(CGFloat)left_dl {
+    CGRect frame = self.frame;
+    frame.origin.x = left_dl;
+    self.frame = frame;
+}
+
+- (CGFloat)top_dl {
+    return self.frame.origin.y;
+}
+
+- (void)setTop_dl:(CGFloat)top_dl {
+    CGRect frame = self.frame;
+    frame.origin.y = top_dl;
+    self.frame = frame;
+}
+
+- (CGFloat)right_dl {
+    return self.frame.origin.x + self.frame.size.width;
+}
+
+- (void)setRight_dl:(CGFloat)right_dl {
+    CGRect frame = self.frame;
+    frame.origin.x = right_dl - frame.size.width;
+    self.frame = frame;
+}
+
+- (CGFloat)bottom_dl {
+    return self.frame.origin.y + self.frame.size.height;
+}
+
+- (void)setBottom_dl:(CGFloat)bottom_dl {
+    CGRect frame = self.frame;
+    frame.origin.y = bottom_dl - frame.size.height;
+    self.frame = frame;
+}
+
+#pragma mark -x
+-(void)setX_dl:(CGFloat)x_dl{
+    CGRect frame = self.frame;
+    frame.origin.x = x_dl;
+    self.frame = frame;
+}
+-(CGFloat)x_dl{
+    return self.frame.origin.x;
+}
+
+#pragma mark -y
+-(void)setY_dl:(CGFloat)y_dl{
+    CGRect frame = self.frame;
+    frame.origin.y = y_dl;
+    self.frame = frame;
+}
+-(CGFloat)y_dl{
+    return self.frame.origin.y;
+}
+#pragma mark -size
+-(void)setSize_dl:(CGSize)size_dl{
+    CGRect frame = self.frame;
+    frame.size = size_dl;
+    self.frame = frame;
+}
+-(CGSize)size_dl{
+    return self.frame.size;
+}
+#pragma mark -origin
+-(void)setOrigin_dl:(CGPoint)origin_dl{
+    CGRect frame = self.frame;
+    frame.origin = origin_dl;
+    self.frame = frame;
+}
+-(CGPoint)origin_dl{
+    return self.frame.origin;
+}
+
+#pragma mark -minX
+-(CGFloat)minX_dl{
+    
+    return CGRectGetMinX(self.frame);
+}
+#pragma mark -minY
+
+-(CGFloat)minY_dl{
+    return CGRectGetMinY(self.frame);
+}
+
+#pragma mark-maxX
+-(CGFloat)maxX_dl{
+    return CGRectGetMaxX(self.frame);
+}
+
+#pragma mark-maxY
+-(CGFloat)maxY_dl{
+    return CGRectGetMaxY(self.frame);
+}
+
+#pragma mark -midX
+-(CGFloat)midX_dl{
+    return CGRectGetMidX(self.frame);
+}
+#pragma mark -midY
+-(CGFloat)midY_dl{
+    return CGRectGetMidY(self.frame);
+}
+#pragma mark -centerX
+-(void)setCenterX_dl:(CGFloat)centerX_dl{
+    CGPoint center = self.center;
+    center.x = centerX_dl;
+    self.center = center;
+}
+-(CGFloat)centerX_dl{
+    return self.center.x;
+}
+#pragma mark -centerY
+-(void)setCenterY_dl:(CGFloat)centerY_dl{
+    CGPoint center = self.center;
+    center.y = centerY_dl;
+    self.center = center;
+}
+-(CGFloat)centerY_dl{
+    return self.center.y;
+}
+
+#pragma maek - width
+-(void)setWidth_dl:(CGFloat)width_dl{
+    CGRect frame = self.frame;
+    frame.size.width = width_dl;
+    self.frame = frame;
+}
+-(CGFloat)width_dl{
+    return CGRectGetWidth(self.frame);
+}
+
+#pragma maek - height
+-(void)setHeight_dl:(CGFloat)height_dl{
+    CGRect frame = self.frame;
+    frame.size.height = height_dl;
+    self.frame = frame;
+}
+-(CGFloat)height_dl{
+    return CGRectGetHeight(self.frame);
+}
+
 
 #pragma mark UIKit
 -(UIView *(^) (id color))dl_backColor{
@@ -1242,6 +1388,7 @@ static char leftNameKey;
         imageView = [[UIImageView alloc]init];
         imageView.userInteractionEnabled = YES;
         imageView.layer.drawsAsynchronously = true;
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
         block(imageView);
     } @catch (NSException *exception) {
         DLSafeProtectionCrashLog(exception,DLSafeProtectorCrashTypeViewAsyncThread);

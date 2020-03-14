@@ -1,4 +1,4 @@
-#import "DLSQLManager.h"
+#import "DLSQL.h"
 #import <sqlite3.h>
 #import "NSObject+Add.h"
 #import <objc/runtime.h>
@@ -7,20 +7,20 @@
 
 
 #pragma mark    ----------   缓存模型语句   ----------
-@interface DLCache : NSCache
+@interface DLSQLCache : NSCache
 
 +(instancetype)shareInstance;
 
 @end
 
-@implementation DLCache
+@implementation DLSQLCache
 
-static DLCache *dl_cache = nil;
+static DLSQLCache *dl_cache = nil;
 
 +(instancetype)shareInstance{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        dl_cache = [[DLCache alloc]init];
+        dl_cache = [[DLSQLCache alloc]init];
     });
     return dl_cache;
 }
@@ -82,7 +82,7 @@ static DLCache *dl_cache = nil;
 }
 
 +(NSDictionary *)classIvarNameAndTypeDic:(Class)cls{
-    NSDictionary *cacheIvarNameAndTypeDic = [[DLCache shareInstance] objectForKey:NSStringFromClass(cls)];
+    NSDictionary *cacheIvarNameAndTypeDic = [[DLSQLCache shareInstance] objectForKey:NSStringFromClass(cls)];
     if (cacheIvarNameAndTypeDic) {
         return cacheIvarNameAndTypeDic;
     }
@@ -106,7 +106,7 @@ static DLCache *dl_cache = nil;
         type = [type stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"@\""]];
         [nameTypeDic setValue:type forKey:ivarName];
     }
-    [[DLCache shareInstance] setObject:nameTypeDic forKey:NSStringFromClass(cls)];
+    [[DLSQLCache shareInstance] setObject:nameTypeDic forKey:NSStringFromClass(cls)];
     return nameTypeDic;
 }
 
@@ -647,13 +647,17 @@ static int DLDBBusyCallBack(void *f, int count) {
 
 @end
 
-@interface DLSQLManager ()
+@interface DLSQL ()
 
 @property (nonatomic,strong)dispatch_semaphore_t dsema;
 
 @end
 
-@implementation DLSQLManager
+@implementation DLSQL
+
++(NSString *)primaryKey{
+    return @"id";
+}
 
 - (instancetype)init
 {
@@ -664,11 +668,11 @@ static int DLDBBusyCallBack(void *f, int count) {
     return self;
 }
 
-static DLSQLManager * sqlManager = nil;
+static DLSQL * sqlManager = nil;
 + (instancetype)shareInstance {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sqlManager = [[DLSQLManager alloc] init];
+        sqlManager = [[DLSQL alloc] init];
     });
     return sqlManager;
 }
@@ -766,7 +770,7 @@ static DLSQLManager * sqlManager = nil;
         // 1、检查缓存，表格是否更新过,不考虑动态添加属性的情况下，只要更新更高一次即可
         if (!targetId) targetId = @"";
         NSString *cacheKey = [NSString stringWithFormat:@"%@%@CWUpdated",NSStringFromClass(cls),targetId];
-        BOOL updated = [[[DLCache shareInstance] objectForKey:cacheKey] boolValue]; // 表格是否更新过
+        BOOL updated = [[[DLSQLCache shareInstance] objectForKey:cacheKey] boolValue]; // 表格是否更新过
         if (!updated) { // 2、如果表格没有更新过,检测是否需要更新
             if ([DLSqliteTableTool isTableNeedUpdate:cls uid:uid targetId:targetId] ) {
                 dispatch_semaphore_signal([[self shareInstance] dsema]);
@@ -775,16 +779,16 @@ static DLSQLManager * sqlManager = nil;
                 dispatch_semaphore_wait([[self shareInstance] dsema], DISPATCH_TIME_FOREVER);
                 if (!result) {
                     // 2.2、更新失败，设置缓存为未更新
-                    [[DLCache shareInstance] setObject:@(NO) forKey:cacheKey];
+                    [[DLSQLCache shareInstance] setObject:@(NO) forKey:cacheKey];
                     NSLog(@"更新数据库表结构失败!插入或更新数据失败!");
                     dispatch_semaphore_signal([[self shareInstance] dsema]);
                     return NO;
                 }
                 // 2.3、更新成功，设置缓存为已更新
-                [[DLCache shareInstance] setObject:@(YES) forKey:cacheKey];
+                [[DLSQLCache shareInstance] setObject:@(YES) forKey:cacheKey];
             }else {
                 // 3、表格不需要更新,设置缓存为已更新
-                [[DLCache shareInstance] setObject:@(YES) forKey:cacheKey];
+                [[DLSQLCache shareInstance] setObject:@(YES) forKey:cacheKey];
             }
         }
     }

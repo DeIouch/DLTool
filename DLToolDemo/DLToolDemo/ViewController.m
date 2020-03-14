@@ -9,10 +9,12 @@
 #import "ViewController.h"
 #import "OneViewController.h"
 #import "DLTool.h"
+#import "DLLaunchAd.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
-#import "DLSQLManager.h"
+//#import "DLSQL.h"
 #import "DLModelDemo.h"
+
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
 
@@ -20,9 +22,11 @@
 
 #define VideoUrl2 @"http://vfx.mtime.cn/Video/2019/02/04/mp4/190204084208765161.mp4"
 
+#define VideoUrl3 @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584165060138&di=152be487b8fbfc29dbce11f786705fc4&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F-fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F3c6d55fbb2fb4316e381ec1b26a4462309f7d331.jpg"
+
 @interface ViewController ()
 
-@property (nonatomic, strong) DLPlayer *player;
+//@property (nonatomic, strong) DLPlayer *player;
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -48,7 +52,13 @@
 //    self.player.skinView = [[DLVodPlayerSkinView alloc]init];
 //    self.player.videoTitle = @"12222";
 //    [self.player start];
-    
+        
+//    DLLaunchAdModel *model = [[DLLaunchAdModel alloc]init];
+//    model.adUrl = @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584165060138&di=152be487b8fbfc29dbce11f786705fc4&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F-fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F3c6d55fbb2fb4316e381ec1b26a4462309f7d331.jpg";
+//
+//    model.adCount = 3;
+//    model.pushUrl = @"11111";
+//    model.countdownShow = YES;
     
     
     
@@ -56,7 +66,11 @@
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    
+//    [DLLaunchAd addLaunchAd:model clickBlock:^{
+//        NSLog(@"%@", model.pushUrl);
+//    } timeArrierBlock:^{
+//        NSLog(@"结束");
+//    }];
 }
 
 @end

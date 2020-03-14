@@ -108,13 +108,13 @@ static DLJsonToModelToType modelToType;
             if (dicts) {
                 // 添加这个属性
                 NSString *name = [self returnNewName:key withExtensionClassName:extensionName];
-                NSString *newName = [NSString stringWithFormat:@"%@%@",kkPropertyTypeArray,name];
+                NSString *newName = [NSString stringWithFormat:@"%@%@",DLPropertyTypeArray,name];
                 [tempDic setObject:newName forKey:key];
                 // 递归
                 [self formatDataToClassWith:dicts withClassName:name withExtensionClassName:extensionName];
             }else {
                 // 添加这个属性
-                NSString *newName = [NSString stringWithFormat:@"%@%@",kkPropertyTypeArray,@"0"];
+                NSString *newName = [NSString stringWithFormat:@"%@%@",DLPropertyTypeArray,@"0"];
                 [tempDic setObject:newName forKey:key];
             }
         }else if ([dict[key] isKindOfClass:[NSDictionary class]]) {
@@ -124,23 +124,23 @@ static DLJsonToModelToType modelToType;
             // 递归
             [self formatDataToClassWith:dict[key] withClassName:name withExtensionClassName:extensionName];
         }else if ([dict[key] isKindOfClass:[NSNull class]]) {
-            [tempDic setObject:kkPropertyTypeNull forKey:key];
+            [tempDic setObject:DLPropertyTypeNull forKey:key];
         }else if ([dict[key] isKindOfClass:[NSString class]]) {
-            [tempDic setObject:kkPropertyTypeString forKey:key];
-            if ([dict[key] isEqualToString:kkPropertyTypeOther]) {
-                [tempDic setObject:kkPropertyTypeOther forKey:key];
+            [tempDic setObject:DLPropertyTypeString forKey:key];
+            if ([dict[key] isEqualToString:DLPropertyTypeOther]) {
+                [tempDic setObject:DLPropertyTypeOther forKey:key];
             }
         }else {
             NSString *classDecription = [[dict[key] class] description];
             if ([classDecription containsString:@"NSCFBoolean"]) {
-                [tempDic setObject:kkPropertyTypeBool forKey:key];
+                [tempDic setObject:DLPropertyTypeBool forKey:key];
             }
             if ([classDecription containsString:@"NSCFNumber"]) {
                 if (strcmp([dict[key] objCType], @encode(long)) == 0) {
-                    [tempDic setObject:kkPropertyTypeLong forKey:key];
+                    [tempDic setObject:DLPropertyTypeLong forKey:key];
                 }
                 if (strcmp([dict[key] objCType], @encode(double)) == 0) {
-                    [tempDic setObject:kkPropertyTypeDouble forKey:key];
+                    [tempDic setObject:DLPropertyTypeDouble forKey:key];
                 }
             }
         }
@@ -190,7 +190,7 @@ static DLJsonToModelToType modelToType;
             NSString *class1 = [[obja class] description];
             NSString *class2 = [[objb class] description];
             if (![class1 isEqualToString:class2]) {
-                [allDicts setObject:kkPropertyTypeOther forKey:sameKey];
+                [allDicts setObject:DLPropertyTypeOther forKey:sameKey];
             }
         }
     }
@@ -206,27 +206,27 @@ static DLJsonToModelToType modelToType;
 /// 返回 object 类型
 - (NSString *)returnPropertyType:(id)object {
     if ([object isKindOfClass:[NSNull class]]) {
-        return kkPropertyTypeNull;
+        return DLPropertyTypeNull;
     }else if ([object isKindOfClass:[NSString class]]) {
-        return kkPropertyTypeString;
+        return DLPropertyTypeString;
     }else if ([object isKindOfClass:[NSDictionary class]]) {
-        return kkPropertyTypeDictionary;
+        return DLPropertyTypeDictionary;
     }else if ([object isKindOfClass:[NSArray class]]) {
-        return kkPropertyTypeArray;
+        return DLPropertyTypeArray;
     }else {
         NSString *classDecription = [[object class] description];
         if ([classDecription containsString:@"NSCFBoolean"]) {
-            return kkPropertyTypeBool;
+            return DLPropertyTypeBool;
         }else if ([classDecription containsString:@"NSCFNumber"]) {
             if (strcmp([object objCType], @encode(long)) == 0) {
-                return kkPropertyTypeLong;
+                return DLPropertyTypeLong;
             }else if (strcmp([object objCType], @encode(double)) == 0) {
-                return kkPropertyTypeDouble;
+                return DLPropertyTypeDouble;
             }else {
-                return kkPropertyTypeOther;
+                return DLPropertyTypeOther;
             }
         }else {
-            return kkPropertyTypeOther;
+            return DLPropertyTypeOther;
         }
     }
 }
@@ -276,30 +276,30 @@ static DLJsonToModelToType modelToType;
         NSString *propertyName = key.dlFormatPropertyName;
         NSString *temp = @"";
         if ([object isKindOfClass:[NSString class]]) {
-            if ([object isEqualToString:kkPropertyTypeOther]) {
+            if ([object isEqualToString:DLPropertyTypeOther]) {
                 temp = [NSString stringWithFormat:@"@property (nonatomic,strong) id %@;",propertyName];
             }
-            if ([object isEqualToString:kkPropertyTypeString]) {
+            if ([object isEqualToString:DLPropertyTypeString]) {
                 temp = [NSString stringWithFormat:@"@property (nonatomic,copy  ) NSString *%@;",propertyName];
             }
-            if ([object isEqualToString:kkPropertyTypeDouble]) {
+            if ([object isEqualToString:DLPropertyTypeDouble]) {
                 temp = [NSString stringWithFormat:@"@property (nonatomic,assign) double %@;",propertyName];
             }
-            if ([object isEqualToString:kkPropertyTypeLong]) {
+            if ([object isEqualToString:DLPropertyTypeLong]) {
                 temp = [NSString stringWithFormat:@"@property (nonatomic,assign) NSInteger %@;",propertyName];
             }
-            if ([object isEqualToString:kkPropertyTypeBool]) {
+            if ([object isEqualToString:DLPropertyTypeBool]) {
                 temp = [NSString stringWithFormat:@"@property (nonatomic,assign) BOOL %@;",propertyName];
             }
-            if ([object isEqualToString:kkPropertyTypeNull]) {
+            if ([object isEqualToString:DLPropertyTypeNull]) {
                 temp = [NSString stringWithFormat:@"@property (nonatomic,copy  ) NSString *%@;",propertyName];
             }
             if ([self.classNames containsObject:object]) {
                 NSString *className = ((NSString *)object).dlFormatClassName;
                 temp = [NSString stringWithFormat:@"@property (nonatomic,strong) %@ *%@;",className,propertyName];
             }
-            if ([object hasPrefix:kkPropertyTypeArray]) {
-                NSString *className = [(NSString *)object substringFromIndex:kkPropertyTypeArray.length];
+            if ([object hasPrefix:DLPropertyTypeArray]) {
+                NSString *className = [(NSString *)object substringFromIndex:DLPropertyTypeArray.length];
                 if ([className isEqualToString:@"0"]) {
                     temp = [NSString stringWithFormat:@"@property (nonatomic,strong) NSArray *%@;",propertyName];
                 }else {
@@ -354,8 +354,8 @@ static DLJsonToModelToType modelToType;
         }
         // 数组中类（泛型）
         id object = classObj.classPropertys[key];
-        if ([object hasPrefix:kkPropertyTypeArray]) {
-            NSString *className = [(NSString *)object substringFromIndex:kkPropertyTypeArray.length];
+        if ([object hasPrefix:DLPropertyTypeArray]) {
+            NSString *className = [(NSString *)object substringFromIndex:DLPropertyTypeArray.length];
             if (![className isEqualToString:@"0"]) {
                 strings = [NSString stringWithFormat:@"%@ @\"%@\" : [%@ class],",strings,key.dlFormatPropertyName,className.dlFormatClassName];
             }
