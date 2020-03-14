@@ -1,4 +1,4 @@
-//  iOS开发按钮定时器，兼容后台倒计时场景
+//  按钮定时器，兼容后台倒计时场景
 
 #import <UIKit/UIKit.h>
 #import <objc/runtime.h>

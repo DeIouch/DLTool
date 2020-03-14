@@ -19,7 +19,10 @@ FOUNDATION_EXPORT const unsigned char DLToolVersionString[];
 #import "DLThread.h"
 #import "DLPerformanceLabel.h"
 #import "DLMenu.h"
-#import "DLSQLManager.h"
+#import "DLSQL.h"
+#import "DLCode.h"
+#import "DLAuthority.h"
+#import "DLLaunchAd.h"
 
 #import "NSObject+Add.h"
 
