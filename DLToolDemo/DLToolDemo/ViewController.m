@@ -11,6 +11,8 @@
 #import "DLTool.h"
 #import <AVFoundation/AVFoundation.h>
 #import <AVKit/AVKit.h>
+#import "DLSQLManager.h"
+#import "DLModelDemo.h"
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
 
@@ -56,6 +58,5 @@
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
 }
-
 
 @end
