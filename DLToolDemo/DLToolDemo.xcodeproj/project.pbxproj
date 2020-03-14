@@ -75,6 +75,7 @@
 		2442059B2411204C00E442C6 /* DLTimerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442055D2411204C00E442C6 /* DLTimerButton.m */; };
 		2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442055F2411204C00E442C6 /* DLWeakProxy.m */; };
 		244205A32411205700E442C6 /* OneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442059D2411205600E442C6 /* OneViewController.m */; };
+		24903BA5241D0B6A00058612 /* DLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 24903BA4241D0B6A00058612 /* DLCache.m */; };
 		24CAA07724178E08005A7C56 /* DLMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 24CAA07624178E08005A7C56 /* DLMenu.m */; };
 		8755A81D2413AB350064E7E4 /* repeatPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 8755A81C2413AB350064E7E4 /* repeatPlay.png */; };
 		8761C1EA241873A100E94C8F /* DLBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 8761C1E9241873A100E94C8F /* DLBanner.m */; };
@@ -83,7 +84,6 @@
 		87712A93241C74AD0077A296 /* DLLaunchAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 87712A92241C74AD0077A296 /* DLLaunchAd.m */; };
 		87712A99241C7F2E0077A296 /* DLImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 87712A98241C7F2E0077A296 /* DLImageCache.m */; };
 		87712A9B241C86BD0077A296 /* skipButton_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87712A9A241C86BD0077A296 /* skipButton_background@3x.png */; };
-		87712A9E241CAAD40077A296 /* DLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 87712A9D241CAAD40077A296 /* DLCache.m */; };
 		87835A28241B2FEF00F5D372 /* return_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87835A27241B2FEE00F5D372 /* return_white@2x.png */; };
 		87835A2C241B36D500F5D372 /* DLAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 87835A2B241B36D500F5D372 /* DLAuthority.m */; };
 		87C3332E2418E8EF00EE14D9 /* DLSQL.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C3332D2418E8EF00EE14D9 /* DLSQL.m */; };
@@ -237,6 +237,8 @@
 		244205612411204C00E442C6 /* DLToolMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLToolMacro.h; sourceTree = "<group>"; };
 		2442059D2411205600E442C6 /* OneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneViewController.m; sourceTree = "<group>"; };
 		2442059F2411205600E442C6 /* OneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneViewController.h; sourceTree = "<group>"; };
+		24903BA3241D0B6A00058612 /* DLCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLCache.h; sourceTree = "<group>"; };
+		24903BA4241D0B6A00058612 /* DLCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLCache.m; sourceTree = "<group>"; };
 		24CAA07524178E08005A7C56 /* DLMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLMenu.h; sourceTree = "<group>"; };
 		24CAA07624178E08005A7C56 /* DLMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLMenu.m; sourceTree = "<group>"; };
 		8755A81C2413AB350064E7E4 /* repeatPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repeatPlay.png; sourceTree = "<group>"; };
@@ -251,8 +253,6 @@
 		87712A97241C7F2E0077A296 /* DLImageCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLImageCache.h; sourceTree = "<group>"; };
 		87712A98241C7F2E0077A296 /* DLImageCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLImageCache.m; sourceTree = "<group>"; };
 		87712A9A241C86BD0077A296 /* skipButton_background@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skipButton_background@3x.png"; sourceTree = "<group>"; };
-		87712A9C241CAAD40077A296 /* DLCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLCache.h; sourceTree = "<group>"; };
-		87712A9D241CAAD40077A296 /* DLCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLCache.m; sourceTree = "<group>"; };
 		87835A27241B2FEE00F5D372 /* return_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "return_white@2x.png"; sourceTree = "<group>"; };
 		87835A2A241B36D500F5D372 /* DLAuthority.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLAuthority.h; sourceTree = "<group>"; };
 		87835A2B241B36D500F5D372 /* DLAuthority.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLAuthority.m; sourceTree = "<group>"; };
@@ -566,8 +566,8 @@
 				87712A92241C74AD0077A296 /* DLLaunchAd.m */,
 				87712A97241C7F2E0077A296 /* DLImageCache.h */,
 				87712A98241C7F2E0077A296 /* DLImageCache.m */,
-				87712A9C241CAAD40077A296 /* DLCache.h */,
-				87712A9D241CAAD40077A296 /* DLCache.m */,
+				24903BA3241D0B6A00058612 /* DLCache.h */,
+				24903BA4241D0B6A00058612 /* DLCache.m */,
 			);
 			path = DLTool;
 			sourceTree = "<group>";
@@ -772,7 +772,7 @@
 				2442057F2411204C00E442C6 /* NSMutableAttributedString+Add.m in Sources */,
 				244205882411204C00E442C6 /* NSSet+Add.m in Sources */,
 				2442058B2411204C00E442C6 /* UIApplication+Add.m in Sources */,
-				87712A9E241CAAD40077A296 /* DLCache.m in Sources */,
+				24903BA5241D0B6A00058612 /* DLCache.m in Sources */,
 				244204C92411202C00E442C6 /* main.m in Sources */,
 				244204BB2411202C00E442C6 /* AppDelegate.m in Sources */,
 				244205922411204C00E442C6 /* DLColor.m in Sources */,

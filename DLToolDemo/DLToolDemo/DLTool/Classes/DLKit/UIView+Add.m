@@ -665,7 +665,7 @@ static char leftNameKey;
     return ^(CGFloat radius) {
         [self layoutIfNeeded];
         UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerTopLeft cornerRadii:(CGSize){radius}];
-        CAShapeLayer *shapeLayer = self.layer.mask ?: [CAShapeLayer layer];
+        CAShapeLayer *shapeLayer = self.layer.mask ?  : [CAShapeLayer layer];
         shapeLayer.path = bezierPath.CGPath;
         self.layer.mask = shapeLayer;
         return self;

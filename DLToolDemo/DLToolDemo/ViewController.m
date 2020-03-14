@@ -60,7 +60,11 @@
 //    model.pushUrl = @"11111";
     
     
-    
+    [DLLaunchAd addLaunchAd:VideoUrl3 secondTime:3 clickBlock:^{
+        
+    } timeArrierBlock:^{
+        
+    }];
     
 }
 
