@@ -60,11 +60,6 @@
 //    model.pushUrl = @"11111";
     
     
-    [DLLaunchAd addLaunchAd:VideoUrl3 secondTime:3 clickBlock:^{
-        
-    } timeArrierBlock:^{
-        
-    }];
     
 }
 
@@ -74,6 +69,9 @@
 //    } timeArrierBlock:^{
 //        NSLog(@"结束");
 //    }];
+    
+    [self presentViewController:[[OneViewController alloc]init] animated:YES completion:nil];
+    
 }
 
 @end

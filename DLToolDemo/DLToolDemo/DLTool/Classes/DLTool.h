@@ -24,6 +24,8 @@ FOUNDATION_EXPORT const unsigned char DLToolVersionString[];
 #import "DLAuthority.h"
 #import "DLLaunchAd.h"
 #import "DLCache.h"
+#import "DLScrollView.h"
+
 
 #import "NSObject+Add.h"
 

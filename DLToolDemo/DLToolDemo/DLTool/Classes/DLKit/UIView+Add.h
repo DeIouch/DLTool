@@ -124,6 +124,13 @@
 
 
 
+-(UIView *(^) (NSString *imageString))dl_urlReduceImageString;
+
+-(UIView *(^) (NSString *imageString))dl_urlImageString;
+
+/**
+ 设置imageview图片，也可当作占位图设置
+ */
 -(UIView *(^) (NSString *imageString))dl_imageString;
 
 

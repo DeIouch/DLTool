@@ -11,6 +11,10 @@
 
 -(void)containsObjectForKey:(NSString *)key withBlock:(void(^)(NSString *key, BOOL contains))block;
 
+-(BOOL)containsObjectForKey:(NSString *)key;
+
+-(id<NSCoding>)objectForKey:(NSString *)key;
+
 -(void)objectForKey:(NSString *)key withBlock:(void(^)(NSString *key, id<NSCoding> object))block;
 
 -(void)setObject:(id<NSCoding>)object forKey:(NSString *)key withBlock:(void(^)(void))block;

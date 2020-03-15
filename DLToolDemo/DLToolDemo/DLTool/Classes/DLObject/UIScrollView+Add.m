@@ -395,16 +395,12 @@ static FreshBaseView *footFreshDefaultView;
                 for (NSInteger a = 0; a < number; a++) {
                     if ([tableView numberOfRowsInSection:a] > 0) {
                         self.tableViewCellCount = 1;
-                        NSLog(@"have");
-                        
                         [self.emptyView removeFromSuperview];
-                        
                         return;
                     }
                 }
             }
         }
-        
     }];
 }
 

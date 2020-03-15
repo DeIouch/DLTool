@@ -6,6 +6,7 @@
 #import "DLAlert.h"
 #import "NSString+Add.h"
 #import "DLSafeProtector.h"
+#import "DLDownloadOperationManager.h"
 
 @interface UIView()
 
@@ -15,6 +16,9 @@
 
 /// 按钮点击间隔（防重复点击）
 @property (nonatomic, assign) NSTimeInterval qi_eventInterval;
+
+/// 当前的显示图片的地址
+@property (nonatomic, copy)NSString *currentURLString;
 
 @end
 
@@ -665,7 +669,8 @@ static char leftNameKey;
     return ^(CGFloat radius) {
         [self layoutIfNeeded];
         UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerTopLeft cornerRadii:(CGSize){radius}];
-        CAShapeLayer *shapeLayer = self.layer.mask ?  : [CAShapeLayer layer];
+//        CAShapeLayer *shapeLayer = self.layer.mask ?  : [CAShapeLayer layer];
+        CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = bezierPath.CGPath;
         self.layer.mask = shapeLayer;
         return self;
@@ -676,7 +681,8 @@ static char leftNameKey;
     return ^(CGFloat radius) {
         [self layoutIfNeeded];
         UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerBottomLeft cornerRadii:(CGSize){radius}];
-        CAShapeLayer *shapeLayer = self.layer.mask ?: [CAShapeLayer layer];
+//        CAShapeLayer *shapeLayer = self.layer.mask ?: [CAShapeLayer layer];
+        CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = bezierPath.CGPath;
         self.layer.mask = shapeLayer;
         return self;
@@ -687,7 +693,8 @@ static char leftNameKey;
     return ^(CGFloat radius) {
         [self layoutIfNeeded];
         UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerTopRight cornerRadii:(CGSize){radius}];
-        CAShapeLayer *shapeLayer = self.layer.mask ?: [CAShapeLayer layer];
+//        CAShapeLayer *shapeLayer = self.layer.mask ?: [CAShapeLayer layer];
+        CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = bezierPath.CGPath;
         self.layer.mask = shapeLayer;
         return self;
@@ -698,7 +705,8 @@ static char leftNameKey;
     return ^(CGFloat radius) {
         [self layoutIfNeeded];
         UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerBottomRight cornerRadii:(CGSize){radius}];
-        CAShapeLayer *shapeLayer = self.layer.mask ?: [CAShapeLayer layer];
+//        CAShapeLayer *shapeLayer = self.layer.mask ?: [CAShapeLayer layer];
+        CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = bezierPath.CGPath;
         self.layer.mask = shapeLayer;
         return self;
@@ -709,7 +717,8 @@ static char leftNameKey;
     return ^(CGFloat radius) {
         [self layoutIfNeeded];
         UIBezierPath *bezierPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:UIRectCornerBottomRight | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerTopLeft cornerRadii:(CGSize){radius}];
-        CAShapeLayer *shapeLayer = self.layer.mask ?: [CAShapeLayer layer];
+//        CAShapeLayer *shapeLayer = self.layer.mask ?: [CAShapeLayer layer];
+        CAShapeLayer *shapeLayer = [CAShapeLayer layer];
         shapeLayer.path = bezierPath.CGPath;
         shapeLayer.frame = self.bounds;
         self.layer.mask = shapeLayer;
@@ -754,16 +763,52 @@ static char leftNameKey;
     [self setFadeSeeds:@(arc4random_uniform(1000))];
 }
 
--(UIView *(^) (NSString *imageString))dl_imageString{
+-(UIView *(^) (NSString *imageString))dl_urlReduceImageString{
     return ^(NSString *imageString){
         if ([NSStringFromClass([self class]) isEqualToString:@"UIImageView"]) {
             UIImageView *imageView = (UIImageView *)self;
             if (imageString.length > 0) {
-                if ([imageString containsString:@"http"]) {
-                    
-                } else{
-                    imageView.image = [UIImage imageNamed:imageString];
+                if (![imageString isEqualToString:self.currentURLString]) {
+                    [[DLDownloadOperationManager sharedManager]cancelOperation:imageString];
                 }
+                self.currentURLString = imageString;
+                [[DLDownloadOperationManager sharedManager]downloadWithUrlString:imageString imageView:imageView finishedBlock:^(UIImage *image) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        imageView.image = image;
+                    });
+                }];
+            }
+        }
+        return self;
+    };
+}
+
+-(UIView *(^) (NSString *imageString))dl_urlImageString{
+    return ^(NSString *imageString){
+        if ([NSStringFromClass([self class]) isEqualToString:@"UIImageView"]) {
+            UIImageView *imageView = (UIImageView *)self;
+            if (imageString.length > 0) {
+                if (![imageString isEqualToString:self.currentURLString]) {
+                    [[DLDownloadOperationManager sharedManager]cancelOperation:imageString];
+                }
+                self.currentURLString = imageString;
+                [[DLDownloadOperationManager sharedManager]downloadWithUrlString:imageString imageView:nil finishedBlock:^(UIImage *image) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        imageView.image = image;
+                    });
+                }];
+            }
+        }
+        return self;
+    };
+}
+
+-(UIView *(^) (NSString *imageString))dl_imageString{
+    return ^(NSString *imageString){
+        if ([NSStringFromClass([self class]) isEqualToString:@"UIImageView"]) {
+            UIImageView *imageView = (UIImageView *)self;
+            if (!imageView.image) {
+                imageView.image = [UIImage imageNamed:imageString];
             }
         }
         return self;
@@ -1321,6 +1366,13 @@ static char leftNameKey;
 
 - (void)setQi_eventInterval:(NSTimeInterval)qi_eventInterval {
     objc_setAssociatedObject(self, &qi_eventIntervalKey, @(qi_eventInterval), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (void)setCurrentURLString:(NSString *)currentURLString{
+    objc_setAssociatedObject(self, @"currentURLString", currentURLString, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+- (NSString *)currentURLString{
+    return  objc_getAssociatedObject(self, @"currentURLString");
 }
 
 @end
