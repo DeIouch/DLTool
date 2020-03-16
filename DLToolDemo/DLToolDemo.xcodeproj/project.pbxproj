@@ -89,6 +89,9 @@
 		87712A9B241C86BD0077A296 /* skipButton_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87712A9A241C86BD0077A296 /* skipButton_background@3x.png */; };
 		87835A28241B2FEF00F5D372 /* return_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87835A27241B2FEE00F5D372 /* return_white@2x.png */; };
 		87835A2C241B36D500F5D372 /* DLAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 87835A2B241B36D500F5D372 /* DLAuthority.m */; };
+		87929673241F17BB007E8858 /* DLDemoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87929672241F17BB007E8858 /* DLDemoTableViewCell.m */; };
+		879296BD241F5F5B007E8858 /* DLReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 879296BC241F5F5B007E8858 /* DLReachability.m */; };
+		879296C0241F64DE007E8858 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 879296BF241F64DE007E8858 /* Reachability.m */; };
 		87C3332E2418E8EF00EE14D9 /* DLSQL.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C3332D2418E8EF00EE14D9 /* DLSQL.m */; };
 		87C333312418E92B00EE14D9 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C333302418E92B00EE14D9 /* libsqlite3.tbd */; };
 		87D8DFBD2413E1BF00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8DFB92413E1BD00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m */; };
@@ -264,6 +267,12 @@
 		87835A27241B2FEE00F5D372 /* return_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "return_white@2x.png"; sourceTree = "<group>"; };
 		87835A2A241B36D500F5D372 /* DLAuthority.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLAuthority.h; sourceTree = "<group>"; };
 		87835A2B241B36D500F5D372 /* DLAuthority.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLAuthority.m; sourceTree = "<group>"; };
+		87929671241F17BB007E8858 /* DLDemoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLDemoTableViewCell.h; sourceTree = "<group>"; };
+		87929672241F17BB007E8858 /* DLDemoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLDemoTableViewCell.m; sourceTree = "<group>"; };
+		879296BB241F5F5B007E8858 /* DLReachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLReachability.h; sourceTree = "<group>"; };
+		879296BC241F5F5B007E8858 /* DLReachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLReachability.m; sourceTree = "<group>"; };
+		879296BE241F64DD007E8858 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		879296BF241F64DE007E8858 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
 		87C3332C2418E8EF00EE14D9 /* DLSQL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLSQL.h; sourceTree = "<group>"; };
 		87C3332D2418E8EF00EE14D9 /* DLSQL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLSQL.m; sourceTree = "<group>"; };
 		87C333302418E92B00EE14D9 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -333,6 +342,8 @@
 				87663A79241A2A12005052C4 /* DLModelDemo.m */,
 				2442059F2411205600E442C6 /* OneViewController.h */,
 				2442059D2411205600E442C6 /* OneViewController.m */,
+				87929671241F17BB007E8858 /* DLDemoTableViewCell.h */,
+				87929672241F17BB007E8858 /* DLDemoTableViewCell.m */,
 				244204EB2411204B00E442C6 /* Demo */,
 				244204F02411204C00E442C6 /* DLTool */,
 				244204BF2411202C00E442C6 /* Main.storyboard */,
@@ -581,6 +592,10 @@
 				2421C8D7241E0B9E009DD194 /* DLDownloadOperationManager.m */,
 				2421C8DB241E3D0A009DD194 /* DLScrollView.h */,
 				2421C8DC241E3D0A009DD194 /* DLScrollView.m */,
+				879296BB241F5F5B007E8858 /* DLReachability.h */,
+				879296BC241F5F5B007E8858 /* DLReachability.m */,
+				879296BE241F64DD007E8858 /* Reachability.h */,
+				879296BF241F64DE007E8858 /* Reachability.m */,
 			);
 			path = DLTool;
 			sourceTree = "<group>";
@@ -758,7 +773,9 @@
 				244205842411204C00E442C6 /* NSMutableString+Add.m in Sources */,
 				2442059A2411204C00E442C6 /* DLTimer.m in Sources */,
 				2442057A2411204C00E442C6 /* NSCache+Add.m in Sources */,
+				879296BD241F5F5B007E8858 /* DLReachability.m in Sources */,
 				244204BE2411202C00E442C6 /* ViewController.m in Sources */,
+				87929673241F17BB007E8858 /* DLDemoTableViewCell.m in Sources */,
 				2442058C2411204C00E442C6 /* UIControl+Add.m in Sources */,
 				244205632411204C00E442C6 /* DLLayer.m in Sources */,
 				87D8DFBE2413E1BF00DCEE30 /* UIView+SDAutoLayout.m in Sources */,
@@ -807,6 +824,7 @@
 				244205912411204C00E442C6 /* DLAlert.m in Sources */,
 				244205862411204C00E442C6 /* NSObject+Add.m in Sources */,
 				244205812411204C00E442C6 /* NSMutableDictionary+Add.m in Sources */,
+				879296C0241F64DE007E8858 /* Reachability.m in Sources */,
 				244205892411204C00E442C6 /* NSString+Add.m in Sources */,
 				2421C8D5241E05B4009DD194 /* DLDownloadOperation.m in Sources */,
 				244205622411204C00E442C6 /* DLDispatchQueuePool.m in Sources */,
@@ -977,7 +995,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = D748GV4LD4;
+				DEVELOPMENT_TEAM = J5ULG23TK3;
 				INFOPLIST_FILE = DLToolDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -992,7 +1010,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = D748GV4LD4;
+				DEVELOPMENT_TEAM = J5ULG23TK3;
 				INFOPLIST_FILE = DLToolDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -788,7 +788,7 @@ static char leftNameKey;
         if ([NSStringFromClass([self class]) isEqualToString:@"UIImageView"]) {
             UIImageView *imageView = (UIImageView *)self;
             if (imageString.length > 0) {
-                if (![imageString isEqualToString:self.currentURLString]) {
+                if (![imageString isEqualToString:self.currentURLString] && self.currentURLString.length > 0) {
                     [[DLDownloadOperationManager sharedManager]cancelOperation:imageString];
                 }
                 self.currentURLString = imageString;

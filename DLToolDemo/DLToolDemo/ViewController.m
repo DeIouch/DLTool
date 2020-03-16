@@ -46,6 +46,11 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
+//    [DLPerformanceLabel openMonitoring];
+    
+    
+        NSLog(@"22  %ld", (long)[DLReachability getReachabilityStatus]);
+    
 //    self.player = [DLPlayer shareInstance];
 //    self.player.fatherView = self.view;
 //    self.player.videoUrl = VideoUrl2;
@@ -58,6 +63,12 @@
 //
 //    model.adCount = 3;
 //    model.pushUrl = @"11111";
+    
+    
+//    UIImageView *image = [UIImageView dl_view:^(UIImageView *imageView) {
+//        imageView.dl_backView(self.view).dl_urlReduceImageString(@"http://h.hiphotos.baidu.com/zhidao/pic/item/7e3e6709c93d70cffcb36aaafbdcd100bba12bc8.jpg");
+//        imageView.frame = self.view.frame;
+//    }];
     
     
     
