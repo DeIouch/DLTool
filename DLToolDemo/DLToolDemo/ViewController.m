@@ -26,7 +26,7 @@
 
 @interface ViewController ()
 
-//@property (nonatomic, strong) DLPlayer *player;
+@property (nonatomic, strong) DLPlayer *player;
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -49,14 +49,14 @@
 //    [DLPerformanceLabel openMonitoring];
     
     
-        NSLog(@"22  %ld", (long)[DLReachability getReachabilityStatus]);
+        
     
-//    self.player = [DLPlayer shareInstance];
-//    self.player.fatherView = self.view;
-//    self.player.videoUrl = VideoUrl2;
-//    self.player.skinView = [[DLVodPlayerSkinView alloc]init];
-//    self.player.videoTitle = @"12222";
-//    [self.player start];
+    self.player = [DLPlayer shareInstance];
+    self.player.fatherView = self.view;
+    self.player.videoUrl = VideoUrl2;
+    self.player.skinView = [[DLVodPlayerSkinView alloc]init];
+    self.player.videoTitle = @"12222";
+    [self.player start];
         
 //    DLLaunchAdModel *model = [[DLLaunchAdModel alloc]init];
 //    model.adUrl = @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584165060138&di=152be487b8fbfc29dbce11f786705fc4&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F-fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F3c6d55fbb2fb4316e381ec1b26a4462309f7d331.jpg";

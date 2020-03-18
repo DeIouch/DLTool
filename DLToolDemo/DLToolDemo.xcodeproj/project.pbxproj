@@ -81,6 +81,7 @@
 		244205A32411205700E442C6 /* OneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442059D2411205600E442C6 /* OneViewController.m */; };
 		24903BA5241D0B6A00058612 /* DLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 24903BA4241D0B6A00058612 /* DLCache.m */; };
 		24CAA07724178E08005A7C56 /* DLMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 24CAA07624178E08005A7C56 /* DLMenu.m */; };
+		873CC4E12420D2F900A995B3 /* DLPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 873CC4E02420D2F900A995B3 /* DLPopView.m */; };
 		8755A81D2413AB350064E7E4 /* repeatPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 8755A81C2413AB350064E7E4 /* repeatPlay.png */; };
 		8761C1EA241873A100E94C8F /* DLBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 8761C1E9241873A100E94C8F /* DLBanner.m */; };
 		87663A7A241A2A12005052C4 /* DLModelDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 87663A79241A2A12005052C4 /* DLModelDemo.m */; };
@@ -254,6 +255,8 @@
 		24903BA4241D0B6A00058612 /* DLCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLCache.m; sourceTree = "<group>"; };
 		24CAA07524178E08005A7C56 /* DLMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLMenu.h; sourceTree = "<group>"; };
 		24CAA07624178E08005A7C56 /* DLMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLMenu.m; sourceTree = "<group>"; };
+		873CC4DF2420D2F900A995B3 /* DLPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPopView.h; sourceTree = "<group>"; };
+		873CC4E02420D2F900A995B3 /* DLPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPopView.m; sourceTree = "<group>"; };
 		8755A81C2413AB350064E7E4 /* repeatPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repeatPlay.png; sourceTree = "<group>"; };
 		8761C1E8241873A100E94C8F /* DLBanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLBanner.h; sourceTree = "<group>"; };
 		8761C1E9241873A100E94C8F /* DLBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLBanner.m; sourceTree = "<group>"; };
@@ -596,6 +599,8 @@
 				879296BC241F5F5B007E8858 /* DLReachability.m */,
 				879296BE241F64DD007E8858 /* Reachability.h */,
 				879296BF241F64DE007E8858 /* Reachability.m */,
+				873CC4DF2420D2F900A995B3 /* DLPopView.h */,
+				873CC4E02420D2F900A995B3 /* DLPopView.m */,
 			);
 			path = DLTool;
 			sourceTree = "<group>";
@@ -782,6 +787,7 @@
 				244205942411204C00E442C6 /* DLJsonToModel.m in Sources */,
 				244205852411204C00E442C6 /* NSNotificationCenter+Add.m in Sources */,
 				87C3332E2418E8EF00EE14D9 /* DLSQL.m in Sources */,
+				873CC4E12420D2F900A995B3 /* DLPopView.m in Sources */,
 				244205952411204C00E442C6 /* DLLoad.m in Sources */,
 				244205872411204C00E442C6 /* NSOrderedSet+Add.m in Sources */,
 				2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */,
