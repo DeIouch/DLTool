@@ -14,6 +14,8 @@
 #import <AVKit/AVKit.h>
 //#import "DLSQL.h"
 #import "DLModelDemo.h"
+#import "Q.h"
+#import "DLPromise.h"
 
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
@@ -41,6 +43,10 @@
     self.navigationController.navigationBarHidden = YES;
 }
 
+-(void)aaa{
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -49,14 +55,23 @@
 //    [DLPerformanceLabel openMonitoring];
     
     
-        
+    [[DLPromise sync:^id{
+        return @"111";
+    }] then:^id(id obj) {
+        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
+        view.backgroundColor = [UIColor redColor];
+        [self.view addSubview:view];
+        return @"222";
+    }];
     
-    self.player = [DLPlayer shareInstance];
-    self.player.fatherView = self.view;
-    self.player.videoUrl = VideoUrl2;
-    self.player.skinView = [[DLVodPlayerSkinView alloc]init];
-    self.player.videoTitle = @"12222";
-    [self.player start];
+    
+    
+//    self.player = [DLPlayer shareInstance];
+//    self.player.fatherView = self.view;
+//    self.player.videoUrl = VideoUrl2;
+//    self.player.skinView = [[DLVodPlayerSkinView alloc]init];
+//    self.player.videoTitle = @"12222";
+//    [self.player start];
         
 //    DLLaunchAdModel *model = [[DLLaunchAdModel alloc]init];
 //    model.adUrl = @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584165060138&di=152be487b8fbfc29dbce11f786705fc4&imgtype=0&src=http%3A%2F%2Fgss0.baidu.com%2F-fo3dSag_xI4khGko9WTAnF6hhy%2Fzhidao%2Fpic%2Fitem%2F3c6d55fbb2fb4316e381ec1b26a4462309f7d331.jpg";
@@ -75,14 +90,10 @@
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-//    [DLLaunchAd addLaunchAd:model clickBlock:^{
-//        NSLog(@"%@", model.pushUrl);
-//    } timeArrierBlock:^{
-//        NSLog(@"结束");
-//    }];
-    
-    [self presentViewController:[[OneViewController alloc]init] animated:YES completion:nil];
-    
+    OneViewController *vc = [[OneViewController alloc]init];
+    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:vc animated:YES completion:nil];
+//    NSLog(@"touchup");
 }
 
 @end

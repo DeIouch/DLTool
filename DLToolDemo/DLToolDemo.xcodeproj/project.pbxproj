@@ -90,6 +90,8 @@
 		87712A9B241C86BD0077A296 /* skipButton_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87712A9A241C86BD0077A296 /* skipButton_background@3x.png */; };
 		87835A28241B2FEF00F5D372 /* return_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87835A27241B2FEE00F5D372 /* return_white@2x.png */; };
 		87835A2C241B36D500F5D372 /* DLAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 87835A2B241B36D500F5D372 /* DLAuthority.m */; };
+		8791801C242480BC00B34F7E /* Q.m in Sources */ = {isa = PBXBuildFile; fileRef = 8791801A242480BC00B34F7E /* Q.m */; };
+		8791801F242483C200B34F7E /* DLPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 8791801E242483C200B34F7E /* DLPromise.m */; };
 		87929673241F17BB007E8858 /* DLDemoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87929672241F17BB007E8858 /* DLDemoTableViewCell.m */; };
 		879296BD241F5F5B007E8858 /* DLReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 879296BC241F5F5B007E8858 /* DLReachability.m */; };
 		879296C0241F64DE007E8858 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 879296BF241F64DE007E8858 /* Reachability.m */; };
@@ -270,6 +272,10 @@
 		87835A27241B2FEE00F5D372 /* return_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "return_white@2x.png"; sourceTree = "<group>"; };
 		87835A2A241B36D500F5D372 /* DLAuthority.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLAuthority.h; sourceTree = "<group>"; };
 		87835A2B241B36D500F5D372 /* DLAuthority.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLAuthority.m; sourceTree = "<group>"; };
+		8791801A242480BC00B34F7E /* Q.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Q.m; sourceTree = "<group>"; };
+		8791801B242480BC00B34F7E /* Q.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Q.h; sourceTree = "<group>"; };
+		8791801D242483C100B34F7E /* DLPromise.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLPromise.h; sourceTree = "<group>"; };
+		8791801E242483C200B34F7E /* DLPromise.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLPromise.m; sourceTree = "<group>"; };
 		87929671241F17BB007E8858 /* DLDemoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLDemoTableViewCell.h; sourceTree = "<group>"; };
 		87929672241F17BB007E8858 /* DLDemoTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLDemoTableViewCell.m; sourceTree = "<group>"; };
 		879296BB241F5F5B007E8858 /* DLReachability.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLReachability.h; sourceTree = "<group>"; };
@@ -389,6 +395,8 @@
 				87D8DFBC2413E1BF00DCEE30 /* UIView+SDAutoLayout.m */,
 				8761C1E8241873A100E94C8F /* DLBanner.h */,
 				8761C1E9241873A100E94C8F /* DLBanner.m */,
+				8791801B242480BC00B34F7E /* Q.h */,
+				8791801A242480BC00B34F7E /* Q.m */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -601,6 +609,8 @@
 				879296BF241F64DE007E8858 /* Reachability.m */,
 				873CC4DF2420D2F900A995B3 /* DLPopView.h */,
 				873CC4E02420D2F900A995B3 /* DLPopView.m */,
+				8791801D242483C100B34F7E /* DLPromise.h */,
+				8791801E242483C200B34F7E /* DLPromise.m */,
 			);
 			path = DLTool;
 			sourceTree = "<group>";
@@ -792,6 +802,7 @@
 				244205872411204C00E442C6 /* NSOrderedSet+Add.m in Sources */,
 				2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */,
 				2442058D2411204C00E442C6 /* UIDevice+Add.m in Sources */,
+				8791801C242480BC00B34F7E /* Q.m in Sources */,
 				2442057D2411204C00E442C6 /* NSDictionary+Add.m in Sources */,
 				2421C8DD241E3D0A009DD194 /* DLScrollView.m in Sources */,
 				244205982411204C00E442C6 /* DLPerformanceLabel.m in Sources */,
@@ -828,6 +839,7 @@
 				87835A2C241B36D500F5D372 /* DLAuthority.m in Sources */,
 				87D8DFBD2413E1BF00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m in Sources */,
 				244205912411204C00E442C6 /* DLAlert.m in Sources */,
+				8791801F242483C200B34F7E /* DLPromise.m in Sources */,
 				244205862411204C00E442C6 /* NSObject+Add.m in Sources */,
 				244205812411204C00E442C6 /* NSMutableDictionary+Add.m in Sources */,
 				879296C0241F64DE007E8858 /* Reachability.m in Sources */,

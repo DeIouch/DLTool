@@ -51,8 +51,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-        NSLog(@"111  %ld", (long)[DLReachability getReachabilityStatus]);
-    
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.array = [[NSMutableArray alloc]init];
@@ -159,7 +157,7 @@
 
 -(void)dealloc{
     
-//    NSLog(@"11111");
+    NSLog(@"11111");
 }
 
 @end

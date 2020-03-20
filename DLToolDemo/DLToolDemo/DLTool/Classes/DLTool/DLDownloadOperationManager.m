@@ -2,6 +2,7 @@
 #import "DLCache.h"
 #import "DLDownloadOperation.h"
 #import "DLThread.h"
+#import "DLPromise.h"
 
 @interface DLDownloadOperationManager ()
 
