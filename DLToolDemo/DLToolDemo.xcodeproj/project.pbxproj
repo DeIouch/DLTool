@@ -95,6 +95,8 @@
 		87929673241F17BB007E8858 /* DLDemoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87929672241F17BB007E8858 /* DLDemoTableViewCell.m */; };
 		879296BD241F5F5B007E8858 /* DLReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 879296BC241F5F5B007E8858 /* DLReachability.m */; };
 		879296C0241F64DE007E8858 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 879296BF241F64DE007E8858 /* Reachability.m */; };
+		87B41BF12424B3FA00E545B3 /* UIView+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B41BF02424B3FA00E545B3 /* UIView+Layout.m */; };
+		87B41C352424C65D00E545B3 /* DLPerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B41C342424C65D00E545B3 /* DLPerformance.m */; };
 		87C3332E2418E8EF00EE14D9 /* DLSQL.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C3332D2418E8EF00EE14D9 /* DLSQL.m */; };
 		87C333312418E92B00EE14D9 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C333302418E92B00EE14D9 /* libsqlite3.tbd */; };
 		87D8DFBD2413E1BF00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8DFB92413E1BD00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m */; };
@@ -282,6 +284,10 @@
 		879296BC241F5F5B007E8858 /* DLReachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLReachability.m; sourceTree = "<group>"; };
 		879296BE241F64DD007E8858 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		879296BF241F64DE007E8858 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		87B41BEF2424B3FA00E545B3 /* UIView+Layout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Layout.h"; sourceTree = "<group>"; };
+		87B41BF02424B3FA00E545B3 /* UIView+Layout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Layout.m"; sourceTree = "<group>"; };
+		87B41C332424C65D00E545B3 /* DLPerformance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLPerformance.h; sourceTree = "<group>"; };
+		87B41C342424C65D00E545B3 /* DLPerformance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLPerformance.m; sourceTree = "<group>"; };
 		87C3332C2418E8EF00EE14D9 /* DLSQL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLSQL.h; sourceTree = "<group>"; };
 		87C3332D2418E8EF00EE14D9 /* DLSQL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLSQL.m; sourceTree = "<group>"; };
 		87C333302418E92B00EE14D9 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -488,6 +494,8 @@
 			children = (
 				2442050F2411204C00E442C6 /* UIView+Add.h */,
 				244205102411204C00E442C6 /* UIView+Add.m */,
+				87B41BEF2424B3FA00E545B3 /* UIView+Layout.h */,
+				87B41BF02424B3FA00E545B3 /* UIView+Layout.m */,
 			);
 			path = DLKit;
 			sourceTree = "<group>";
@@ -577,6 +585,8 @@
 				244205552411204C00E442C6 /* DLNoti.m */,
 				244205562411204C00E442C6 /* DLPerformanceLabel.h */,
 				244205572411204C00E442C6 /* DLPerformanceLabel.m */,
+				87B41C332424C65D00E545B3 /* DLPerformance.h */,
+				87B41C342424C65D00E545B3 /* DLPerformance.m */,
 				244205582411204C00E442C6 /* DLThread.h */,
 				244205592411204C00E442C6 /* DLThread.m */,
 				2442055A2411204C00E442C6 /* DLTimer.h */,
@@ -799,6 +809,7 @@
 				87C3332E2418E8EF00EE14D9 /* DLSQL.m in Sources */,
 				873CC4E12420D2F900A995B3 /* DLPopView.m in Sources */,
 				244205952411204C00E442C6 /* DLLoad.m in Sources */,
+				87B41BF12424B3FA00E545B3 /* UIView+Layout.m in Sources */,
 				244205872411204C00E442C6 /* NSOrderedSet+Add.m in Sources */,
 				2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */,
 				2442058D2411204C00E442C6 /* UIDevice+Add.m in Sources */,
@@ -835,6 +846,7 @@
 				2421C8D8241E0B9E009DD194 /* DLDownloadOperationManager.m in Sources */,
 				2442058F2411204C00E442C6 /* UIScrollView+Add.m in Sources */,
 				244205A32411205700E442C6 /* OneViewController.m in Sources */,
+				87B41C352424C65D00E545B3 /* DLPerformance.m in Sources */,
 				244205822411204C00E442C6 /* NSMutableOrderedSet+Add.m in Sources */,
 				87835A2C241B36D500F5D372 /* DLAuthority.m in Sources */,
 				87D8DFBD2413E1BF00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m in Sources */,

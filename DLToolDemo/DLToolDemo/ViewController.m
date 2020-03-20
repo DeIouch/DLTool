@@ -16,6 +16,9 @@
 #import "DLModelDemo.h"
 #import "Q.h"
 #import "DLPromise.h"
+#import <objc/runtime.h>
+#import <malloc/malloc.h>
+#import "DLPerformance.h"
 
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
@@ -40,7 +43,7 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.navigationBarHidden = YES;
+//    self.navigationController.navigationBarHidden = YES;
 }
 
 -(void)aaa{
@@ -55,16 +58,7 @@
 //    [DLPerformanceLabel openMonitoring];
     
     
-    [[DLPromise sync:^id{
-        return @"111";
-    }] then:^id(id obj) {
-        UIView *view = [[UIView alloc]initWithFrame:CGRectMake(100, 100, 100, 100)];
-        view.backgroundColor = [UIColor redColor];
-        [self.view addSubview:view];
-        return @"222";
-    }];
-    
-    
+    [DLPerformance openMonitoring];
     
 //    self.player = [DLPlayer shareInstance];
 //    self.player.fatherView = self.view;
@@ -92,7 +86,9 @@
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     OneViewController *vc = [[OneViewController alloc]init];
     vc.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:vc animated:YES completion:nil];
+//    [self presentViewController:vc animated:YES completion:nil];
+    [self.navigationController pushViewController:vc animated:YES];
+    
 //    NSLog(@"touchup");
 }
 
