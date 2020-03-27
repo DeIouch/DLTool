@@ -19,7 +19,6 @@
 		244204C92411202C00E442C6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 244204C82411202C00E442C6 /* main.m */; };
 		244204D32411202D00E442C6 /* DLToolDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 244204D22411202D00E442C6 /* DLToolDemoTests.m */; };
 		244204DE2411202D00E442C6 /* DLToolDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 244204DD2411202D00E442C6 /* DLToolDemoUITests.m */; };
-		244205622411204C00E442C6 /* DLDispatchQueuePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 244204ED2411204B00E442C6 /* DLDispatchQueuePool.m */; };
 		244205632411204C00E442C6 /* DLLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 244204EF2411204B00E442C6 /* DLLayer.m */; };
 		244205642411204C00E442C6 /* ClarityDefault.png in Resources */ = {isa = PBXBuildFile; fileRef = 244204F22411204C00E442C6 /* ClarityDefault.png */; };
 		244205652411204C00E442C6 /* ClaritySelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 244204F32411204C00E442C6 /* ClaritySelected.png */; };
@@ -73,7 +72,6 @@
 		244205952411204C00E442C6 /* DLLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205512411204C00E442C6 /* DLLoad.m */; };
 		244205962411204C00E442C6 /* DLNetworkSpeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205532411204C00E442C6 /* DLNetworkSpeed.m */; };
 		244205972411204C00E442C6 /* DLNoti.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205552411204C00E442C6 /* DLNoti.m */; };
-		244205982411204C00E442C6 /* DLPerformanceLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205572411204C00E442C6 /* DLPerformanceLabel.m */; };
 		244205992411204C00E442C6 /* DLThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205592411204C00E442C6 /* DLThread.m */; };
 		2442059A2411204C00E442C6 /* DLTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442055B2411204C00E442C6 /* DLTimer.m */; };
 		2442059B2411204C00E442C6 /* DLTimerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442055D2411204C00E442C6 /* DLTimerButton.m */; };
@@ -90,7 +88,6 @@
 		87712A9B241C86BD0077A296 /* skipButton_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87712A9A241C86BD0077A296 /* skipButton_background@3x.png */; };
 		87835A28241B2FEF00F5D372 /* return_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87835A27241B2FEE00F5D372 /* return_white@2x.png */; };
 		87835A2C241B36D500F5D372 /* DLAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 87835A2B241B36D500F5D372 /* DLAuthority.m */; };
-		8791801C242480BC00B34F7E /* Q.m in Sources */ = {isa = PBXBuildFile; fileRef = 8791801A242480BC00B34F7E /* Q.m */; };
 		8791801F242483C200B34F7E /* DLPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 8791801E242483C200B34F7E /* DLPromise.m */; };
 		87929673241F17BB007E8858 /* DLDemoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87929672241F17BB007E8858 /* DLDemoTableViewCell.m */; };
 		879296BD241F5F5B007E8858 /* DLReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 879296BC241F5F5B007E8858 /* DLReachability.m */; };
@@ -145,8 +142,6 @@
 		244204D92411202D00E442C6 /* DLToolDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DLToolDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		244204DD2411202D00E442C6 /* DLToolDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLToolDemoUITests.m; sourceTree = "<group>"; };
 		244204DF2411202D00E442C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		244204EC2411204B00E442C6 /* DLDispatchQueuePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLDispatchQueuePool.h; sourceTree = "<group>"; };
-		244204ED2411204B00E442C6 /* DLDispatchQueuePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLDispatchQueuePool.m; sourceTree = "<group>"; };
 		244204EE2411204B00E442C6 /* DLLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLLayer.h; sourceTree = "<group>"; };
 		244204EF2411204B00E442C6 /* DLLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLLayer.m; sourceTree = "<group>"; };
 		244204F22411204C00E442C6 /* ClarityDefault.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClarityDefault.png; sourceTree = "<group>"; };
@@ -241,8 +236,6 @@
 		244205532411204C00E442C6 /* DLNetworkSpeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLNetworkSpeed.m; sourceTree = "<group>"; };
 		244205542411204C00E442C6 /* DLNoti.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLNoti.h; sourceTree = "<group>"; };
 		244205552411204C00E442C6 /* DLNoti.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLNoti.m; sourceTree = "<group>"; };
-		244205562411204C00E442C6 /* DLPerformanceLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPerformanceLabel.h; sourceTree = "<group>"; };
-		244205572411204C00E442C6 /* DLPerformanceLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPerformanceLabel.m; sourceTree = "<group>"; };
 		244205582411204C00E442C6 /* DLThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLThread.h; sourceTree = "<group>"; };
 		244205592411204C00E442C6 /* DLThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLThread.m; sourceTree = "<group>"; };
 		2442055A2411204C00E442C6 /* DLTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLTimer.h; sourceTree = "<group>"; };
@@ -274,8 +267,6 @@
 		87835A27241B2FEE00F5D372 /* return_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "return_white@2x.png"; sourceTree = "<group>"; };
 		87835A2A241B36D500F5D372 /* DLAuthority.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLAuthority.h; sourceTree = "<group>"; };
 		87835A2B241B36D500F5D372 /* DLAuthority.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLAuthority.m; sourceTree = "<group>"; };
-		8791801A242480BC00B34F7E /* Q.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Q.m; sourceTree = "<group>"; };
-		8791801B242480BC00B34F7E /* Q.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Q.h; sourceTree = "<group>"; };
 		8791801D242483C100B34F7E /* DLPromise.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLPromise.h; sourceTree = "<group>"; };
 		8791801E242483C200B34F7E /* DLPromise.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLPromise.m; sourceTree = "<group>"; };
 		87929671241F17BB007E8858 /* DLDemoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLDemoTableViewCell.h; sourceTree = "<group>"; };
@@ -391,8 +382,6 @@
 		244204EB2411204B00E442C6 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				244204EC2411204B00E442C6 /* DLDispatchQueuePool.h */,
-				244204ED2411204B00E442C6 /* DLDispatchQueuePool.m */,
 				244204EE2411204B00E442C6 /* DLLayer.h */,
 				244204EF2411204B00E442C6 /* DLLayer.m */,
 				87D8DFBA2413E1BE00DCEE30 /* UITableView+SDAutoTableViewCellHeight.h */,
@@ -401,8 +390,6 @@
 				87D8DFBC2413E1BF00DCEE30 /* UIView+SDAutoLayout.m */,
 				8761C1E8241873A100E94C8F /* DLBanner.h */,
 				8761C1E9241873A100E94C8F /* DLBanner.m */,
-				8791801B242480BC00B34F7E /* Q.h */,
-				8791801A242480BC00B34F7E /* Q.m */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -410,13 +397,13 @@
 		244204F02411204C00E442C6 /* DLTool */ = {
 			isa = PBXGroup;
 			children = (
-				244204F12411204C00E442C6 /* Assets */,
+				244204F12411204C00E442C6 /* bundle */,
 				244204FF2411204C00E442C6 /* Classes */,
 			);
 			path = DLTool;
 			sourceTree = "<group>";
 		};
-		244204F12411204C00E442C6 /* Assets */ = {
+		244204F12411204C00E442C6 /* bundle */ = {
 			isa = PBXGroup;
 			children = (
 				87712A9A241C86BD0077A296 /* skipButton_background@3x.png */,
@@ -437,7 +424,7 @@
 				244204FD2411204C00E442C6 /* video_small_screen.png */,
 				244204FE2411204C00E442C6 /* video_top_gray.png */,
 			);
-			path = Assets;
+			path = bundle;
 			sourceTree = "<group>";
 		};
 		244204FF2411204C00E442C6 /* Classes */ = {
@@ -583,8 +570,6 @@
 				244205532411204C00E442C6 /* DLNetworkSpeed.m */,
 				244205542411204C00E442C6 /* DLNoti.h */,
 				244205552411204C00E442C6 /* DLNoti.m */,
-				244205562411204C00E442C6 /* DLPerformanceLabel.h */,
-				244205572411204C00E442C6 /* DLPerformanceLabel.m */,
 				87B41C332424C65D00E545B3 /* DLPerformance.h */,
 				87B41C342424C65D00E545B3 /* DLPerformance.m */,
 				244205582411204C00E442C6 /* DLThread.h */,
@@ -813,10 +798,8 @@
 				244205872411204C00E442C6 /* NSOrderedSet+Add.m in Sources */,
 				2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */,
 				2442058D2411204C00E442C6 /* UIDevice+Add.m in Sources */,
-				8791801C242480BC00B34F7E /* Q.m in Sources */,
 				2442057D2411204C00E442C6 /* NSDictionary+Add.m in Sources */,
 				2421C8DD241E3D0A009DD194 /* DLScrollView.m in Sources */,
-				244205982411204C00E442C6 /* DLPerformanceLabel.m in Sources */,
 				244205782411204C00E442C6 /* NSArray+Add.m in Sources */,
 				244205762411204C00E442C6 /* UIView+Add.m in Sources */,
 				244205832411204C00E442C6 /* NSMutableSet+Add.m in Sources */,
@@ -857,7 +840,6 @@
 				879296C0241F64DE007E8858 /* Reachability.m in Sources */,
 				244205892411204C00E442C6 /* NSString+Add.m in Sources */,
 				2421C8D5241E05B4009DD194 /* DLDownloadOperation.m in Sources */,
-				244205622411204C00E442C6 /* DLDispatchQueuePool.m in Sources */,
 				244205962411204C00E442C6 /* DLNetworkSpeed.m in Sources */,
 				244205792411204C00E442C6 /* NSAttributedString+Add.m in Sources */,
 				87663A7A241A2A12005052C4 /* DLModelDemo.m in Sources */,
@@ -1026,6 +1008,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J5ULG23TK3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DLToolDemo",
+				);
 				INFOPLIST_FILE = DLToolDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1041,6 +1027,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J5ULG23TK3;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DLToolDemo",
+				);
 				INFOPLIST_FILE = DLToolDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

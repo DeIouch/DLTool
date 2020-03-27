@@ -65,7 +65,7 @@ static CFMutableArrayRef queueIsFreeArray;
                 return queueKey;
             }
         }
-        if (tempDic.allKeys.count < (int)[NSProcessInfo processInfo].processorCount * 2) {
+        if (tempDic.allKeys.count < (int)[NSProcessInfo processInfo].activeProcessorCount * 2) {
             DLThreadModel *model = [[DLThreadModel alloc]init];
             dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
             model.isFree = NO;

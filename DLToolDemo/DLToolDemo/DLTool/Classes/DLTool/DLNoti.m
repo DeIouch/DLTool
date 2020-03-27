@@ -99,12 +99,12 @@ static DLNoti *noti = nil;
 
 -(instancetype)init{
     if (self = [super init]) {
-        self.dl_backColor(@[@"#00000030"]);
+        self.dl_backColor(@"#00000030");
         self.translatesAutoresizingMaskIntoConstraints = NO;
         self.notiLabel = [UILabel dl_view:^(UILabel *label) {
             label.translatesAutoresizingMaskIntoConstraints = NO;
             label.dl_backView(self);
-            label.dl_textColor(@[@"#ffffff"]).dl_lines(0).dl_alignment(NSTextAlignmentCenter).dl_fontSize(15);
+            label.dl_textColor(@"#ffffff").dl_lines(0).dl_alignment(NSTextAlignmentCenter).dl_fontSize(15);
             [self addConstraints:@[
                 [NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeft multiplier:1 constant:20],
                 [NSLayoutConstraint constraintWithItem:label attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeRight multiplier:1 constant:-20],
