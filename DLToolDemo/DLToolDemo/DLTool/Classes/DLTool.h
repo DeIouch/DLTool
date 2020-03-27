@@ -17,7 +17,6 @@ FOUNDATION_EXPORT const unsigned char DLToolVersionString[];
 #import "DLCoreGrapView.h"
 #import "DLNetworkSpeed.h"
 #import "DLThread.h"
-#import "DLPerformanceLabel.h"
 #import "DLMenu.h"
 #import "DLSQL.h"
 #import "DLCode.h"

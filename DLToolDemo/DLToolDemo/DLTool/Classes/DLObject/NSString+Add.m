@@ -88,6 +88,112 @@ static const char TTAlphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst
     }
 }
 
+- (BOOL)dl_isValidateWithRegex:(NSString *)regex
+{
+    NSPredicate *pre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+    return [pre evaluateWithObject:self];
+}
+
+/* 邮箱验证 MODIFIED BY HELENSONG */
+- (BOOL)dl_isValidEmail
+{
+    NSString *emailRegex = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:self];
+}
+
+/* 手机号码验证 MODIFIED BY HELENSONG */
+- (BOOL)dl_isValidPhoneNum{
+    //手机号以13， 14，15，17，18，19开头，八个 \d 数字字符
+    NSString *phoneRegex = @"^(13[0-9]|14[5-9]|15[012356789]|166|17[0-8]|18[0-9]|19[0-9])[0-9]{8}$";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
+    return [phoneTest evaluateWithObject:self];
+}
+
+/* 车牌号验证 MODIFIED BY HELENSONG */
+-(BOOL)dl_isValidCarNo{
+    NSString *carRegex = @"^[A-Za-z]{1}[A-Za-z_0-9]{5}$";
+    NSPredicate *carTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",carRegex];
+    return [carTest evaluateWithObject:self];
+}
+
+/** 网址验证 */
+-(BOOL)dl_isValidUrl{
+    NSString *regex = @"^((http)|(https))+:[^\\s]+\\.[^\\s]*$";
+    return [self dl_isValidateWithRegex:regex];
+}
+
+/** 邮政编码 */
+-(BOOL)dl_isValidPostalcode{
+    NSString *phoneRegex = @"^[0-8]\\d{5}(?!\\d)$";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
+    return [phoneTest evaluateWithObject:self];
+}
+
+/** 纯汉字 */
+- (BOOL)dl_isValidChinese{
+    NSString *phoneRegex = @"^[\u4e00-\u9fa5]+$";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
+    return [phoneTest evaluateWithObject:self];
+}
+
+- (BOOL)dl_isValidIP{
+    NSString *regex = [NSString stringWithFormat:@"^(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})\\.(\\d{1,3})$"];
+    NSPredicate *pre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regex];
+    BOOL rc = [pre evaluateWithObject:self];
+    if (rc) {
+        NSArray *componds = [self componentsSeparatedByString:@","];
+        BOOL v = YES;
+        for (NSString *s in componds) {
+            if (s.integerValue > 255) {
+                v = NO;
+                break;
+            }
+        }
+        return v;
+    }
+    return NO;
+}
+
+- (BOOL)dl_isValidWithMinLenth:(NSInteger)minLenth
+                   maxLenth:(NSInteger)maxLenth
+             containChinese:(BOOL)containChinese
+              containDigtal:(BOOL)containDigtal
+              containLetter:(BOOL)containLetter
+      containOtherCharacter:(NSString *)containOtherCharacter
+        firstCannotBeDigtal:(BOOL)firstCannotBeDigtal;
+{
+    BOOL rc = YES;
+    if (firstCannotBeDigtal) {
+        NSString *regex = @"^[0-9]+.*";
+        NSPredicate *pre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regex];
+        rc = [pre evaluateWithObject:self];
+        if (rc) {
+            return NO;
+        }
+    }
+    NSString *hanzi = containChinese ? @"\u4e00-\u9fa5" : @"";
+    NSString *digtalRegex = containDigtal ? @"0-9" : @"";
+    NSString *containOtherCharacterRegex = containOtherCharacter ? containOtherCharacter : @"";
+    NSString *characterRegex = [NSString stringWithFormat:@"[%@A-Za-z%@%@]", hanzi, digtalRegex, containOtherCharacterRegex];
+    NSString *regex = [NSString stringWithFormat:@"%@{%@,%@}", characterRegex, @(minLenth), @(maxLenth)];
+    NSPredicate *pre = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regex];
+    return [pre evaluateWithObject:self];
+}
+
+/** 去掉两端空格和换行符 */
+-(NSString *)dl_stringByTrimmingBlank{
+    return [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+/** 工商税号 */
+- (BOOL)dl_isValidTaxNo
+{
+    NSString *emailRegex = @"[0-9]\\d{13}([0-9]|X)$";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:self];
+}
+
 +(void)load
 {
     static dispatch_once_t onceToken;

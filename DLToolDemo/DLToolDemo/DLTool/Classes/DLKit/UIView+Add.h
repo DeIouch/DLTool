@@ -99,7 +99,11 @@
 /// @param view 公共父视图
 -(instancetype)getCommonSuperView:(UIView *)view;
 
--(UIView *(^) (id color))dl_backColor;
+/// 背景颜色
+-(UIView *(^) (NSString *color))dl_backColor;
+
+/// 暗黑模式的背景颜色
+-(UIView *(^) (NSString *color))dl_dark_backColor;
 
 -(UIView *(^) (UIView *view))dl_backView;
 
@@ -174,17 +178,32 @@
 /**
  按钮普通状态下的文字颜色
  */
--(UIView *(^)(id color))dl_normalTitleColor;
+-(UIView *(^)(NSString *color))dl_normalTitleColor;
 
 /**
  按钮选中状态下的文字颜色
  */
--(UIView *(^)(id color))dl_selectTitleColor;
+-(UIView *(^)(NSString *color))dl_selectTitleColor;
 
 /**
  按钮高亮状态下的文字颜色
  */
--(UIView *(^)(id color))dl_highlightTitleColor;
+-(UIView *(^)(NSString *color))dl_highlightTitleColor;
+
+/**
+ 按钮普通状态下的文字颜色
+ */
+-(UIView *(^)(NSString *color))dl_dark_normalTitleColor;
+
+/**
+ 按钮选中状态下的文字颜色
+ */
+-(UIView *(^)(NSString *color))dl_dark_selectTitleColor;
+
+/**
+ 按钮高亮状态下的文字颜色
+ */
+-(UIView *(^)(NSString *color))dl_dark_highlightTitleColor;
 
 
 #pragma mark UILabel
@@ -196,7 +215,12 @@
 /**
  设置文字颜色
  */
--(UIView *(^) (id color))dl_textColor;
+-(UIView *(^) (NSString *color))dl_textColor;
+
+/**
+ 设置文字颜色
+ */
+-(UIView *(^) (NSString *color))dl_dark_textColor;
 
 /**
  设置对齐方式

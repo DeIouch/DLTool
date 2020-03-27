@@ -206,6 +206,11 @@ static DLPlayer *player = nil;
 -(AVPlayer *)avPlayer{
     if (!_avPlayer) {
         _avPlayer = [[AVPlayer alloc]init];
+        if (@available(iOS 10.0, *)) {
+            _avPlayer.automaticallyWaitsToMinimizeStalling = NO;
+        } else {
+            // Fallback on earlier versions
+        }
     }
     return _avPlayer;
 }
@@ -446,7 +451,7 @@ static DLPlayer *player = nil;
 -(UIView *)playerView {
     if (!_playerView) {
         _playerView = [UIView dl_view:^(UIView *view) {
-            view.dl_backColor(@[@"000000"]);
+            view.dl_backColor(@"000000");
         }];
         _playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.avPlayer];
         _playerLayer.videoGravity = AVLayerVideoGravityResizeAspect;
@@ -849,7 +854,7 @@ static UISlider * _volumeSlider;
 -(UILabel *)titleLabel {
     if (!_titleLabel) {
         _titleLabel = [UILabel dl_view:^(UILabel *label) {
-            label.dl_backView(self.topFuncView).dl_fontSize(18).dl_textColor(@[@"FFFFFF"]).dl_alignment(NSTextAlignmentLeft);
+            label.dl_backView(self.topFuncView).dl_fontSize(18).dl_textColor(@"FFFFFF").dl_alignment(NSTextAlignmentLeft);
             [label dl_AutoLayout:^(DLConstraintMaker *make) {
                 make.left.equal(self.topFuncView).offset(38);
                 make.top.equal(self.topFuncView).offset(24);;
