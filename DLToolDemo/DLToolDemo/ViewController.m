@@ -79,8 +79,13 @@
 //        imageView.frame = self.view.frame;
 //    }];
     
-    
-    
+    dispatch_semaphore_t sema = dispatch_semaphore_create(1);
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSLog(@"刷新完成");
+    });
+    dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+    NSLog(@"11111");
+    dispatch_semaphore_signal(sema);
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{

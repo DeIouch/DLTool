@@ -78,24 +78,19 @@
 //        for (int a = 0; a < 20; a++) {
 //            [self.array insertObject:@"head" atIndex:0];
 //        }
-        
-//        [self.array addObject:VideoUrl4];
-//        [self.array addObject:VideoUrl5];
-//        [self.array addObject:VideoUrl6];
-//        [self.array addObject:VideoUrl7];
-//        [self.array addObject:VideoUrl8];
-//        [self.array addObject:VideoUrl9];
-//        [self.array addObject:VideoUrl10];
-//        [self.array addObject:VideoUrl11];
-//        [self.array addObject:VideoUrl12];
-        
-        
-        
-        
-        
-        
-        
-        [self.tableView reloadData];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(20 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.array addObject:VideoUrl4];
+            [self.array addObject:VideoUrl5];
+            [self.array addObject:VideoUrl6];
+            [self.array addObject:VideoUrl7];
+            [self.array addObject:VideoUrl8];
+            [self.array addObject:VideoUrl9];
+            [self.array addObject:VideoUrl10];
+            [self.array addObject:VideoUrl11];
+            [self.array addObject:VideoUrl12];
+            [self.tableView reloadData];
+            NSLog(@"刷新完成");
+        });
     }];
 
     [self.tableView footFreshBlock:^{
@@ -134,7 +129,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 10;
+    return 30;
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -142,7 +137,7 @@
     if (!cell) {
         cell = [[DLDemoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    cell.imageview.dl_urlReduceImageString(self.array[indexPath.row]);
+//    cell.imageview.dl_urlReduceImageString(self.array[indexPath.row]);
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }

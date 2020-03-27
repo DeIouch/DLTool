@@ -17,6 +17,7 @@ static char headFreshKey;
 static char footFreshKey;
 static FreshBaseView *headFreshDefaultView;
 static FreshBaseView *footFreshDefaultView;
+static dispatch_semaphore_t semaphore;
 
 @implementation FreshBaseView
 
@@ -354,6 +355,7 @@ static FreshBaseView *footFreshDefaultView;
         footFreshDefaultView = [[FootFreshDefaultView alloc]initWithFrame:CGRectMake(0, -FRESHHEIGHT, DLWidth, FRESHHEIGHT)];
         footFreshDefaultView.hidden = YES;
         footFreshDefaultView.backgroundColor = [UIColor whiteColor];
+        semaphore = dispatch_semaphore_create(1);
     });
 }
 
@@ -436,6 +438,7 @@ static FreshBaseView *footFreshDefaultView;
                             [headFreshDefaultView normalRefresh:0];
                         }else{
                             [headFreshDefaultView beginRefresh];
+                            self.contentInset = UIEdgeInsetsMake(self.contentInset.top + 40, self.contentInset.left, self.contentInset.bottom, self.contentInset.right);
                             self.needHeadFreshBOOL = YES;
                         }
                     }
