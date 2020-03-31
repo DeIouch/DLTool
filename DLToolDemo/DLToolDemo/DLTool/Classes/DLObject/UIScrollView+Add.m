@@ -3,6 +3,8 @@
 #import "NSObject+Add.h"
 #import "DLToolMacro.h"
 #import "UIView+Add.h"
+#import "DLPromise.h"
+#import "DLThread.h"
 @class FootFreshDefaultView;
 @class HeadFreshDefaultView;
 @class FreshBaseView;
@@ -447,14 +449,31 @@ static dispatch_semaphore_t semaphore;
         }else{
             if (self.needHeadFreshBOOL) {
                 self.needHeadFreshBOOL = NO;
-                [headFreshDefaultView readyRefresh];
-                self.headFreshBlock();
-                [headFreshDefaultView endRefresh];
+                [[DLPromise sync:^id{
+                    [headFreshDefaultView readyRefresh];
+                    self.headFreshBlock();
+                    return nil;
+                }] then:^id(id obj) {
+                    [headFreshDefaultView endRefresh];
+                    self.contentInset = UIEdgeInsetsMake(self.contentInset.top - 40, self.contentInset.left, self.contentInset.bottom, self.contentInset.right);
+                    return nil;
+                }];
             }else if (self.needFootFreshBOOL) {
                 self.needFootFreshBOOL = NO;
                 [footFreshDefaultView readyRefresh];
                 self.footFreshBlock();
                 [footFreshDefaultView endRefresh];
+                
+                
+                [[DLPromise sync:^id{
+                    [footFreshDefaultView readyRefresh];
+                    self.footFreshBlock();
+                    return nil;
+                }] then:^id(id obj) {
+                    [footFreshDefaultView endRefresh];
+                    return nil;
+                }];
+                
             }
             headFreshDefaultView.hidden = YES;
             footFreshDefaultView.hidden = YES;

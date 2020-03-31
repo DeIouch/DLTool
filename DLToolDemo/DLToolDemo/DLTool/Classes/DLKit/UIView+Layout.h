@@ -1,111 +1,62 @@
+//
+//  UIView+DLLLL.h
+//  DLToolDemo
+//
+//  Created by 戴青 on 2020/3/27.
+//  Copyright © 2020年 戴青. All rights reserved.
+//
+
 #import <UIKit/UIKit.h>
 
 @interface DLLayout : NSObject
 
-@property (nonatomic, weak) UIView *firstView;
+@property (nonatomic, strong) DLLayout *left;
 
-@property (nonatomic, weak) id item;
+@property (nonatomic, strong) DLLayout *right;
 
-@property (nonatomic, weak) UIView *secondView;
+@property (nonatomic, strong) DLLayout *top;
 
-@property (nonatomic, assign) CGFloat constant;
+@property (nonatomic, strong) DLLayout *bottom;
 
-@property (nonatomic, assign) CGFloat multiplied;
+@property (nonatomic, strong) DLLayout *safeTop;
 
-@property (nonatomic, assign) NSLayoutAttribute firstAttribute;
+@property (nonatomic, strong) DLLayout *safeBottom;
 
-@property (nonatomic, assign) NSLayoutAttribute secondAttribute;
+@property (nonatomic, strong) DLLayout *width;
 
-@property (nonatomic, assign) NSLayoutRelation layoutRelation;
+@property (nonatomic, strong) DLLayout *lessOrThanWidth;
 
-@property (nonatomic, weak) UIView *fatherView;
+@property (nonatomic, strong) DLLayout *greatOrThenWidth;
 
-@property (nonatomic, strong) NSLayoutConstraint *constraint;
+@property (nonatomic, strong) DLLayout *height;
+
+@property (nonatomic, strong) DLLayout *lessOrThanHeight;
+
+@property (nonatomic, strong) DLLayout *greatOrThanHeight;
+
+@property (nonatomic, strong) DLLayout *centerX;
+
+@property (nonatomic, strong) DLLayout *centerY;
 
 -(DLLayout *(^)(UIView *view))equal;
 
+-(DLLayout *(^)(UIView *view))equal_to;
+
+-(DLLayout *(^)(CGFloat constant))multipliedBy;
+
 -(DLLayout *(^)(CGFloat constant))offset;
 
-@property (nonatomic, assign) BOOL hasInstall;
+-(void *(^)(void))install;
 
-@property (nonatomic, assign) BOOL needInstall;
-
-@property (nonatomic, assign) BOOL needDelete;
-
-@end
-
-@interface DLLayoutMark : NSObject
-
-@property (nonatomic, assign) BOOL needInstall;
-
-@property (nonatomic, strong) DLLayout *leftConstraint;
-
-@property (nonatomic, strong) DLLayout *rightConstraint;
-
-@property (nonatomic, strong) DLLayout *topConstraint;
-
-@property (nonatomic, strong) DLLayout *bottomConstraint;
-
-
--(DLLayoutMark *(^)(UIView *view))equal;
-
--(DLLayoutMark *(^)(CGFloat constant))offset;
-
--(DLLayoutMark *(^)(CGFloat constant))multipliedBy;
-
-@property (nonatomic, strong) NSMutableArray *array;
-
--(void)install;
+-(void *(^)(void))remove;
 
 @end
 
 @interface UIView (Layout)
 
-@property (nonatomic, strong) DLLayoutMark *mark;
+@property (nonatomic, strong) DLLayout *dl_layout;
 
--(UIView *(^)(UIView *view))left;
-
--(UIView *(^)(UIView *view))right;
-
--(UIView *(^)(UIView *view))top;
-
--(UIView *(^)(UIView *view))bottom;
-
--(UIView *(^)(UIView *view))leftTo;
-
--(UIView *(^)(UIView *view))rightTo;
-
--(UIView *(^)(UIView *view))topTo;
-
--(UIView *(^)(UIView *view))bottomTo;
-
-//-(UIView *)left;
-//
-//-(UIView *)right;
-//
-//-(UIView *)top;
-//
-//-(UIView *)bottom;
-//
-//-(UIView *)leftTo;
-//
-//-(UIView *)rightTo;
-//
-//-(UIView *)topTo;
-//
-//-(UIView *)bottomTo;
-
-
-
--(UIView *(^)(CGFloat constant))offset;
-
--(UIView *(^)(UIView *view))equal;
-
--(UIView *(^)(CGFloat constant))multipliedBy;
-
--(UIView *(^)(void))layout_install;
+//print
+//- (void)dl_printConstraintsForSelf;
 
 @end
-
-
-

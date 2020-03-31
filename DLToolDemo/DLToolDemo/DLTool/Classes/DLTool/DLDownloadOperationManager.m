@@ -3,19 +3,22 @@
 #import "DLDownloadOperation.h"
 #import "DLThread.h"
 #import "DLPromise.h"
-
-@interface DLDownloadOperationManager ()
+#import <GLKit/GLKit.h>
+#import <pthread.h>
+#import "NSString+Add.h"
 
 //全局队列
-@property(nonatomic,strong)NSOperationQueue *queue;
+static NSOperationQueue *queue;
 
 //下载操作缓存池   这里不能改为NSCache，因为收到内存警告后NSCache移除所有对象，之后NSCache中就无法继续添加数据了
-@property(nonatomic,strong)NSMutableDictionary *operationCache;
+static NSMutableDictionary *operationCache;
 
-@property (nonatomic, strong) DLCache *cache;
+static DLCache *cache;
 
-/// 相同请求的字典
-@property (nonatomic, strong) NSMutableDictionary *unenforcedDic;
+// 相同请求的字典
+static NSMutableDictionary *unenforcedDic;
+
+@interface DLDownloadOperationManager ()
 
 @end
 
@@ -30,6 +33,17 @@ static DLDownloadOperationManager *manager = nil;
     return manager;
 }
 
++(void)initialize{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        queue = [[NSOperationQueue alloc]init];
+        queue.maxConcurrentOperationCount = (int)[NSProcessInfo processInfo].processorCount * 2;
+        cache = [[DLCache alloc]initWithPath:[NSString stringWithFormat:@"%@/imageCache", [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) firstObject]]];
+        operationCache = [[NSMutableDictionary alloc]init];
+        unenforcedDic = [[NSMutableDictionary alloc]init];
+    });
+}
+
 -(instancetype)_init{
     self = [super init];
     return self;
@@ -37,70 +51,71 @@ static DLDownloadOperationManager *manager = nil;
 
 -(void)downloadWithUrlString:(NSString *)urlString imageView:(UIImageView *)imageview finishedBlock:(void (^)(UIImage *image))finishedBlock{
     @autoreleasepool {
-        if (self.operationCache[urlString]) {
-            NSMutableArray *array = [[NSMutableArray alloc]initWithArray:self.unenforcedDic[urlString]];
-            [array addObject:[finishedBlock copy]];
-            [self.unenforcedDic setObject:array forKey:urlString];
+//    pthread_mutex_lock(&_lock);
+    NSString *key = [urlString md5];
+        if (operationCache[key]) {
+            NSMutableArray *array = [[NSMutableArray alloc]initWithArray:unenforcedDic[key]];
+            [array addObject:imageview];
+            [unenforcedDic setObject:array forKey:key];
             return;
         }
-        NSString *key = urlString;
-        if (imageview) {
-            key = [NSString stringWithFormat:@"reduce%@", urlString];
-        }
-        if ([self.cache containsObjectForKey:key]) {
-            finishedBlock((UIImage *)[self.cache objectForKey:key]);
+//        if (imageview) {
+//            key = [NSString stringWithFormat:@"reduce%@", urlString];
+//        }
+        if ([cache containsObjectForKey:key]) {
+            finishedBlock((UIImage *)[cache objectForKey:key]);
             return;
         }
-        DLDownloadOperation *op = [DLDownloadOperation downloadOperationWithURLString:urlString finishedBlock:^(NSData *data) {
-            [self.operationCache removeObjectForKey:urlString];
-            if (imageview) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [imageview layoutIfNeeded];
-                    __block UIImage *image = [UIImage imageWithData:data];
-                    CGFloat multiple;
-                    if (image.size.width * 3 <= imageview.frame.size.width && image.size.height * 3 <= imageview.frame.size.height) {
-                        multiple = 1;
-                    }else {
-                        multiple = image.size.height / imageview.frame.size.height > image.size.width / imageview.frame.size.width ? image.size.height / imageview.frame.size.height : image.size.width / imageview.frame.size.width;
-                    }
-                    [DLThread doTask:^{
-                        image = [self compressOriginalImage:[UIImage imageWithData:data] toSize:CGSizeMake(image.size.width * 3 / multiple, image.size.height * 3 / multiple)];
-                        image = [self decodedImageWithImage:image];
-                        finishedBlock(image);
-                        NSMutableArray *tempArray = self.unenforcedDic[urlString];
-                        if (tempArray.count > 0) {
-                            void (^block)(UIImage *image);
-                            for (int a = 0; a < tempArray.count; a++) {
-                                block = tempArray[a];
-                                image = [self decodedImageWithImage:image];
-                                block(image);
-                            }
-                        }
-                        [self.unenforcedDic removeObjectForKey:urlString];
-                        [self.cache setObject:image forKey:key withBlock:nil];
-                    } async:YES];
-                });
-            }else{
+        
+        DLDownloadOperation *op = [DLDownloadOperation downloadOperationWithURLString:urlString imageView:imageview finishedBlock:^(BOOL isFinish, UIImage *image) {
+            operationCache[key] = nil;
+            [operationCache removeObjectForKey:key];
+//            if (imageview) {
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [imageview layoutIfNeeded];
+//                    __block UIImage *image = [UIImage imageWithData:data];
+//                    CGFloat multiple;
+//                    if (image.size.width * 3 <= imageview.frame.size.width && image.size.height * 3 <= imageview.frame.size.height) {
+//                        multiple = 1;
+//                    }else {
+//                        multiple = image.size.height / imageview.frame.size.height > image.size.width / imageview.frame.size.width ? image.size.height / imageview.frame.size.height : image.size.width / imageview.frame.size.width;
+//                    }
+//                    [DLThread doTask:^{
+//                        image = [self compressOriginalImage:[UIImage imageWithData:data] toSize:CGSizeMake(image.size.width * 3 / multiple, image.size.height * 3 / multiple)];
+//                        image = [self decodedImageWithImage:image];
+//                        finishedBlock(image);
+//                        NSMutableArray *tempArray = self.unenforcedDic[urlString];
+//                        if (tempArray.count > 0) {
+//                            void (^block)(UIImage *image);
+//                            for (int a = 0; a < tempArray.count; a++) {
+//                                block = tempArray[a];
+//                                image = [self decodedImageWithImage:image];
+//                                block(image);
+//                            }
+//                        }
+//                        [self.unenforcedDic removeObjectForKey:urlString];
+//                        [self.cache setObject:image forKey:key withBlock:nil];
+//                    } async:YES];
+//                });
+//            }else{
                 [DLThread doTask:^{
-                    UIImage *image = [UIImage imageWithData:data];
-                    image = [self decodedImageWithImage:image];
-                    finishedBlock(image);
-                    NSMutableArray *tempArray = self.unenforcedDic[urlString];
+                    UIImage *tempImage = [self decodedImageWithImage:image];
+                    imageview.image = tempImage;
+                    NSMutableArray *tempArray = unenforcedDic[key];
+                    [unenforcedDic removeObjectForKey:key];
+                    [cache setObject:image forKey:key withBlock:nil];
                     if (tempArray.count > 0) {
-                        void (^block)(UIImage *image);
                         for (int a = 0; a < tempArray.count; a++) {
-                            block = tempArray[a];
-                            image = [self decodedImageWithImage:image];
-                            block(image);
+                            imageview.image = tempImage;
                         }
                     }
-                    [self.unenforcedDic removeObjectForKey:urlString];
-                    [self.cache setObject:image forKey:key withBlock:nil];
-                } async:YES];
-            }
+                } async:NO];
+//            }
         }];
-        [self.queue addOperation:op];
-        self.operationCache[urlString] = op;
+    [queue addOperation:op];
+    [operationCache setObject:op forKey:key];
+    
+//    pthread_mutex_unlock(&_lock);
     }
 }
 
@@ -176,37 +191,8 @@ static DLDownloadOperationManager *manager = nil;
     if (urlString == nil) {
         return;
     }
-    [self.operationCache[urlString] cancel];
-    [self.operationCache removeObjectForKey:urlString];
-}
-
--(DLCache *)cache{
-    if (!_cache) {
-        _cache = [[DLCache alloc]initWithPath:[NSString stringWithFormat:@"%@/imageCache", [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) firstObject]]];
-    }
-    return _cache;
-}
-
--(NSOperationQueue *)queue{
-    if (!_queue) {
-        _queue = [[NSOperationQueue alloc]init];
-        _queue.maxConcurrentOperationCount = (int)[NSProcessInfo processInfo].processorCount * 2;
-    }
-    return _queue;
-}
-
--(NSMutableDictionary *)operationCache{
-    if (!_operationCache) {
-        _operationCache = [[NSMutableDictionary alloc]init];
-    }
-    return _operationCache;
-}
-
--(NSMutableDictionary *)unenforcedDic{
-    if (!_unenforcedDic) {
-        _unenforcedDic = [[NSMutableDictionary alloc]init];
-    }
-    return _unenforcedDic;
+    [operationCache[urlString] cancel];
+    [operationCache removeObjectForKey:[urlString md5]];
 }
 
 @end

@@ -10,45 +10,7 @@
 
 -(void)dl_AutoLayout:(void (^)(DLConstraintMaker *make))block;
 
-//  to 和 by的区别，to是从同一侧开始算起，by是从另一侧开始算起
--(UIView *(^) (UIView *view,CGFloat constant))dl_left_to_layout;
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_right_to_layout;
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_top_to_layout;
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_bottom_to_layout;
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_left_by_layout;
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_right_by_layout;
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_top_by_layout;
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_bottom_by_layout;
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_width_equal_layout;
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_height_equal_layout;
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_width_multiplier_layout;
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_height_multiplier_layout;
-
 -(void)dl_remove_allLayout;
-
--(UIView *(^) (CGFloat constant))dl_width_layout;
-
--(UIView *(^) (CGFloat constant))dl_height_layout;
-
--(UIView *(^) (CGFloat constant))dl_width_GreaterThanOrEqual_layout;
-
--(UIView *(^) (CGFloat constant))dl_height_GreaterThanOrEqual_layout;
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_centerX_layout;
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_centerY_layout;
-
 
 @property (nonatomic) CGFloat left_dl;
 
@@ -94,6 +56,8 @@
 /// 获取view的宽
 /// @param view view的宽
 -(CGFloat)dl_fittingWidth:(UIView *)view;
+
+- (CGFloat)dl_fittingHeightWithSubview:(UIView *)view;
 
 /// 查找两个view的公共父视图
 /// @param view 公共父视图
@@ -299,6 +263,14 @@
 @interface UITextField(Add)
 
 +(instancetype)dl_view:(void (^) (UITextField *textField))block;
+
+-(void)editChange:(void (^)(UITextField *textField))block;
+
+-(void)editBegin:(void (^)(UITextField *textField))block;
+
+-(void)editEnd:(void (^)(UITextField *textField))block;
+
+-(void)editExit:(void (^)(UITextField *textField))block;
 
 @end
 

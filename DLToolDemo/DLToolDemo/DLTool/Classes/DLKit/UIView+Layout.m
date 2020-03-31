@@ -1,331 +1,692 @@
+//
+//  UIView+DLLLL.m
+//  DLToolDemo
+//
+//  Created by 戴青 on 2020/3/27.
+//  Copyright © 2020年 戴青. All rights reserved.
+//
+
 #import "UIView+Layout.h"
 #import <objc/runtime.h>
 #import "DLToolMacro.h"
 #import "UIView+Add.h"
 
+static char const layout_Key;
+
+typedef NS_ENUM(NSInteger, ConstraintType) {
+    Left                =   1,
+    Right,
+    Top,
+    Bottom,
+    SafeTop,
+    SafeBottom,
+    SafeRight,
+    SafeLeft,
+    Width,
+    Height,
+    LessOrThanWidth,
+    LessOrThanHeight,
+    GreatOrThanWidth,
+    GreatOrThanHeight,
+    CenterX,
+    CenterY,
+};
+
+@interface Constraint : NSObject
+
+@property (nonatomic, weak) UIView *fatherView;
+
+@property (nonatomic, weak) UIView *firstView;
+
+@property (nonatomic, weak) UIView *secondView;
+
+@property (nonatomic, assign) NSLayoutAttribute firstAttribute;
+
+@property (nonatomic, assign) NSLayoutAttribute secondAttribute;
+
+@property (nonatomic, assign) NSLayoutRelation layoutRelation;
+
+@property (nonatomic, assign) CGFloat multiplier;
+
+@property (nonatomic, assign) CGFloat constant;
+
+@property (nonatomic, assign) BOOL needInstall;
+
+@property (nonatomic, strong) NSLayoutConstraint *constraint;
+
+@property (nonatomic, assign) ConstraintType constraintType;
+
+@property (nonatomic, weak) id item;
+
+@property (nonatomic, assign) BOOL needDelete;
+
+@end
+
+@implementation Constraint
+
+-(void)setConstraintType:(ConstraintType)constraintType{
+    _constraintType = constraintType;
+    switch (constraintType) {
+        case Left:
+            {
+                self.layoutRelation = NSLayoutRelationEqual;
+                self.firstAttribute = NSLayoutAttributeLeft;
+            }
+            break;
+            
+        case Right:
+            {
+                self.layoutRelation = NSLayoutRelationEqual;
+                self.firstAttribute = NSLayoutAttributeRight;
+            }
+            break;
+            
+        case Top:
+            {
+                self.layoutRelation = NSLayoutRelationEqual;
+                self.firstAttribute = NSLayoutAttributeTop;
+            }
+            break;
+            
+        case Bottom:
+            {
+                self.layoutRelation = NSLayoutRelationEqual;
+                self.firstAttribute = NSLayoutAttributeBottom;
+            }
+            break;
+            
+        case SafeLeft:
+            {
+                self.layoutRelation = NSLayoutRelationEqual;
+                self.firstAttribute = NSLayoutAttributeLeft;
+            }
+            break;
+            
+        case SafeRight:
+            {
+                self.layoutRelation = NSLayoutRelationEqual;
+                self.firstAttribute = NSLayoutAttributeRight;
+            }
+            break;
+            
+        case SafeTop:
+            {
+                self.layoutRelation = NSLayoutRelationEqual;
+                self.firstAttribute = NSLayoutAttributeTop;
+            }
+            break;
+            
+        case SafeBottom:
+            {
+                self.layoutRelation = NSLayoutRelationEqual;
+                self.firstAttribute = NSLayoutAttributeBottom;
+            }
+            break;
+            
+        case Width:
+            {
+                self.layoutRelation = NSLayoutRelationEqual;
+                self.firstAttribute = NSLayoutAttributeWidth;
+            }
+            break;
+            
+        case Height:
+            {
+                self.layoutRelation = NSLayoutRelationEqual;
+                self.firstAttribute = NSLayoutAttributeHeight;
+            }
+            break;
+            
+        case LessOrThanWidth:
+            {
+                self.layoutRelation = NSLayoutRelationLessThanOrEqual;
+                self.firstAttribute = NSLayoutAttributeWidth;
+            }
+            break;
+            
+        case LessOrThanHeight:
+            {
+                self.layoutRelation = NSLayoutRelationLessThanOrEqual;
+                self.firstAttribute = NSLayoutAttributeHeight;
+            }
+            break;
+            
+        case GreatOrThanWidth:
+            {
+                self.layoutRelation = NSLayoutRelationGreaterThanOrEqual;
+                self.firstAttribute = NSLayoutAttributeWidth;
+            }
+            break;
+            
+        case GreatOrThanHeight:
+            {
+                self.layoutRelation = NSLayoutRelationGreaterThanOrEqual;
+                self.firstAttribute = NSLayoutAttributeHeight;
+            }
+            break;
+            
+        case CenterX:
+            {
+                self.layoutRelation = NSLayoutRelationEqual;
+                self.firstAttribute = NSLayoutAttributeCenterX;
+            }
+            break;
+            
+        case CenterY:
+            {
+                self.layoutRelation = NSLayoutRelationEqual;
+                self.firstAttribute = NSLayoutAttributeCenterY;
+            }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+-(instancetype)initWithView:(UIView *)view{
+    if (self = [super init]) {
+        self.firstView = view;
+    }
+    return self;
+}
+
+@end;
+
+
+@interface DLLayout ()
+
+@property (nonatomic, strong) NSMutableArray *array;
+
+@property (nonatomic, weak) UIView *view;
+
+@property (nonatomic, strong) Constraint *leftConstraint;
+
+@property (nonatomic, strong) Constraint *rightConstraint;
+
+@property (nonatomic, strong) Constraint *topConstraint;
+
+@property (nonatomic, strong) Constraint *bottomConstraint;
+
+@property (nonatomic, strong) Constraint *widthConstraint;
+
+@property (nonatomic, strong) Constraint *heightConstraint;
+
+@property (nonatomic, strong) Constraint *centerXConstraint;
+
+@property (nonatomic, strong) Constraint *centerYConstraint;
+
+@property (nonatomic, assign) BOOL isReset;
+
+@end
+
+
 @implementation DLLayout
+
+-(instancetype)initWithView:(UIView *)view{
+    if (self = [super init]) {
+        self.array = [[NSMutableArray alloc]init];
+        self.view = view;
+        self.isReset = NO;
+    }
+    return self;
+}
 
 -(DLLayout *(^)(UIView *view))equal{
     return ^(UIView *view){
-        self.secondView = view;
+        self.isReset = YES;
+        for (Constraint *constraint in self.array) {
+            constraint.secondView = view;
+            constraint.multiplier = 1;
+            constraint.secondAttribute = constraint.firstAttribute;
+        }
+        return self;
+    };
+}
+
+-(DLLayout *(^)(UIView *view))equal_to{
+    return ^(UIView *view){
+        self.isReset = YES;
+        for (Constraint *constraint in self.array) {
+            constraint.secondView = view;
+            constraint.multiplier = 1;
+            switch (constraint.firstAttribute) {
+                case NSLayoutAttributeLeft:
+                    constraint.secondAttribute = NSLayoutAttributeRight;
+                    break;
+                    
+                case NSLayoutAttributeRight:
+                    constraint.secondAttribute = NSLayoutAttributeLeft;
+                    break;
+                    
+                case NSLayoutAttributeTop:
+                    constraint.secondAttribute = NSLayoutAttributeBottom;
+                    break;
+                    
+                case NSLayoutAttributeBottom:
+                    constraint.secondAttribute = NSLayoutAttributeTop;
+                    break;
+                    
+                default:
+                    constraint.secondAttribute = constraint.firstAttribute;
+                    break;
+            }
+        }
+        return self;
+    };
+}
+
+-(DLLayout *(^)(CGFloat constant))multipliedBy{
+    return ^(CGFloat constant){
+        self.isReset = YES;
+        for (Constraint *constraint in self.array) {
+            constraint.multiplier = constant;
+        }
         return self;
     };
 }
 
 -(DLLayout *(^)(CGFloat constant))offset{
     return ^(CGFloat constant){
-        self.constant = constant;
+        self.isReset = YES;
+        for (Constraint *constraint in self.array) {
+            switch (constraint.constraintType) {
+                case Bottom:
+                case SafeBottom:
+                case Right:
+                case SafeRight:
+                    constraint.constant = -constant;
+                    break;
+                    
+                default:
+                    constraint.constant = constant;
+                    break;
+            }
+        }
         return self;
     };
 }
 
-@end
-
-@implementation DLLayoutMark
-
--(instancetype)init{
-    if ([super init]) {
-        self.array = [[NSMutableArray alloc]init];
-        self.needInstall = NO;
+-(void)installConstraint{
+    for (Constraint *constraint in self.array) {
+        if (constraint.needDelete) {
+            if (constraint.fatherView && constraint.constraint) {
+                [constraint.fatherView removeConstraint:constraint.constraint];
+            }
+            continue;
+        }
+        if (!constraint.needInstall) {
+            continue;
+        }
+        UIView *view;
+        if (!constraint.secondView) {
+            constraint.secondView = self.view.superview;
+            view = self.view.superview;
+        }else if (self.view.superview == constraint.secondView) {
+            view = constraint.secondView;
+        }else{
+            view = [self.view getCommonSuperView:constraint.secondView];
+        }
+        if (constraint.constraintType == SafeBottom || constraint.constraintType == SafeTop || constraint.constraintType == SafeRight || constraint.constraintType == SafeLeft) {
+            if (@available(iOS 11.0, *)) {
+                constraint.item = view.safeAreaLayoutGuide;
+            } else {
+                constraint.item = constraint.secondView;
+            }
+        }else{
+            constraint.item = constraint.secondView;
+        }
+        NSLayoutConstraint *cons = [self addConstraint:constraint];
+        constraint.constraint = cons;
+        constraint.fatherView = view;
+        constraint.needInstall = NO;
+        [view addConstraint:cons];
     }
+    self.isReset = NO;
+    [self.array removeAllObjects];
+}
+
+-(NSLayoutConstraint *)addConstraint:(Constraint *)constraint{
+    NSLayoutConstraint *cons = [NSLayoutConstraint constraintWithItem:self.view attribute:constraint.firstAttribute relatedBy:constraint.layoutRelation toItem:constraint.item attribute:constraint.secondAttribute ? constraint.secondAttribute : constraint.firstAttribute multiplier:constraint.multiplier constant:constraint.constant];
+    return cons;
+}
+
+-(void)removeConstraint{
+    for (Constraint *constraint in self.array) {
+        if (constraint.fatherView && constraint.constraint) {
+            [constraint.fatherView removeConstraint:constraint.constraint];
+        }
+    }
+    [self.array removeAllObjects];
+}
+
+-(DLLayout *)left{
+    [self deleteConstraint:self.leftConstraint];
+    if (self.isReset) {
+        [self installConstraint];
+    }
+    self.leftConstraint.multiplier = 1.0;
+    self.leftConstraint.constant = 0;
+    self.leftConstraint.needInstall = YES;
+    self.leftConstraint.needDelete = NO;
+    self.leftConstraint.constraintType = Left;
+    [self.array addObject:self.leftConstraint];
+    
+    NSLog(@"%ld", self.array.count);
+    
     return self;
 }
 
--(DLLayout *)leftConstraint{
+-(DLLayout *)right{
+    [self deleteConstraint:self.rightConstraint];
+    if (self.isReset) {
+        [self installConstraint];
+    }
+    self.rightConstraint.multiplier = 1.0;
+    self.rightConstraint.constant = 0;
+    self.rightConstraint.needInstall = YES;
+    self.rightConstraint.needDelete = NO;
+    self.rightConstraint.constraintType = Right;
+    [self.array addObject:self.rightConstraint];
+    return self;
+}
+
+-(DLLayout *)top{
+    [self deleteConstraint:self.topConstraint];
+    if (self.isReset) {
+        [self installConstraint];
+    }
+    self.topConstraint.multiplier = 1.0;
+    self.topConstraint.constant = 0;
+    self.topConstraint.needInstall = YES;
+    self.topConstraint.needDelete = NO;
+    self.topConstraint.constraintType = Top;
+    [self.array addObject:self.topConstraint];
+    return self;
+}
+
+-(DLLayout *)bottom{
+    [self deleteConstraint:self.bottomConstraint];
+    if (self.isReset) {
+        [self installConstraint];
+    }
+    self.bottomConstraint.multiplier = 1.0;
+    self.bottomConstraint.constant = 0;
+    self.bottomConstraint.needInstall = YES;
+    self.bottomConstraint.needDelete = NO;
+    self.bottomConstraint.constraintType = Bottom;
+    [self.array addObject:self.bottomConstraint];
+    return self;
+}
+
+-(DLLayout *)safeTop{
+    [self deleteConstraint:self.topConstraint];
+    if (self.isReset) {
+        [self installConstraint];
+    }
+    self.topConstraint.multiplier = 1.0;
+    self.topConstraint.constant = 0;
+    self.topConstraint.needInstall = YES;
+    self.topConstraint.needDelete = NO;
+    self.topConstraint.constraintType = SafeTop;
+    [self.array addObject:self.topConstraint];
+    
+    return self;
+}
+
+-(DLLayout *)safeBottom{
+    [self deleteConstraint:self.bottomConstraint];
+    if (self.isReset) {
+        [self installConstraint];
+    }
+    self.bottomConstraint.multiplier = 1.0;
+    self.bottomConstraint.constant = 0;
+    self.bottomConstraint.needInstall = YES;
+    self.bottomConstraint.needDelete = NO;
+    self.bottomConstraint.constraintType = SafeBottom;
+    [self.array addObject:self.bottomConstraint];
+    return self;
+}
+
+-(DLLayout *)width{
+    [self deleteConstraint:self.widthConstraint];
+    if (self.isReset) {
+        [self installConstraint];
+    }
+    self.widthConstraint.multiplier = 0;
+    self.widthConstraint.constant = 0;
+    self.widthConstraint.needInstall = YES;
+    self.widthConstraint.needDelete = NO;
+    self.widthConstraint.constraintType = Width;
+    [self.array addObject:self.widthConstraint];
+    return self;
+}
+
+-(DLLayout *)height{
+    [self deleteConstraint:self.heightConstraint];
+    if (self.isReset) {
+        [self installConstraint];
+    }
+    self.heightConstraint.multiplier = 0;
+    self.heightConstraint.constant = 0;
+    self.heightConstraint.needInstall = YES;
+    self.heightConstraint.needDelete = NO;
+    self.heightConstraint.constraintType = Height;
+    [self.array addObject:self.heightConstraint];
+    return self;
+}
+
+-(DLLayout *)lessOrThanWidth{
+    [self deleteConstraint:self.widthConstraint];
+    if (self.isReset) {
+        [self installConstraint];
+    }
+    self.widthConstraint.multiplier = 0;
+    self.widthConstraint.constant = 0;
+    self.widthConstraint.needInstall = YES;
+    self.widthConstraint.needDelete = NO;
+    self.widthConstraint.constraintType = LessOrThanWidth;
+    [self.array addObject:self.widthConstraint];
+    return self;
+}
+
+-(DLLayout *)lessOrThanHeight{
+    [self deleteConstraint:self.heightConstraint];
+    if (self.isReset) {
+        [self installConstraint];
+    }
+    self.heightConstraint.multiplier = 0;
+    self.heightConstraint.constant = 0;
+    self.heightConstraint.needInstall = YES;
+    self.heightConstraint.needDelete = NO;
+    self.heightConstraint.constraintType = LessOrThanHeight;
+    [self.array addObject:self.heightConstraint];
+    return self;
+}
+
+-(DLLayout *)greatOrThenWidth{
+    [self deleteConstraint:self.widthConstraint];
+    if (self.isReset) {
+        [self installConstraint];
+    }
+    self.widthConstraint.multiplier = 0;
+    self.widthConstraint.constant = 0;
+    self.widthConstraint.needInstall = YES;
+    self.widthConstraint.needDelete = NO;
+    self.widthConstraint.constraintType = GreatOrThanWidth;
+    [self.array addObject:self.widthConstraint];
+    return self;
+}
+
+-(DLLayout *)greatOrThanHeight{
+    [self deleteConstraint:self.heightConstraint];
+    if (self.isReset) {
+        [self installConstraint];
+    }
+    self.heightConstraint.multiplier = 0;
+    self.heightConstraint.constant = 0;
+    self.heightConstraint.needInstall = YES;
+    self.heightConstraint.needDelete = NO;
+    self.heightConstraint.constraintType = GreatOrThanHeight;
+    [self.array addObject:self.heightConstraint];
+    return self;
+}
+
+-(DLLayout *)centerX{
+    [self deleteConstraint:self.centerXConstraint];
+    if (self.isReset) {
+        [self installConstraint];
+    }
+    self.centerXConstraint.multiplier = 1;
+    self.centerXConstraint.constant = 0;
+    self.centerXConstraint.needInstall = YES;
+    self.centerXConstraint.needDelete = NO;
+    self.centerXConstraint.constraintType = CenterX;
+    [self.array addObject:self.centerXConstraint];
+    return self;
+}
+
+-(DLLayout *)centerY{
+    [self deleteConstraint:self.centerYConstraint];
+    if (self.isReset) {
+        [self installConstraint];
+    }
+    self.centerYConstraint.multiplier = 1;
+    self.centerYConstraint.constant = 0;
+    self.centerYConstraint.needInstall = YES;
+    self.centerYConstraint.needDelete = NO;
+    self.centerYConstraint.constraintType = CenterY;
+    [self.array addObject:self.centerYConstraint];
+    return self;
+}
+
+-(void *(^)(void))install{
+    return ^(void) {
+        [self installConstraint];
+        return nil;
+    };
+}
+
+-(void *(^)(void))remove{
+    return ^(void) {
+        [self removeConstraint];
+        return nil;
+    };
+}
+
+-(void)deleteConstraint:(Constraint *)constraint{
+    if (constraint.fatherView) {
+        [constraint.fatherView removeConstraint:constraint.constraint];
+        [self.array removeObject:constraint];
+    }
+}
+
+-(Constraint *)leftConstraint{
     if (!_leftConstraint) {
-        _leftConstraint = [[DLLayout alloc]init];
-        _leftConstraint.firstAttribute = NSLayoutAttributeLeft;
-        _leftConstraint.layoutRelation = NSLayoutRelationEqual;
-        _leftConstraint.multiplied = 1;
+        _leftConstraint = [[Constraint alloc]initWithView:self.view];
     }
     return _leftConstraint;
 }
 
--(DLLayout *)rightConstraint{
+-(Constraint *)rightConstraint{
     if (!_rightConstraint) {
-        _rightConstraint = [[DLLayout alloc]init];
-        _rightConstraint.firstAttribute = NSLayoutAttributeRight;
-        _rightConstraint.layoutRelation = NSLayoutRelationEqual;
-        _rightConstraint.multiplied = 1;
+        _rightConstraint = [[Constraint alloc]initWithView:self.view];
     }
     return _rightConstraint;
 }
 
--(DLLayout *)topConstraint{
+-(Constraint *)topConstraint{
     if (!_topConstraint) {
-        _topConstraint = [[DLLayout alloc]init];
-        _topConstraint.firstAttribute = NSLayoutAttributeTop;
-        _topConstraint.layoutRelation = NSLayoutRelationEqual;
-        _topConstraint.multiplied = 1;
+        _topConstraint = [[Constraint alloc]initWithView:self.view];
     }
     return _topConstraint;
 }
 
--(DLLayout *)bottomConstraint{
+-(Constraint *)bottomConstraint{
     if (!_bottomConstraint) {
-        _bottomConstraint = [[DLLayout alloc]init];
-        _bottomConstraint.firstAttribute = NSLayoutAttributeBottom;
-        _bottomConstraint.layoutRelation = NSLayoutRelationEqual;
-        _bottomConstraint.multiplied = 1;
+        _bottomConstraint = [[Constraint alloc]initWithView:self.view];
     }
     return _bottomConstraint;
 }
 
--(DLLayoutMark *(^)(UIView *view))equal{
-    return ^(UIView *view){
-        self.needInstall = YES;
-        for (DLLayout *layout in self.array) {
-            layout.secondView = view;
-        }
-        return self;
-    };
-}
-
--(DLLayoutMark *(^)(CGFloat constant))offset{
-    return ^(CGFloat constant){
-        self.needInstall = YES;
-        for (DLLayout *layout in self.array) {
-            layout.constant = constant;
-        }
-        return self;
-    };
-}
-
--(DLLayoutMark *(^)(CGFloat constant))multipliedBy{
-    return ^(CGFloat constant){
-        self.needInstall = YES;
-        for (DLLayout *layout in self.array) {
-            layout.multiplied = constant;
-        }
-        return self;
-    };
-}
-
--(void)install{
-    for (DLLayout *layout in self.array) {
-        if (layout.needDelete) {
-            continue;
-        }
-        if (!layout.needInstall) {
-            continue;
-        }
-        UIView *view;
-        if (!layout.secondView) {
-            view = layout.firstView.superview;
-        }else if (layout.firstView.superview == layout.secondView) {
-            view = layout.secondView;
-        }else{
-            view = [layout.firstView getCommonSuperView:layout.secondView];;
-        }
-        layout.item = view;
-        NSLayoutConstraint *constraint = [self addConstraint:layout];
-        layout.constraint = constraint;
-        layout.fatherView = view;
-        layout.needInstall = NO;
-//        @try {
-        
-        
-            [view addConstraint:constraint];
-//        } @catch (NSException *exception) {
-//            DLSafeProtectionCrashLog(exception, DLSafeProtectorCrashTypeViewLayout);
-//        }
+-(Constraint *)widthConstraint{
+    if (!_widthConstraint) {
+        _widthConstraint = [[Constraint alloc]initWithView:self.view];
     }
-    [self.array removeAllObjects];
-    self.needInstall = NO;
+    return _widthConstraint;
 }
 
+-(Constraint *)heightConstraint{
+    if (!_heightConstraint) {
+        _heightConstraint = [[Constraint alloc]initWithView:self.view];
+    }
+    return _heightConstraint;
+}
 
--(NSLayoutConstraint *)addConstraint:(DLLayout *)layout{
-    NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:layout.firstView attribute:layout.firstAttribute relatedBy:layout.layoutRelation toItem:layout.item attribute:layout.secondAttribute multiplier:layout.multiplied constant:layout.constant];
-    return constraint;
+-(Constraint *)centerXConstraint{
+    if (!_centerXConstraint) {
+        _centerXConstraint = [[Constraint alloc]initWithView:self.view];
+    }
+    return _centerXConstraint;
+}
+
+-(Constraint *)centerYConstraint{
+    if (!_centerYConstraint) {
+        _centerYConstraint = [[Constraint alloc]initWithView:self.view];
+    }
+    return _centerYConstraint;
 }
 
 @end
 
-
-
-static char const autolayout_markKey;
-
 @implementation UIView (Layout)
 
--(UIView *(^)(UIView *view))left{
-    return ^(UIView *view){
-        if (self.mark.needInstall) {
-            [self.mark install];
-        }
-        self.mark.leftConstraint.needInstall = YES;
-        self.mark.leftConstraint.secondAttribute = NSLayoutAttributeLeft;
-        self.mark.leftConstraint.firstView = self;
-        self.mark.leftConstraint.secondView = view;
-        [self.mark.array addObject:self.mark.leftConstraint];
-        return self;
-    };
-}
-
--(UIView *(^)(UIView *view))right{
-    return ^(UIView *view){
-        if (self.mark.needInstall) {
-            [self.mark install];
-        }
-        self.mark.rightConstraint.needInstall = YES;
-        self.mark.rightConstraint.secondAttribute = NSLayoutAttributeRight;
-        self.mark.rightConstraint.firstView = self;
-        [self.mark.array addObject:self.mark.rightConstraint];
-        self.mark.rightConstraint.secondView = view;
-        return self;
-    };
-}
-
--(UIView *(^)(UIView *view))top{
-    return ^(UIView *view){
-        if (self.mark.needInstall) {
-            [self.mark install];
-        }
-        self.mark.topConstraint.needInstall = YES;
-        self.mark.topConstraint.secondAttribute = NSLayoutAttributeTop;
-        self.mark.topConstraint.firstView = self;
-        [self.mark.array addObject:self.mark.topConstraint];
-        self.mark.topConstraint.secondView = view;
-        return self;
-    };
-}
-
--(UIView *(^)(UIView *view))bottom{
-    return ^(UIView *view){
-        if (self.mark.needInstall) {
-            [self.mark install];
-        }
-        self.mark.bottomConstraint.needInstall = YES;
-        self.mark.bottomConstraint.secondAttribute = NSLayoutAttributeBottom;
-        self.mark.bottomConstraint.firstView = self;
-        [self.mark.array addObject:self.mark.bottomConstraint];
-        self.mark.bottomConstraint.secondView = view;
-        return self;
-    };
-}
-
--(UIView *(^)(UIView *view))leftTo{
-    return ^(UIView *view){
-        if (self.mark.needInstall) {
-            [self.mark install];
-        }
-        self.mark.leftConstraint.needInstall = YES;
-        self.mark.leftConstraint.firstView = self;
-        self.mark.leftConstraint.secondAttribute = NSLayoutAttributeRight;
-        [self.mark.array addObject:self.mark.leftConstraint];
-        self.mark.leftConstraint.secondView = view;
-        return self;
-    };
-}
-
--(UIView *(^)(UIView *view))rightTo{
-    return ^(UIView *view){
-        if (self.mark.needInstall) {
-            [self.mark install];
-        }
-        self.mark.rightConstraint.needInstall = YES;
-        self.mark.rightConstraint.secondAttribute = NSLayoutAttributeLeft;
-        self.mark.rightConstraint.firstView = self;
-        [self.mark.array addObject:self.mark.rightConstraint];
-        self.mark.rightConstraint.secondView = view;
-        return self;
-    };
-}
-
--(UIView *(^)(UIView *view))topTo{
-    return ^(UIView *view){
-        if (self.mark.needInstall) {
-            [self.mark install];
-        }
-        self.mark.topConstraint.needInstall = YES;
-        self.mark.topConstraint.secondAttribute = NSLayoutAttributeBottom;
-        self.mark.topConstraint.firstView = self;
-        [self.mark.array addObject:self.mark.topConstraint];
-        self.mark.topConstraint.secondView = view;
-        return self;
-    };
-}
-
--(UIView *(^)(UIView *view))bottomTo{
-    return ^(UIView *view){
-        if (self.mark.needInstall) {
-            [self.mark install];
-        }
-        self.mark.bottomConstraint.needInstall = YES;
-        self.mark.bottomConstraint.secondAttribute = NSLayoutAttributeTop;
-        self.mark.bottomConstraint.firstView = self;
-        [self.mark.array addObject:self.mark.bottomConstraint];
-        self.mark.bottomConstraint.secondView = view;
-        return self;
-    };
-}
-
--(UIView *(^)(CGFloat constant))offset{
-    return ^(CGFloat constant){
-        if (self.mark.array.count > 0) {
-            self.mark.offset(constant);
-        }
-        return self;
-    };
-}
-
--(UIView *(^)(UIView *view))equal{
-    return ^(UIView *view){
-        if (self.mark.array.count > 0) {
-            self.mark.equal(view);
-        }
-        return self;
-    };
-}
-
--(UIView *(^)(CGFloat constant))multipliedBy{
-    return ^(CGFloat constant){
-        if (self.mark.array.count > 0) {
-            self.mark.multipliedBy(constant);
-        }
-        return self;
-    };
-}
-
--(UIView *(^)(void))layout_install{
-    return ^(void){
-        [self.mark install];
-        return self;
-    };
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--(DLLayoutMark *)mark{
-    DLLayoutMark *tempMark = objc_getAssociatedObject(self, &autolayout_markKey);
-    if (!tempMark) {
-        tempMark = [[DLLayoutMark alloc]init];
+-(DLLayout *)dl_layout{
+    DLLayout *tempLayout = objc_getAssociatedObject(self, &layout_Key);
+    if (!tempLayout) {
         self.translatesAutoresizingMaskIntoConstraints = NO;
-        objc_setAssociatedObject(self, &autolayout_markKey, tempMark, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        tempLayout = [[DLLayout alloc]initWithView:self];
+        objc_setAssociatedObject(self, &layout_Key, tempLayout, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
-    return tempMark;
+    return tempLayout;
 }
 
--(void)setMark:(DLLayoutMark *)mark{
-    objc_setAssociatedObject(self, &autolayout_markKey, mark, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+-(void)setDl_layout:(DLLayout *)dl_layout{
+    objc_setAssociatedObject(self, &layout_Key, dl_layout, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
+
+//- (void)dl_printConstraintsForSelf {
+//    NSArray<__kindof NSLayoutConstraint *> *constrain = self.constraints;
+//    NSArray<__kindof NSLayoutConstraint *> *superConstrain = self.superview.constraints;
+//    NSMutableArray<__kindof NSLayoutConstraint *> *array = [NSMutableArray array];
+//    [array addObjectsFromArray:constrain];
+//    [array addObjectsFromArray:superConstrain];
+//    [array enumerateObjectsUsingBlock:^(__kindof NSLayoutConstraint * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        if (obj.firstItem == self) {
+//            NSLog(@"p_dl_layoutAttributeString  ==  %@ -> %@ : %f",[self class],p_dl_layoutAttributeString(obj.firstAttribute),obj.constant);
+//        }
+//    }];
+//}
+//
+//NSString* p_dl_layoutAttributeString(NSLayoutAttribute attribute) {
+//    NSString *attributeString;
+//#define enumToString(value) case value : attributeString = @#value; break;
+//    switch (attribute) {
+//            enumToString(NSLayoutAttributeLeft)
+//            enumToString(NSLayoutAttributeRight)
+//            enumToString(NSLayoutAttributeTop)
+//            enumToString(NSLayoutAttributeBottom)
+//            enumToString(NSLayoutAttributeLeading)
+//            enumToString(NSLayoutAttributeTrailing)
+//            enumToString(NSLayoutAttributeWidth)
+//            enumToString(NSLayoutAttributeHeight)
+//            enumToString(NSLayoutAttributeCenterX)
+//            enumToString(NSLayoutAttributeCenterY)
+//        default:
+//            enumToString(NSLayoutAttributeNotAnAttribute)
+//    }
+//#undef enumToString
+//    return attributeString;
+//}
 
 @end

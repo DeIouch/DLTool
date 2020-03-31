@@ -10,6 +10,7 @@
 #include <objc/runtime.h>
 #import "DLColor.h"
 #import <UIKit/UIKit.h>
+#import "UIView+Layout.h"
 
 
 typedef NS_ENUM(NSInteger, DLBarrageDataType) {
@@ -1061,7 +1062,8 @@ static UISlider * _volumeSlider;
         }
         vodPlayTime = CMTimeGetSeconds(self.player.avPlayer.currentTime);
         self.playTimeLabel.dl_text(converTimeStr(vodPlayTime));
-        self.playProgressView.dl_width_multiplier_layout(self.allProgressView, vodPlayTime / vodDurationTime);
+//        self.playProgressView.dl_width_multiplier_layout(self.allProgressView, vodPlayTime / vodDurationTime);
+        self.playProgressView.dl_layout.width.equal(self.allProgressView).multipliedBy(vodPlayTime / vodDurationTime).install();
         if (fabs(vodCacheTime - vodPlayTime) <= 1) {
             self.player.isRefresh = YES;
         }else if (fabs(vodCacheTime - vodPlayTime) > 1) {

@@ -1200,7 +1200,6 @@ static int64_t _DLDiskSpaceFree(){
     return space;
 }
 
-/// String's md5 hash.
 static NSString *_DLNSStringMD5(NSString *string){
     if (!string) return nil;
     NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
@@ -1215,7 +1214,6 @@ static NSString *_DLNSStringMD5(NSString *string){
             ];
 }
 
-/// weak reference for all instances
 static NSMapTable *_globalInstances;
 static dispatch_semaphore_t _globalInstancesLock;
 

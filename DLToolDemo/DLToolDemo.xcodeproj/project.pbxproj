@@ -11,6 +11,7 @@
 		2421C8D8241E0B9E009DD194 /* DLDownloadOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2421C8D7241E0B9E009DD194 /* DLDownloadOperationManager.m */; };
 		2421C8DA241E36C0009DD194 /* 1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 2421C8D9241E36BF009DD194 /* 1.jpeg */; };
 		2421C8DD241E3D0A009DD194 /* DLScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2421C8DC241E3D0A009DD194 /* DLScrollView.m */; };
+		2432C6A1242EEA2A008042A0 /* DLAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2432C6A0242EEA2A008042A0 /* DLAutoLayout.m */; };
 		244204BB2411202C00E442C6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 244204BA2411202C00E442C6 /* AppDelegate.m */; };
 		244204BE2411202C00E442C6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 244204BD2411202C00E442C6 /* ViewController.m */; };
 		244204C12411202C00E442C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 244204BF2411202C00E442C6 /* Main.storyboard */; };
@@ -33,7 +34,6 @@
 		2442056E2411204C00E442C6 /* video_full_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 244204FC2411204C00E442C6 /* video_full_screen.png */; };
 		2442056F2411204C00E442C6 /* video_small_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 244204FD2411204C00E442C6 /* video_small_screen.png */; };
 		244205702411204C00E442C6 /* video_top_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 244204FE2411204C00E442C6 /* video_top_gray.png */; };
-		244205712411204C00E442C6 /* DLAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205022411204C00E442C6 /* DLAutoLayout.m */; };
 		244205722411204C00E442C6 /* DLConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205042411204C00E442C6 /* DLConstraintMaker.m */; };
 		244205732411204C00E442C6 /* DLBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205072411204C00E442C6 /* DLBaseViewController.m */; };
 		244205742411204C00E442C6 /* UINavigationController+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205092411204C00E442C6 /* UINavigationController+Add.m */; };
@@ -77,6 +77,7 @@
 		2442059B2411204C00E442C6 /* DLTimerButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442055D2411204C00E442C6 /* DLTimerButton.m */; };
 		2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442055F2411204C00E442C6 /* DLWeakProxy.m */; };
 		244205A32411205700E442C6 /* OneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442059D2411205600E442C6 /* OneViewController.m */; };
+		244F11A7242E2D8F007068C8 /* UIView+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 244F11A6242E2D8F007068C8 /* UIView+Layout.m */; };
 		24903BA5241D0B6A00058612 /* DLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 24903BA4241D0B6A00058612 /* DLCache.m */; };
 		24CAA07724178E08005A7C56 /* DLMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 24CAA07624178E08005A7C56 /* DLMenu.m */; };
 		873CC4E12420D2F900A995B3 /* DLPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 873CC4E02420D2F900A995B3 /* DLPopView.m */; };
@@ -92,7 +93,6 @@
 		87929673241F17BB007E8858 /* DLDemoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87929672241F17BB007E8858 /* DLDemoTableViewCell.m */; };
 		879296BD241F5F5B007E8858 /* DLReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 879296BC241F5F5B007E8858 /* DLReachability.m */; };
 		879296C0241F64DE007E8858 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 879296BF241F64DE007E8858 /* Reachability.m */; };
-		87B41BF12424B3FA00E545B3 /* UIView+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B41BF02424B3FA00E545B3 /* UIView+Layout.m */; };
 		87B41C352424C65D00E545B3 /* DLPerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B41C342424C65D00E545B3 /* DLPerformance.m */; };
 		87C3332E2418E8EF00EE14D9 /* DLSQL.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C3332D2418E8EF00EE14D9 /* DLSQL.m */; };
 		87C333312418E92B00EE14D9 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C333302418E92B00EE14D9 /* libsqlite3.tbd */; };
@@ -126,6 +126,8 @@
 		2421C8D9241E36BF009DD194 /* 1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpeg; sourceTree = "<group>"; };
 		2421C8DB241E3D0A009DD194 /* DLScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLScrollView.h; sourceTree = "<group>"; };
 		2421C8DC241E3D0A009DD194 /* DLScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLScrollView.m; sourceTree = "<group>"; };
+		2432C69F242EEA2A008042A0 /* DLAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLAutoLayout.h; sourceTree = "<group>"; };
+		2432C6A0242EEA2A008042A0 /* DLAutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLAutoLayout.m; sourceTree = "<group>"; };
 		244204B62411202C00E442C6 /* DLToolDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DLToolDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		244204B92411202C00E442C6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		244204BA2411202C00E442C6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -157,8 +159,6 @@
 		244204FC2411204C00E442C6 /* video_full_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = video_full_screen.png; sourceTree = "<group>"; };
 		244204FD2411204C00E442C6 /* video_small_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = video_small_screen.png; sourceTree = "<group>"; };
 		244204FE2411204C00E442C6 /* video_top_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = video_top_gray.png; sourceTree = "<group>"; };
-		244205012411204C00E442C6 /* DLAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLAutoLayout.h; sourceTree = "<group>"; };
-		244205022411204C00E442C6 /* DLAutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLAutoLayout.m; sourceTree = "<group>"; };
 		244205032411204C00E442C6 /* DLConstraintMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLConstraintMaker.h; sourceTree = "<group>"; };
 		244205042411204C00E442C6 /* DLConstraintMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLConstraintMaker.m; sourceTree = "<group>"; };
 		244205062411204C00E442C6 /* DLBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLBaseViewController.h; sourceTree = "<group>"; };
@@ -248,6 +248,8 @@
 		244205612411204C00E442C6 /* DLToolMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLToolMacro.h; sourceTree = "<group>"; };
 		2442059D2411205600E442C6 /* OneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneViewController.m; sourceTree = "<group>"; };
 		2442059F2411205600E442C6 /* OneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneViewController.h; sourceTree = "<group>"; };
+		244F11A5242E2D8F007068C8 /* UIView+Layout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Layout.h"; sourceTree = "<group>"; };
+		244F11A6242E2D8F007068C8 /* UIView+Layout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Layout.m"; sourceTree = "<group>"; };
 		24903BA3241D0B6A00058612 /* DLCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLCache.h; sourceTree = "<group>"; };
 		24903BA4241D0B6A00058612 /* DLCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLCache.m; sourceTree = "<group>"; };
 		24CAA07524178E08005A7C56 /* DLMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLMenu.h; sourceTree = "<group>"; };
@@ -275,8 +277,6 @@
 		879296BC241F5F5B007E8858 /* DLReachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLReachability.m; sourceTree = "<group>"; };
 		879296BE241F64DD007E8858 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		879296BF241F64DE007E8858 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		87B41BEF2424B3FA00E545B3 /* UIView+Layout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Layout.h"; sourceTree = "<group>"; };
-		87B41BF02424B3FA00E545B3 /* UIView+Layout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Layout.m"; sourceTree = "<group>"; };
 		87B41C332424C65D00E545B3 /* DLPerformance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLPerformance.h; sourceTree = "<group>"; };
 		87B41C342424C65D00E545B3 /* DLPerformance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLPerformance.m; sourceTree = "<group>"; };
 		87C3332C2418E8EF00EE14D9 /* DLSQL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLSQL.h; sourceTree = "<group>"; };
@@ -431,7 +431,6 @@
 			isa = PBXGroup;
 			children = (
 				87835A29241B33F200F5D372 /* DLKeyboard */,
-				244205002411204C00E442C6 /* DLAutoLayout */,
 				244205052411204C00E442C6 /* DLBaseViewControl */,
 				2442050A2411204C00E442C6 /* DLCrash */,
 				2442050E2411204C00E442C6 /* DLKit */,
@@ -442,17 +441,6 @@
 				244205612411204C00E442C6 /* DLToolMacro.h */,
 			);
 			path = Classes;
-			sourceTree = "<group>";
-		};
-		244205002411204C00E442C6 /* DLAutoLayout */ = {
-			isa = PBXGroup;
-			children = (
-				244205012411204C00E442C6 /* DLAutoLayout.h */,
-				244205022411204C00E442C6 /* DLAutoLayout.m */,
-				244205032411204C00E442C6 /* DLConstraintMaker.h */,
-				244205042411204C00E442C6 /* DLConstraintMaker.m */,
-			);
-			path = DLAutoLayout;
 			sourceTree = "<group>";
 		};
 		244205052411204C00E442C6 /* DLBaseViewControl */ = {
@@ -481,8 +469,12 @@
 			children = (
 				2442050F2411204C00E442C6 /* UIView+Add.h */,
 				244205102411204C00E442C6 /* UIView+Add.m */,
-				87B41BEF2424B3FA00E545B3 /* UIView+Layout.h */,
-				87B41BF02424B3FA00E545B3 /* UIView+Layout.m */,
+				244F11A5242E2D8F007068C8 /* UIView+Layout.h */,
+				244F11A6242E2D8F007068C8 /* UIView+Layout.m */,
+				2432C69F242EEA2A008042A0 /* DLAutoLayout.h */,
+				2432C6A0242EEA2A008042A0 /* DLAutoLayout.m */,
+				244205032411204C00E442C6 /* DLConstraintMaker.h */,
+				244205042411204C00E442C6 /* DLConstraintMaker.m */,
 			);
 			path = DLKit;
 			sourceTree = "<group>";
@@ -794,9 +786,9 @@
 				87C3332E2418E8EF00EE14D9 /* DLSQL.m in Sources */,
 				873CC4E12420D2F900A995B3 /* DLPopView.m in Sources */,
 				244205952411204C00E442C6 /* DLLoad.m in Sources */,
-				87B41BF12424B3FA00E545B3 /* UIView+Layout.m in Sources */,
 				244205872411204C00E442C6 /* NSOrderedSet+Add.m in Sources */,
 				2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */,
+				2432C6A1242EEA2A008042A0 /* DLAutoLayout.m in Sources */,
 				2442058D2411204C00E442C6 /* UIDevice+Add.m in Sources */,
 				2442057D2411204C00E442C6 /* NSDictionary+Add.m in Sources */,
 				2421C8DD241E3D0A009DD194 /* DLScrollView.m in Sources */,
@@ -820,7 +812,6 @@
 				244204BB2411202C00E442C6 /* AppDelegate.m in Sources */,
 				244205922411204C00E442C6 /* DLColor.m in Sources */,
 				876F64F5241B183D00C383F5 /* DLCode.m in Sources */,
-				244205712411204C00E442C6 /* DLAutoLayout.m in Sources */,
 				244205772411204C00E442C6 /* DLClassInfo.m in Sources */,
 				244205972411204C00E442C6 /* DLNoti.m in Sources */,
 				244205992411204C00E442C6 /* DLThread.m in Sources */,
@@ -838,6 +829,7 @@
 				244205862411204C00E442C6 /* NSObject+Add.m in Sources */,
 				244205812411204C00E442C6 /* NSMutableDictionary+Add.m in Sources */,
 				879296C0241F64DE007E8858 /* Reachability.m in Sources */,
+				244F11A7242E2D8F007068C8 /* UIView+Layout.m in Sources */,
 				244205892411204C00E442C6 /* NSString+Add.m in Sources */,
 				2421C8D5241E05B4009DD194 /* DLDownloadOperation.m in Sources */,
 				244205962411204C00E442C6 /* DLNetworkSpeed.m in Sources */,

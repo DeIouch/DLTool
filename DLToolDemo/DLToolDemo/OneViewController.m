@@ -53,9 +53,49 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    self.array = [[NSMutableArray alloc]init];
-    for (int a = 0; a < 100; a++) {
-        [self.array addObject:VideoUrl4];
+    UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(10, 100, 200, 50)];
+    [self.view addSubview:textField];
+    textField.backgroundColor = [UIColor redColor];
+    
+//    self.array = [[NSMutableArray alloc]init];
+//    for (int a = 0; a < 100; a++) {
+//        [self.array addObject:VideoUrl4];
+//    }
+//
+//    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, DLWidth, DLHeight)];
+//    [self.view addSubview:self.tableView];
+//    self.tableView.delegate = self;
+//    self.tableView.dataSource = self;
+//    self.tableView.backgroundColor = [UIColor whiteColor];
+//
+//    @dl_weakify;
+//    [self.tableView headFreshBlock:^{
+//        @dl_strongify;
+////        for (int a = 0; a < 20; a++) {
+////            [self.array insertObject:@"head" atIndex:0];
+////        }
+////        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(20 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [self.array addObject:VideoUrl4];
+//            [self.array addObject:VideoUrl5];
+//            [self.array addObject:VideoUrl6];
+//            [self.array addObject:VideoUrl7];
+//            [self.array addObject:VideoUrl8];
+//            [self.array addObject:VideoUrl9];
+//            [self.array addObject:VideoUrl10];
+//            [self.array addObject:VideoUrl11];
+//            [self.array addObject:VideoUrl12];
+//            [self.tableView reloadData];
+//            NSLog(@"刷新完成");
+////        });
+//    }];
+//
+//    [self.tableView footFreshBlock:^{
+//        @dl_strongify;
+////        for (int a = 0; a < 20; a++) {
+////            [self.array addObject:@"foot"];
+////        }
+//
+//        [self.array addObject:VideoUrl4];
 //        [self.array addObject:VideoUrl5];
 //        [self.array addObject:VideoUrl6];
 //        [self.array addObject:VideoUrl7];
@@ -64,53 +104,9 @@
 //        [self.array addObject:VideoUrl10];
 //        [self.array addObject:VideoUrl11];
 //        [self.array addObject:VideoUrl12];
-    }
-
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, DLWidth, DLHeight)];
-    [self.view addSubview:self.tableView];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.backgroundColor = [UIColor whiteColor];
-
-    @dl_weakify;
-    [self.tableView headFreshBlock:^{
-        @dl_strongify;
-//        for (int a = 0; a < 20; a++) {
-//            [self.array insertObject:@"head" atIndex:0];
-//        }
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(20 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.array addObject:VideoUrl4];
-            [self.array addObject:VideoUrl5];
-            [self.array addObject:VideoUrl6];
-            [self.array addObject:VideoUrl7];
-            [self.array addObject:VideoUrl8];
-            [self.array addObject:VideoUrl9];
-            [self.array addObject:VideoUrl10];
-            [self.array addObject:VideoUrl11];
-            [self.array addObject:VideoUrl12];
-            [self.tableView reloadData];
-            NSLog(@"刷新完成");
-        });
-    }];
-
-    [self.tableView footFreshBlock:^{
-        @dl_strongify;
-//        for (int a = 0; a < 20; a++) {
-//            [self.array addObject:@"foot"];
-//        }
-        
-        [self.array addObject:VideoUrl4];
-        [self.array addObject:VideoUrl5];
-        [self.array addObject:VideoUrl6];
-        [self.array addObject:VideoUrl7];
-        [self.array addObject:VideoUrl8];
-        [self.array addObject:VideoUrl9];
-        [self.array addObject:VideoUrl10];
-        [self.array addObject:VideoUrl11];
-        [self.array addObject:VideoUrl12];
-        
-        [self.tableView reloadData];
-    }];
+//
+//        [self.tableView reloadData];
+//    }];
     
 //    [DLPerformanceLabel openMonitoring];
     
@@ -137,7 +133,7 @@
     if (!cell) {
         cell = [[DLDemoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-//    cell.imageview.dl_urlReduceImageString(self.array[indexPath.row]);
+    cell.imageview.dl_urlReduceImageString(self.array[indexPath.row]);
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }

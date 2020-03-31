@@ -2,11 +2,12 @@
 #import "NSObject+Add.h"
 #import <objc/runtime.h>
 #import "DLColor.h"
-#import "DLAutoLayout.h"
 #import "DLAlert.h"
 #import "NSString+Add.h"
 #import "DLSafeProtector.h"
 #import "DLDownloadOperationManager.h"
+#import "UIView+Layout.h"
+#import "DLAutoLayout.h"
 
 @interface UIView()
 
@@ -89,132 +90,6 @@ static char leftNameKey;
     [self.make install];
 }
 
--(UIView *(^) (UIView *view,CGFloat constant))dl_left_to_layout{
-    return ^(UIView *view,CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeLeft]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_leftEqualTo(view, constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_leftEqualTo(view, constant);
-            }];
-        }
-        return self;
-    };
-}
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_right_to_layout{
-    return ^(UIView *view,CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeRight]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_rightEqualTo(view, constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_rightEqualTo(view, constant);
-            }];
-        }
-        return self;
-    };
-}
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_top_to_layout{
-    return ^(UIView *view,CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeTop]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_topEqualTo(view, constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_topEqualTo(view, constant);
-            }];
-        }
-        return self;
-    };
-}
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_bottom_to_layout{
-    return ^(UIView *view,CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeBottom]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_bottomEqualTo(view, constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_bottomEqualTo(view, constant);
-            }];
-        }
-        return self;
-    };
-}
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_left_by_layout{
-    return ^(UIView *view,CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeLeft]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_leftByView(view, constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_leftByView(view, constant);
-            }];
-        }
-        return self;
-    };
-}
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_right_by_layout{
-    return ^(UIView *view,CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeRight]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_rightByView(view, constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_rightByView(view, constant);
-            }];
-        }
-        return self;
-    };
-}
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_top_by_layout{
-    return ^(UIView *view,CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeTop]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_topByView(view, constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_topByView(view, constant);
-            }];
-        }
-        return self;
-    };
-}
-
 -(instancetype)getCommonSuperView:(UIView *)view{
     UIView *commonSuperview = nil;
     UIView *secondViewSuperview = view;
@@ -229,114 +104,6 @@ static char leftNameKey;
         secondViewSuperview = secondViewSuperview.superview;
     }
     return commonSuperview;
-}
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_bottom_by_layout{
-    return ^(UIView *view,CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeBottom]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_bottomByView(view, constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_bottomByView(view, constant);
-            }];
-        }
-        return self;
-    };
-}
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_width_equal_layout{
-    return ^(UIView *view,CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeWidth]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_widthEqualTo(view, constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_widthEqualTo(view, constant);
-            }];
-        }
-        return self;
-    };
-}
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_height_equal_layout{
-    return ^(UIView *view,CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeHeight]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_heightEqualTo(view, constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_heightEqualTo(view, constant);
-            }];
-        }
-        return self;
-    };
-}
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_width_multiplier_layout{
-    return ^(UIView *view,CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeWidth]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_widthEqualTo(view).multiplier(constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_widthEqualTo(view).multiplier(constant);
-            }];
-        }
-        return self;
-    };
-}
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_height_multiplier_layout{
-    return ^(UIView *view,CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeHeight]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_heightEqualTo(view).multiplier(constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_heightEqualTo(view).multiplier(constant);
-            }];
-        }
-        return self;
-    };
-}
-
--(UIView *(^) (CGFloat constant))dl_width_layout{
-    return ^(CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeWidth]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_width(constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_width(constant);
-            }];
-        }
-        return self;
-    };
 }
 
 -(void)dl_remove_allLayout{
@@ -377,98 +144,20 @@ static char leftNameKey;
 //    };
 //}
 
--(UIView *(^) (CGFloat constant))dl_height_layout{
-    return ^(CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeHeight]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_height(constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_height(constant);
-            }];
-        }
-        return self;
-    };
-}
-
--(UIView *(^) (CGFloat constant))dl_width_GreaterThanOrEqual_layout{
-    return ^(CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeWidth]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_widthGreaterThanOrEqual(constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_widthGreaterThanOrEqual(constant);
-            }];
-        }
-        return self;
-    };
-}
-
--(UIView *(^) (CGFloat constant))dl_height_GreaterThanOrEqual_layout{
-    return ^(CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeHeight]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_heightGreaterThanOrEqual(constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_heightGreaterThanOrEqual(constant);
-            }];
-        }
-        return self;
-    };
-}
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_centerX_layout{
-    return ^(UIView *view,CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeCenterX]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_centerX(view, constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_centerX(view, constant);
-            }];
-        }
-        return self;
-    };
-}
-
--(UIView *(^) (UIView *view,CGFloat constant))dl_centerY_layout{
-    return ^(UIView *view,CGFloat constant){
-        if ([self isEmptySuperView]) {
-            return self;
-        }
-        if ([self dl_autoLayoutsForSelf:NSLayoutAttributeCenterY]) {
-            [self dl_updateAutoLayouts:^{
-                dl_layout_centerY(view, constant);
-            }];
-        }else{
-            [self dl_addAutoLayouts:^{
-                dl_layout_centerY(view, constant);
-            }];
-        }
-        return self;
-    };
-}
-
 -(CGFloat)dl_fittingHeight:(UIView *)view{
     return [self dl_fittingHeightWithSubview:view];
+}
+
+- (CGFloat)dl_fittingHeightWithSubview:(UIView *)view {
+    return [self p_dl_fittingSizeWithSubview:view].height;
+}
+
+- (CGSize)p_dl_fittingSizeWithSubview:(UIView *)view {
+    if ((![view isDescendantOfView:self]) || view == self) {
+        return CGSizeZero;
+    }
+    [self layoutIfNeeded];
+    return CGSizeMake(CGRectGetMaxX(view.frame), CGRectGetMaxY(view.frame));
 }
 
 -(CGFloat)dl_fittingWidth:(UIView *)view{
@@ -626,34 +315,34 @@ static char leftNameKey;
 -(UIView *(^) (NSString *color))dl_backColor{
     return ^(NSString *color) {
             NSString *colorStr = (NSString *)color;
-            if (@available(iOS 13.0, *)) {
-                self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                        return [DLColor DLColorWithAHEXColor:color];
-                    }else if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
-                        return [DLColor DLColorWithAHEXColor:color];
-                    }
-                    return [DLColor DLColorWithAHEXColor:color];
-                }];
-            }else{
+//            if (@available(iOS 13.0, *)) {
+//                self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+//                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+//                        return [DLColor DLColorWithAHEXColor:color];
+//                    }else if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+//                        return [DLColor DLColorWithAHEXColor:color];
+//                    }
+//                    return [DLColor DLColorWithAHEXColor:color];
+//                }];
+//            }else{
                 self.backgroundColor = [DLColor DLColorWithAHEXColor:colorStr];
-            };
+//            };
         return self;
     };
 }
 
 -(UIView *(^) (NSString *color))dl_dark_backColor{
     return ^(NSString *color) {
-        if (@available(iOS 13.0, *)) {
-            self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                    return [DLColor DLColorWithAHEXColor:color];
-                }
-                return [DLColor DLColorWithAHEXColor:color];
-            }];
-        } else {
-            // Fallback on earlier versions
-        }
+//        if (@available(iOS 13.0, *)) {
+//            self.backgroundColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+//                if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+//                    return [DLColor DLColorWithAHEXColor:color];
+//                }
+//                return [DLColor DLColorWithAHEXColor:color];
+//            }];
+//        } else {            
+            self.backgroundColor = [DLColor DLColorWithAHEXColor:color];
+//        }
         return self;
     };
 }
@@ -768,7 +457,7 @@ static char leftNameKey;
         if ([NSStringFromClass([self class]) isEqualToString:@"UIImageView"]) {
             UIImageView *imageView = (UIImageView *)self;
             if (imageString.length > 0) {
-                if (![imageString isEqualToString:self.currentURLString]) {
+                if (![imageString isEqualToString:self.currentURLString] && self.currentURLString.length > 0) {
                     [[DLDownloadOperationManager sharedManager]cancelOperation:imageString];
                 }
                 self.currentURLString = imageString;
@@ -792,7 +481,7 @@ static char leftNameKey;
                     [[DLDownloadOperationManager sharedManager]cancelOperation:imageString];
                 }
                 self.currentURLString = imageString;
-                [[DLDownloadOperationManager sharedManager]downloadWithUrlString:imageString imageView:nil finishedBlock:^(UIImage *image) {
+                [[DLDownloadOperationManager sharedManager]downloadWithUrlString:imageString imageView:imageView finishedBlock:^(UIImage *image) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         imageView.image = image;
                     });
@@ -895,16 +584,16 @@ static char leftNameKey;
     return ^(NSString *color) {
         if ([NSStringFromClass([self class]) isEqualToString:@"UIButton"]) {
             UIButton *button = (UIButton *)self;
-            if (@available(iOS 13.0, *)) {
-                [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-                     if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
-                        return [DLColor DLColorWithAHEXColor:color];
-                    }
-                    return [DLColor DLColorWithAHEXColor:color];
-                }] forState:UIControlStateNormal];
-            }else{
+//            if (@available(iOS 13.0, *)) {
+//                [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+//                     if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+//                        return [DLColor DLColorWithAHEXColor:color];
+//                    }
+//                    return [DLColor DLColorWithAHEXColor:color];
+//                }] forState:UIControlStateNormal];
+//            }else{
                 [button setTitleColor:[DLColor DLColorWithAHEXColor:color] forState:UIControlStateNormal];
-            };
+//            };
         }
         return self;
     };
@@ -914,16 +603,16 @@ static char leftNameKey;
     return ^(NSString *color) {
         if ([NSStringFromClass([self class]) isEqualToString:@"UIButton"]) {
             UIButton *button = (UIButton *)self;
-            if (@available(iOS 13.0, *)) {
-                [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
-                        return [DLColor DLColorWithAHEXColor:color];
-                    }
-                    return [DLColor DLColorWithAHEXColor:color];
-                }] forState:UIControlStateSelected];
-            }else{
+//            if (@available(iOS 13.0, *)) {
+//                [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+//                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+//                        return [DLColor DLColorWithAHEXColor:color];
+//                    }
+//                    return [DLColor DLColorWithAHEXColor:color];
+//                }] forState:UIControlStateSelected];
+//            }else{
                 [button setTitleColor:[DLColor DLColorWithAHEXColor:color] forState:UIControlStateSelected];
-            };
+//            };
         }
         return self;
     };
@@ -933,16 +622,16 @@ static char leftNameKey;
     return ^(NSString *color) {
         if ([NSStringFromClass([self class]) isEqualToString:@"UIButton"]) {
             UIButton *button = (UIButton *)self;
-            if (@available(iOS 13.0, *)) {
-                [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
-                        return [DLColor DLColorWithAHEXColor:color];
-                    }
-                    return [DLColor DLColorWithAHEXColor:color];
-                }] forState:UIControlStateHighlighted];
-            }else{
+//            if (@available(iOS 13.0, *)) {
+//                [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+//                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+//                        return [DLColor DLColorWithAHEXColor:color];
+//                    }
+//                    return [DLColor DLColorWithAHEXColor:color];
+//                }] forState:UIControlStateHighlighted];
+//            }else{
                 [button setTitleColor:[DLColor DLColorWithAHEXColor:color] forState:UIControlStateHighlighted];
-            };
+//            };
         }
         return self;
     };
@@ -952,16 +641,16 @@ static char leftNameKey;
     return ^(NSString *color) {
         if ([NSStringFromClass([self class]) isEqualToString:@"UIButton"]) {
             UIButton *button = (UIButton *)self;
-            if (@available(iOS 13.0, *)) {
-                [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                        return [DLColor DLColorWithAHEXColor:color];
-                    }
-                    return [DLColor DLColorWithAHEXColor:color];
-                }] forState:UIControlStateNormal];
-            }else{
+//            if (@available(iOS 13.0, *)) {
+//                [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+//                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+//                        return [DLColor DLColorWithAHEXColor:color];
+//                    }
+//                    return [DLColor DLColorWithAHEXColor:color];
+//                }] forState:UIControlStateNormal];
+//            }else{
                 [button setTitleColor:[DLColor DLColorWithAHEXColor:color] forState:UIControlStateNormal];
-            };
+//            };
         }
         return self;
     };
@@ -971,16 +660,16 @@ static char leftNameKey;
     return ^(NSString *color) {
         if ([NSStringFromClass([self class]) isEqualToString:@"UIButton"]) {
             UIButton *button = (UIButton *)self;
-                if (@available(iOS 13.0, *)) {
-                    [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-                        if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                            return [DLColor DLColorWithAHEXColor:color];
-                        }
-                        return [DLColor DLColorWithAHEXColor:color];
-                    }] forState:UIControlStateSelected];
-                }else{
+//                if (@available(iOS 13.0, *)) {
+//                    [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+//                        if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+//                            return [DLColor DLColorWithAHEXColor:color];
+//                        }
+//                        return [DLColor DLColorWithAHEXColor:color];
+//                    }] forState:UIControlStateSelected];
+//                }else{
                     [button setTitleColor:[DLColor DLColorWithAHEXColor:color] forState:UIControlStateSelected];
-                };
+//                };
         }
         return self;
     };
@@ -990,16 +679,16 @@ static char leftNameKey;
     return ^(NSString *color) {
         if ([NSStringFromClass([self class]) isEqualToString:@"UIButton"]) {
             UIButton *button = (UIButton *)self;
-                if (@available(iOS 13.0, *)) {
-                    [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-                        if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                            return [DLColor DLColorWithAHEXColor:color];
-                        }
-                        return [DLColor DLColorWithAHEXColor:color];
-                    }] forState:UIControlStateHighlighted];
-                }else{
+//                if (@available(iOS 13.0, *)) {
+//                    [button setTitleColor:[UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+//                        if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+//                            return [DLColor DLColorWithAHEXColor:color];
+//                        }
+//                        return [DLColor DLColorWithAHEXColor:color];
+//                    }] forState:UIControlStateHighlighted];
+//                }else{
                     [button setTitleColor:[DLColor DLColorWithAHEXColor:color] forState:UIControlStateHighlighted];
-                };
+//                };
         }
         return self;
     };
@@ -1022,28 +711,28 @@ static char leftNameKey;
     return ^(NSString *color){
         if ([NSStringFromClass([self class]) isEqualToString:@"UILabel"]) {
             UILabel *label = (UILabel *)self;
-            if (@available(iOS 13.0, *)) {
-                label.textColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
-                        return [DLColor DLColorWithAHEXColor:color];
-                    }
-                    return [DLColor DLColorWithAHEXColor:color];
-                }];
-            }else{
+//            if (@available(iOS 13.0, *)) {
+//                label.textColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+//                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+//                        return [DLColor DLColorWithAHEXColor:color];
+//                    }
+//                    return [DLColor DLColorWithAHEXColor:color];
+//                }];
+//            }else{
                 label.textColor = [DLColor DLColorWithAHEXColor:color];
-            };
+//            };
         }else if ([NSStringFromClass([self class]) isEqualToString:@"UITextView"]) {
             UITextView *textView = (UITextView *)self;
-            if (@available(iOS 13.0, *)) {
-                textView.textColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
-                        return [DLColor DLColorWithAHEXColor:color];
-                    }
-                    return [DLColor DLColorWithAHEXColor:color];
-                }];
-            }else{
+//            if (@available(iOS 13.0, *)) {
+//                textView.textColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+//                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleLight) {
+//                        return [DLColor DLColorWithAHEXColor:color];
+//                    }
+//                    return [DLColor DLColorWithAHEXColor:color];
+//                }];
+//            }else{
                 textView.textColor = [DLColor DLColorWithAHEXColor:color];
-            };
+//            };
         }
         return self;
     };
@@ -1053,28 +742,28 @@ static char leftNameKey;
     return ^(NSString *color) {
         if ([NSStringFromClass([self class]) isEqualToString:@"UILabel"]) {
             UILabel *label = (UILabel *)self;
-            if (@available(iOS 13.0, *)) {
-                label.textColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                        return [DLColor DLColorWithAHEXColor:color];
-                    }
-                    return [DLColor DLColorWithAHEXColor:color];
-                }];
-            }else{
+//            if (@available(iOS 13.0, *)) {
+//                label.textColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+//                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+//                        return [DLColor DLColorWithAHEXColor:color];
+//                    }
+//                    return [DLColor DLColorWithAHEXColor:color];
+//                }];
+//            }else{
                 label.textColor = [DLColor DLColorWithAHEXColor:color];
-            };
+//            };
         }else if ([NSStringFromClass([self class]) isEqualToString:@"UITextView"]) {
             UITextView *textView = (UITextView *)self;
-            if (@available(iOS 13.0, *)) {
-                textView.textColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
-                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
-                        return [DLColor DLColorWithAHEXColor:color];
-                    }
-                    return [DLColor DLColorWithAHEXColor:color];
-                }];
-            }else{
+//            if (@available(iOS 13.0, *)) {
+//                textView.textColor = [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traitCollection) {
+//                    if (traitCollection.userInterfaceStyle == UIUserInterfaceStyleDark) {
+//                        return [DLColor DLColorWithAHEXColor:color];
+//                    }
+//                    return [DLColor DLColorWithAHEXColor:color];
+//                }];
+//            }else{
                 textView.textColor = [DLColor DLColorWithAHEXColor:color];
-            };
+//            };
         }
         return self;
     };
@@ -1406,6 +1095,15 @@ static char leftNameKey;
 
 @end
 
+
+static char editChangeKey;
+
+static char editBeginKey;
+
+static char editEndKey;
+
+static char editExitKey;
+
 @implementation UITextField (Add)
 
 +(instancetype)dl_view:(void (^) (UITextField *textField))block{
@@ -1421,6 +1119,46 @@ static char leftNameKey;
         
     }
     return textField;
+}
+
+-(void)editChange:(void (^)(UITextField *))block{
+    [self addTarget:self action:@selector(textChanged) forControlEvents:UIControlEventEditingChanged];
+    objc_setAssociatedObject(self, &editChangeKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+-(void)textChanged{
+    void (^block) (UITextField *textField) = objc_getAssociatedObject(self, &editChangeKey);
+    block(self);
+}
+
+-(void)editBegin:(void (^)(UITextField *textField))block{
+    [self addTarget:self action:@selector(textBegin) forControlEvents:UIControlEventEditingDidBegin];
+    objc_setAssociatedObject(self, &editBeginKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+-(void)textBegin{
+    void (^block) (UITextField *textField) = objc_getAssociatedObject(self, &editBeginKey);
+    block(self);
+}
+
+-(void)editEnd:(void (^)(UITextField *textField))block{
+    [self addTarget:self action:@selector(textEnd) forControlEvents:UIControlEventEditingDidEnd];
+    objc_setAssociatedObject(self, &editEndKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+-(void)textEnd{
+    void (^block) (UITextField *textField) = objc_getAssociatedObject(self, &editEndKey);
+    block(self);
+}
+
+-(void)editExit:(void (^)(UITextField *textField))block{
+    [self addTarget:self action:@selector(textExit) forControlEvents:UIControlEventEditingDidEndOnExit];
+    objc_setAssociatedObject(self, &editExitKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+-(void)textExit{
+    void (^block) (UITextField *textField) = objc_getAssociatedObject(self, &editExitKey);
+    block(self);
 }
 
 @end

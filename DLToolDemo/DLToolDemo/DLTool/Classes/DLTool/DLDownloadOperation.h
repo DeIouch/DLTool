@@ -2,9 +2,10 @@
 
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface DLDownloadOperation : NSOperation
 
-+(instancetype)downloadOperationWithURLString:(NSString *)urlString finishedBlock:(void (^)(NSData *data))finishedBlock;
++(instancetype)downloadOperationWithURLString:(NSString *)urlString imageView:(UIImageView *)imageView finishedBlock:(void (^)(BOOL isFinish, UIImage *image))finishedBlock;
 
 @end
