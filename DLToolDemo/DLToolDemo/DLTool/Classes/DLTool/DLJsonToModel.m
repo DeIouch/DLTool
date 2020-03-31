@@ -10,40 +10,20 @@
 @implementation DLJsonToModel
 
 /// DLModel ?  MJExtension ?
-static DLJsonToModelToType modelToType;
 
 + (BOOL)dl_createDLModelWithJson:(NSDictionary *)json fileName:(NSString *)fileName extensionName:(NSString *)extensionName fileURL:(NSURL *)url error:(Error)error {
     if (json){
         if (fileName.length < 1)fileName = @"DLTestModel";
-        if (extensionName.length < 1)extensionName = @"yy_class";
-        if (!url){
-            NSLog(@"DLJsonToModel error : url为nil!");
-            return NO;
-        }else{
-            modelToType = DLJsonToModelToDLModel;
-            return [DLJsonToModel modelWithFileName:fileName extensionName:extensionName json:json fileURL:url error:error];
+        if (extensionName.length < 1)extensionName = @"dl_class";
+        if (!url) {
+            url = [NSURL URLWithString:@"/Users"];
         }
+        return [DLJsonToModel modelWithFileName:fileName extensionName:extensionName json:json fileURL:url error:error];
     }else{
-        NSLog(@"DLJsonToModel error : json为nil!");
+        NSLog(@"/Users error : json为nil!");
         return NO;
     }
 }
-
-+ (BOOL)dl_createMJModelWithJson:(NSDictionary *)json fileName:(NSString *)fileName extensionName:(NSString *)extensionName fileURL:(NSURL *)url error:(Error)error {
-    if (json){
-        if (fileName.length < 1)fileName = @"DLTestModel";
-        if (extensionName.length < 1)extensionName = @"mj_class";
-        if (!url){
-            NSLog(@"DLJsonToModel error : url为nil!");
-            return NO;
-        }else{
-            modelToType = DLJsonToModelToMJExtension;
-            return [DLJsonToModel modelWithFileName:fileName extensionName:extensionName json:json fileURL:url error:error];
-        }
-    }else{
-        NSLog(@"DLJsonToModel error : json为nil!");
-        return NO;
-    }}
 
 + (BOOL)modelWithFileName:(NSString *)fileName extensionName:(NSString *)extensionName json:(NSDictionary *)json fileURL:(NSURL *)url error:(Error)error {
 //#warning 此地址为 mac 文件夹地址，地址错误报错为 The folder “XXX.h” doesn’t exist.（暂时仅支持模拟器生成 model 文件，正在完善中。。。）
@@ -331,14 +311,8 @@ static DLJsonToModelToType modelToType;
 - (NSString *)mStringWithClassObject:(DLClassObject *)classObj withExtensionClassName:(NSString *)extensionName{
     NSString *stringa;
     NSString *stringc;
-    if (modelToType == DLJsonToModelToDLModel) {
-        stringa = @"+ (NSDictionary *)modelCustomPropertyMapper {\n    return @{";
-        stringc = @"+ (NSDictionary *)modelContainerPropertyGenericClass {\n    return @{";
-    }
-    if (modelToType == DLJsonToModelToMJExtension) {
-        stringa = @"+ (NSDictionary *)mj_replacedKeyFromPropertyName {\n    return @{";
-        stringc = @"+ (NSDictionary *)mj_objectClassInArray {\n    return @{";
-    }
+    stringa = @"+ (NSDictionary *)modelCustomPropertyMapper {\n    return @{";
+    stringc = @"+ (NSDictionary *)modelContainerPropertyGenericClass {\n    return @{";
     NSString *stringb = @"};\n}\n";
     NSString *stringd = @"};\n}\n";
     // 生成 自定义属性名
