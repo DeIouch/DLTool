@@ -81,7 +81,6 @@
         self.frame = CGRectMake(0.0f, 0.0f, [UIScreen mainScreen].bounds.size.width, 20.0f);
         UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
          window.windowLevel = UIWindowLevelStatusBar + 1;
-        window.backgroundColor = [UIColor redColor];
         [window addSubview:self];
     }
     return self;

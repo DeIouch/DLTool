@@ -38,6 +38,8 @@
 
 -(DLLayout *(^)(CGFloat constant))offset;
 
+-(DLLayout *(^)(NSInteger constant))priority;
+
 -(void *(^)(void))install;
 
 -(void *(^)(void))remove;
@@ -47,8 +49,5 @@
 @interface UIView (Layout)
 
 @property (nonatomic, strong) DLLayout *dl_layout;
-
-//print
-//- (void)dl_printConstraintsForSelf;
 
 @end

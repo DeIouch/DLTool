@@ -497,7 +497,8 @@ static char leftNameKey;
         if ([NSStringFromClass([self class]) isEqualToString:@"UIImageView"]) {
             UIImageView *imageView = (UIImageView *)self;
             if (!imageView.image) {
-                imageView.image = [UIImage imageNamed:imageString];
+//                imageView.image = [UIImage imageNamed:imageString];
+                imageView.image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:imageString]];
             }
         }
         return self;
@@ -554,7 +555,7 @@ static char leftNameKey;
     return ^(NSString *image) {
         if ([NSStringFromClass([self class]) isEqualToString:@"UIButton"]) {
             UIButton *button = (UIButton *)self;
-            [button setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:image]] forState:UIControlStateNormal];
         }
         return self;
     };
@@ -564,7 +565,7 @@ static char leftNameKey;
     return ^(NSString *image) {
         if ([NSStringFromClass([self class]) isEqualToString:@"UIButton"]) {
             UIButton *button = (UIButton *)self;
-            [button setImage:[UIImage imageNamed:image] forState:UIControlStateSelected];
+            [button setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:image]] forState:UIControlStateSelected];
         }
         return self;
     };
@@ -574,7 +575,7 @@ static char leftNameKey;
     return ^(NSString *image) {
         if ([NSStringFromClass([self class]) isEqualToString:@"UIButton"]) {
             UIButton *button = (UIButton *)self;
-            [button setImage:[UIImage imageNamed:image] forState:UIControlStateHighlighted];
+            [button setImage:[UIImage imageWithContentsOfFile:[[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:image]] forState:UIControlStateHighlighted];
         }
         return self;
     };

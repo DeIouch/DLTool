@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 44;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -81,6 +81,8 @@
 		2475D54D2433737B000B7B88 /* UIGestureRecognizer+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 2475D54B2433737A000B7B88 /* UIGestureRecognizer+YYAdd.m */; };
 		24903BA5241D0B6A00058612 /* DLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 24903BA4241D0B6A00058612 /* DLCache.m */; };
 		24CAA07724178E08005A7C56 /* DLMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 24CAA07624178E08005A7C56 /* DLMenu.m */; };
+		8721171B24342EC100EDA771 /* shareback.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8721171A24342EC000EDA771 /* shareback.jpg */; };
+		8721171E243433B600EDA771 /* DLKeyboardManage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8721171D243433B600EDA771 /* DLKeyboardManage.m */; };
 		873CC4E12420D2F900A995B3 /* DLPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 873CC4E02420D2F900A995B3 /* DLPopView.m */; };
 		8755A81D2413AB350064E7E4 /* repeatPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 8755A81C2413AB350064E7E4 /* repeatPlay.png */; };
 		8761C1EA241873A100E94C8F /* DLBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 8761C1E9241873A100E94C8F /* DLBanner.m */; };
@@ -257,6 +259,9 @@
 		24903BA4241D0B6A00058612 /* DLCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLCache.m; sourceTree = "<group>"; };
 		24CAA07524178E08005A7C56 /* DLMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLMenu.h; sourceTree = "<group>"; };
 		24CAA07624178E08005A7C56 /* DLMenu.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLMenu.m; sourceTree = "<group>"; };
+		8721171A24342EC000EDA771 /* shareback.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = shareback.jpg; sourceTree = "<group>"; };
+		8721171C243433B600EDA771 /* DLKeyboardManage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLKeyboardManage.h; sourceTree = "<group>"; };
+		8721171D243433B600EDA771 /* DLKeyboardManage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLKeyboardManage.m; sourceTree = "<group>"; };
 		873CC4DF2420D2F900A995B3 /* DLPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPopView.h; sourceTree = "<group>"; };
 		873CC4E02420D2F900A995B3 /* DLPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPopView.m; sourceTree = "<group>"; };
 		8755A81C2413AB350064E7E4 /* repeatPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repeatPlay.png; sourceTree = "<group>"; };
@@ -348,7 +353,10 @@
 				244204BD2411202C00E442C6 /* ViewController.m */,
 				2475D54C2433737B000B7B88 /* UIGestureRecognizer+YYAdd.h */,
 				2475D54B2433737A000B7B88 /* UIGestureRecognizer+YYAdd.m */,
+				8721171C243433B600EDA771 /* DLKeyboardManage.h */,
+				8721171D243433B600EDA771 /* DLKeyboardManage.m */,
 				2421C8D9241E36BF009DD194 /* 1.jpeg */,
+				8721171A24342EC000EDA771 /* shareback.jpg */,
 				87663A78241A2A12005052C4 /* DLModelDemo.h */,
 				87663A79241A2A12005052C4 /* DLModelDemo.m */,
 				2442059F2411205600E442C6 /* OneViewController.h */,
@@ -734,6 +742,7 @@
 				2442056F2411204C00E442C6 /* video_small_screen.png in Resources */,
 				87712A9B241C86BD0077A296 /* skipButton_background@3x.png in Resources */,
 				2442056E2411204C00E442C6 /* video_full_screen.png in Resources */,
+				8721171B24342EC100EDA771 /* shareback.jpg in Resources */,
 				8755A81D2413AB350064E7E4 /* repeatPlay.png in Resources */,
 				2421C8DA241E36C0009DD194 /* 1.jpeg in Resources */,
 				244204C32411202C00E442C6 /* Assets.xcassets in Resources */,
@@ -826,6 +835,7 @@
 				2442058F2411204C00E442C6 /* UIScrollView+Add.m in Sources */,
 				244205A32411205700E442C6 /* OneViewController.m in Sources */,
 				2475D54D2433737B000B7B88 /* UIGestureRecognizer+YYAdd.m in Sources */,
+				8721171E243433B600EDA771 /* DLKeyboardManage.m in Sources */,
 				87B41C352424C65D00E545B3 /* DLPerformance.m in Sources */,
 				244205822411204C00E442C6 /* NSMutableOrderedSet+Add.m in Sources */,
 				87835A2C241B36D500F5D372 /* DLAuthority.m in Sources */,

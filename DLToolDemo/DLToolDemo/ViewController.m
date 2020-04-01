@@ -19,6 +19,8 @@
 #import "DLPerformance.h"
 #import "UIView+Layout.h"
 #import "DLDownloadOperation.h"
+#import "DLKeyboardManage.h"
+#import "DLAutoLayout.h"
 
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
@@ -61,13 +63,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor blueColor];
     
-    [DLPerformance openMonitoring];
+//    [DLPerformance openMonitoring];
+    UITextField *textField = [[UITextField alloc]init];
+    [self.view addSubview:textField];
+    textField.dl_layout.left.right.height.offset(50).bottom.offset(50).install();
+    textField.backgroundColor = [UIColor redColor];
+
     
+//    [textField dl_printConstraintsForSelf];
     
-    
-    
+    UITextView *atextField = [[UITextView alloc]init];
+    [self.view addSubview:atextField];
+    atextField.dl_layout.left.right.height.offset(50).bottom.offset(150).install();
+    atextField.backgroundColor = [UIColor grayColor];
+    atextField.singleMeView = textField;
     
 //    DLDownloadOperation *op = [DLDownloadOperation downloadOperationWithURLString:VideoUrl5 imageView:imageView finishedBlock:^(BOOL isFinish, UIImage *image) {
 //        
@@ -83,12 +94,18 @@
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    OneViewController *vc = [[OneViewController alloc]init];
+//    OneViewController *vc = [[OneViewController alloc]init];
 //    vc.modalPresentationStyle = UIModalPresentationFullScreen;
 //    [self presentViewController:vc animated:YES completion:nil];
-    [self.navigationController pushViewController:vc animated:YES];
+//    [self.navigationController pushViewController:vc animated:YES];
+//    OneViewController *vc = [[OneViewController alloc]init];
+//    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+//    [self.navigationController pushViewController:vc animated:YES];
     
-//    NSLog(@"touchup");
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    UIView *firstResponder = [keyWindow performSelector:@selector(firstResponder)];
+    [firstResponder resignFirstResponder];
+    
 }
 
 @end
