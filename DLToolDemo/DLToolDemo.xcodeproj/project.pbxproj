@@ -78,6 +78,7 @@
 		2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442055F2411204C00E442C6 /* DLWeakProxy.m */; };
 		244205A32411205700E442C6 /* OneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442059D2411205600E442C6 /* OneViewController.m */; };
 		244F11A7242E2D8F007068C8 /* UIView+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 244F11A6242E2D8F007068C8 /* UIView+Layout.m */; };
+		2475D54D2433737B000B7B88 /* UIGestureRecognizer+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 2475D54B2433737A000B7B88 /* UIGestureRecognizer+YYAdd.m */; };
 		24903BA5241D0B6A00058612 /* DLCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 24903BA4241D0B6A00058612 /* DLCache.m */; };
 		24CAA07724178E08005A7C56 /* DLMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 24CAA07624178E08005A7C56 /* DLMenu.m */; };
 		873CC4E12420D2F900A995B3 /* DLPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 873CC4E02420D2F900A995B3 /* DLPopView.m */; };
@@ -250,6 +251,8 @@
 		2442059F2411205600E442C6 /* OneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneViewController.h; sourceTree = "<group>"; };
 		244F11A5242E2D8F007068C8 /* UIView+Layout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIView+Layout.h"; sourceTree = "<group>"; };
 		244F11A6242E2D8F007068C8 /* UIView+Layout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIView+Layout.m"; sourceTree = "<group>"; };
+		2475D54B2433737A000B7B88 /* UIGestureRecognizer+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIGestureRecognizer+YYAdd.m"; sourceTree = "<group>"; };
+		2475D54C2433737B000B7B88 /* UIGestureRecognizer+YYAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIGestureRecognizer+YYAdd.h"; sourceTree = "<group>"; };
 		24903BA3241D0B6A00058612 /* DLCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLCache.h; sourceTree = "<group>"; };
 		24903BA4241D0B6A00058612 /* DLCache.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLCache.m; sourceTree = "<group>"; };
 		24CAA07524178E08005A7C56 /* DLMenu.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLMenu.h; sourceTree = "<group>"; };
@@ -343,6 +346,8 @@
 				244204BA2411202C00E442C6 /* AppDelegate.m */,
 				244204BC2411202C00E442C6 /* ViewController.h */,
 				244204BD2411202C00E442C6 /* ViewController.m */,
+				2475D54C2433737B000B7B88 /* UIGestureRecognizer+YYAdd.h */,
+				2475D54B2433737A000B7B88 /* UIGestureRecognizer+YYAdd.m */,
 				2421C8D9241E36BF009DD194 /* 1.jpeg */,
 				87663A78241A2A12005052C4 /* DLModelDemo.h */,
 				87663A79241A2A12005052C4 /* DLModelDemo.m */,
@@ -820,6 +825,7 @@
 				2421C8D8241E0B9E009DD194 /* DLDownloadOperationManager.m in Sources */,
 				2442058F2411204C00E442C6 /* UIScrollView+Add.m in Sources */,
 				244205A32411205700E442C6 /* OneViewController.m in Sources */,
+				2475D54D2433737B000B7B88 /* UIGestureRecognizer+YYAdd.m in Sources */,
 				87B41C352424C65D00E545B3 /* DLPerformance.m in Sources */,
 				244205822411204C00E442C6 /* NSMutableOrderedSet+Add.m in Sources */,
 				87835A2C241B36D500F5D372 /* DLAuthority.m in Sources */,

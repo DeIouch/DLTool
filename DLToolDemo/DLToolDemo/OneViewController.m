@@ -53,9 +53,13 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(10, 100, 200, 50)];
-    [self.view addSubview:textField];
-    textField.backgroundColor = [UIColor redColor];
+//    UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(10, 100, 200, 50)];
+//    [self.view addSubview:textField];
+//    textField.backgroundColor = [UIColor redColor];
+    
+    
+    
+    
     
 //    self.array = [[NSMutableArray alloc]init];
 //    for (int a = 0; a < 100; a++) {

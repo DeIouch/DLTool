@@ -65,12 +65,7 @@
     
     [DLPerformance openMonitoring];
     
-//    NSLog(@"%ld", self.view.hash);
     
-    
-    
-    
-//    [textField addTarget:self action:@selector(textFieldTextChanged:) forControlEvents:UIControlEventEditingChanged];
     
     
     
@@ -89,7 +84,7 @@
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     OneViewController *vc = [[OneViewController alloc]init];
-    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+//    vc.modalPresentationStyle = UIModalPresentationFullScreen;
 //    [self presentViewController:vc animated:YES completion:nil];
     [self.navigationController pushViewController:vc animated:YES];
     

@@ -1,11 +1,3 @@
-//
-//  UIView+DLLLL.m
-//  DLToolDemo
-//
-//  Created by 戴青 on 2020/3/27.
-//  Copyright © 2020年 戴青. All rights reserved.
-//
-
 #import "UIView+Layout.h"
 #import <objc/runtime.h>
 #import "DLToolMacro.h"
@@ -371,9 +363,6 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.leftConstraint.needDelete = NO;
     self.leftConstraint.constraintType = Left;
     [self.array addObject:self.leftConstraint];
-    
-    NSLog(@"%ld", self.array.count);
-    
     return self;
 }
 
@@ -654,39 +643,5 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 -(void)setDl_layout:(DLLayout *)dl_layout{
     objc_setAssociatedObject(self, &layout_Key, dl_layout, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
-
-//- (void)dl_printConstraintsForSelf {
-//    NSArray<__kindof NSLayoutConstraint *> *constrain = self.constraints;
-//    NSArray<__kindof NSLayoutConstraint *> *superConstrain = self.superview.constraints;
-//    NSMutableArray<__kindof NSLayoutConstraint *> *array = [NSMutableArray array];
-//    [array addObjectsFromArray:constrain];
-//    [array addObjectsFromArray:superConstrain];
-//    [array enumerateObjectsUsingBlock:^(__kindof NSLayoutConstraint * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        if (obj.firstItem == self) {
-//            NSLog(@"p_dl_layoutAttributeString  ==  %@ -> %@ : %f",[self class],p_dl_layoutAttributeString(obj.firstAttribute),obj.constant);
-//        }
-//    }];
-//}
-//
-//NSString* p_dl_layoutAttributeString(NSLayoutAttribute attribute) {
-//    NSString *attributeString;
-//#define enumToString(value) case value : attributeString = @#value; break;
-//    switch (attribute) {
-//            enumToString(NSLayoutAttributeLeft)
-//            enumToString(NSLayoutAttributeRight)
-//            enumToString(NSLayoutAttributeTop)
-//            enumToString(NSLayoutAttributeBottom)
-//            enumToString(NSLayoutAttributeLeading)
-//            enumToString(NSLayoutAttributeTrailing)
-//            enumToString(NSLayoutAttributeWidth)
-//            enumToString(NSLayoutAttributeHeight)
-//            enumToString(NSLayoutAttributeCenterX)
-//            enumToString(NSLayoutAttributeCenterY)
-//        default:
-//            enumToString(NSLayoutAttributeNotAnAttribute)
-//    }
-//#undef enumToString
-//    return attributeString;
-//}
 
 @end
