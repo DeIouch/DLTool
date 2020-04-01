@@ -8,7 +8,6 @@
 
 #import "UIView+Layout.h"
 #import <objc/runtime.h>
-#import "DLToolMacro.h"
 #import "UIView+Add.h"
 
 static char const layout_Key;
@@ -348,6 +347,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(NSLayoutConstraint *)addConstraint:(Constraint *)constraint{
     NSLayoutConstraint *cons = [NSLayoutConstraint constraintWithItem:self.view attribute:constraint.firstAttribute relatedBy:constraint.layoutRelation toItem:constraint.item attribute:constraint.secondAttribute ? constraint.secondAttribute : constraint.firstAttribute multiplier:constraint.multiplier constant:constraint.constant];
+//    cons.priority = 100;
     return cons;
 }
 
@@ -407,6 +407,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *)bottom{
     [self deleteConstraint:self.bottomConstraint];
+    [self dl_removalDuplicateConstraints:self.bottomConstraint];
     if (self.isReset) {
         [self installConstraint];
     }
@@ -417,6 +418,19 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     self.bottomConstraint.constraintType = Bottom;
     [self.array addObject:self.bottomConstraint];
     return self;
+}
+
+- (void)dl_removalDuplicateConstraints:(Constraint *)constraint{
+    NSArray<__kindof NSLayoutConstraint *> *constrain = constraint.firstView.constraints;
+    NSArray<__kindof NSLayoutConstraint *> *superConstrain = constraint.firstView.superview.constraints;
+    NSMutableArray<__kindof NSLayoutConstraint *> *array = [NSMutableArray array];
+    [array addObjectsFromArray:constrain];
+    [array addObjectsFromArray:superConstrain];
+    [array enumerateObjectsUsingBlock:^(__kindof NSLayoutConstraint * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.firstItem == constraint.firstView && obj.firstAttribute == constraint.firstAttribute && constraint.fatherView) {
+            [constraint.fatherView removeConstraint:obj];
+        }
+    }];
 }
 
 -(DLLayout *)safeTop{

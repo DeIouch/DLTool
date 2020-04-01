@@ -19,6 +19,7 @@
 #import "DLPerformance.h"
 #import "UIView+Layout.h"
 #import "DLDownloadOperation.h"
+#import "DLKeyboardManage.h"
 
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
@@ -63,14 +64,23 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [DLPerformance openMonitoring];
+//    [DLPerformance openMonitoring];
     
 //    NSLog(@"%ld", self.view.hash);
     
     
+    UITextField *textField = [[UITextField alloc]init];
+    [self.view addSubview:textField];
+    textField.dl_layout.left.right.height.offset(50).top.offset(500).install();
+    textField.backgroundColor = [UIColor redColor];
     
     
-//    [textField addTarget:self action:@selector(textFieldTextChanged:) forControlEvents:UIControlEventEditingChanged];
+//    UITextView *atextField = [[UITextView alloc]init];
+//    [self.view addSubview:atextField];
+//    atextField.dl_layout.left.right.height.offset(50).bottom.offset(150).install();
+//    atextField.backgroundColor = [UIColor redColor];
+    
+    
     
     
     
@@ -88,12 +98,14 @@
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    OneViewController *vc = [[OneViewController alloc]init];
-    vc.modalPresentationStyle = UIModalPresentationFullScreen;
-//    [self presentViewController:vc animated:YES completion:nil];
-    [self.navigationController pushViewController:vc animated:YES];
+//    OneViewController *vc = [[OneViewController alloc]init];
+//    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+//    [self.navigationController pushViewController:vc animated:YES];
     
-//    NSLog(@"touchup");
+    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+    UIView *firstResponder = [keyWindow performSelector:@selector(firstResponder)];
+    [firstResponder resignFirstResponder];
+    
 }
 
 @end
