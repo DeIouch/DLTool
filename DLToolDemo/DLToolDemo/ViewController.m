@@ -22,6 +22,7 @@
 #import "DLKeyboardManage.h"
 #import "DLAutoLayout.h"
 #import "DLDemoTableViewCell.h"
+#import "DLAutoLayout.h"
 
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
@@ -61,7 +62,7 @@
     self.view.backgroundColor = [UIColor blueColor];
     
     [DLPerformance openMonitoring];
-
+    
     
     tableView = [[UITableView alloc]initWithFrame:self.view.bounds];
     
