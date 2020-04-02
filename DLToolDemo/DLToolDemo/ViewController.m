@@ -109,6 +109,9 @@
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
+    NSLog(@"1231231234");
+    
 //    OneViewController *vc = [[OneViewController alloc]init];
 //    vc.modalPresentationStyle = UIModalPresentationFullScreen;
 //    [self presentViewController:vc animated:YES completion:nil];
@@ -116,17 +119,14 @@
     
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:touch.view];
-//    NSLog(@"%lf", point.y);
     
     if (point.y < 150) {
         OneViewController *vc = [[OneViewController alloc]init];
         vc.modalPresentationStyle = UIModalPresentationFullScreen;
         [self.navigationController pushViewController:vc animated:YES];
-    }
-    else{
-        UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-        UIView *firstResponder = [keyWindow performSelector:@selector(firstResponder)];
-        [firstResponder resignFirstResponder];
+    }else{
+        [atextField resignFirstResponder];
+        [textField resignFirstResponder];
     }
 //    [atextField resignFirstResponder];
 }

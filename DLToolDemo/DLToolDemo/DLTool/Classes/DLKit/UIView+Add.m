@@ -79,6 +79,16 @@ static char leftNameKey;
     return isEmpty;
 }
 
+-(UIViewController *)fatherViewController{
+    for (UIView* next = [self superview]; next; next = next.superview) {
+        UIResponder* nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController*)nextResponder;
+        }
+    }
+    return nil;
+}
+
 #pragma mark autoLayout
 
 -(void)dl_AutoLayout:(void (^)(DLConstraintMaker *make))block{

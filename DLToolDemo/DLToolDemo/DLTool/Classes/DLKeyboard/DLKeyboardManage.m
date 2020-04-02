@@ -80,7 +80,7 @@ static __weak id dl_currentFirstResponder;
 }
 
 -(void)safe_viewWillDisappear:(BOOL)animated{
-    if (self == keyboard.keyBoardManageVC) {
+    if (self == keyboard.keyBoardManageVC && [UIResponder dl_currentFirstResponder]) {
         UIView *view = [UIResponder dl_currentFirstResponder];
         [view resignFirstResponder];
         keyboard.keyBoardManageVC = nil;
@@ -190,18 +190,8 @@ static __weak id dl_currentFirstResponder;
             }
         }
     }
-    keyboard.keyBoardManageVC = [self getFatherViewController:keyboard.firstResponderView];
+    keyboard.keyBoardManageVC = keyboard.firstResponderView.fatherViewController;
     keyboard.isChange = YES;
-}
-
--(UIViewController *)getFatherViewController:(UIView *)view{
-    for (UIView* next = [view superview]; next; next = next.superview) {
-        UIResponder* nextResponder = [next nextResponder];
-        if ([nextResponder isKindOfClass:[UIViewController class]]) {
-            return (UIViewController*)nextResponder;
-        }
-    }
-    return nil;
 }
 
 -(void)keyboardWillHide:(NSNotification *)noti{

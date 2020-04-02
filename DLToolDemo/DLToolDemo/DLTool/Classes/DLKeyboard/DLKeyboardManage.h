@@ -1,4 +1,4 @@
-//  键盘移动管理器
+//  键盘遮挡管理器
 
 
 #import <Foundation/Foundation.h>

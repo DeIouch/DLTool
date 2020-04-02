@@ -63,6 +63,8 @@
 /// @param view 公共父视图
 -(instancetype)getCommonSuperView:(UIView *)view;
 
+-(UIViewController *)fatherViewController;
+
 /// 背景颜色
 -(UIView *(^) (NSString *color))dl_backColor;
 
