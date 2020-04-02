@@ -40,8 +40,6 @@
 
 @property (nonatomic, strong) DLPlayer *player;
 
-//@property (nonatomic, strong) UITableView *tableView;
-
 @property (nonatomic, strong) NSMutableArray *array;
 
 @end
@@ -62,25 +60,33 @@
     
     self.view.backgroundColor = [UIColor blueColor];
     
-//    [DLPerformance openMonitoring];
+    [DLPerformance openMonitoring];
 
     
-//    tableView = [[UITableView alloc]initWithFrame:self.view.bounds];
+    tableView = [[UITableView alloc]initWithFrame:self.view.bounds];
+    
+    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+    
 //    [self.view addSubview:tableView];
 //    tableView.delegate = self;
 //    tableView.dataSource = self;
     
     textField = [[UITextField alloc]init];
-    [self.view addSubview:textField];
+    [window addSubview:textField];
     textField.backgroundColor = [UIColor redColor];
     textField.dl_layout.left.right.bottom.height.offset(50).install();
-
-
-    atextField = [[UITextView alloc]init];
-    [self.view addSubview:atextField];
-    atextField.backgroundColor = [UIColor greenColor];
-    atextField.dl_layout.left.right.height.offset(50).bottom.offset(280).install();
+//    textField.singleMeView = textField;
+//
+//
+//    atextField = [[UITextView alloc]init];
+//    [self.view addSubview:atextField];
+//    atextField.backgroundColor = [UIColor greenColor];
+//    atextField.dl_layout.left.right.height.offset(50).bottom.offset(280).install();
+//    atextField.notManageBOOL = YES;
 //    atextField.singleMeView = textField;
+    
+    
+    NSLog(@"%@", atextField.subviews);
     
     
 //    self.player = [DLPlayer shareInstance];

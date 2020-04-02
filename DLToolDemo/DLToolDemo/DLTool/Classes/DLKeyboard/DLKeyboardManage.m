@@ -8,6 +8,8 @@ static DLKeyboardManage *keyboard = nil;
 
 static char const singleMeViewKey;
 
+static char const notManageBOOLKey;
+
 @interface DLKeyboardManage ()
 
 @property (nonatomic, weak) UIView *fatherView;
@@ -23,6 +25,8 @@ static char const singleMeViewKey;
 @property (nonatomic, assign) CGSize keyBoardSize;
 
 @property (nonatomic, weak) UIViewController *keyBoardManageVC;
+
+@property (nonatomic, strong) NSMutableArray *viewArray;
 
 /**
  是否已经变动
@@ -62,6 +66,14 @@ static __weak id dl_currentFirstResponder;
 
 -(UIView *)singleMeView{
     return objc_getAssociatedObject(self, &singleMeViewKey);
+}
+
+-(BOOL)notManageBOOL{
+    return objc_getAssociatedObject(self, &notManageBOOLKey);
+}
+
+-(void)setNotManageBOOL:(BOOL)notManageBOOL{
+    objc_setAssociatedObject(self, &notManageBOOLKey, @(notManageBOOL), OBJC_ASSOCIATION_ASSIGN);
 }
 
 @end
@@ -105,6 +117,7 @@ static __weak id dl_currentFirstResponder;
     dispatch_once(&onceToken, ^{
         keyboard = [[DLKeyboardManage alloc]_init];
         keyboard.isChange = NO;
+        keyboard.viewArray = [[NSMutableArray alloc]init];
         [[NSUserDefaults standardUserDefaults] setValue:@(NO) forKey:@"_UIConstraintBasedLayoutLogUnsatisfiable"];
     });
     return keyboard;
@@ -117,6 +130,10 @@ static __weak id dl_currentFirstResponder;
 -(void)keyboardWillShow:(NSNotification *)noti{
     keyboard.keyBoardSize = [[[noti userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     keyboard.firstResponderView = [UIResponder dl_currentFirstResponder];
+    keyboard.keyBoardManageVC = keyboard.firstResponderView.fatherViewController;
+    if (keyboard.firstResponderView.notManageBOOL) {
+        return;
+    }
     if (keyboard.firstResponderView.singleMeView) {
         if ([NSStringFromClass([keyboard.firstResponderView.singleMeView.superview class])isEqualToString:@"UIViewControllerWrapperView"]) {
             keyboard.fatherView = keyboard.firstResponderView.singleMeView;
@@ -161,8 +178,13 @@ static __weak id dl_currentFirstResponder;
     }else{
         UIView *tempView;
         UIView *tempView2 = keyboard.firstResponderView;
+        if ([NSStringFromClass([tempView2.superview class])isEqualToString:@"UIWindow"] || [NSStringFromClass([tempView2.superview class])isEqualToString:@"UIViewControllerWrapperView"]) {
+            tempView = keyboard.firstResponderView;
+        }
         while (!tempView) {
             if ([NSStringFromClass([tempView2.superview.superview class])isEqualToString:@"UIViewControllerWrapperView"]) {
+                tempView = tempView2.superview;
+            }else if ([NSStringFromClass([tempView2.superview.superview class])isEqualToString:@"UIWindow"]){
                 tempView = tempView2.superview;
             }else{
                 tempView2 = tempView2.superview;
@@ -190,8 +212,13 @@ static __weak id dl_currentFirstResponder;
             }
         }
     }
-    keyboard.keyBoardManageVC = keyboard.firstResponderView.fatherViewController;
+    [self getAllView:keyboard.keyBoardManageVC.view];
     keyboard.isChange = YES;
+}
+
+-(void)getAllView:(UIView *)view{
+    
+    
 }
 
 -(void)keyboardWillHide:(NSNotification *)noti{
