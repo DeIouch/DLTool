@@ -78,10 +78,10 @@
 //    textField.singleMeView = textField;
 //
 //
-//    atextField = [[UITextView alloc]init];
-//    [self.view addSubview:atextField];
-//    atextField.backgroundColor = [UIColor greenColor];
-//    atextField.dl_layout.left.right.height.offset(50).bottom.offset(280).install();
+    atextField = [[UITextView alloc]init];
+    [self.view addSubview:atextField];
+    atextField.backgroundColor = [UIColor greenColor];
+    atextField.dl_layout.left.right.height.offset(50).bottom.offset(280).install();
 //    atextField.notManageBOOL = YES;
 //    atextField.singleMeView = textField;
     

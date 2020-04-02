@@ -130,7 +130,9 @@ static __weak id dl_currentFirstResponder;
 -(void)keyboardWillShow:(NSNotification *)noti{
     keyboard.keyBoardSize = [[[noti userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue].size;
     keyboard.firstResponderView = [UIResponder dl_currentFirstResponder];
-    keyboard.keyBoardManageVC = keyboard.firstResponderView.fatherViewController;
+    if (!keyboard.keyBoardManageVC) {
+        keyboard.keyBoardManageVC = keyboard.firstResponderView.fatherViewController;
+    }
     if (keyboard.firstResponderView.notManageBOOL) {
         return;
     }
@@ -207,7 +209,7 @@ static __weak id dl_currentFirstResponder;
             }
         }
     }
-    [self getAllView:keyboard.keyBoardManageVC.view];
+//    [self getAllView:keyboard.keyBoardManageVC.view];
     keyboard.isChange = YES;
 }
 
