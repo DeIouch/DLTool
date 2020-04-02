@@ -72,7 +72,7 @@
 //    tableView.dataSource = self;
     
     textField = [[UITextField alloc]init];
-    [window addSubview:textField];
+    [self.view addSubview:textField];
     textField.backgroundColor = [UIColor redColor];
     textField.dl_layout.left.right.bottom.height.offset(50).install();
 //    textField.singleMeView = textField;
@@ -116,7 +116,6 @@
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
-    NSLog(@"1231231234");
     
 //    OneViewController *vc = [[OneViewController alloc]init];
 //    vc.modalPresentationStyle = UIModalPresentationFullScreen;

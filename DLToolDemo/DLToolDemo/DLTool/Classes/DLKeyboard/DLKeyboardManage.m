@@ -135,7 +135,7 @@ static __weak id dl_currentFirstResponder;
         return;
     }
     if (keyboard.firstResponderView.singleMeView) {
-        if ([NSStringFromClass([keyboard.firstResponderView.singleMeView.superview class])isEqualToString:@"UIViewControllerWrapperView"]) {
+        if ([NSStringFromClass([keyboard.firstResponderView.singleMeView.superview class])isEqualToString:@"UIViewControllerWrapperView"] || [NSStringFromClass([keyboard.firstResponderView.singleMeView.superview class])isEqualToString:@"UIWindow"]) {
             keyboard.fatherView = keyboard.firstResponderView.singleMeView;
             CGFloat tempHeight = [UIScreen mainScreen].bounds.size.height - keyboard.firstResponderView.y_dl - keyboard.firstResponderView.height_dl;
             if (keyboard.isChange) {
@@ -178,14 +178,9 @@ static __weak id dl_currentFirstResponder;
     }else{
         UIView *tempView;
         UIView *tempView2 = keyboard.firstResponderView;
-        if ([NSStringFromClass([tempView2.superview class])isEqualToString:@"UIWindow"] || [NSStringFromClass([tempView2.superview class])isEqualToString:@"UIViewControllerWrapperView"]) {
-            tempView = keyboard.firstResponderView;
-        }
         while (!tempView) {
-            if ([NSStringFromClass([tempView2.superview.superview class])isEqualToString:@"UIViewControllerWrapperView"]) {
-                tempView = tempView2.superview;
-            }else if ([NSStringFromClass([tempView2.superview.superview class])isEqualToString:@"UIWindow"]){
-                tempView = tempView2.superview;
+            if ([NSStringFromClass([tempView2.superview class])isEqualToString:@"UIViewControllerWrapperView"] || [NSStringFromClass([tempView2.superview class])isEqualToString:@"UIWindow"]) {
+                tempView = tempView2;
             }else{
                 tempView2 = tempView2.superview;
             }
