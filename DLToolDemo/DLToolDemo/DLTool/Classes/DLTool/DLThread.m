@@ -164,9 +164,8 @@ static CFMutableArrayRef queueIsFreeArray;
         block = self.threadArray[a];
         NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
             block();
-            
             if (a == self.threadArray.count - 1) {
-                NSLog(@"1111111");
+                
             }
         }];
         if (operationArray.count > 0) {

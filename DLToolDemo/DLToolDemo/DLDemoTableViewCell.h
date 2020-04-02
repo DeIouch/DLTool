@@ -12,4 +12,6 @@
 
 @property (nonatomic, strong) UIImageView *imageview;
 
+@property (nonatomic, strong) UITextField *textField;
+
 @end

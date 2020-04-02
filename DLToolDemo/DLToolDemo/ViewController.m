@@ -21,6 +21,7 @@
 #import "DLDownloadOperation.h"
 #import "DLKeyboardManage.h"
 #import "DLAutoLayout.h"
+#import "DLDemoTableViewCell.h"
 
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
@@ -35,29 +36,25 @@
 
 #define VideoUrl5 @"http://i1.fuimg.com/714379/fdb945e4f87789ad.jpg"
 
-@interface ViewController ()
+@interface ViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) DLPlayer *player;
 
-@property (nonatomic, strong) UITableView *tableView;
+//@property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *array;
 
 @end
 
-@implementation ViewController
+@implementation ViewController{
+    UITextField *textField;
+    UITextView *atextField;
+    UITableView *tableView;
+}
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
 //    self.navigationController.navigationBarHidden = YES;
-}
-
--(void)aaa{
-    
-}
-
--(void)textFieldTextChanged:(UITextView *)textField{
-    NSLog(@"%@", textField.text);
 }
 
 - (void)viewDidLoad {
@@ -66,23 +63,25 @@
     self.view.backgroundColor = [UIColor blueColor];
     
 //    [DLPerformance openMonitoring];
-    UITextField *textField = [[UITextField alloc]init];
-    [self.view addSubview:textField];
-    textField.dl_layout.left.right.height.offset(50).bottom.offset(50).install();
-    textField.backgroundColor = [UIColor redColor];
 
     
-//    [textField dl_printConstraintsForSelf];
+//    tableView = [[UITableView alloc]initWithFrame:self.view.bounds];
+//    [self.view addSubview:tableView];
+//    tableView.delegate = self;
+//    tableView.dataSource = self;
     
-    UITextView *atextField = [[UITextView alloc]init];
+    textField = [[UITextField alloc]init];
+    [self.view addSubview:textField];
+    textField.backgroundColor = [UIColor redColor];
+    textField.dl_layout.left.right.bottom.height.offset(50).install();
+
+
+    atextField = [[UITextView alloc]init];
     [self.view addSubview:atextField];
-    atextField.dl_layout.left.right.height.offset(50).bottom.offset(150).install();
-    atextField.backgroundColor = [UIColor grayColor];
-    atextField.singleMeView = textField;
+    atextField.backgroundColor = [UIColor greenColor];
+    atextField.dl_layout.left.right.height.offset(50).bottom.offset(280).install();
+//    atextField.singleMeView = textField;
     
-//    DLDownloadOperation *op = [DLDownloadOperation downloadOperationWithURLString:VideoUrl5 imageView:imageView finishedBlock:^(BOOL isFinish, UIImage *image) {
-//        
-//    }];
     
 //    self.player = [DLPlayer shareInstance];
 //    self.player.fatherView = self.view;
@@ -93,19 +92,45 @@
     
 }
 
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 100;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 40;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    DLDemoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    if (!cell) {
+        cell = [[DLDemoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    }
+    return cell;
+}
+
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
 //    OneViewController *vc = [[OneViewController alloc]init];
 //    vc.modalPresentationStyle = UIModalPresentationFullScreen;
 //    [self presentViewController:vc animated:YES completion:nil];
 //    [self.navigationController pushViewController:vc animated:YES];
-//    OneViewController *vc = [[OneViewController alloc]init];
-//    vc.modalPresentationStyle = UIModalPresentationFullScreen;
-//    [self.navigationController pushViewController:vc animated:YES];
     
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    UIView *firstResponder = [keyWindow performSelector:@selector(firstResponder)];
-    [firstResponder resignFirstResponder];
+    UITouch *touch = [touches anyObject];
+    CGPoint point = [touch locationInView:touch.view];
+//    NSLog(@"%lf", point.y);
     
+    if (point.y < 150) {
+        OneViewController *vc = [[OneViewController alloc]init];
+        vc.modalPresentationStyle = UIModalPresentationFullScreen;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    else{
+        UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
+        UIView *firstResponder = [keyWindow performSelector:@selector(firstResponder)];
+        [firstResponder resignFirstResponder];
+    }
+//    [atextField resignFirstResponder];
 }
+
+
 
 @end

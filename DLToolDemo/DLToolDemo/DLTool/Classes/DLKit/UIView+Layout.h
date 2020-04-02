@@ -38,7 +38,7 @@
 
 -(DLLayout *(^)(CGFloat constant))offset;
 
--(DLLayout *(^)(NSInteger constant))priority;
+//-(DLLayout *(^)(NSInteger constant))priority;
 
 -(void *(^)(void))install;
 
