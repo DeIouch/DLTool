@@ -15,63 +15,16 @@
 
 -(BOOL)ObjectIsNil;
 
+/// 获取代码块执行时间
+/// @param block 代码块
 -(double)getElapsedTime:(void (^)(void))block;
 
-+ (void)dl_createModelWithJson:(NSDictionary *)json fileName:(NSString *)fileName extensionName:(NSString *)extensionName fileURL:(NSURL *)url;
-
 +(void)safe_exchangeInstanceMethod:(Class)dClass originalSel:(SEL)originalSelector newSel:(SEL)newSelector;
-
-+(instancetype)dl_modelWithJSON:(id)json;
-
-+(instancetype)dl_modelWithDictionary:(NSDictionary *)dictionary;
-
--(BOOL)dl_modelSetWithJSON:(id)json;
-
--(BOOL)dl_modelSetWithDictionary:(NSDictionary *)dic;
-
--(id)dl_modelToJSONObject;
-
--(NSData *)dl_modelToJSONData;
-
--(NSString *)dl_modelToJSONString;
-
--(id)dl_modelCopy;
-
--(void)dl_modelEncodeWithCoder:(NSCoder *)aCoder;
-
--(id)dl_modelInitWithCoder:(NSCoder *)aDecoder;
-
--(NSUInteger)dl_modelHash;
-
--(BOOL)dl_modelIsEqual:(id)model;
-
--(NSString *)dl_modelDescription;
 
 -(void)dl_addObserverBlockForKeyPath:(NSString*)keyPath block:(void (^)(id obj, id oldVal, id newVal))block;
 
 -(void)dl_removeObserverBlocksForKeyPath:(NSString*)keyPath;
 
 - (void)dl_removeObserverBlocks;
-
-@end
-
-@protocol DLModel <NSObject>
-@optional
-
-+(NSDictionary<NSString *, id> *)modelCustomPropertyMapper;
-
-+(NSDictionary<NSString *, id> *)modelContainerPropertyGenericClass;
-
-+(Class)modelCustomClassForDictionary:(NSDictionary *)dictionary;
-
-+(NSArray<NSString *> *)modelPropertyBlacklist;
-
-+(NSArray<NSString *> *)modelPropertyWhitelist;
-
--(NSDictionary *)modelCustomWillTransformFromDictionary:(NSDictionary *)dic;
-
--(BOOL)modelCustomTransformFromDictionary:(NSDictionary *)dic;
-
--(BOOL)modelCustomTransformToDictionary:(NSMutableDictionary *)dic;
 
 @end

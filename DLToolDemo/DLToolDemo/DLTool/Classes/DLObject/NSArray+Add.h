@@ -16,6 +16,4 @@
 
 -(NSString *)dl_jsonPrettyStringEncoded;
 
-+(NSArray *)dl_modelArrayWithClass:(Class)cls json:(id)json;
-
 @end

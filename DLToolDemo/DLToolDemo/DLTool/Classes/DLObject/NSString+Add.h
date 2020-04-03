@@ -70,10 +70,4 @@
 // 随机生成字符串(由大小写字母组成)
 +(NSString *)randomNoNumber:(int)len;
 
-/// 返回标准的类名
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *dlFormatClassName;
-
-/// 返回标准的属性名
-@property (NS_NONATOMIC_IOSONLY, readonly, copy) NSString *dlFormatPropertyName;
-
 @end

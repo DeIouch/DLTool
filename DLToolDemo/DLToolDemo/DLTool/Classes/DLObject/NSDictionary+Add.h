@@ -58,6 +58,4 @@
 
 -(NSString *)dl_stringValueForKey:(NSString *)key default:(NSString *)def;
 
-+(NSDictionary *)dl_modelDictionaryWithClass:(Class)cls json:(id)json;
-
 @end

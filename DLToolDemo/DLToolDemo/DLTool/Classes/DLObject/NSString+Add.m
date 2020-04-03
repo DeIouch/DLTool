@@ -404,33 +404,6 @@ static const char TTAlphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst
     return [[NSString alloc] initWithBytes:ch length:len encoding:NSUTF8StringEncoding];
 }
 
-- (NSString *)dlFormatClassName {
-    NSString *className = [[self stringByAppendingString:@""] capitalizedString];
-    NSRange startsWithNumeral = [[className substringToIndex:1] rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"0123456789"]];
-    if ( !(startsWithNumeral.location == NSNotFound && startsWithNumeral.length == 0) ) {
-        className = [@"Num" stringByAppendingString:className];
-    }
-    NSMutableArray *components = [[className componentsSeparatedByString:@"_"] mutableCopy];
-    NSInteger numComponents = components.count;
-    for (int i = 0; i < numComponents; ++i) {
-        components[i] = [(NSString *)components[i] capitalizedString];
-    }
-    return [components componentsJoinedByString:@""];
-}
-
-- (NSString *)dlFormatPropertyName {
-    NSString *temp = [self.dlFormatClassName uncapitalizeFirstCharacter];
-    return [temp alphanumericStringIsReservedWord];
-}
-
-- (NSString *)alphanumericStringIsReservedWord {
-    NSSet *reservedWords = [NSSet setWithObjects:@"id", @"abstract", @"case", @"catch", @"class", @"def", @"do", @"else", @"extends", @"false", @"final", @"finally", @"for", @"forSome", @"if", @"implicit", @"import", @"lazy", @"match", @"new", @"null", @"object", @"override", @"package", @"private", @"protected", @"return", @"sealed", @"super", @"this", @"throw", @"trait", @"try", @"true", @"type", @"val", @"var", @"while", @"with", @"yield", @"_", @":", @"=", @"=>", @"<-", @"<:", @"<%", @">:", @"#", @"@", nil];
-    if ([reservedWords containsObject:self]) {
-        return self.uppercaseString;
-    }
-    return self;
-}
-
 - (NSString *)uppercaseCamelcaseString {
     NSCharacterSet *nonAlphanumericCharacterSet = [NSCharacterSet characterSetWithCharactersInString:@"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"].invertedSet;
     NSMutableArray *components = [NSMutableArray arrayWithArray:[self componentsSeparatedByCharactersInSet:nonAlphanumericCharacterSet]];

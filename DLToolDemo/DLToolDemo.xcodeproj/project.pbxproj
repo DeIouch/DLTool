@@ -39,7 +39,6 @@
 		244205742411204C00E442C6 /* UINavigationController+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205092411204C00E442C6 /* UINavigationController+Add.m */; };
 		244205752411204C00E442C6 /* DLSafeProtector.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442050C2411204C00E442C6 /* DLSafeProtector.m */; };
 		244205762411204C00E442C6 /* UIView+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205102411204C00E442C6 /* UIView+Add.m */; };
-		244205772411204C00E442C6 /* DLClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205132411204C00E442C6 /* DLClassInfo.m */; };
 		244205782411204C00E442C6 /* NSArray+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205152411204C00E442C6 /* NSArray+Add.m */; };
 		244205792411204C00E442C6 /* NSAttributedString+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205172411204C00E442C6 /* NSAttributedString+Add.m */; };
 		2442057A2411204C00E442C6 /* NSCache+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205192411204C00E442C6 /* NSCache+Add.m */; };
@@ -68,7 +67,6 @@
 		244205912411204C00E442C6 /* DLAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205492411204C00E442C6 /* DLAlert.m */; };
 		244205922411204C00E442C6 /* DLColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442054B2411204C00E442C6 /* DLColor.m */; };
 		244205932411204C00E442C6 /* DLCoreGrapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442054D2411204C00E442C6 /* DLCoreGrapView.m */; };
-		244205942411204C00E442C6 /* DLJsonToModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442054F2411204C00E442C6 /* DLJsonToModel.m */; };
 		244205952411204C00E442C6 /* DLLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205512411204C00E442C6 /* DLLoad.m */; };
 		244205962411204C00E442C6 /* DLNetworkSpeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205532411204C00E442C6 /* DLNetworkSpeed.m */; };
 		244205972411204C00E442C6 /* DLNoti.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205552411204C00E442C6 /* DLNoti.m */; };
@@ -95,6 +93,8 @@
 		87929673241F17BB007E8858 /* DLDemoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87929672241F17BB007E8858 /* DLDemoTableViewCell.m */; };
 		879296BD241F5F5B007E8858 /* DLReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 879296BC241F5F5B007E8858 /* DLReachability.m */; };
 		879296C0241F64DE007E8858 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 879296BF241F64DE007E8858 /* Reachability.m */; };
+		879FBD332436ED010088F4BE /* TestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 879FBD322436ED010088F4BE /* TestModel.m */; };
+		879FBD4224371BBC0088F4BE /* DLJsonToModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 879FBD4124371BBB0088F4BE /* DLJsonToModel.m */; };
 		87B41C352424C65D00E545B3 /* DLPerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B41C342424C65D00E545B3 /* DLPerformance.m */; };
 		87C3332E2418E8EF00EE14D9 /* DLSQL.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C3332D2418E8EF00EE14D9 /* DLSQL.m */; };
 		87C333312418E92B00EE14D9 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C333302418E92B00EE14D9 /* libsqlite3.tbd */; };
@@ -172,8 +172,6 @@
 		2442050D2411204C00E442C6 /* DLSafeProtectorDefine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLSafeProtectorDefine.h; sourceTree = "<group>"; };
 		2442050F2411204C00E442C6 /* UIView+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Add.h"; sourceTree = "<group>"; };
 		244205102411204C00E442C6 /* UIView+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Add.m"; sourceTree = "<group>"; };
-		244205122411204C00E442C6 /* DLClassInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLClassInfo.h; sourceTree = "<group>"; };
-		244205132411204C00E442C6 /* DLClassInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLClassInfo.m; sourceTree = "<group>"; };
 		244205142411204C00E442C6 /* NSArray+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Add.h"; sourceTree = "<group>"; };
 		244205152411204C00E442C6 /* NSArray+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Add.m"; sourceTree = "<group>"; };
 		244205162411204C00E442C6 /* NSAttributedString+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Add.h"; sourceTree = "<group>"; };
@@ -230,8 +228,6 @@
 		2442054B2411204C00E442C6 /* DLColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLColor.m; sourceTree = "<group>"; };
 		2442054C2411204C00E442C6 /* DLCoreGrapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLCoreGrapView.h; sourceTree = "<group>"; };
 		2442054D2411204C00E442C6 /* DLCoreGrapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLCoreGrapView.m; sourceTree = "<group>"; };
-		2442054E2411204C00E442C6 /* DLJsonToModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLJsonToModel.h; sourceTree = "<group>"; };
-		2442054F2411204C00E442C6 /* DLJsonToModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLJsonToModel.m; sourceTree = "<group>"; };
 		244205502411204C00E442C6 /* DLLoad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLLoad.h; sourceTree = "<group>"; };
 		244205512411204C00E442C6 /* DLLoad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLLoad.m; sourceTree = "<group>"; };
 		244205522411204C00E442C6 /* DLNetworkSpeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLNetworkSpeed.h; sourceTree = "<group>"; };
@@ -282,6 +278,10 @@
 		879296BC241F5F5B007E8858 /* DLReachability.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLReachability.m; sourceTree = "<group>"; };
 		879296BE241F64DD007E8858 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
 		879296BF241F64DE007E8858 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		879FBD312436ED010088F4BE /* TestModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestModel.h; sourceTree = "<group>"; };
+		879FBD322436ED010088F4BE /* TestModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestModel.m; sourceTree = "<group>"; };
+		879FBD4024371BBB0088F4BE /* DLJsonToModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLJsonToModel.h; sourceTree = "<group>"; };
+		879FBD4124371BBB0088F4BE /* DLJsonToModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLJsonToModel.m; sourceTree = "<group>"; };
 		87B41C332424C65D00E545B3 /* DLPerformance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLPerformance.h; sourceTree = "<group>"; };
 		87B41C342424C65D00E545B3 /* DLPerformance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLPerformance.m; sourceTree = "<group>"; };
 		87C3332C2418E8EF00EE14D9 /* DLSQL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLSQL.h; sourceTree = "<group>"; };
@@ -348,6 +348,8 @@
 				244204BA2411202C00E442C6 /* AppDelegate.m */,
 				244204BC2411202C00E442C6 /* ViewController.h */,
 				244204BD2411202C00E442C6 /* ViewController.m */,
+				879FBD312436ED010088F4BE /* TestModel.h */,
+				879FBD322436ED010088F4BE /* TestModel.m */,
 				2421C8D9241E36BF009DD194 /* 1.jpeg */,
 				8721171A24342EC000EDA771 /* shareback.jpg */,
 				87663A78241A2A12005052C4 /* DLModelDemo.h */,
@@ -488,8 +490,6 @@
 		244205112411204C00E442C6 /* DLObject */ = {
 			isa = PBXGroup;
 			children = (
-				244205122411204C00E442C6 /* DLClassInfo.h */,
-				244205132411204C00E442C6 /* DLClassInfo.m */,
 				244205142411204C00E442C6 /* NSArray+Add.h */,
 				244205152411204C00E442C6 /* NSArray+Add.m */,
 				244205162411204C00E442C6 /* NSAttributedString+Add.h */,
@@ -560,8 +560,6 @@
 				2442054B2411204C00E442C6 /* DLColor.m */,
 				2442054C2411204C00E442C6 /* DLCoreGrapView.h */,
 				2442054D2411204C00E442C6 /* DLCoreGrapView.m */,
-				2442054E2411204C00E442C6 /* DLJsonToModel.h */,
-				2442054F2411204C00E442C6 /* DLJsonToModel.m */,
 				244205502411204C00E442C6 /* DLLoad.h */,
 				244205512411204C00E442C6 /* DLLoad.m */,
 				244205522411204C00E442C6 /* DLNetworkSpeed.h */,
@@ -604,6 +602,8 @@
 				873CC4E02420D2F900A995B3 /* DLPopView.m */,
 				8791801D242483C100B34F7E /* DLPromise.h */,
 				8791801E242483C200B34F7E /* DLPromise.m */,
+				879FBD4024371BBB0088F4BE /* DLJsonToModel.h */,
+				879FBD4124371BBB0088F4BE /* DLJsonToModel.m */,
 			);
 			path = DLTool;
 			sourceTree = "<group>";
@@ -789,8 +789,8 @@
 				87929673241F17BB007E8858 /* DLDemoTableViewCell.m in Sources */,
 				2442058C2411204C00E442C6 /* UIControl+Add.m in Sources */,
 				244205632411204C00E442C6 /* DLLayer.m in Sources */,
+				879FBD332436ED010088F4BE /* TestModel.m in Sources */,
 				87D8DFBE2413E1BF00DCEE30 /* UIView+SDAutoLayout.m in Sources */,
-				244205942411204C00E442C6 /* DLJsonToModel.m in Sources */,
 				244205852411204C00E442C6 /* NSNotificationCenter+Add.m in Sources */,
 				87C3332E2418E8EF00EE14D9 /* DLSQL.m in Sources */,
 				873CC4E12420D2F900A995B3 /* DLPopView.m in Sources */,
@@ -799,6 +799,7 @@
 				2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */,
 				2432C6A1242EEA2A008042A0 /* DLAutoLayout.m in Sources */,
 				2442058D2411204C00E442C6 /* UIDevice+Add.m in Sources */,
+				879FBD4224371BBC0088F4BE /* DLJsonToModel.m in Sources */,
 				2442057D2411204C00E442C6 /* NSDictionary+Add.m in Sources */,
 				2421C8DD241E3D0A009DD194 /* DLScrollView.m in Sources */,
 				244205782411204C00E442C6 /* NSArray+Add.m in Sources */,
@@ -821,7 +822,6 @@
 				244204BB2411202C00E442C6 /* AppDelegate.m in Sources */,
 				244205922411204C00E442C6 /* DLColor.m in Sources */,
 				876F64F5241B183D00C383F5 /* DLCode.m in Sources */,
-				244205772411204C00E442C6 /* DLClassInfo.m in Sources */,
 				244205972411204C00E442C6 /* DLNoti.m in Sources */,
 				244205992411204C00E442C6 /* DLThread.m in Sources */,
 				2442057C2411204C00E442C6 /* NSDate+Add.m in Sources */,

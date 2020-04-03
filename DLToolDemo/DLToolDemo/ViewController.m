@@ -23,6 +23,8 @@
 #import "DLAutoLayout.h"
 #import "DLDemoTableViewCell.h"
 #import "DLAutoLayout.h"
+#import "DLJsonToModel.h"
+#import "TestModel.h"
 
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
@@ -63,31 +65,51 @@
     
     [DLPerformance openMonitoring];
     
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    NSMutableArray *array = [[NSMutableArray alloc]init];
+    for (int a = 0; a < 10; a ++) {
+        NSMutableDictionary *tempDic = [[NSMutableDictionary alloc]init];
+        [tempDic setObject:@"11" forKey:@"id"];
+        for (int i = 0; i < 10; i++) {
+            NSNumber *number = [NSNumber numberWithInt:i];
+            [tempDic setObject:number forKey:[NSString stringWithFormat:@"tempDic%d", i]];
+        }
+        [array addObject:tempDic];
+        [dic setObject:tempDic forKey:[NSString stringWithFormat:@"key%d", a]];
+    }
+    [dic setObject:array forKey:@"data"];
     
-    tableView = [[UITableView alloc]initWithFrame:self.view.bounds];
+    NSLog(@"%d", [DLJsonToModel dl_createModelWithDic:dic modelName:@"TestModel"]);
     
-    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
+//    [DLJsonToModel dl_createModelWithJson:dic fileName:@"ATest" extensionName:@"Model" fileURL:[NSURL URLWithString:@"/Users/tanqiu/Desktop/"] error:^(NSError *error) {
+//
+//    }];
+    
+    
+//    tableView = [[UITableView alloc]initWithFrame:self.view.bounds];
+//
+//    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
     
 //    [self.view addSubview:tableView];
 //    tableView.delegate = self;
 //    tableView.dataSource = self;
     
-    textField = [[UITextField alloc]init];
-    [self.view addSubview:textField];
-    textField.backgroundColor = [UIColor redColor];
-    textField.dl_layout.left.right.bottom.height.offset(50).install();
+//    textField = [[UITextField alloc]init];
+//    [self.view addSubview:textField];
+//    textField.backgroundColor = [UIColor redColor];
+//    textField.dl_layout.left.right.bottom.height.offset(50).install();
 //    textField.singleMeView = textField;
 //
 //
-    atextField = [[UITextView alloc]init];
-    [self.view addSubview:atextField];
-    atextField.backgroundColor = [UIColor greenColor];
-    atextField.dl_layout.left.right.height.offset(50).bottom.offset(280).install();
+//    atextField = [[UITextView alloc]init];
+//    [self.view addSubview:atextField];
+//    atextField.backgroundColor = [UIColor greenColor];
+//    atextField.dl_layout.left.right.height.offset(50).bottom.offset(280).install();
 //    atextField.notManageBOOL = YES;
 //    atextField.singleMeView = textField;
     
     
-    NSLog(@"%@", atextField.subviews);
+//    NSLog(@"%@", atextField.subviews);
     
     
 //    self.player = [DLPlayer shareInstance];
