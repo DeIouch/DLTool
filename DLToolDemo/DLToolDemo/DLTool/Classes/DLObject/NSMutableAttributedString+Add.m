@@ -225,6 +225,107 @@
     }
 }
 
++(instancetype)attribute:(NSString *)text type:(AttributeType)type value:(id)value range:(NSRange)range{
+    NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc]initWithString:text];
+    NSRange tempRange = range;
+    if (range.location + range.length >= text.length) {
+        tempRange = NSMakeRange(range.location, text.length - range.location);
+    }
+    
+    NSAttributedStringKey attribute;
+    switch (type) {
+        case FontSizeAttributeType:
+            attribute = NSFontAttributeName;
+            break;
+            
+        case ParagraphStyleAttributeType:
+            attribute = NSParagraphStyleAttributeName;
+            break;
+            
+        case ForegroundColorAttributeType:
+            attribute = NSForegroundColorAttributeName;
+            break;
+            
+        case BackgroundColorAttributeType:
+            attribute = NSBackgroundColorAttributeName;
+            break;
+            
+        case LigatureAttributeType:
+            attribute = NSLigatureAttributeName;
+            break;
+            
+        case KernAttributeType:
+            attribute = NSKernAttributeName;
+            break;
+            
+        case StrikethroughStyleAttributeType:
+            attribute = NSStrikethroughStyleAttributeName;
+            break;
+            
+        case UnderlineStyleType:
+            attribute = NSUnderlineStyleAttributeName;
+            break;
+            
+        case StrokeColorAttributeType:
+            attribute = NSStrokeColorAttributeName;
+            break;
+            
+        case StrokeWidthAttributeType:
+            attribute = NSStrokeWidthAttributeName;
+            break;
+            
+        case ShadowAttributeType:
+            attribute = NSShadowAttributeName;
+            break;
+            
+        case TextEffectAttributeType:
+            attribute = NSTextEffectAttributeName;
+            break;
+            
+        case AttachmentAttributeType:
+            attribute = NSAttachmentAttributeName;
+            break;
+            
+        case LinkAttributeType:
+            attribute = NSLinkAttributeName;
+            break;
+            
+        case BaselineOffsetAttributeType:
+            attribute = NSBaselineOffsetAttributeName;
+            break;
+            
+        case UnderlineColorAttributeType:
+            attribute = NSUnderlineColorAttributeName;
+            break;
+            
+        case StrikethroughColorAttributeType:
+            attribute = NSStrikethroughColorAttributeName;
+            break;
+            
+        case ObliquenessAttributeType:
+            attribute = NSObliquenessAttributeName;
+            break;
+            
+        case ExpansionAttributeType:
+            attribute = NSExpansionAttributeName;
+            break;
+            
+        case WritingDirectionAttributeType:
+            attribute = NSWritingDirectionAttributeName;
+            break;
+            
+        case VerticalGlyphFormAttributeType:
+            attribute = NSVerticalGlyphFormAttributeName;
+            break;
+            
+        default:
+            break;
+    }
+    [attributedString addAttribute:attribute value:value range:tempRange];
+    return attributedString;
+}
+
+
 @end
 
 
