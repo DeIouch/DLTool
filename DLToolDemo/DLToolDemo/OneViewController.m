@@ -38,11 +38,11 @@
 
 @interface OneViewController ()<UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) NSString *str;
-
 @property (nonatomic, strong) NSMutableArray *array;
 
 @property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) NSString *str;
 
 @end
 
@@ -57,10 +57,25 @@
 //    [self.view addSubview:textField];
 //    textField.backgroundColor = [UIColor redColor];
     
-    UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(100, 500, 300, 300)];
-    textField.backgroundColor = [UIColor redColor];
-    [self.view addSubview:textField];
-    textField.notManageBOOL = YES;
+    UIButton *buttonA = [UIButton dl_view:^(UIButton *button) {
+        button.dl_backView(self.view).dl_backColor(@"ff0000");
+        button.frame = CGRectMake(100, 100, 100, 100);
+    }];
+    
+    self.str = @"2222222222";
+    
+    [buttonA addClick:UIControlEventTouchUpInside block:^(OneViewController *vc) {
+        NSLog(@"%@", vc.str);
+    }];
+
+    [buttonA addClick:UIControlEventTouchDragInside block:^(OneViewController *vc) {
+        NSLog(@"%@", vc.array);
+    }];
+    
+//
+//    [buttonA dl_addBlockForControlEvents:UIControlEventTouchDragInside block:^(OneViewController *vc) {
+//        NSLog(@"UIControlEventTouchDragInside  ==  %@", vc.array);
+//    }];
     
     
 //    self.array = [[NSMutableArray alloc]init];

@@ -3,6 +3,7 @@
 #import <mach/mach.h>
 #import <objc/runtime.h>
 #import "DLToolMacro.h"
+#import <objc/message.h>
 
 #define kNetworkIndicatorDelay (1/30.0)
 @interface _DLUIApplicationNetworkIndicatorInfo : NSObject
@@ -13,7 +14,72 @@
 @implementation _DLUIApplicationNetworkIndicatorInfo
 @end
 
+@implementation UIView (DLSign)
+
+//-(void)dl_touchAction:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+//
+//}
+
+@end
+
 @implementation UIApplication (Add)
+
+//+(void)load{
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        Safe_ExchangeMethod([self class], @selector(sendEvent:), @selector(safe_sendEvent:));
+//    });
+//}
+
+//- (void)safe_sendEvent:(UIEvent *)event{
+//    NSSet *set= event.allTouches;
+//    NSArray *array=[set allObjects];
+//    UITouch *touchEvent= [array lastObject];
+//    UIView *view=[touchEvent view];
+//    
+//    NSLog(@"event  ==  %ld", (long)event.type);
+//    
+//    if ([NSStringFromClass([view.superview class]) containsString:@"UISwitch"]) {
+//        if (!(view.superview.superview.userInteractionEnabled == NO || view.superview.superview.hidden == YES || view.superview.superview.alpha <= 0.01)){
+//            void(*action)(id,SEL,id,id) = (void(*)(id,SEL,id,id))objc_msgSend;
+//            action(view.superview.superview,@selector(dl_touchAction: withEvent:),set,event);
+//        }
+//    }
+//    if (touchEvent.phase==UITouchPhaseEnded) {
+//        CGPoint point = [touchEvent locationInView:view];
+//        UIView *tempView = [self hitTest:point withEvent:event withView:view];
+//        if(tempView){
+//            void(*action)(id,SEL,id,id) = (void(*)(id,SEL,id,id))objc_msgSend;
+//            if ([NSStringFromClass([tempView class]) isEqualToString:@"_UITableViewHeaderFooterContentView"]) {
+//                action(tempView.superview,@selector(dl_touchAction: withEvent:),set,event);
+//            }else{
+//                action(tempView,@selector(dl_touchAction: withEvent:),set,event);
+//            }
+//        }
+//    }
+//}
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options{
+    return YES;
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event withView:(UIView *)view{
+    if (view.userInteractionEnabled == NO || view.hidden == YES || view.alpha <= 0.01) return nil;
+    if ([view pointInside:point withEvent:event] == NO) return nil;
+    if ([view isKindOfClass:[UIStepper class]]) {
+        return view;
+    }
+    NSInteger count = view.subviews.count;
+    for (NSInteger i = count - 1; i >= 0; i--) {
+        UIView *childView = view.subviews[i];
+        CGPoint childP = [view convertPoint:point toView:childView];
+        UIView *tempView = [childView hitTest:childP withEvent:event];
+        if (tempView && !(tempView.userInteractionEnabled == NO || tempView.hidden == YES || tempView.alpha <= 0.01)) {
+            return tempView;
+        }
+    }
+    return view;
+}
 
 - (NSURL *)dl_documentsURL {
     return [[[NSFileManager defaultManager]

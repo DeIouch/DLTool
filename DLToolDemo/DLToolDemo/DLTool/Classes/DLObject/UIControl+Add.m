@@ -2,46 +2,73 @@
 #import <objc/runtime.h>
 #import "DLToolMacro.h"
 
-static const int block_key;
+static char const tapBlockDic_Key;
 
-@interface _DLUIControlBlockTarget : NSObject
-
-@property (nonatomic, copy) void (^block)(id sender);
-@property (nonatomic, assign) UIControlEvents events;
-
-- (id)initWithBlock:(void (^)(id sender))block events:(UIControlEvents)events;
-- (void)invoke:(id)sender;
-
-@end
-
-@implementation _DLUIControlBlockTarget
-
-- (id)initWithBlock:(void (^)(id sender))block events:(UIControlEvents)events {
-    self = [super init];
-    if (self) {
-        _block = [block copy];
-        _events = events;
+NSString* p_dl_event(UIControlEvents controlEvents) {
+    NSString *controlEventsString;
+#define controlEventsToString(value) case value : controlEventsString = @#value; break;
+    switch (controlEvents) {
+            controlEventsToString(UIControlEventTouchDownRepeat)
+            controlEventsToString(UIControlEventTouchDragInside)
+            controlEventsToString(UIControlEventTouchDragOutside)
+            controlEventsToString(UIControlEventTouchDragEnter)
+            controlEventsToString(UIControlEventTouchDragExit)
+            controlEventsToString(UIControlEventTouchUpInside)
+            controlEventsToString(UIControlEventTouchUpOutside)
+            controlEventsToString(UIControlEventTouchCancel)
+            controlEventsToString(UIControlEventValueChanged)
+            controlEventsToString(UIControlEventPrimaryActionTriggered)
+            controlEventsToString(UIControlEventEditingDidBegin)
+            controlEventsToString(UIControlEventEditingChanged)
+            controlEventsToString(UIControlEventEditingDidEnd)
+            controlEventsToString(UIControlEventEditingDidEndOnExit)
+            controlEventsToString(UIControlEventAllTouchEvents)
+            controlEventsToString(UIControlEventAllEditingEvents)
+            controlEventsToString(UIControlEventApplicationReserved)
+            controlEventsToString(UIControlEventSystemReserved)
+            controlEventsToString(UIControlEventAllEvents)
+        default:
+            controlEventsToString(UIControlEventTouchDown)
     }
-    return self;
+#undef controlEventsToString
+    return controlEventsString;
 }
 
-- (void)invoke:(id)sender {
-    if (_block) _block(sender);
-}
+@interface UIControl ()
+
+@property (nonatomic, strong) NSMutableDictionary *tapBlockDic;
+
+@property (nonatomic, readonly) UIViewController *vc;
 
 @end
 
 @implementation UIControl (Add)
 
--(void)dl_removeAllTargets{
-    [[self allTargets] enumerateObjectsUsingBlock: ^(id object, BOOL *stop) {
-           [self removeTarget:object action:NULL forControlEvents:UIControlEventAllEvents];
-       }];
-       [[self _dl_allUIControlBlockTargets] removeAllObjects];
+-(UIViewController *)vc{
+    UIResponder *responder = self;
+    while ((responder = [responder nextResponder])) {
+        if ([responder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController *)responder;
+        }
+    }
+    return nil;
 }
 
--(void)dl_setTarget:(id)target action:(SEL)action forControlEvents:(UIControlEvents)controlEvents{
-    if (!target || !action || !controlEvents) return;
+-(NSMutableDictionary *)tapBlockDic{
+    NSMutableDictionary *dic = objc_getAssociatedObject(self, &tapBlockDic_Key);
+    if (!dic) {
+        dic = [[NSMutableDictionary alloc]init];
+        [self setTapBlockDic:dic];
+    }
+    return dic;
+}
+
+-(void)setTapBlockDic:(NSMutableDictionary *)tapBlockDic{
+    objc_setAssociatedObject(self, &tapBlockDic_Key, tapBlockDic, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+-(void)addClick:(UIControlEvents)controlEvents block:(void (^)(id vc))action{
+    if (!action || !controlEvents) return;
     NSSet *targets = [self allTargets];
     for (id currentTarget in targets) {
         NSArray *actions = [self actionsForTarget:currentTarget forControlEvent:controlEvents];
@@ -50,49 +77,95 @@ static const int block_key;
                 forControlEvents:controlEvents];
         }
     }
-    [self addTarget:target action:action forControlEvents:controlEvents];
+    [self.tapBlockDic setObject:action forKey:[p_dl_event(controlEvents) stringByReplacingOccurrencesOfString:@"UIControlEvent" withString:@""]];
+    [self addTarget:self action:NSSelectorFromString([p_dl_event(controlEvents) stringByReplacingOccurrencesOfString:@"UIControlEvent" withString:@""]) forControlEvents:controlEvents];
 }
 
--(void)dl_setBlockForControlEvents:(UIControlEvents)controlEvents block:(void (^)(id sender))block{
-    if (!controlEvents) return;
-    _DLUIControlBlockTarget *target = [[_DLUIControlBlockTarget alloc]
-                                       initWithBlock:block events:controlEvents];
-    [self addTarget:target action:@selector(invoke:) forControlEvents:controlEvents];
-    NSMutableArray *targets = [self _dl_allUIControlBlockTargets];
-    [targets addObject:target];
-}
-
--(void)dl_addBlockForControlEvents:(UIControlEvents)controlEvents block:(void (^)(id sender))block{
-    [self dl_removeAllBlocksForControlEvents:UIControlEventAllEvents];
-    [self dl_setBlockForControlEvents:controlEvents block:block];
-}
-
--(void)dl_removeAllBlocksForControlEvents:(UIControlEvents)controlEvents{
-    NSMutableArray *targets = [self _dl_allUIControlBlockTargets];
-    NSMutableArray *removes = [NSMutableArray array];
-    for (_DLUIControlBlockTarget *target in targets) {
-        if (target.events & controlEvents) {
-            UIControlEvents newEvent = target.events & (~controlEvents);
-            if (newEvent) {
-                [self removeTarget:target action:@selector(invoke:) forControlEvents:target.events];
-                target.events = newEvent;
-                [self addTarget:target action:@selector(invoke:) forControlEvents:target.events];
-            } else {
-                [self removeTarget:target action:@selector(invoke:) forControlEvents:target.events];
-                [removes addObject:target];
-            }
-        }
+-(void)actionRun:(NSString *)runKey{
+    void(^action)(id vc) = self.tapBlockDic[runKey];
+    if (action) {
+        action(self.vc);
     }
-    [targets removeObjectsInArray:removes];
 }
 
--(NSMutableArray *)_dl_allUIControlBlockTargets{
-    NSMutableArray *targets = objc_getAssociatedObject(self, &block_key);
-    if (!targets) {
-        targets = [NSMutableArray array];
-        objc_setAssociatedObject(self, &block_key, targets, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-    return targets;
+-(void)TouchDownRepeat{
+    [self actionRun:@"TouchDownRepeat"];
+}
+
+-(void)TouchDragInside{
+    [self actionRun:@"TouchDragInside"];
+}
+
+-(void)TouchDragOutside{
+    [self actionRun:@"TouchDragOutside"];
+}
+
+-(void)TouchDragEnter{
+    [self actionRun:@"TouchDragEnter"];
+}
+
+-(void)TouchDragExit{
+    [self actionRun:@"TouchDragExit"];
+}
+
+-(void)TouchUpInside{
+    [self actionRun:@"TouchUpInside"];
+}
+
+-(void)TouchUpOutside{
+    [self actionRun:@"TouchUpOutside"];
+}
+
+-(void)TouchCancel{
+    [self actionRun:@"TouchCancel"];
+}
+
+-(void)ValueChanged{
+    [self actionRun:@"ValueChanged"];
+}
+
+-(void)PrimaryActionTriggered{
+    [self actionRun:@"PrimaryActionTriggered"];
+}
+
+-(void)EditingDidBegin{
+    [self actionRun:@"EditingDidBegin"];
+}
+
+-(void)EditingChanged{
+    [self actionRun:@"EditingChanged"];
+}
+
+-(void)EditingDidEnd{
+    [self actionRun:@"EditingDidEnd"];
+}
+
+-(void)EditingDidEndOnExit{
+    [self actionRun:@"EditingDidEndOnExit"];
+}
+
+-(void)AllTouchEvents{
+    [self actionRun:@"AllTouchEvents"];
+}
+
+-(void)AllEditingEvents{
+    [self actionRun:@"AllEditingEvents"];
+}
+
+-(void)ApplicationReserved{
+    [self actionRun:@"ApplicationReserved"];
+}
+
+-(void)SystemReserved{
+    [self actionRun:@"SystemReserved"];
+}
+
+-(void)AllEvents{
+    [self actionRun:@"AllEvents"];
+}
+
+-(void)TouchDown{
+    [self actionRun:@"TouchDown"];
 }
 
 @end

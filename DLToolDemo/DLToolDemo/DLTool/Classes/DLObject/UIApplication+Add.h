@@ -2,6 +2,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@interface UIView (DLSign)
+
+//@property (nonatomic, assign) UIControlEvents controlEvents;
+
+//-(void)setControlEvents:(UIControlEvents)controlEvents;
+
+//-(void)dl_touchAction:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+
+
+
+@end
+
 @interface UIApplication (Add)
 
 @property (nonatomic, readonly) NSURL *dl_documentsURL;

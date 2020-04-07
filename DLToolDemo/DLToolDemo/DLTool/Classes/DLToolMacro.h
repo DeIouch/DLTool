@@ -1,5 +1,6 @@
 #import <sys/time.h>
 #import <pthread.h>
+#import <objc/runtime.h>
 
 #ifndef DLToolMacro_h
 #define DLToolMacro_h
@@ -40,11 +41,11 @@
 
 //输出语句
 
-#ifdef DEBUG
-# define NSLog(FORMAT, ...) printf("[%s<%p>行号:%d]:\n%s\n",__FUNCTION__,self,__LINE__,[[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String])
-#else
-# define NSLog(FORMAT, ...)
-#endif
+//#ifdef DEBUG
+//# define NSLog(FORMAT, ...) printf("[%s<%p>行号:%d]:\n%s\n",__FUNCTION__,self,__LINE__,[[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String])
+//#else
+//# define NSLog(FORMAT, ...)
+//#endif
 
 
 #ifndef kSystemVersion
@@ -205,5 +206,20 @@ static inline NSString* converTimeStr(int time){
     return [NSString stringWithFormat:@"%0.2d:%0.2d", time / 60 , time % 60];
 }
 
+static inline void Safe_ExchangeMethod(Class cls, SEL oldSel, SEL newSel){
+    Method originalMethod = class_getInstanceMethod(cls, oldSel);
+    Method newMethod = class_getInstanceMethod(cls, newSel);
+    BOOL isAdd = class_addMethod(cls, oldSel,
+                                 method_getImplementation(newMethod),
+                                 method_getTypeEncoding(newMethod));
+    if (isAdd) {
+        class_replaceMethod(cls, newSel,
+                            method_getImplementation(originalMethod),
+                            method_getTypeEncoding(originalMethod));
+    } else {
+        method_exchangeImplementations(originalMethod, newMethod);
+    }
+    
+}
 
 #endif

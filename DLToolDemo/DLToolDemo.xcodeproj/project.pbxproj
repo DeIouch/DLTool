@@ -58,7 +58,6 @@
 		244205882411204C00E442C6 /* NSSet+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205352411204C00E442C6 /* NSSet+Add.m */; };
 		244205892411204C00E442C6 /* NSString+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205372411204C00E442C6 /* NSString+Add.m */; };
 		2442058A2411204C00E442C6 /* NSUserDefaults+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205392411204C00E442C6 /* NSUserDefaults+Add.m */; };
-		2442058B2411204C00E442C6 /* UIApplication+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442053B2411204C00E442C6 /* UIApplication+Add.m */; };
 		2442058C2411204C00E442C6 /* UIControl+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442053D2411204C00E442C6 /* UIControl+Add.m */; };
 		2442058D2411204C00E442C6 /* UIDevice+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442053F2411204C00E442C6 /* UIDevice+Add.m */; };
 		2442058E2411204C00E442C6 /* UIGestureRecognizer+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205412411204C00E442C6 /* UIGestureRecognizer+Add.m */; };
@@ -80,6 +79,7 @@
 		24CAA07724178E08005A7C56 /* DLMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 24CAA07624178E08005A7C56 /* DLMenu.m */; };
 		8721171B24342EC100EDA771 /* shareback.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8721171A24342EC000EDA771 /* shareback.jpg */; };
 		8721171E243433B600EDA771 /* DLKeyboardManage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8721171D243433B600EDA771 /* DLKeyboardManage.m */; };
+		8721794D243C4E6200A2006B /* UIApplication+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 8721794C243C4E6100A2006B /* UIApplication+Add.m */; };
 		873CC4E12420D2F900A995B3 /* DLPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 873CC4E02420D2F900A995B3 /* DLPopView.m */; };
 		8755A81D2413AB350064E7E4 /* repeatPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 8755A81C2413AB350064E7E4 /* repeatPlay.png */; };
 		8761C1EA241873A100E94C8F /* DLBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 8761C1E9241873A100E94C8F /* DLBanner.m */; };
@@ -211,7 +211,6 @@
 		244205382411204C00E442C6 /* NSUserDefaults+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Add.h"; sourceTree = "<group>"; };
 		244205392411204C00E442C6 /* NSUserDefaults+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Add.m"; sourceTree = "<group>"; };
 		2442053A2411204C00E442C6 /* UIApplication+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIApplication+Add.h"; sourceTree = "<group>"; };
-		2442053B2411204C00E442C6 /* UIApplication+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Add.m"; sourceTree = "<group>"; };
 		2442053C2411204C00E442C6 /* UIControl+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+Add.h"; sourceTree = "<group>"; };
 		2442053D2411204C00E442C6 /* UIControl+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+Add.m"; sourceTree = "<group>"; };
 		2442053E2411204C00E442C6 /* UIDevice+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+Add.h"; sourceTree = "<group>"; };
@@ -255,6 +254,7 @@
 		8721171A24342EC000EDA771 /* shareback.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = shareback.jpg; sourceTree = "<group>"; };
 		8721171C243433B600EDA771 /* DLKeyboardManage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLKeyboardManage.h; sourceTree = "<group>"; };
 		8721171D243433B600EDA771 /* DLKeyboardManage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLKeyboardManage.m; sourceTree = "<group>"; };
+		8721794C243C4E6100A2006B /* UIApplication+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Add.m"; sourceTree = "<group>"; };
 		873CC4DF2420D2F900A995B3 /* DLPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPopView.h; sourceTree = "<group>"; };
 		873CC4E02420D2F900A995B3 /* DLPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPopView.m; sourceTree = "<group>"; };
 		8755A81C2413AB350064E7E4 /* repeatPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repeatPlay.png; sourceTree = "<group>"; };
@@ -529,7 +529,7 @@
 				244205382411204C00E442C6 /* NSUserDefaults+Add.h */,
 				244205392411204C00E442C6 /* NSUserDefaults+Add.m */,
 				2442053A2411204C00E442C6 /* UIApplication+Add.h */,
-				2442053B2411204C00E442C6 /* UIApplication+Add.m */,
+				8721794C243C4E6100A2006B /* UIApplication+Add.m */,
 				2442053C2411204C00E442C6 /* UIControl+Add.h */,
 				2442053D2411204C00E442C6 /* UIControl+Add.m */,
 				2442053E2411204C00E442C6 /* UIDevice+Add.h */,
@@ -816,7 +816,6 @@
 				244205752411204C00E442C6 /* DLSafeProtector.m in Sources */,
 				2442057F2411204C00E442C6 /* NSMutableAttributedString+Add.m in Sources */,
 				244205882411204C00E442C6 /* NSSet+Add.m in Sources */,
-				2442058B2411204C00E442C6 /* UIApplication+Add.m in Sources */,
 				24903BA5241D0B6A00058612 /* DLCache.m in Sources */,
 				244204C92411202C00E442C6 /* main.m in Sources */,
 				244204BB2411202C00E442C6 /* AppDelegate.m in Sources */,
@@ -826,6 +825,7 @@
 				244205992411204C00E442C6 /* DLThread.m in Sources */,
 				2442057C2411204C00E442C6 /* NSDate+Add.m in Sources */,
 				8761C1EA241873A100E94C8F /* DLBanner.m in Sources */,
+				8721794D243C4E6200A2006B /* UIApplication+Add.m in Sources */,
 				2421C8D8241E0B9E009DD194 /* DLDownloadOperationManager.m in Sources */,
 				2442058F2411204C00E442C6 /* UIScrollView+Add.m in Sources */,
 				244205A32411205700E442C6 /* OneViewController.m in Sources */,

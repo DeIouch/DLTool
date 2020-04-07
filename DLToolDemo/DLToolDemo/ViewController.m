@@ -26,7 +26,6 @@
 #import "DLJsonToModel.h"
 #import "TestModel.h"
 
-
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
 
 #define VideoUrl1 @"https://vdse.bdstatic.com//f11546e6b21bb6f60f025df3d5cb5735?authorization=bce-auth-v1/fb297a5cc0fb434c971b8fa103e8dd7b/2017-05-11T09:02:31Z/-1//560f50696b0d906271532cf3868d7a3baf6e4f7ffbe74e8dff982ed57f72c088.mp4"
@@ -45,6 +44,12 @@
 
 @property (nonatomic, strong) NSMutableArray *array;
 
+@property (nonatomic, strong) UIButton *buttonA;
+
+@property (nonatomic, strong) UIButton *buttonB;
+
+@property (nonatomic, strong) UITextField *textField;
+
 @end
 
 @implementation ViewController{
@@ -55,31 +60,68 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-//    self.navigationController.navigationBarHidden = YES;
+}
+
+-(void)acb{
+    NSLog(@"11111");
+}
+
+-(void)abc:(UIButton *)event{
+    NSLog(@"222222 %@", event);
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor blueColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     
     [DLPerformance openMonitoring];
     
-    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-    NSMutableArray *array = [[NSMutableArray alloc]init];
-    for (int a = 0; a < 10; a ++) {
-        NSMutableDictionary *tempDic = [[NSMutableDictionary alloc]init];
-        [tempDic setObject:@"11" forKey:@"id"];
-        for (int i = 0; i < 10; i++) {
-            NSNumber *number = [NSNumber numberWithInt:i];
-            [tempDic setObject:number forKey:[NSString stringWithFormat:@"tempDic%d", i]];
-        }
-        [array addObject:tempDic];
-        [dic setObject:tempDic forKey:[NSString stringWithFormat:@"key%d", a]];
-    }
-    [dic setObject:array forKey:@"data"];
+    self.buttonA = [UIButton dl_view:^(UIButton *button) {
+        button.dl_backView(self.view).dl_backColor(@"ff0000");
+        button.frame = CGRectMake(100, 100, 100, 100);
+    }];
     
-    NSLog(@"%d", [DLJsonToModel dl_createModelWithDic:dic modelName:@"TestModel"]);
+//    [self.buttonA addClick:UIControlEventTouchUpInside block:^(UIView * _Nonnull view) {
+//        NSLog(@"UIControlEventTouchUpInside");
+//    }];
+    
+//    UITapGestureRecognizer *tap = [UITapGestureRecognizer alloc]initWithTarget:self action:<#(nullable SEL)#>;
+    
+//    [self.buttonA addTarget:self action:@selector(abc:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.buttonA addTarget:self action:@selector(acb) forControlEvents:UIControlEventTouchUpInside];
+//    
+//    self.buttonB = [UIButton dl_view:^(UIButton *button) {
+//        button.dl_backView(self.view).dl_backColor(@"ff0000");
+//        button.frame = CGRectMake(100, 300, 100, 100);
+//    }];
+//    
+//    self.textField = [UITextField dl_view:^(UITextField *textField) {
+//        textField.dl_backView(self.view).dl_backColor(@"ff0000");
+//        textField.frame = CGRectMake(100, 500, 100, 100);
+//    }];
+    
+    
+//    UIButton *button = [[UIButton alloc]init];
+//    [button addTarget:self action:@selector(acb) forControlEvents:(UIControlEvents)];
+    
+    
+    
+//    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+//    NSMutableArray *array = [[NSMutableArray alloc]init];
+//    for (int a = 0; a < 10; a ++) {
+//        NSMutableDictionary *tempDic = [[NSMutableDictionary alloc]init];
+//        [tempDic setObject:@"11" forKey:@"id"];
+//        for (int i = 0; i < 10; i++) {
+//            NSNumber *number = [NSNumber numberWithInt:i];
+//            [tempDic setObject:number forKey:[NSString stringWithFormat:@"tempDic%d", i]];
+//        }
+//        [array addObject:tempDic];
+//        [dic setObject:tempDic forKey:[NSString stringWithFormat:@"key%d", a]];
+//    }
+//    [dic setObject:array forKey:@"data"];
+//
+//    NSLog(@"%d", [DLJsonToModel dl_createModelWithDic:dic modelName:@"TestModel"]);
     
 //    [DLJsonToModel dl_createModelWithJson:dic fileName:@"ATest" extensionName:@"Model" fileURL:[NSURL URLWithString:@"/Users/tanqiu/Desktop/"] error:^(NSError *error) {
 //
@@ -140,22 +182,22 @@
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
     
-//    OneViewController *vc = [[OneViewController alloc]init];
+    OneViewController *vc = [[OneViewController alloc]init];
 //    vc.modalPresentationStyle = UIModalPresentationFullScreen;
 //    [self presentViewController:vc animated:YES completion:nil];
-//    [self.navigationController pushViewController:vc animated:YES];
+    [self.navigationController pushViewController:vc animated:YES];
     
-    UITouch *touch = [touches anyObject];
-    CGPoint point = [touch locationInView:touch.view];
-    
-    if (point.y < 150) {
-        OneViewController *vc = [[OneViewController alloc]init];
-        vc.modalPresentationStyle = UIModalPresentationFullScreen;
-        [self.navigationController pushViewController:vc animated:YES];
-    }else{
-        [atextField resignFirstResponder];
-        [textField resignFirstResponder];
-    }
+//    UITouch *touch = [touches anyObject];
+//    CGPoint point = [touch locationInView:touch.view];
+//
+//    if (point.y < 150) {
+//        OneViewController *vc = [[OneViewController alloc]init];
+//        vc.modalPresentationStyle = UIModalPresentationFullScreen;
+//        [self.navigationController pushViewController:vc animated:YES];
+//    }else{
+//        [atextField resignFirstResponder];
+//        [textField resignFirstResponder];
+//    }
 //    [atextField resignFirstResponder];
 }
 
