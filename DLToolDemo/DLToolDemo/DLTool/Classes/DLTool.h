@@ -34,6 +34,7 @@ FOUNDATION_EXPORT const unsigned char DLToolVersionString[];
 
 #import "DLBaseViewController.h"
 #import "UINavigationController+Add.h"
+#import "UIViewController+Add.h"
 
 #import "NSDate+Add.h"
 

@@ -1,39 +1,23 @@
 #import "NSUserDefaults+Add.h"
-#import "NSObject+Add.h"
 #import "DLSafeProtector.h"
-#include <objc/runtime.h>
+#import "DLToolMacro.h"
 
 @implementation NSUserDefaults (Add)
 
-+(void)load
-{
++(void)load{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-
-        Class dClass=NSClassFromString(@"NSUserDefaults");
-
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(setObject:forKey:) newSel:@selector(safe_setObject:forKey:)];
-
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(objectForKey:) newSel:@selector(safe_objectForKey:)];
-
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(stringForKey:) newSel:@selector(safe_stringForKey:)];
-
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(arrayForKey:) newSel:@selector(safe_arrayForKey:)];
-
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(dataForKey:) newSel:@selector(safe_dataForKey:)];
-
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(URLForKey:) newSel:@selector(safe_URLForKey:)];
-
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(stringArrayForKey:) newSel:@selector(safe_stringArrayForKey:)];
-
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(floatForKey:) newSel:@selector(safe_floatForKey:)];
-
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(doubleForKey:) newSel:@selector(safe_doubleForKey:)];
-
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(integerForKey:) newSel:@selector(safe_integerForKey:)];
-
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(boolForKey:) newSel:@selector(safe_boolForKey:)];
-
+        Safe_ExchangeMethod([self class], @selector(setObject:forKey:), @selector(safe_setObject:forKey:));
+        Safe_ExchangeMethod([self class], @selector(objectForKey:), @selector(safe_objectForKey:));
+        Safe_ExchangeMethod([self class], @selector(stringForKey:), @selector(safe_stringForKey:));
+        Safe_ExchangeMethod([self class], @selector(arrayForKey:), @selector(safe_arrayForKey:));
+        Safe_ExchangeMethod([self class], @selector(dataForKey:), @selector(safe_dataForKey:));
+        Safe_ExchangeMethod([self class], @selector(URLForKey:), @selector(safe_URLForKey:));
+        Safe_ExchangeMethod([self class], @selector(stringArrayForKey:), @selector(safe_stringArrayForKey:));
+        Safe_ExchangeMethod([self class], @selector(floatForKey:), @selector(safe_floatForKey:));
+        Safe_ExchangeMethod([self class], @selector(doubleForKey:), @selector(safe_doubleForKey:));
+        Safe_ExchangeMethod([self class], @selector(integerForKey:), @selector(safe_integerForKey:));
+        Safe_ExchangeMethod([self class], @selector(boolForKey:), @selector(safe_boolForKey:));
     });
 }
 

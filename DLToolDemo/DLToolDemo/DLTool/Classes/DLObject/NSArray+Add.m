@@ -3,21 +3,18 @@
 #import "DLSafeProtector.h"
 #include <objc/runtime.h>
 #import "NSData+Add.h"
+#import "DLToolMacro.h"
 
 @implementation NSArray (Add)
 
 +(void)load{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        
-        [self safe_exchangeInstanceMethod:objc_getClass("__NSPlaceholderArray") originalSel:@selector(initWithObjects:count:) newSel:@selector(safe_initWithObjects:count:)];
-        
-        [self safe_exchangeInstanceMethod:objc_getClass("__NSArrayI") originalSel:@selector(objectAtIndex:) newSel:@selector(safe_objectAtIndexI:)];
-        [self safe_exchangeInstanceMethod:objc_getClass("__NSArrayI") originalSel:@selector(objectAtIndexedSubscript:) newSel:@selector(safe_objectAtIndexedSubscriptI:)];
-        
-        [self safe_exchangeInstanceMethod:objc_getClass("__NSArray0") originalSel:@selector(objectAtIndex:) newSel:@selector(safe_objectAtIndex0:)];
-        
-        [self safe_exchangeInstanceMethod:objc_getClass("__NSSingleObjectArrayI") originalSel:@selector(objectAtIndex:) newSel:@selector(safe_objectAtIndexSI:)];
+        Safe_ExchangeMethod(objc_getClass("__NSPlaceholderArray"), @selector(initWithObjects:count:), @selector(initWithObjects:count:));
+        Safe_ExchangeMethod(objc_getClass("__NSArrayI"), @selector(objectAtIndex:), @selector(safe_objectAtIndexI:));
+        Safe_ExchangeMethod(objc_getClass("__NSArrayI"), @selector(objectAtIndexedSubscript:), @selector(safe_objectAtIndexedSubscriptI:));
+        Safe_ExchangeMethod(objc_getClass("__NSArray0"), @selector(objectAtIndex:), @selector(safe_objectAtIndex0:));
+        Safe_ExchangeMethod(objc_getClass("__NSSingleObjectArrayI"), @selector(objectAtIndex:), @selector(safe_objectAtIndexSI:));
     });
 }
 

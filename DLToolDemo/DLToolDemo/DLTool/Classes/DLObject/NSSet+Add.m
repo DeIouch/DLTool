@@ -1,7 +1,6 @@
 #import "NSSet+Add.h"
-#import "NSObject+Add.h"
 #import "DLSafeProtector.h"
-#include <objc/runtime.h>
+#import "DLToolMacro.h"
 
 @implementation NSSet (Add)
 
@@ -9,8 +8,7 @@
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        Class dClass=NSClassFromString(@"__NSPlaceholderSet");
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(initWithObjects:count:) newSel:@selector(safe_initWithObjects:count:)];
+        Safe_ExchangeMethod(NSClassFromString(@"__NSPlaceholderSet"), @selector(initWithObjects:count:), @selector(safe_initWithObjects:count:));
     });
 }
 

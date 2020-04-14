@@ -1,7 +1,6 @@
 #import "NSMutableData+Add.h"
-#import "NSObject+Add.h"
 #import "DLSafeProtector.h"
-#include <objc/runtime.h>
+#import "DLToolMacro.h"
 
 @implementation NSMutableData (Add)
 
@@ -9,13 +8,12 @@
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        
         Class dClass=NSClassFromString(@"NSConcreteMutableData");
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(subdataWithRange:) newSel:@selector(safe_subdataWithRangeMutableConcreteData:)];
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(rangeOfData:options:range:) newSel:@selector(safe_rangeOfDataMutableConcreteData:options:range:)];
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(resetBytesInRange:) newSel:@selector(safe_resetBytesInRange:)];
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(replaceBytesInRange:withBytes:) newSel:@selector(safe_replaceBytesInRange:withBytes:)];
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(replaceBytesInRange:withBytes:length:) newSel:@selector(safe_replaceBytesInRange:withBytes:length:)];
+        Safe_ExchangeMethod(dClass, @selector(subdataWithRange:), @selector(safe_subdataWithRangeMutableConcreteData:));
+        Safe_ExchangeMethod(dClass, @selector(rangeOfData:options:range:), @selector(safe_rangeOfDataMutableConcreteData:options:range:));
+        Safe_ExchangeMethod(dClass, @selector(resetBytesInRange:), @selector(safe_resetBytesInRange:));
+        Safe_ExchangeMethod(dClass, @selector(replaceBytesInRange:withBytes:), @selector(safe_replaceBytesInRange:withBytes:));
+        Safe_ExchangeMethod(dClass, @selector(replaceBytesInRange:withBytes:length:), @selector(safe_replaceBytesInRange:withBytes:length:));
     });
 }
 

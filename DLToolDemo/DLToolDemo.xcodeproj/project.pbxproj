@@ -80,6 +80,9 @@
 		8721171B24342EC100EDA771 /* shareback.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8721171A24342EC000EDA771 /* shareback.jpg */; };
 		8721171E243433B600EDA771 /* DLKeyboardManage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8721171D243433B600EDA771 /* DLKeyboardManage.m */; };
 		8721794D243C4E6200A2006B /* UIApplication+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 8721794C243C4E6100A2006B /* UIApplication+Add.m */; };
+		873ACDE224441331007C4F0F /* UIViewController+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 873ACDE124441331007C4F0F /* UIViewController+Add.m */; };
+		873ACDE5244433E7007C4F0F /* TestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 873ACDE4244433E7007C4F0F /* TestView.m */; };
+		873ACDE824443B0E007C4F0F /* DLMemoryLeak.m in Sources */ = {isa = PBXBuildFile; fileRef = 873ACDE724443B0E007C4F0F /* DLMemoryLeak.m */; };
 		873CC4E12420D2F900A995B3 /* DLPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 873CC4E02420D2F900A995B3 /* DLPopView.m */; };
 		8755A81D2413AB350064E7E4 /* repeatPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 8755A81C2413AB350064E7E4 /* repeatPlay.png */; };
 		8761C1EA241873A100E94C8F /* DLBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 8761C1E9241873A100E94C8F /* DLBanner.m */; };
@@ -255,6 +258,12 @@
 		8721171C243433B600EDA771 /* DLKeyboardManage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLKeyboardManage.h; sourceTree = "<group>"; };
 		8721171D243433B600EDA771 /* DLKeyboardManage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLKeyboardManage.m; sourceTree = "<group>"; };
 		8721794C243C4E6100A2006B /* UIApplication+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+Add.m"; sourceTree = "<group>"; };
+		873ACDE024441331007C4F0F /* UIViewController+Add.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Add.h"; sourceTree = "<group>"; };
+		873ACDE124441331007C4F0F /* UIViewController+Add.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Add.m"; sourceTree = "<group>"; };
+		873ACDE3244433E7007C4F0F /* TestView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestView.h; sourceTree = "<group>"; };
+		873ACDE4244433E7007C4F0F /* TestView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestView.m; sourceTree = "<group>"; };
+		873ACDE624443B0E007C4F0F /* DLMemoryLeak.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLMemoryLeak.h; sourceTree = "<group>"; };
+		873ACDE724443B0E007C4F0F /* DLMemoryLeak.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLMemoryLeak.m; sourceTree = "<group>"; };
 		873CC4DF2420D2F900A995B3 /* DLPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPopView.h; sourceTree = "<group>"; };
 		873CC4E02420D2F900A995B3 /* DLPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPopView.m; sourceTree = "<group>"; };
 		8755A81C2413AB350064E7E4 /* repeatPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repeatPlay.png; sourceTree = "<group>"; };
@@ -356,6 +365,8 @@
 				87663A79241A2A12005052C4 /* DLModelDemo.m */,
 				2442059F2411205600E442C6 /* OneViewController.h */,
 				2442059D2411205600E442C6 /* OneViewController.m */,
+				873ACDE3244433E7007C4F0F /* TestView.h */,
+				873ACDE4244433E7007C4F0F /* TestView.m */,
 				87929671241F17BB007E8858 /* DLDemoTableViewCell.h */,
 				87929672241F17BB007E8858 /* DLDemoTableViewCell.m */,
 				244204EB2411204B00E442C6 /* Demo */,
@@ -398,6 +409,8 @@
 				87D8DFBC2413E1BF00DCEE30 /* UIView+SDAutoLayout.m */,
 				8761C1E8241873A100E94C8F /* DLBanner.h */,
 				8761C1E9241873A100E94C8F /* DLBanner.m */,
+				873ACDE624443B0E007C4F0F /* DLMemoryLeak.h */,
+				873ACDE724443B0E007C4F0F /* DLMemoryLeak.m */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -458,6 +471,8 @@
 				244205072411204C00E442C6 /* DLBaseViewController.m */,
 				244205082411204C00E442C6 /* UINavigationController+Add.h */,
 				244205092411204C00E442C6 /* UINavigationController+Add.m */,
+				873ACDE024441331007C4F0F /* UIViewController+Add.h */,
+				873ACDE124441331007C4F0F /* UIViewController+Add.m */,
 			);
 			path = DLBaseViewControl;
 			sourceTree = "<group>";
@@ -824,13 +839,16 @@
 				244205972411204C00E442C6 /* DLNoti.m in Sources */,
 				244205992411204C00E442C6 /* DLThread.m in Sources */,
 				2442057C2411204C00E442C6 /* NSDate+Add.m in Sources */,
+				873ACDE824443B0E007C4F0F /* DLMemoryLeak.m in Sources */,
 				8761C1EA241873A100E94C8F /* DLBanner.m in Sources */,
 				8721794D243C4E6200A2006B /* UIApplication+Add.m in Sources */,
 				2421C8D8241E0B9E009DD194 /* DLDownloadOperationManager.m in Sources */,
+				873ACDE224441331007C4F0F /* UIViewController+Add.m in Sources */,
 				2442058F2411204C00E442C6 /* UIScrollView+Add.m in Sources */,
 				244205A32411205700E442C6 /* OneViewController.m in Sources */,
 				8721171E243433B600EDA771 /* DLKeyboardManage.m in Sources */,
 				87B41C352424C65D00E545B3 /* DLPerformance.m in Sources */,
+				873ACDE5244433E7007C4F0F /* TestView.m in Sources */,
 				244205822411204C00E442C6 /* NSMutableOrderedSet+Add.m in Sources */,
 				87835A2C241B36D500F5D372 /* DLAuthority.m in Sources */,
 				87D8DFBD2413E1BF00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m in Sources */,

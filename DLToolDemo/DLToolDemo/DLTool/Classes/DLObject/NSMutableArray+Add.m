@@ -1,8 +1,7 @@
 #import "NSMutableArray+Add.h"
-#import "NSObject+Add.h"
 #import "DLSafeProtector.h"
-#include <objc/runtime.h>
 #import "NSArray+Add.h"
+#import "DLToolMacro.h"
 
 @implementation NSMutableArray (Add)
 
@@ -10,35 +9,22 @@
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        //方法交换只要一次就好
-        Class dClass=NSClassFromString(@"__NSArrayM");
-
-        //因为11.0以上系统才会调用此方法，所以大于11.0才交换此方法
         if (@available(iOS 11.0, *)) {
-            [self safe_exchangeInstanceMethod:dClass originalSel:@selector(objectAtIndexedSubscript:) newSel:@selector(safe_objectAtIndexedSubscriptM:)];
+            Safe_ExchangeMethod(NSClassFromString(@"__NSArrayM"), @selector(objectAtIndexedSubscript:), @selector(safe_objectAtIndexedSubscriptM:));
         }
-
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(insertObject:atIndex:) newSel:@selector(safe_insertObject:atIndex:)];
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(removeObjectAtIndex:) newSel:@selector(safe_removeObjectAtIndex:)];
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(removeObjectsInRange:) newSel:@selector(safe_removeObjectsInRange:)];
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(replaceObjectAtIndex:withObject:) newSel:@selector(safe_replaceObjectAtIndex:withObject:)];
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(replaceObjectsInRange:withObjectsFromArray:) newSel:@selector(safe_replaceObjectsInRange:withObjectsFromArray:)];
-
-        // 下面为*********  __NSCFArray   *************
-        //因为11.0以上系统才会调用此方法，所以大于11.0才交换此方法
+        Safe_ExchangeMethod(NSClassFromString(@"__NSArrayM"), @selector(insertObject:atIndex:), @selector(safe_insertObject:atIndex:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSArrayM"), @selector(removeObjectAtIndex:), @selector(safe_removeObjectAtIndex:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSArrayM"), @selector(removeObjectsInRange:), @selector(safe_removeObjectsInRange:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSArrayM"), @selector(replaceObjectAtIndex:withObject:), @selector(safe_replaceObjectAtIndex:withObject:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSArrayM"), @selector(replaceObjectsInRange:withObjectsFromArray:), @selector(safe_replaceObjectsInRange:withObjectsFromArray:));
         if (@available(iOS 11.0, *)) {
-            [self safe_exchangeInstanceMethod:objc_getClass("__NSCFArray") originalSel:@selector(objectAtIndexedSubscript:) newSel:@selector(safe_objectAtIndexedSubscriptCFArray:)];
+            Safe_ExchangeMethod(objc_getClass("__NSCFArray"), @selector(objectAtIndexedSubscript:), @selector(safe_objectAtIndexedSubscriptCFArray:));
         }
-
-        [self safe_exchangeInstanceMethod:objc_getClass("__NSCFArray") originalSel:@selector(insertObject:atIndex:) newSel:@selector(safe_insertObjectCFArray:atIndex:)];
-
-        [self safe_exchangeInstanceMethod:objc_getClass("__NSCFArray") originalSel:@selector(removeObjectAtIndex:) newSel:@selector(safe_removeObjectAtIndexCFArray:)];
-
-        [self safe_exchangeInstanceMethod:objc_getClass("__NSCFArray") originalSel:@selector(removeObjectsInRange:) newSel:@selector(safe_removeObjectsInRangeCFArray:)];
-
-        [self safe_exchangeInstanceMethod:objc_getClass("__NSCFArray") originalSel:@selector(replaceObjectAtIndex:withObject:) newSel:@selector(safe_replaceObjectAtIndexCFArray:withObject:)];
-
-         [self safe_exchangeInstanceMethod:objc_getClass("__NSCFArray") originalSel:@selector(replaceObjectsInRange:withObjectsFromArray:) newSel:@selector(safe_replaceObjectsInRangeCFArray:withObjectsFromArray:)];
+        Safe_ExchangeMethod(objc_getClass("__NSCFArray"), @selector(insertObject:atIndex:), @selector(safe_insertObjectCFArray:atIndex:));
+        Safe_ExchangeMethod(objc_getClass("__NSCFArray"), @selector(removeObjectAtIndex:), @selector(safe_removeObjectAtIndexCFArray:));
+        Safe_ExchangeMethod(objc_getClass("__NSCFArray"), @selector(removeObjectsInRange:), @selector(safe_removeObjectsInRangeCFArray:));
+        Safe_ExchangeMethod(objc_getClass("__NSCFArray"), @selector(replaceObjectAtIndex:withObject:), @selector(safe_replaceObjectAtIndexCFArray:withObject:));
+        Safe_ExchangeMethod(objc_getClass("__NSCFArray"), @selector(replaceObjectsInRange:withObjectsFromArray:), @selector(safe_replaceObjectsInRangeCFArray:withObjectsFromArray:));
     });
 }
 

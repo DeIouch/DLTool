@@ -1,31 +1,22 @@
 #import "NSData+Add.h"
-#import "NSObject+Add.h"
 #import "DLSafeProtector.h"
-#include <objc/runtime.h>
 #include <CommonCrypto/CommonCrypto.h>
 #include <zlib.h>
+#import "DLToolMacro.h"
 
 @implementation NSData (Add)
 
-+(void)load
-{
++(void)load{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        
-        [self safe_exchangeInstanceMethod:NSClassFromString(@"NSConcreteData") originalSel:@selector(subdataWithRange:) newSel:@selector(safe_subdataWithRangeConcreteData:)];
-        [self safe_exchangeInstanceMethod:NSClassFromString(@"NSConcreteData") originalSel:@selector(rangeOfData:options:range:) newSel:@selector(safe_rangeOfDataConcreteData:options:range:)];
-        
-        
-        [self safe_exchangeInstanceMethod:NSClassFromString(@"_NSZeroData") originalSel:@selector(subdataWithRange:) newSel:@selector(safe_subdataWithRangeZeroData:)];
-        [self safe_exchangeInstanceMethod:NSClassFromString(@"_NSZeroData") originalSel:@selector(rangeOfData:options:range:) newSel:@selector(safe_rangeOfDataZeroData:options:range:)];
-        
-        
-        [self safe_exchangeInstanceMethod:NSClassFromString(@"_NSInlineData") originalSel:@selector(subdataWithRange:) newSel:@selector(safe_subdataWithRangeInlineData:)];
-        [self safe_exchangeInstanceMethod:NSClassFromString(@"_NSInlineData") originalSel:@selector(rangeOfData:options:range:) newSel:@selector(safe_rangeOfDataInlineData:options:range:)];
-       
-        
-        [self safe_exchangeInstanceMethod:NSClassFromString(@"__NSCFData") originalSel:@selector(subdataWithRange:) newSel:@selector(safe_subdataWithRangeCFData:)];
-        [self safe_exchangeInstanceMethod:NSClassFromString(@"__NSCFData") originalSel:@selector(rangeOfData:options:range:) newSel:@selector(safe_rangeOfDataCFData:options:range:)];
+        Safe_ExchangeMethod(NSClassFromString(@"NSConcreteData"), @selector(subdataWithRange:), @selector(safe_subdataWithRangeConcreteData:));
+        Safe_ExchangeMethod(NSClassFromString(@"NSConcreteData"), @selector(rangeOfData:options:range:), @selector(safe_rangeOfDataConcreteData:options:range:));
+        Safe_ExchangeMethod(NSClassFromString(@"_NSZeroData"), @selector(subdataWithRange:), @selector(safe_subdataWithRangeZeroData:));
+        Safe_ExchangeMethod(NSClassFromString(@"_NSZeroData"), @selector(rangeOfData:options:range:), @selector(safe_rangeOfDataZeroData:options:range:));
+        Safe_ExchangeMethod(NSClassFromString(@"_NSInlineData"), @selector(subdataWithRange:), @selector(safe_subdataWithRangeInlineData:));
+        Safe_ExchangeMethod(NSClassFromString(@"_NSInlineData"), @selector(rangeOfData:options:range:), @selector(safe_rangeOfDataInlineData:options:range:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFData"), @selector(subdataWithRange:), @selector(safe_subdataWithRangeCFData:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFData"), @selector(rangeOfData:options:range:), @selector(safe_rangeOfDataCFData:options:range:));
     });
 }
 

@@ -1,17 +1,14 @@
 #import "NSOrderedSet+Add.h"
-#import "NSObject+Add.h"
 #import "DLSafeProtector.h"
-#include <objc/runtime.h>
+#import "DLToolMacro.h"
 
 @implementation NSOrderedSet (Add)
 
-+(void)load
-{
++(void)load{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        Class dClass=NSClassFromString(@"__NSPlaceholderOrderedSet");
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(initWithObjects:count:) newSel:@selector(safe_initWithObjects:count:)];
-        [self safe_exchangeInstanceMethod:NSClassFromString(@"__NSOrderedSetI") originalSel:@selector(objectAtIndex:) newSel:@selector(safe_objectAtIndex:)];
+        Safe_ExchangeMethod(NSClassFromString(@"__NSPlaceholderOrderedSet"), @selector(initWithObjects:count:), @selector(safe_initWithObjects:count:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSOrderedSetI"), @selector(objectAtIndex:), @selector(safe_objectAtIndex:));
     });
 }
 

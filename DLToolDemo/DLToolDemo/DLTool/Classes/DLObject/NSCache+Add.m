@@ -1,18 +1,15 @@
 #import "NSCache+Add.h"
-#import "NSObject+Add.h"
 #import "DLSafeProtector.h"
 #include <objc/runtime.h>
+#import "DLToolMacro.h"
 
 @implementation NSCache (Add)
 
-+(void)load
-{
++(void)load{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        Class dClass=NSClassFromString(@"NSCache");
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(setObject:forKey:) newSel:@selector(safe_setObject:forKey:)];
-        
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(setObject:forKey:cost:) newSel:@selector(safe_setObject:forKey:cost:)];
+        Safe_ExchangeMethod(NSClassFromString(@"NSCache"), @selector(setObject:forKey:), @selector(safe_setObject:forKey:));
+        Safe_ExchangeMethod(NSClassFromString(@"NSCache"), @selector(setObject:forKey:cost:), @selector(safe_setObject:forKey:cost:));
     });
 }
 

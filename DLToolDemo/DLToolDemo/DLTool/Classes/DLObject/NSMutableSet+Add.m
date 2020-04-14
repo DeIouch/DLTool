@@ -1,7 +1,6 @@
 #import "NSMutableSet+Add.h"
-#import "NSObject+Add.h"
 #import "DLSafeProtector.h"
-#include <objc/runtime.h>
+#import "DLToolMacro.h"
 
 @implementation NSMutableSet (Add)
 
@@ -9,9 +8,8 @@
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        Class dClass=NSClassFromString(@"__NSSetM");
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(addObject:) newSel:@selector(safe_addObject:)];
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(removeObject:) newSel:@selector(safe_removeObject:)];
+        Safe_ExchangeMethod(NSClassFromString(@"__NSSetM"), @selector(addObject:), @selector(safe_addObject:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSSetM"), @selector(removeObject:), @selector(safe_removeObject:));
     });
 }
 

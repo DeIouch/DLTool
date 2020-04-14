@@ -827,10 +827,7 @@ static DLSQL * sqlManager = nil;
             @autoreleasepool {
                 // 获取对应的值,暂时不考虑自定义模型和oc模型的情况
                 id value = [model valueForKeyPath:ivarName];
-                
                 NSString *type = nameTypeDict[ivarName];
-                //        NSLog(@"type: %@ , value : %@ , valueClass : %@ , ivarName : %@",type,value,[value class],ivarName);
-                
                 value = [DLModelAnalysis formatModelValue:value type:type isEncode:YES];
                 
                 [allIvarValues addObject:value];

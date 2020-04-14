@@ -1,7 +1,6 @@
 #import "NSMutableAttributedString+Add.h"
-#import "NSObject+Add.h"
 #import "DLSafeProtector.h"
-#include <objc/runtime.h>
+#import "DLToolMacro.h"
 
 @implementation NSMutableAttributedString (Add)
 
@@ -10,53 +9,19 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         Class dClass = NSClassFromString(@"NSConcreteMutableAttributedString");
-        
-        //initWithString:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(initWithString:) newSel:@selector(safe_initWithString:)];
-        
-        //initWithAttributedString
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(initWithString:attributes:) newSel:@selector(safe_initWithString:attributes:)];
-        
-        //initWithString:attributes:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(initWithAttributedString:) newSel:@selector(safe_initWithAttributedString:)];
-        
-        
-        //以下为NSMutableAttributedString特有方法
-        //4.replaceCharactersInRange:withString:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(replaceCharactersInRange:withString:) newSel:@selector(safe_replaceCharactersInRange:withString:)];
-        
-        //5.setAttributes:range:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(setAttributes:range:) newSel:@selector(safe_setAttributes:range:)];
-        
-        
-        
-        //6.addAttribute:value:range:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(addAttribute:value:range:) newSel:@selector(safe_addAttribute:value:range:)];
-        
-        //7.addAttributes:range:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(addAttributes:range:) newSel:@selector(safe_addAttributes:range:)];
-        
-        //8.removeAttribute:range:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(removeAttribute:range:) newSel:@selector(safe_removeAttribute:range:)];
-        
-        //9.replaceCharactersInRange:withAttributedString:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(replaceCharactersInRange:withAttributedString:) newSel:@selector(safe_replaceCharactersInRange:withAttributedString:)];
-        
-        
-        //10.insertAttributedString:atIndex:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(insertAttributedString:atIndex:) newSel:@selector(safe_insertAttributedString:atIndex:)];
-        
-        
-        //11.appendAttributedString:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(appendAttributedString:) newSel:@selector(safe_appendAttributedString:)];
-        
-        //12.deleteCharactersInRange:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(deleteCharactersInRange:) newSel:@selector(safe_deleteCharactersInRange:)];
-        
-        //13.setAttributedString:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(setAttributedString:) newSel:@selector(safe_setAttributedString:)];
-        
-        
+        Safe_ExchangeMethod(dClass, @selector(initWithString:), @selector(safe_initWithString:));
+        Safe_ExchangeMethod(dClass, @selector(initWithString:attributes:), @selector(safe_initWithString:attributes:));
+        Safe_ExchangeMethod(dClass, @selector(initWithAttributedString:), @selector(safe_initWithAttributedString:));
+        Safe_ExchangeMethod(dClass, @selector(replaceCharactersInRange:withString:), @selector(safe_replaceCharactersInRange:withString:));
+        Safe_ExchangeMethod(dClass, @selector(setAttributes:range:), @selector(safe_setAttributes:range:));
+        Safe_ExchangeMethod(dClass, @selector(addAttribute:value:range:), @selector(safe_addAttribute:value:range:));
+        Safe_ExchangeMethod(dClass, @selector(addAttributes:range:), @selector(addAttributes:range:));
+        Safe_ExchangeMethod(dClass, @selector(removeAttribute:range:), @selector(safe_removeAttribute:range:));
+        Safe_ExchangeMethod(dClass, @selector(replaceCharactersInRange:withAttributedString:), @selector(safe_replaceCharactersInRange:withAttributedString:));
+        Safe_ExchangeMethod(dClass, @selector(insertAttributedString:atIndex:), @selector(safe_insertAttributedString:atIndex:));
+        Safe_ExchangeMethod(dClass, @selector(appendAttributedString:), @selector(safe_appendAttributedString:));
+        Safe_ExchangeMethod(dClass, @selector(deleteCharactersInRange:), @selector(safe_deleteCharactersInRange:));
+        Safe_ExchangeMethod(dClass, @selector(setAttributedString:), @selector(safe_setAttributedString:));
     });
 }
 

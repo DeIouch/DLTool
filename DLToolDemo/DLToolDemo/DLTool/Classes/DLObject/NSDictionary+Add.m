@@ -1,7 +1,6 @@
 #import "NSDictionary+Add.h"
-#import "NSObject+Add.h"
+#import "DLToolMacro.h"
 #import "DLSafeProtector.h"
-#include <objc/runtime.h>
 #import "NSString+Add.h"
 #import "NSData+Add.h"
 
@@ -150,13 +149,11 @@
 
 @implementation NSDictionary (Add)
 
-+(void)load
-{
++(void)load{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        //NSMutableDictionary和NSDictionary调用下面方法崩溃时的类型都为__NSPlaceholderDictionary
-        [self safe_exchangeInstanceMethod:NSClassFromString(@"__NSPlaceholderDictionary") originalSel:@selector(initWithObjects:forKeys:count:) newSel:@selector(safe_initWithObjects:forKeys:count:)];
-        [self safe_exchangeInstanceMethod:NSClassFromString(@"__NSPlaceholderDictionary") originalSel:@selector(initWithObjects:forKeys:) newSel:@selector(safe_initWithObjects:forKeys:)];
+        Safe_ExchangeMethod(NSClassFromString(@"__NSPlaceholderDictionary"), @selector(initWithObjects:forKeys:count:), @selector(safe_initWithObjects:forKeys:count:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSPlaceholderDictionary"), @selector(initWithObjects:forKeys:), @selector(safe_initWithObjects:forKeys:));
     });
 }
 

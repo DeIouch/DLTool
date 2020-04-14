@@ -1,7 +1,6 @@
 #import "NSMutableString+Add.h"
-#import "NSObject+Add.h"
+#import "DLToolMacro.h"
 #import "DLSafeProtector.h"
-#include <objc/runtime.h>
 
 @implementation NSMutableString (Add)
 
@@ -9,54 +8,21 @@
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-
-        Class dClass=NSClassFromString(@"__NSCFString");
-        Class NSPlaceholderMutableStringClass=NSClassFromString(@"NSPlaceholderMutableString");
-
-        //initWithString:
-        [self safe_exchangeInstanceMethod:NSPlaceholderMutableStringClass originalSel:@selector(initWithString:) newSel:@selector(safe_initWithString:)];
-
-        //hasPrefix
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(hasPrefix:) newSel:@selector(safe_hasPrefix:)];
-
-        //hasSuffix
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(hasSuffix:) newSel:@selector(safe_hasSuffix:)];
-
-        //substringFromIndex
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(substringFromIndex:) newSel:@selector(safe_substringFromIndex:)];
-
-        //substringToIndex
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(substringToIndex:) newSel:@selector(safe_substringToIndex:)];
-
-        //substringWithRange
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(substringWithRange:) newSel:@selector(safe_substringWithRange:)];
-
-        //characterAtIndex
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(characterAtIndex:) newSel:@selector(safe_characterAtIndex:)];
-
-        //stringByReplacingOccurrencesOfString:withString:options:range:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(stringByReplacingOccurrencesOfString:withString:options:range:) newSel:@selector(safe_stringByReplacingOccurrencesOfString:withString:options:range:)];
-
-        //stringByReplacingCharactersInRange:withString:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(stringByReplacingCharactersInRange:withString:) newSel:@selector(safe_stringByReplacingCharactersInRange:withString:)];
-
-        //replaceCharactersInRange:withString:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(replaceCharactersInRange:withString:) newSel:@selector(safe_replaceCharactersInRange:withString:)];
-
-        //replaceOccurrencesOfString:withString:options:range:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(replaceOccurrencesOfString:withString:options:range:) newSel:@selector(safe_replaceOccurrencesOfString:withString:options:range:)];
-
-        //insertString:atIndex:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(insertString:atIndex:) newSel:@selector(safe_insertString:atIndex:)];
-
-        //deleteCharactersInRange:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(deleteCharactersInRange:) newSel:@selector(safe_deleteCharactersInRange:)];
-
-        //appendString:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(appendString:) newSel:@selector(safe_appendString:)];
-
-        //setString:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(setString:) newSel:@selector(safe_setString:)];
+        Safe_ExchangeMethod(NSClassFromString(@"NSPlaceholderMutableString"), @selector(initWithString:), @selector(safe_initWithString:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFString"), @selector(hasPrefix:), @selector(safe_hasPrefix:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFString"), @selector(hasSuffix:), @selector(safe_hasSuffix:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFString"), @selector(substringFromIndex:), @selector(safe_substringFromIndex:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFString"), @selector(substringToIndex:), @selector(substringToIndex:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFString"), @selector(substringWithRange:), @selector(safe_substringWithRange:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFString"), @selector(characterAtIndex:), @selector(safe_characterAtIndex:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFString"), @selector(stringByReplacingOccurrencesOfString:withString:options:range:), @selector(safe_stringByReplacingOccurrencesOfString:withString:options:range:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFString"), @selector(stringByReplacingCharactersInRange:withString:), @selector(safe_stringByReplacingCharactersInRange:withString:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFString"), @selector(replaceCharactersInRange:withString:), @selector(safe_replaceCharactersInRange:withString:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFString"), @selector(replaceOccurrencesOfString:withString:options:range:), @selector(safe_replaceOccurrencesOfString:withString:options:range:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFString"), @selector(insertString:atIndex:), @selector(safe_insertString:atIndex:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFString"), @selector(deleteCharactersInRange:), @selector(safe_deleteCharactersInRange:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFString"), @selector(appendString:), @selector(safe_appendString:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFString"), @selector(setString:), @selector(safe_setString:));
     });
 }
 

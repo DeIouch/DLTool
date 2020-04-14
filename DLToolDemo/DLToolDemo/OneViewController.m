@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "DLDemoTableViewCell.h"
+#import "TestView.h"
 
 #define VideoUrl4 @"http://h.hiphotos.baidu.com/zhidao/pic/item/7e3e6709c93d70cffcb36aaafbdcd100bba12bc8.jpg"
 
@@ -53,16 +54,20 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-//    UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(10, 100, 200, 50)];
-//    [self.view addSubview:textField];
-//    textField.backgroundColor = [UIColor redColor];
+    UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(10, 100, 200, 50)];
+    [self.view addSubview:textField];
+    textField.backgroundColor = [UIColor redColor];
     
     UIButton *buttonA = [UIButton dl_view:^(UIButton *button) {
-        button.dl_backView(self.view).dl_backColor(@"ff0000");
+        button.dl_backView(self.view).dl_backColor(@"FFFFFF");
         button.frame = CGRectMake(100, 100, 100, 100);
     }];
     
     self.str = @"2222222222";
+
+    [buttonA addLongClickAction:^(UIView *view) {
+        NSLog(@"%@", self.str);
+    }];
     
     [buttonA addClick:UIControlEventTouchUpInside block:^(OneViewController *vc) {
         NSLog(@"%@", vc.str);
@@ -71,6 +76,13 @@
     [buttonA addClick:UIControlEventTouchDragInside block:^(OneViewController *vc) {
         NSLog(@"%@", vc.array);
     }];
+    
+    TestView *view = [[TestView alloc]init];
+    
+    [self.view addSubview:view];
+    
+    
+    
     
 //
 //    [buttonA dl_addBlockForControlEvents:UIControlEventTouchDragInside block:^(OneViewController *vc) {
@@ -138,7 +150,8 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -164,12 +177,12 @@
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    [self dismissViewControllerAnimated:YES completion:nil];
+//    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)dealloc{
-    
-    NSLog(@"11111");
+    NSLog(@"dealloc");
 }
 
 @end

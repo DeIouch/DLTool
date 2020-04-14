@@ -1,6 +1,7 @@
-#import <sys/time.h>
-#import <pthread.h>
-#import <objc/runtime.h>
+#include <sys/time.h>
+#include <pthread.h>
+#include <objc/runtime.h>
+#include <objc/message.h>
 
 #ifndef DLToolMacro_h
 #define DLToolMacro_h
@@ -207,19 +208,18 @@ static inline NSString* converTimeStr(int time){
 }
 
 static inline void Safe_ExchangeMethod(Class cls, SEL oldSel, SEL newSel){
-    Method originalMethod = class_getInstanceMethod(cls, oldSel);
+    Method oldMethod = class_getInstanceMethod(cls, oldSel);
     Method newMethod = class_getInstanceMethod(cls, newSel);
     BOOL isAdd = class_addMethod(cls, oldSel,
                                  method_getImplementation(newMethod),
                                  method_getTypeEncoding(newMethod));
     if (isAdd) {
         class_replaceMethod(cls, newSel,
-                            method_getImplementation(originalMethod),
-                            method_getTypeEncoding(originalMethod));
+                            method_getImplementation(oldMethod),
+                            method_getTypeEncoding(oldMethod));
     } else {
-        method_exchangeImplementations(originalMethod, newMethod);
+        method_exchangeImplementations(oldMethod, newMethod);
     }
-    
 }
 
 #endif

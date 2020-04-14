@@ -2,6 +2,7 @@
 #import "NSObject+Add.h"
 #import "DLSafeProtector.h"
 #include <objc/runtime.h>
+#import "DLToolMacro.h"
 
 @implementation NSAttributedString (Add)
 
@@ -9,18 +10,9 @@
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        
-        Class dClass = NSClassFromString(@"NSConcreteAttributedString");
-        
-        //initWithString:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(initWithString:) newSel:@selector(safe_initWithString:)];
-        
-        //initWithAttributedString
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(initWithString:attributes:) newSel:@selector(safe_initWithString:attributes:)];
-        
-        //initWithString:attributes:
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(initWithAttributedString:) newSel:@selector(safe_initWithAttributedString:)];
-        
+        Safe_ExchangeMethod(NSClassFromString(@"NSConcreteAttributedString"), @selector(initWithString:), @selector(safe_initWithString:));
+        Safe_ExchangeMethod(NSClassFromString(@"NSConcreteAttributedString"), @selector(initWithString:attributes:), @selector(safe_initWithString:attributes:));
+        Safe_ExchangeMethod(NSClassFromString(@"NSConcreteAttributedString"), @selector(initWithAttributedString:), @selector(safe_initWithAttributedString:));
     });
 }
 

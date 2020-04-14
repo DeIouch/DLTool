@@ -1,6 +1,5 @@
 #import "NSObject+Add.h"
 #import <objc/objc.h>
-#import <objc/runtime.h>
 #import "DLSafeProtector.h"
 #import "DLJsonToModel.h"
 #import "DLToolMacro.h"
@@ -195,23 +194,15 @@ static NSMutableDictionary *KVOSafeDeallocCrashes() {
 }
 
 +(void)load{
-//     if ([NSStringFromClass([NSObject class]) isEqualToString:@"NSObject"]) {
-         static dispatch_once_t onceToken;
-         dispatch_once(&onceToken, ^{
-             [self safe_exchangeInstanceMethod:[self class] originalSel:@selector(methodSignatureForSelector:) newSel:@selector(safe_methodSignatureForSelector:)];
-             [self safe_exchangeInstanceMethod:[self class] originalSel:@selector(forwardInvocation:) newSel:@selector(safe_forwardInvocation:)];
-             
-             [self safe_exchangeInstanceMethod:[self class] originalSel:@selector(addObserver:forKeyPath:options:context:) newSel:@selector(safe_addObserver:forKeyPath:options:context:)];
-             
-             [self safe_exchangeInstanceMethod:[self class] originalSel:@selector(observeValueForKeyPath:ofObject:change:context:) newSel:@selector(safe_observeValueForKeyPath:ofObject:change:context:)];
-             
-             [self safe_exchangeInstanceMethod:[self class] originalSel:@selector(removeObserver:forKeyPath:) newSel:@selector(safe_removeObserver:forKeyPath:)];
-             
-             [self safe_exchangeInstanceMethod:[self class] originalSel:@selector(removeObserver:forKeyPath:context:) newSel:@selector(safe_removeObserver:forKeyPath:context:)];
-         });
-//     }else{
-//         //只有NSObject 能调用openSafeProtector其他类调用没效果
-//     }
+     static dispatch_once_t onceToken;
+     dispatch_once(&onceToken, ^{
+         Safe_ExchangeMethod([self class], @selector(methodSignatureForSelector:), @selector(safe_methodSignatureForSelector:));
+         Safe_ExchangeMethod([self class], @selector(forwardInvocation:), @selector(safe_forwardInvocation:));
+         Safe_ExchangeMethod([self class], @selector(addObserver:forKeyPath:options:context:), @selector(safe_addObserver:forKeyPath:options:context:));
+         Safe_ExchangeMethod([self class], @selector(observeValueForKeyPath:ofObject:change:context:), @selector(safe_observeValueForKeyPath:ofObject:change:context:));
+         Safe_ExchangeMethod([self class], @selector(removeObserver:forKeyPath:), @selector(safe_removeObserver:forKeyPath:));
+         Safe_ExchangeMethod([self class], @selector(removeObserver:forKeyPath:context:), @selector(safe_removeObserver:forKeyPath:context:));
+     });
 }
 
 - (NSMethodSignature *)safe_methodSignatureForSelector:(SEL)aSelector
@@ -232,26 +223,6 @@ static NSMutableDictionary *KVOSafeDeallocCrashes() {
     } @catch (NSException *exception) {
         DLSafeProtectionCrashLog(exception,DLSafeProtectorCrashTypeSelector);
     } @finally {
-    }
-}
-
-#pragma mark - 交换对象方法
-+(void)safe_exchangeInstanceMethod:(Class)dClass originalSel:(SEL)originalSelector newSel:(SEL)newSelector{
-    Method originalMethod = class_getInstanceMethod(dClass, originalSelector);
-    Method newMethod = class_getInstanceMethod(dClass, newSelector);
-    // Method中包含IMP函数指针，通过替换IMP，使SEL调用不同函数实现
-    // isAdd 返回值表示是否添加成功
-    BOOL isAdd = class_addMethod(dClass, originalSelector,
-                                 method_getImplementation(newMethod),
-                                 method_getTypeEncoding(newMethod));
-    // class_addMethod:如果发现方法已经存在，会失败返回，也可以用来做检查用,我们这里是为了避免源方法没有实现的情况;如果方法没有存在,我们则先尝试添加被替换的方法的实现
-    if (isAdd) {
-        class_replaceMethod(dClass, newSelector,
-                            method_getImplementation(originalMethod),
-                            method_getTypeEncoding(originalMethod));
-    } else {
-        // 添加失败：说明源方法已经有实现，直接将两个方法的实现交换即
-        method_exchangeImplementations(originalMethod, newMethod);
     }
 }
 

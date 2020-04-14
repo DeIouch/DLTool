@@ -669,7 +669,17 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 }
 
 -(void)setDl_layout:(DLLayout *)dl_layout{
-    objc_setAssociatedObject(self, &layout_Key, dl_layout, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    if (self.superview == nil) {
+        #if defined(DEBUG)||defined(_DEBUG)
+        assert(NO&&"请先添加父视图");
+        #endif
+    }else if (![[NSThread currentThread] isMainThread]) {
+        #if defined(DEBUG)||defined(_DEBUG)
+        assert(NO&&"约束只能在主线程中添加");
+        #endif
+    }else{
+        objc_setAssociatedObject(self, &layout_Key, dl_layout, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    }
 }
 
 @end

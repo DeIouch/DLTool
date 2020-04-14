@@ -1,8 +1,6 @@
 #import "NSNotificationCenter+Add.h"
-#import "NSObject+Add.h"
 #import "DLSafeProtector.h"
 #import <objc/message.h>
-#include <objc/runtime.h>
 #include <pthread.h>
 #import "DLToolMacro.h"
 
@@ -77,7 +75,7 @@ static NSMutableSet *NSNotificationCenterSafeSwizzledClasses() {
 +(void)load{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [self safe_exchangeInstanceMethod:[NSNotificationCenter class] originalSel:@selector(addObserver:selector:name:object:) newSel:@selector(safe_addObserver:selector:name:object:)];
+        Safe_ExchangeMethod([NSNotificationCenter class], @selector(addObserver:selector:name:object:), @selector(safe_addObserver:selector:name:object:));
     });
 }
 

@@ -1,7 +1,6 @@
 #import "NSMutableDictionary+Add.h"
-#import "NSObject+Add.h"
 #import "DLSafeProtector.h"
-#include <objc/runtime.h>
+#import "DLToolMacro.h"
 
 @implementation NSMutableDictionary (Add)
 
@@ -9,17 +8,11 @@
 {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        Class dClass=NSClassFromString(@"__NSDictionaryM");
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(setObject:forKey:) newSel:@selector(safe_setObject:forKey:)];
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(setObject:forKeyedSubscript:) newSel:@selector(safe_setObject:forKeyedSubscript:)];
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(removeObjectForKey:) newSel:@selector(safe_removeObjectForKey:)];
-
-
-        //__NSCFDictionary
-         [self safe_exchangeInstanceMethod:NSClassFromString(@"__NSCFDictionary") originalSel:@selector(setObject:forKey:) newSel:@selector(safe_setObjectCFDictionary:forKey:)];
-
-         [self safe_exchangeInstanceMethod:NSClassFromString(@"__NSCFDictionary") originalSel:@selector(removeObjectForKey:) newSel:@selector(safe_removeObjectForKeyCFDictionary:)];
-
+        Safe_ExchangeMethod(NSClassFromString(@"__NSDictionaryM"), @selector(setObject:forKey:), @selector(safe_setObject:forKey:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSDictionaryM"), @selector(setObject:forKeyedSubscript:), @selector(safe_setObject:forKeyedSubscript:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSDictionaryM"), @selector(removeObjectForKey:), @selector(safe_removeObjectForKey:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFDictionary"), @selector(setObject:forKey:), @selector(safe_setObjectCFDictionary:forKey:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSCFDictionary"), @selector(removeObjectForKey:), @selector(safe_removeObjectForKeyCFDictionary:));
     });
 }
 

@@ -77,10 +77,12 @@
     
     [DLPerformance openMonitoring];
     
-    self.buttonA = [UIButton dl_view:^(UIButton *button) {
-        button.dl_backView(self.view).dl_backColor(@"ff0000");
-        button.frame = CGRectMake(100, 100, 100, 100);
-    }];
+//    sleep(20);
+    
+//    self.buttonA = [UIButton dl_view:^(UIButton *button) {
+//        button.dl_backView(self.view).dl_backColor(@"ff0000");
+//        button.frame = CGRectMake(100, 100, 100, 100);
+//    }];
     
 //    [self.buttonA addClick:UIControlEventTouchUpInside block:^(UIView * _Nonnull view) {
 //        NSLog(@"UIControlEventTouchUpInside");
@@ -96,10 +98,12 @@
 //        button.frame = CGRectMake(100, 300, 100, 100);
 //    }];
 //    
-//    self.textField = [UITextField dl_view:^(UITextField *textField) {
-//        textField.dl_backView(self.view).dl_backColor(@"ff0000");
-//        textField.frame = CGRectMake(100, 500, 100, 100);
-//    }];
+    self.textField = [UITextField dl_view:^(UITextField *textField) {
+        textField.dl_backView(self.view).dl_backColor(@"FFFFFF");
+        textField.frame = CGRectMake(100, 500, 100, 100);
+    }];
+    
+    [self.view addSubview:self.textField];
     
     
 //    UIButton *button = [[UIButton alloc]init];
@@ -198,7 +202,7 @@
 //        [atextField resignFirstResponder];
 //        [textField resignFirstResponder];
 //    }
-//    [atextField resignFirstResponder];
+//    [self.textField resignFirstResponder];
 }
 
 

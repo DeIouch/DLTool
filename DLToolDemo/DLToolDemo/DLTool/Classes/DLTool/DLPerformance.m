@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import <mach/mach.h>
 #import <QuartzCore/QuartzCore.h>
+#include <dispatch/dispatch.h>
 
 @interface DLMarginLabel : UILabel
 
@@ -164,6 +165,7 @@
 }
 
 
+
 @end
 
 @interface DLPerformance()
@@ -172,21 +174,81 @@
 
 @end
 
-@implementation DLPerformance
+@implementation DLPerformance{
+    dispatch_semaphore_t dispatchSemaphore;
+    CFRunLoopActivity runLoopActivity;
+    int timeoutCount;
+    CFRunLoopObserverRef runLoopObserver;
+}
 
 static DLPerformance *performance= nil;
 
 +(instancetype)shareInstance{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        performance = [[DLPerformance alloc]init];
+        performance = [[DLPerformance alloc]_init];
         performance.window = [[DLWindows alloc]init];
+        
+        //  监测卡顿
+        
     });
     return performance;
 }
 
+-(instancetype)_init{
+    dispatchSemaphore = dispatch_semaphore_create(0); //Dispatch Semaphore保证同步
+        //创建一个观察者
+        CFRunLoopObserverContext context = {0,(__bridge void*)self,NULL,NULL};
+        runLoopObserver = CFRunLoopObserverCreate(kCFAllocatorDefault,
+                                                  kCFRunLoopAllActivities,
+                                                  YES,
+                                                  0,
+                                                  &runLoopObserverCallBack,
+                                                  &context);
+        //将观察者添加到主线程runloop的common模式下的观察中
+        CFRunLoopAddObserver(CFRunLoopGetMain(), runLoopObserver, kCFRunLoopCommonModes);
+        //创建子线程监控
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            //子线程开启一个持续的loop用来进行监控
+            while (YES) {
+                long semaphoreWait = dispatch_semaphore_wait(self->dispatchSemaphore, dispatch_time(DISPATCH_TIME_NOW, 88 * NSEC_PER_MSEC));
+                if (semaphoreWait != 0) {
+                    if (!self->runLoopObserver) {
+                        self->timeoutCount = 0;
+                        self->dispatchSemaphore = 0;
+                        self->runLoopActivity = 0;
+                        return;
+                    }
+                    //两个runloop的状态，BeforeSources和AfterWaiting这两个状态区间时间能够检测到是否卡顿
+                    if (self->runLoopActivity == kCFRunLoopBeforeSources || self->runLoopActivity == kCFRunLoopAfterWaiting) {
+                        //出现三次出结果
+                        if (++self->timeoutCount < 3) {
+                            continue;
+                        }
+//                        NSLog(@"系统有卡顿");
+                        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                            
+                        });
+                    }
+                }
+                self->timeoutCount = 0;
+            }
+        });
+    return [self init];
+}
+
+
+
 +(void)openMonitoring{
     [DLPerformance shareInstance];
+}
+
+static void runLoopObserverCallBack(CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *info){
+    DLPerformance *lagMonitor = (__bridge DLPerformance*)info;
+    lagMonitor->runLoopActivity = activity;
+    
+    dispatch_semaphore_t semaphore = lagMonitor->dispatchSemaphore;
+    dispatch_semaphore_signal(semaphore);
 }
 
 @end

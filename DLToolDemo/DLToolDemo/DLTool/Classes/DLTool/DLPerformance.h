@@ -1,10 +1,8 @@
-//
-//  DLPerformance.h
-//  DLToolDemo
-//
-//  Created by tanqiu on 2020/3/20.
-//  Copyright © 2020 戴青. All rights reserved.
-//
+//  性能监控
+
+
+//  CPU使用率阀值
+#define CPUMONITORRATE  80
 
 #import <Foundation/Foundation.h>
 

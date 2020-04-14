@@ -1,22 +1,17 @@
 #import "NSMutableOrderedSet+Add.h"
-#import "NSObject+Add.h"
 #import "DLSafeProtector.h"
-#include <objc/runtime.h>
+#import "DLToolMacro.h"
 
 @implementation NSMutableOrderedSet (Add)
 
-+(void)load
-{
++(void)load{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        
-        Class dClass=NSClassFromString(@"__NSOrderedSetM");
-        
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(objectAtIndex:) newSel:@selector(safe_objectAtIndex:)];
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(insertObject:atIndex:) newSel:@selector(safe_insertObject:atIndex:)];
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(removeObjectAtIndex:) newSel:@selector(safe_removeObjectAtIndex:)];
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(replaceObjectAtIndex:withObject:) newSel:@selector(safe_replaceObjectAtIndex:withObject:)];
-        [self safe_exchangeInstanceMethod:dClass originalSel:@selector(addObject:) newSel:@selector(safe_addObject:)];
+        Safe_ExchangeMethod(NSClassFromString(@"__NSOrderedSetM"), @selector(objectAtIndex:), @selector(safe_objectAtIndex:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSOrderedSetM"), @selector(insertObject:atIndex:), @selector(safe_insertObject:atIndex:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSOrderedSetM"), @selector(removeObjectAtIndex:), @selector(safe_removeObjectAtIndex:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSOrderedSetM"), @selector(replaceObjectAtIndex:withObject:), @selector(safe_replaceObjectAtIndex:withObject:));
+        Safe_ExchangeMethod(NSClassFromString(@"__NSOrderedSetM"), @selector(addObject:), @selector(safe_addObject:));
     });
 }
 

@@ -19,7 +19,7 @@
 /// @param block 代码块
 -(double)getElapsedTime:(void (^)(void))block;
 
-+(void)safe_exchangeInstanceMethod:(Class)dClass originalSel:(SEL)originalSelector newSel:(SEL)newSelector;
+//+(void)safe_exchangeInstanceMethod:(Class)dClass originalSel:(SEL)originalSelector newSel:(SEL)newSelector;
 
 -(void)dl_addObserverBlockForKeyPath:(NSString*)keyPath block:(void (^)(id obj, id oldVal, id newVal))block;
 
