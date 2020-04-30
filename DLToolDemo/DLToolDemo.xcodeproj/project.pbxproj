@@ -84,6 +84,8 @@
 		873ACDE5244433E7007C4F0F /* TestView.m in Sources */ = {isa = PBXBuildFile; fileRef = 873ACDE4244433E7007C4F0F /* TestView.m */; };
 		873ACDE824443B0E007C4F0F /* DLMemoryLeak.m in Sources */ = {isa = PBXBuildFile; fileRef = 873ACDE724443B0E007C4F0F /* DLMemoryLeak.m */; };
 		873CC4E12420D2F900A995B3 /* DLPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 873CC4E02420D2F900A995B3 /* DLPopView.m */; };
+		8741EBC824558CAC00AA56A1 /* UIColor+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 8741EBC724558CAC00AA56A1 /* UIColor+Add.m */; };
+		8754AF71244D94B2007E081D /* Note1.m in Sources */ = {isa = PBXBuildFile; fileRef = 8754AF70244D94B2007E081D /* Note1.m */; };
 		8755A81D2413AB350064E7E4 /* repeatPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 8755A81C2413AB350064E7E4 /* repeatPlay.png */; };
 		8761C1EA241873A100E94C8F /* DLBanner.m in Sources */ = {isa = PBXBuildFile; fileRef = 8761C1E9241873A100E94C8F /* DLBanner.m */; };
 		87663A7A241A2A12005052C4 /* DLModelDemo.m in Sources */ = {isa = PBXBuildFile; fileRef = 87663A79241A2A12005052C4 /* DLModelDemo.m */; };
@@ -104,6 +106,8 @@
 		87D8DFBD2413E1BF00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8DFB92413E1BD00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m */; };
 		87D8DFBE2413E1BF00DCEE30 /* UIView+SDAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8DFBC2413E1BF00DCEE30 /* UIView+SDAutoLayout.m */; };
 		87EB52FE24164BA20063D4B1 /* common_refresh_arrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87EB52FD24164BA20063D4B1 /* common_refresh_arrow@3x.png */; };
+		87F1BD64244D50EA00A7B2B9 /* Aspects.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F1BD60244D50E900A7B2B9 /* Aspects.m */; };
+		87F1BD65244D50EA00A7B2B9 /* YFMemoryLeakDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = 87F1BD62244D50E900A7B2B9 /* YFMemoryLeakDetector.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -266,6 +270,10 @@
 		873ACDE724443B0E007C4F0F /* DLMemoryLeak.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLMemoryLeak.m; sourceTree = "<group>"; };
 		873CC4DF2420D2F900A995B3 /* DLPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPopView.h; sourceTree = "<group>"; };
 		873CC4E02420D2F900A995B3 /* DLPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPopView.m; sourceTree = "<group>"; };
+		8741EBC624558CAC00AA56A1 /* UIColor+Add.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+Add.h"; sourceTree = "<group>"; };
+		8741EBC724558CAC00AA56A1 /* UIColor+Add.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Add.m"; sourceTree = "<group>"; };
+		8754AF6F244D94B2007E081D /* Note1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Note1.h; sourceTree = "<group>"; };
+		8754AF70244D94B2007E081D /* Note1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Note1.m; sourceTree = "<group>"; };
 		8755A81C2413AB350064E7E4 /* repeatPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repeatPlay.png; sourceTree = "<group>"; };
 		8761C1E8241873A100E94C8F /* DLBanner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLBanner.h; sourceTree = "<group>"; };
 		8761C1E9241873A100E94C8F /* DLBanner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLBanner.m; sourceTree = "<group>"; };
@@ -301,6 +309,11 @@
 		87D8DFBB2413E1BE00DCEE30 /* UIView+SDAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDAutoLayout.h"; sourceTree = "<group>"; };
 		87D8DFBC2413E1BF00DCEE30 /* UIView+SDAutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDAutoLayout.m"; sourceTree = "<group>"; };
 		87EB52FD24164BA20063D4B1 /* common_refresh_arrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "common_refresh_arrow@3x.png"; sourceTree = "<group>"; };
+		87F1BD5F244D3FF700A7B2B9 /* metamacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = metamacros.h; sourceTree = "<group>"; };
+		87F1BD60244D50E900A7B2B9 /* Aspects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Aspects.m; sourceTree = "<group>"; };
+		87F1BD61244D50E900A7B2B9 /* Aspects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Aspects.h; sourceTree = "<group>"; };
+		87F1BD62244D50E900A7B2B9 /* YFMemoryLeakDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YFMemoryLeakDetector.m; sourceTree = "<group>"; };
+		87F1BD63244D50EA00A7B2B9 /* YFMemoryLeakDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YFMemoryLeakDetector.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -369,6 +382,10 @@
 				873ACDE4244433E7007C4F0F /* TestView.m */,
 				87929671241F17BB007E8858 /* DLDemoTableViewCell.h */,
 				87929672241F17BB007E8858 /* DLDemoTableViewCell.m */,
+				87F1BD61244D50E900A7B2B9 /* Aspects.h */,
+				87F1BD60244D50E900A7B2B9 /* Aspects.m */,
+				87F1BD63244D50EA00A7B2B9 /* YFMemoryLeakDetector.h */,
+				87F1BD62244D50E900A7B2B9 /* YFMemoryLeakDetector.m */,
 				244204EB2411204B00E442C6 /* Demo */,
 				244204F02411204C00E442C6 /* DLTool */,
 				244204BF2411202C00E442C6 /* Main.storyboard */,
@@ -411,6 +428,8 @@
 				8761C1E9241873A100E94C8F /* DLBanner.m */,
 				873ACDE624443B0E007C4F0F /* DLMemoryLeak.h */,
 				873ACDE724443B0E007C4F0F /* DLMemoryLeak.m */,
+				8754AF6F244D94B2007E081D /* Note1.h */,
+				8754AF70244D94B2007E081D /* Note1.m */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -460,6 +479,7 @@
 				244205472411204C00E442C6 /* DLTool */,
 				244205602411204C00E442C6 /* DLTool.h */,
 				244205612411204C00E442C6 /* DLToolMacro.h */,
+				87F1BD5F244D3FF700A7B2B9 /* metamacros.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -553,6 +573,8 @@
 				244205412411204C00E442C6 /* UIGestureRecognizer+Add.m */,
 				244205422411204C00E442C6 /* UIScrollView+Add.h */,
 				244205432411204C00E442C6 /* UIScrollView+Add.m */,
+				8741EBC624558CAC00AA56A1 /* UIColor+Add.h */,
+				8741EBC724558CAC00AA56A1 /* UIColor+Add.m */,
 			);
 			path = DLObject;
 			sourceTree = "<group>";
@@ -798,6 +820,7 @@
 				244205802411204C00E442C6 /* NSMutableData+Add.m in Sources */,
 				244205842411204C00E442C6 /* NSMutableString+Add.m in Sources */,
 				2442059A2411204C00E442C6 /* DLTimer.m in Sources */,
+				87F1BD65244D50EA00A7B2B9 /* YFMemoryLeakDetector.m in Sources */,
 				2442057A2411204C00E442C6 /* NSCache+Add.m in Sources */,
 				879296BD241F5F5B007E8858 /* DLReachability.m in Sources */,
 				244204BE2411202C00E442C6 /* ViewController.m in Sources */,
@@ -821,6 +844,7 @@
 				244205762411204C00E442C6 /* UIView+Add.m in Sources */,
 				244205832411204C00E442C6 /* NSMutableSet+Add.m in Sources */,
 				2442057B2411204C00E442C6 /* NSData+Add.m in Sources */,
+				8754AF71244D94B2007E081D /* Note1.m in Sources */,
 				2442058A2411204C00E442C6 /* NSUserDefaults+Add.m in Sources */,
 				87712A93241C74AD0077A296 /* DLLaunchAd.m in Sources */,
 				2442057E2411204C00E442C6 /* NSMutableArray+Add.m in Sources */,
@@ -845,6 +869,7 @@
 				2421C8D8241E0B9E009DD194 /* DLDownloadOperationManager.m in Sources */,
 				873ACDE224441331007C4F0F /* UIViewController+Add.m in Sources */,
 				2442058F2411204C00E442C6 /* UIScrollView+Add.m in Sources */,
+				87F1BD64244D50EA00A7B2B9 /* Aspects.m in Sources */,
 				244205A32411205700E442C6 /* OneViewController.m in Sources */,
 				8721171E243433B600EDA771 /* DLKeyboardManage.m in Sources */,
 				87B41C352424C65D00E545B3 /* DLPerformance.m in Sources */,
@@ -858,6 +883,7 @@
 				244205812411204C00E442C6 /* NSMutableDictionary+Add.m in Sources */,
 				879296C0241F64DE007E8858 /* Reachability.m in Sources */,
 				244F11A7242E2D8F007068C8 /* UIView+Layout.m in Sources */,
+				8741EBC824558CAC00AA56A1 /* UIColor+Add.m in Sources */,
 				244205892411204C00E442C6 /* NSString+Add.m in Sources */,
 				2421C8D5241E05B4009DD194 /* DLDownloadOperation.m in Sources */,
 				244205962411204C00E442C6 /* DLNetworkSpeed.m in Sources */,
@@ -1035,6 +1061,7 @@
 				INFOPLIST_FILE = DLToolDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.delouch.DLToolDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1054,6 +1081,7 @@
 				INFOPLIST_FILE = DLToolDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_CFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.delouch.DLToolDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";

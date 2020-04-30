@@ -442,7 +442,7 @@ static int DLDBBusyCallBack(void *f, int count) {
     if (delta < 2) { //如果本次尝试操作距离第一次尝试操作 小于2秒 （最多尝试操作数据库2秒钟）
         int actualSleepInMilliseconds = sqlite3_sleep(100); // 休眠100毫秒
         if (actualSleepInMilliseconds != 100) {
-            NSLog(@"⚠️警告:请求休眠100毫秒，但是实际休眠%d毫秒,Maybe SQLite wasn't built with HAVE_USLEEP=1?",actualSleepInMilliseconds);
+//            NSLog(@"⚠️警告:请求休眠100毫秒，但是实际休眠%d毫秒,Maybe SQLite wasn't built with HAVE_USLEEP=1?",actualSleepInMilliseconds);
         }
         return 1;
     }

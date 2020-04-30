@@ -1,7 +1,7 @@
 #import "UIViewController+Add.h"
 #import "DLToolMacro.h"
 
-static char const viewController_Key;
+//static char const viewController_Key;
 
 @implementation UIViewController (Add)
 

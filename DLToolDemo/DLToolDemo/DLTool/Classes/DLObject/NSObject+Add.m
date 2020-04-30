@@ -5,6 +5,8 @@
 #import "DLToolMacro.h"
 #import <objc/message.h>
 
+static CGFloat timing;
+
 #define force_inline __inline__ __attribute__((always_inline))
 
 @interface DLSafeProxy:NSObject
@@ -163,6 +165,15 @@ static NSMutableDictionary *KVOSafeDeallocCrashes() {
     block();
     CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
     return end-start;
+}
+
+-(void)startTiming{
+    timing = CFAbsoluteTimeGetCurrent();
+}
+
+-(void)endTiming{
+    CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
+    NSLog(@"Linked in %f ms", (end - timing) * 1000.0);
 }
 
 -(BOOL)isNSString{

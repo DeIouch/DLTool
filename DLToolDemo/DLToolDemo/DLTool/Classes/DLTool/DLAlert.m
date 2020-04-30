@@ -63,6 +63,10 @@ static DLAlert *alert = nil;
     return alert;
 }
 
+- (instancetype)mutableCopyWithZone:(nullable NSZone *)zone {
+    return [self copyWithZone:zone];
+}
+
 -(void)alertAttMessage:(NSAttributedString *)message
            cancelTitle:(NSString *)cancelTitle
              sureTitle:(NSString *)sureTitle

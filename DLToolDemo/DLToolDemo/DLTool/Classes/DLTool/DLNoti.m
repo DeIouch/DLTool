@@ -51,6 +51,10 @@ static DLNoti *noti = nil;
     return noti;
 }
 
+- (instancetype)mutableCopyWithZone:(nullable NSZone *)zone {
+    return [self copyWithZone:zone];
+}
+
 -(void)showNotiTitle:(NSString *)titleString backView:(UIView *)backView{
     self.backView = backView ? backView : [[UIApplication sharedApplication].windows lastObject];
     self.notiView.notiLabel.dl_text(titleString);

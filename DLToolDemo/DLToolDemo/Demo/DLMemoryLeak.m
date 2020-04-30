@@ -95,21 +95,21 @@
 
 @implementation UIViewController(Leak)
 
-+(void)load{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        Safe_ExchangeMethod([self class], @selector(viewDidLoad), @selector(safe_viewDidLoad));
-        Safe_ExchangeMethod([self class], @selector(dismissViewControllerAnimated:completion:), @selector(safe_dismissViewControllerAnimated:completion:));
-        Safe_ExchangeMethod([self class], NSSelectorFromString(@"dealloc"), @selector(safe_dealloc));
-    });
-}
+//+(void)load{
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        Safe_ExchangeMethod([self class], @selector(viewDidLoad), @selector(safe_viewDidLoad));
+//        Safe_ExchangeMethod([self class], @selector(dismissViewControllerAnimated:completion:), @selector(safe_dismissViewControllerAnimated:completion:));
+//        Safe_ExchangeMethod([self class], NSSelectorFromString(@"dealloc"), @selector(safe_dealloc));
+//    });
+//}
 
 -(void)safe_dealloc{
-//    if (self.parentViewController) {
+    if (self.parentViewController) {
 //        NSLog(@"shareInstance  ==  %@", [DLMemoryLeak shareInstance].leakStr);
         [[DLMemoryLeak shareInstance].vcDic removeObjectForKey:NSStringFromClass([self class])];
         [[DLMemoryLeak shareInstance].viewDic removeObjectForKey:NSStringFromClass([self class])];
-//    }
+    }
     [self safe_dealloc];
 }
 

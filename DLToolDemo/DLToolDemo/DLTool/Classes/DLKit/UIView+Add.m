@@ -51,43 +51,6 @@ static char leftNameKey;
     return objc_getAssociatedObject(self, &autolayout_StrKey);
 }
 
-+(void)load{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        Safe_ExchangeMethod([self class], @selector(willMoveToSuperview:), @selector(safe_willMoveToSuperview:));
-    });
-}
-
--(void)safe_willMoveToSuperview:(UIView*)newSuperview{
-    if ([self isCustomClass]) {
-        if (!newSuperview) {
-            [self willDealloc];
-        }
-    }
-    [self safe_willMoveToSuperview:newSuperview];
-}
-
-- (BOOL)isCustomClass{
-    NSBundle *mainB = [NSBundle bundleForClass:[self class]];
-    if (mainB == [NSBundle mainBundle]) {
-        return YES;
-    }else{
-        return NO;
-    }
-}
-
-- (void)willDealloc{
-    __weak typeof(self) weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        __strong typeof(self) strongSelf = weakSelf;
-        [strongSelf isNotDealloc];
-    });
-}
-
-- (void)isNotDealloc{
-//    NSLog(@"warning  ==  %@ is not dealloc",NSStringFromClass([self class]));
-}
-
 +(instancetype)dl_view:(void (^) (UIView *view))block{
     UIView *view;
     @try {

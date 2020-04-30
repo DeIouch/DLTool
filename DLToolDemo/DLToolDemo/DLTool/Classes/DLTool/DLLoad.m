@@ -59,6 +59,10 @@ static DLLoad *load = nil;
     return load;
 }
 
+- (instancetype)mutableCopyWithZone:(nullable NSZone *)zone {
+    return [self copyWithZone:zone];
+}
+
 -(void)showLoadTitle:(NSString *)titleString loadType:(DLLoadType)loadType backView:(UIView *)backView{
     self.backView = backView ? backView : [[UIApplication sharedApplication] keyWindow];
     self.loadView.hidden = NO;

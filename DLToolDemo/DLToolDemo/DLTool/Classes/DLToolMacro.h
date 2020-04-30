@@ -2,9 +2,25 @@
 #include <pthread.h>
 #include <objc/runtime.h>
 #include <objc/message.h>
+#import "metamacros.h"
+#import "NSObject+Add.h"
 
 #ifndef DLToolMacro_h
 #define DLToolMacro_h
+
+
+
+//#define DLObserver(TARGET, KEYPATH)  block:(void (^)(id obj, id oldVal, id newVal))block\
+//_Pragma("clang diagnostic push") \
+//_Pragma("clang diagnostic ignored \"-Wreceiver-is-weak\"") \
+//__weak id target_ = (TARGET); \
+//[target_ observerForKeyPath:@keypath(TARGET, KEYPATH)]; \
+//_Pragma("clang diagnostic pop") \
+//})
+
+#define BeginTiming [self startTiming]
+
+#define EndTiming [self endTiming]
 
 #ifndef dl_weakify
     #if DEBUG
@@ -42,32 +58,17 @@
 
 //输出语句
 
-//#ifdef DEBUG
-//# define NSLog(FORMAT, ...) printf("[%s<%p>行号:%d]:\n%s\n",__FUNCTION__,self,__LINE__,[[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String])
-//#else
-//# define NSLog(FORMAT, ...)
-//#endif
+#ifdef DEBUG
+# define NSLog(FORMAT, ...) printf("[%s文件路径:%s-%d行]:\n%s\n]",__FUNCTION__,__FILE__,__LINE__,[[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String])
+#else
+# define NSLog(FORMAT, ...)
+#endif
 
 
 #ifndef kSystemVersion
 #define kSystemVersion [UIDevice systemVersion]
 #endif
 
-#ifndef kiOS6Later
-#define kiOS6Later (kSystemVersion >= 6)
-#endif
-
-#ifndef kiOS7Later
-#define kiOS7Later (kSystemVersion >= 7)
-#endif
-
-#ifndef kiOS8Later
-#define kiOS8Later (kSystemVersion >= 8)
-#endif
-
-#ifndef kiOS9Later
-#define kiOS9Later (kSystemVersion >= 9)
-#endif
 
 
 #define DLWidth [UIScreen mainScreen].bounds.size.width
@@ -91,8 +92,6 @@
 #define DLTabbarSafeBottomMargin (DLFullScreen ? 34.f : 0.f)
 
 #define DLStatusBarAndNavigationBarHeight (DLFullScreen ? 88.f : 64.f)
-
-
 
 
 // 颜色

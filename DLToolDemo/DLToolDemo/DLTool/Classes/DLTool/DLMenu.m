@@ -159,6 +159,22 @@ static DLMenu *menu = nil;
     return menu;
 }
 
++(instancetype)allocWithZone:(struct _NSZone *)zone{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        menu = [super allocWithZone:zone];
+    });
+    return menu;
+}
+
+-(instancetype)copyWithZone:(NSZone *)zone{
+    return menu;
+}
+
+- (instancetype)mutableCopyWithZone:(nullable NSZone *)zone {
+    return [self copyWithZone:zone];
+}
+
 -(DLMenuView *)menuView{
     if (!_menuView) {
         _menuView = [[DLMenuView alloc]init];

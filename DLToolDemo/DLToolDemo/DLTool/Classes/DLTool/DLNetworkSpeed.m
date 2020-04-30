@@ -80,6 +80,10 @@ static DLNetworkSpeed *instance = nil;
     return instance;
 }
 
+- (instancetype)mutableCopyWithZone:(nullable NSZone *)zone {
+    return [self copyWithZone:zone];
+}
+
 //- (instancetype)init{
 //    if (self = [super init]) {
 //        _iBytes = _oBytes = _allFlow = _wifiIBytes = _wifiOBytes = _wifiFlow = _wwanIBytes = _wwanOBytes = _wwanFlow = 0;

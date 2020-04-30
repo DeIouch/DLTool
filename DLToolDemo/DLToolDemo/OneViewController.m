@@ -63,21 +63,27 @@
         button.frame = CGRectMake(100, 100, 100, 100);
     }];
     
+    NSLog(@"buttonA  ==  %@", buttonA.class);
+    
     self.str = @"2222222222";
 
-    [buttonA addLongClickAction:^(UIView *view) {
-        NSLog(@"%@", self.str);
-    }];
-    
-    [buttonA addClick:UIControlEventTouchUpInside block:^(OneViewController *vc) {
-        NSLog(@"%@", vc.str);
-    }];
-
-    [buttonA addClick:UIControlEventTouchDragInside block:^(OneViewController *vc) {
-        NSLog(@"%@", vc.array);
-    }];
+//    [buttonA addLongClickAction:^(UIView *view) {
+//        NSLog(@"%@", self.str);
+//    }];
+//
+//    [buttonA addClick:UIControlEventTouchUpInside block:^(OneViewController *vc) {
+//        NSLog(@"%@", vc.str);
+//    }];
+//
+//    [buttonA addClick:UIControlEventTouchDragInside block:^(OneViewController *vc) {
+//        NSLog(@"%@", vc.array);
+//    }];
     
     TestView *view = [[TestView alloc]init];
+    
+    [view addClickAction:^(UIView *view) {
+        NSLog(@"%@", self.str);
+    }];
     
     [self.view addSubview:view];
     

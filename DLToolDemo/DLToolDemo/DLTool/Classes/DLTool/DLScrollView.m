@@ -57,7 +57,6 @@
                 }completion:^(BOOL finished) {
                     [self updataWhenFirstOrLast];
                 }];
-                NSLog(@"1111");
             } start:second interval:second repeats:YES async:NO];
         }
     }

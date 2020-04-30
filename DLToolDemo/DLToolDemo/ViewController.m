@@ -25,6 +25,8 @@
 #import "DLAutoLayout.h"
 #import "DLJsonToModel.h"
 #import "TestModel.h"
+#import "DLToolMacro.h"
+#import <malloc/malloc.h>
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
 
@@ -76,9 +78,9 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     [DLPerformance openMonitoring];
-    
-//    sleep(20);
-    
+        
+    NSLog(@"222222");
+        
 //    self.buttonA = [UIButton dl_view:^(UIButton *button) {
 //        button.dl_backView(self.view).dl_backColor(@"ff0000");
 //        button.frame = CGRectMake(100, 100, 100, 100);
