@@ -2,7 +2,7 @@
 #include <pthread.h>
 #include <objc/runtime.h>
 #include <objc/message.h>
-#import "metamacros.h"
+#import "DLMetamacros.h"
 #import "NSObject+Add.h"
 
 #ifndef DLToolMacro_h
@@ -173,17 +173,19 @@ Example:
 #define Lock() dispatch_semaphore_wait(self->_lock, DISPATCH_TIME_FOREVER)
 #define Unlock() dispatch_semaphore_signal(self->_lock)
 
+#define dl_force_inline __inline__ __attribute__((always_inline))
+
 /**
  Whether in main queue/thread.
  */
-static inline bool dispatch_is_main_queue() {
+static dl_force_inline bool dispatch_is_main_queue() {
     return pthread_main_np() != 0;
 }
 
 /**
  Submits a block for asynchronous execution on a main queue and returns immediately.
  */
-static inline void dispatch_async_on_main_queue(void (^block)(void)) {
+static dl_force_inline void dispatch_async_on_main_queue(void (^block)(void)) {
     if (pthread_main_np()) {
         block();
     } else {
@@ -194,7 +196,7 @@ static inline void dispatch_async_on_main_queue(void (^block)(void)) {
 /**
  Submits a block for execution on a main queue and waits until the block completes.
  */
-static inline void dispatch_sync_on_main_queue(void (^block)(void)) {
+static dl_force_inline void dispatch_sync_on_main_queue(void (^block)(void)) {
     if (pthread_main_np()) {
         block();
     } else {
@@ -202,11 +204,11 @@ static inline void dispatch_sync_on_main_queue(void (^block)(void)) {
     }
 }
 
-static inline NSString* converTimeStr(int time){
+static dl_force_inline NSString* converTimeStr(int time){
     return [NSString stringWithFormat:@"%0.2d:%0.2d", time / 60 , time % 60];
 }
 
-static inline void Safe_ExchangeMethod(Class cls, SEL oldSel, SEL newSel){
+static dl_force_inline void Safe_ExchangeMethod(Class cls, SEL oldSel, SEL newSel){
     Method oldMethod = class_getInstanceMethod(cls, oldSel);
     Method newMethod = class_getInstanceMethod(cls, newSel);
     BOOL isAdd = class_addMethod(cls, oldSel,

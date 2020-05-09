@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
+#import "YYModel.h"
 
-@interface DLModelDemo : NSObject
+@interface DLModelDemo : NSObject<NSCoding>
 
 @property (nonatomic, strong) NSString *code;
 

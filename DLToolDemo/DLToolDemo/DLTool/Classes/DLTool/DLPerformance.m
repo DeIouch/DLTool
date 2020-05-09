@@ -238,7 +238,7 @@ static DLPerformance *performance= nil;
                         if (++self->timeoutCount < 3) {
                             continue;
                         }
-                        NSLog(@"系统有卡顿");
+//                        NSLog(@"系统有卡顿");
                         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
                             
                         });

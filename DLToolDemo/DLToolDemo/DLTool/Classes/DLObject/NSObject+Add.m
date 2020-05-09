@@ -7,8 +7,6 @@
 
 static CGFloat timing;
 
-#define force_inline __inline__ __attribute__((always_inline))
-
 @interface DLSafeProxy:NSObject
 @property (nonatomic,strong) NSException *exception;
 @property (nonatomic,weak) id safe_object;
@@ -172,8 +170,8 @@ static NSMutableDictionary *KVOSafeDeallocCrashes() {
 }
 
 -(void)endTiming{
-    CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
-    NSLog(@"Linked in %f ms", (end - timing) * 1000.0);
+//    CFAbsoluteTime end = CFAbsoluteTimeGetCurrent();
+    NSLog(@"Linked in %f ms", (CFAbsoluteTimeGetCurrent() - timing) * 1000.0);
 }
 
 -(BOOL)isNSString{
@@ -230,7 +228,6 @@ static NSMutableDictionary *KVOSafeDeallocCrashes() {
 - (void)safe_forwardInvocation:(NSInvocation *)anInvocation{
     @try {
         [self safe_forwardInvocation:anInvocation];
-        
     } @catch (NSException *exception) {
         DLSafeProtectionCrashLog(exception,DLSafeProtectorCrashTypeSelector);
     } @finally {

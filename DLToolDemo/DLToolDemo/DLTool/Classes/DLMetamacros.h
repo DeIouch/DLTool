@@ -6,8 +6,8 @@
  * Released under the MIT license
  */
 
-#ifndef EXTC_METAMACROS_H
-#define EXTC_METAMACROS_H
+#ifndef EXTC_DLMETAMACROS_H
+#define EXTC_DLMETAMACROS_H
 
 /**
  * \@keypath allows compile-time verification of key paths. Given a real object

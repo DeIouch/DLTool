@@ -27,6 +27,7 @@
 #import "TestModel.h"
 #import "DLToolMacro.h"
 #import <malloc/malloc.h>
+#import "YYCache.h"
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
 
@@ -79,87 +80,6 @@
     
     [DLPerformance openMonitoring];
         
-    NSLog(@"222222");
-        
-//    self.buttonA = [UIButton dl_view:^(UIButton *button) {
-//        button.dl_backView(self.view).dl_backColor(@"ff0000");
-//        button.frame = CGRectMake(100, 100, 100, 100);
-//    }];
-    
-//    [self.buttonA addClick:UIControlEventTouchUpInside block:^(UIView * _Nonnull view) {
-//        NSLog(@"UIControlEventTouchUpInside");
-//    }];
-    
-//    UITapGestureRecognizer *tap = [UITapGestureRecognizer alloc]initWithTarget:self action:<#(nullable SEL)#>;
-    
-//    [self.buttonA addTarget:self action:@selector(abc:) forControlEvents:UIControlEventTouchUpInside];
-//    [self.buttonA addTarget:self action:@selector(acb) forControlEvents:UIControlEventTouchUpInside];
-//    
-//    self.buttonB = [UIButton dl_view:^(UIButton *button) {
-//        button.dl_backView(self.view).dl_backColor(@"ff0000");
-//        button.frame = CGRectMake(100, 300, 100, 100);
-//    }];
-//    
-    self.textField = [UITextField dl_view:^(UITextField *textField) {
-        textField.dl_backView(self.view).dl_backColor(@"FFFFFF");
-        textField.frame = CGRectMake(100, 500, 100, 100);
-    }];
-    
-    [self.view addSubview:self.textField];
-    
-    
-//    UIButton *button = [[UIButton alloc]init];
-//    [button addTarget:self action:@selector(acb) forControlEvents:(UIControlEvents)];
-    
-    
-    
-//    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
-//    NSMutableArray *array = [[NSMutableArray alloc]init];
-//    for (int a = 0; a < 10; a ++) {
-//        NSMutableDictionary *tempDic = [[NSMutableDictionary alloc]init];
-//        [tempDic setObject:@"11" forKey:@"id"];
-//        for (int i = 0; i < 10; i++) {
-//            NSNumber *number = [NSNumber numberWithInt:i];
-//            [tempDic setObject:number forKey:[NSString stringWithFormat:@"tempDic%d", i]];
-//        }
-//        [array addObject:tempDic];
-//        [dic setObject:tempDic forKey:[NSString stringWithFormat:@"key%d", a]];
-//    }
-//    [dic setObject:array forKey:@"data"];
-//
-//    NSLog(@"%d", [DLJsonToModel dl_createModelWithDic:dic modelName:@"TestModel"]);
-    
-//    [DLJsonToModel dl_createModelWithJson:dic fileName:@"ATest" extensionName:@"Model" fileURL:[NSURL URLWithString:@"/Users/tanqiu/Desktop/"] error:^(NSError *error) {
-//
-//    }];
-    
-    
-//    tableView = [[UITableView alloc]initWithFrame:self.view.bounds];
-//
-//    UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
-    
-//    [self.view addSubview:tableView];
-//    tableView.delegate = self;
-//    tableView.dataSource = self;
-    
-//    textField = [[UITextField alloc]init];
-//    [self.view addSubview:textField];
-//    textField.backgroundColor = [UIColor redColor];
-//    textField.dl_layout.left.right.bottom.height.offset(50).install();
-//    textField.singleMeView = textField;
-//
-//
-//    atextField = [[UITextView alloc]init];
-//    [self.view addSubview:atextField];
-//    atextField.backgroundColor = [UIColor greenColor];
-//    atextField.dl_layout.left.right.height.offset(50).bottom.offset(280).install();
-//    atextField.notManageBOOL = YES;
-//    atextField.singleMeView = textField;
-    
-    
-//    NSLog(@"%@", atextField.subviews);
-    
-    
 //    self.player = [DLPlayer shareInstance];
 //    self.player.fatherView = self.view;
 //    self.player.videoUrl = VideoUrl4;
@@ -167,6 +87,47 @@
 //    self.player.videoTitle = @"12222";
 //    [self.player start];
     
+    
+//    NSString *str = @"100";
+    
+    
+    
+//    YYMemoryCache *cache = [[YYMemoryCache alloc]init];
+    
+//    YYDiskCache *cache = [[YYDiskCache alloc]initWithPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]];
+    
+    NSLog(@"%@", [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]);
+    
+    NSLog(@"%@", [DLCache shareInstance].fileName);
+    
+    
+}
+
+-(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+//    OneViewController *vc = [[OneViewController alloc]init];
+//    [self.navigationController pushViewController:vc animated:YES];
+    
+    YYCache *cache = [[YYCache alloc]initWithName:@"demo"];
+    [self startTiming];
+        
+    for (int a = 0; a < 100; a++) {
+        @autoreleasepool {
+            NSString *str = [NSString stringWithFormat:@"%d", a];
+            
+//            DLModelDemo *model = [[DLModelDemo alloc]init];
+//            model.code = @"code";
+//            model.codee = @"codee";
+            UIImage *model = [UIImage imageNamed:@"1.jpeg"];
+            
+            [[DLCache shareInstance]setCache:model withKey:str];
+            
+//            [cache setObject:model forKey:str];
+        }
+    }
+        
+    
+        
+    [self endTiming];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -184,29 +145,5 @@
     }
     return cell;
 }
-
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    
-    
-    OneViewController *vc = [[OneViewController alloc]init];
-//    vc.modalPresentationStyle = UIModalPresentationFullScreen;
-//    [self presentViewController:vc animated:YES completion:nil];
-    [self.navigationController pushViewController:vc animated:YES];
-    
-//    UITouch *touch = [touches anyObject];
-//    CGPoint point = [touch locationInView:touch.view];
-//
-//    if (point.y < 150) {
-//        OneViewController *vc = [[OneViewController alloc]init];
-//        vc.modalPresentationStyle = UIModalPresentationFullScreen;
-//        [self.navigationController pushViewController:vc animated:YES];
-//    }else{
-//        [atextField resignFirstResponder];
-//        [textField resignFirstResponder];
-//    }
-//    [self.textField resignFirstResponder];
-}
-
-
 
 @end

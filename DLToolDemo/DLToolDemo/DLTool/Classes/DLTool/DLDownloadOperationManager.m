@@ -38,7 +38,7 @@ static DLDownloadOperationManager *manager = nil;
     dispatch_once(&onceToken, ^{
         queue = [[NSOperationQueue alloc]init];
         queue.maxConcurrentOperationCount = (int)[NSProcessInfo processInfo].processorCount * 2;
-        cache = [[DLCache alloc]initWithPath:[NSString stringWithFormat:@"%@/imageCache", [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask, YES) firstObject]]];
+        cache = [[DLCache alloc]initWithFileName:@"imageCache"];
         operationCache = [[NSMutableDictionary alloc]init];
         unenforcedDic = [[NSMutableDictionary alloc]init];
     });
@@ -62,10 +62,10 @@ static DLDownloadOperationManager *manager = nil;
 //        if (imageview) {
 //            key = [NSString stringWithFormat:@"reduce%@", urlString];
 //        }
-        if ([cache containsObjectForKey:key]) {
-            finishedBlock((UIImage *)[cache objectForKey:key]);
-            return;
-        }
+//        if ([cache containsObjectForKey:key]) {
+//            finishedBlock((UIImage *)[cache objectForKey:key]);
+//            return;
+//        }
         
         DLDownloadOperation *op = [DLDownloadOperation downloadOperationWithURLString:urlString imageView:imageview finishedBlock:^(BOOL isFinish, UIImage *image) {
             operationCache[key] = nil;
@@ -103,7 +103,7 @@ static DLDownloadOperationManager *manager = nil;
                     imageview.image = tempImage;
                     NSMutableArray *tempArray = unenforcedDic[key];
                     [unenforcedDic removeObjectForKey:key];
-                    [cache setObject:image forKey:key withBlock:nil];
+//                    [cache setObject:image forKey:key withBlock:nil];
                     if (tempArray.count > 0) {
                         for (int a = 0; a < tempArray.count; a++) {
                             imageview.image = tempImage;

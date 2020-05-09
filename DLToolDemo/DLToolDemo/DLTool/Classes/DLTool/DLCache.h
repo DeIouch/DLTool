@@ -1,32 +1,33 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+//#define DLDiskCacheSaveTime 60 * 60 * 24 * 14
+
+#define DLDiskCacheSaveTime 0
+
+#define DLMemoryCacheNumber 9999
+
 @interface DLCache : NSObject
 
-@property (copy, readonly) NSString *name;
++(DLCache *)shareInstance;
 
--(instancetype)initWithName:(NSString *)name;
+-(instancetype)initWithFileName:(NSString *)fileName;
 
--(instancetype)initWithPath:(NSString *)path;
+-(void)setMemoryCache:(id)obj withKey:(NSString *)key;
 
--(void)containsObjectForKey:(NSString *)key withBlock:(void(^)(NSString *key, BOOL contains))block;
+-(void)setDiskCache:(id)obj withKey:(NSString *)key;
 
--(BOOL)containsObjectForKey:(NSString *)key;
+-(instancetype)cacheForKey:(NSString *)key;
 
--(id<NSCoding>)objectForKey:(NSString *)key;
+-(void)removeCacheForKey:(NSString *)key;
 
--(void)objectForKey:(NSString *)key withBlock:(void(^)(NSString *key, id<NSCoding> object))block;
+-(void)removeAllCache;
 
--(void)setObject:(id<NSCoding>)object forKey:(NSString *)key withBlock:(void(^)(void))block;
+-(void)setCache:(id)obj withKey:(NSString *)key;
 
--(void)removeObjectForKey:(NSString *)key withBlock:(void(^)(NSString *key))block;
+-(void)printfAllCache;
 
--(void)removeAllObjectsWithProgressBlock:(void(^)(int removedCount, int totalCount))progress
-                                 endBlock:(void(^)(BOOL error))end;
-
-+(void)saveImageCache:(UIImage *)image key:(NSString *)key;
-
-+(UIImage *)getCacheImage:(NSString *)key;
+-(NSString *)fileName;
 
 -(instancetype)init UNAVAILABLE_ATTRIBUTE;
 +(instancetype)new UNAVAILABLE_ATTRIBUTE;
