@@ -398,6 +398,16 @@ static const char TTAlphabet[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst
     return [components componentsJoinedByString:@""];
 }
 
+-(NSString *(^)(void))test:(NSString *(^)(void))test text:(NSString *)text;{
+    NSString *(^block)(void) = ^{
+        NSString *a = test();
+        NSString *str = [NSString stringWithFormat:@"%@%@", a, text];
+        NSLog(@"%@", str);
+        return str;
+    };
+    block();
+    return block;
+}
 
 @end
 

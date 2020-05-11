@@ -95,7 +95,7 @@
 }
 
 - (void)setObject:(id<NSCoding>)object forKey:(NSString *)key {
-//    [_memoryCache setObject:object forKey:key];
+    [_memoryCache setObject:object forKey:key];
     [_diskCache setObject:object forKey:key];
 }
 

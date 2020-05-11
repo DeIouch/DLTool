@@ -87,19 +87,18 @@
 //    self.player.videoTitle = @"12222";
 //    [self.player start];
     
-    
-//    NSString *str = @"100";
-    
-    
-    
 //    YYMemoryCache *cache = [[YYMemoryCache alloc]init];
     
 //    YYDiskCache *cache = [[YYDiskCache alloc]initWithPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]];
     
     NSLog(@"%@", [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]);
+        
+//    [[DLCache shareInstance] printfAllCache];
     
-    NSLog(@"%@", [DLCache shareInstance].fileName);
+//    NSDate *datenow = [NSDate date];
+//    NSTimeInterval interval = [[NSDate date] timeIntervalSince1970] *1000;
     
+//    NSLog(@"%lf  ==  %f", CFAbsoluteTimeGetCurrent(), [[NSDate date] timeIntervalSince1970] *1000);
     
 }
 
@@ -107,26 +106,32 @@
 //    OneViewController *vc = [[OneViewController alloc]init];
 //    [self.navigationController pushViewController:vc animated:YES];
     
-    YYCache *cache = [[YYCache alloc]initWithName:@"demo"];
+//    YYCache *cache = [[YYCache alloc]initWithName:@"demo"];
+    
+    DLCache *cache = [[DLCache alloc]initWithFileName:@"dl_cach"];
+    
     [self startTiming];
         
     for (int a = 0; a < 100; a++) {
         @autoreleasepool {
             NSString *str = [NSString stringWithFormat:@"%d", a];
-            
+
 //            DLModelDemo *model = [[DLModelDemo alloc]init];
 //            model.code = @"code";
 //            model.codee = @"codee";
+
             UIImage *model = [UIImage imageNamed:@"1.jpeg"];
             
-            [[DLCache shareInstance]setCache:model withKey:str];
+//            NSLog(@"%lu", (unsigned long)model.hash);
+
+            [cache setObject:model forKey:str];
             
-//            [cache setObject:model forKey:str];
+//            [cache objectForKey:str];
         }
     }
         
-    
-        
+//    NSLog(@"%@");
+            
     [self endTiming];
 }
 

@@ -1,31 +1,39 @@
 #import <Foundation/Foundation.h>
-#import <UIKit/UIKit.h>
 
-//#define DLDiskCacheSaveTime 60 * 60 * 24 * 14
+//  存储比YYCache快5%左右，读取比YYCache快20多倍
+//  优化存储，有文件hash值对比功能，相同的文件不会重复存储
 
-#define DLDiskCacheSaveTime 0
+#define DLDiskCacheSaveTime 60 * 60 * 24 * 30
 
-#define DLMemoryCacheNumber 9999
+#define DLMemoryCacheNumber 1000
 
 @interface DLCache : NSObject
 
-+(DLCache *)shareInstance;
++(instancetype)objectForKey:(NSString *)key;
+
++(void)removeObjectForKey:(NSString *)key;
+
++(void)removeAllObjects;
+
++(void)setObject:(id)obj forKey:(NSString *)key;
+
++(void)printfAllObjects;
+
++(NSString *)fileName;
+
+
 
 -(instancetype)initWithFileName:(NSString *)fileName;
 
--(void)setMemoryCache:(id)obj withKey:(NSString *)key;
+-(instancetype)objectForKey:(NSString *)key;
 
--(void)setDiskCache:(id)obj withKey:(NSString *)key;
+-(void)removeObjectForKey:(NSString *)key;
 
--(instancetype)cacheForKey:(NSString *)key;
+-(void)removeAllObjects;
 
--(void)removeCacheForKey:(NSString *)key;
+-(void)setObject:(id)obj forKey:(NSString *)key;
 
--(void)removeAllCache;
-
--(void)setCache:(id)obj withKey:(NSString *)key;
-
--(void)printfAllCache;
+-(void)printfAllObjects;
 
 -(NSString *)fileName;
 
