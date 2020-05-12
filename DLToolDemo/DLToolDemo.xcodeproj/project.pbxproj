@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		2421C8DA241E36C0009DD194 /* 1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 2421C8D9241E36BF009DD194 /* 1.jpeg */; };
 		2421C8DD241E3D0A009DD194 /* DLScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2421C8DC241E3D0A009DD194 /* DLScrollView.m */; };
-		2432C6A1242EEA2A008042A0 /* DLAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2432C6A0242EEA2A008042A0 /* DLAutoLayout.m */; };
 		244204BB2411202C00E442C6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 244204BA2411202C00E442C6 /* AppDelegate.m */; };
 		244204BE2411202C00E442C6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 244204BD2411202C00E442C6 /* ViewController.m */; };
 		244204C12411202C00E442C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 244204BF2411202C00E442C6 /* Main.storyboard */; };
@@ -134,8 +133,6 @@
 		2421C8D9241E36BF009DD194 /* 1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpeg; sourceTree = "<group>"; };
 		2421C8DB241E3D0A009DD194 /* DLScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLScrollView.h; sourceTree = "<group>"; };
 		2421C8DC241E3D0A009DD194 /* DLScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLScrollView.m; sourceTree = "<group>"; };
-		2432C69F242EEA2A008042A0 /* DLAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLAutoLayout.h; sourceTree = "<group>"; };
-		2432C6A0242EEA2A008042A0 /* DLAutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLAutoLayout.m; sourceTree = "<group>"; };
 		244204B62411202C00E442C6 /* DLToolDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DLToolDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		244204B92411202C00E442C6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		244204BA2411202C00E442C6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -400,6 +397,8 @@
 				877BEBF2246A91F200BF0094 /* NSObject+YYAdd.h */,
 				877BEBF3246A91F200BF0094 /* NSObject+YYAdd.m */,
 				877BEBF5246A920C00BF0094 /* YYKitMacro.h */,
+				244205452411204C00E442C6 /* DLPlayer.h */,
+				244205462411204C00E442C6 /* DLPlayer.m */,
 				244204EB2411204B00E442C6 /* Demo */,
 				244204F02411204C00E442C6 /* DLTool */,
 				244204BF2411202C00E442C6 /* Main.storyboard */,
@@ -530,8 +529,6 @@
 				244205102411204C00E442C6 /* UIView+Add.m */,
 				244F11A5242E2D8F007068C8 /* UIView+Layout.h */,
 				244F11A6242E2D8F007068C8 /* UIView+Layout.m */,
-				2432C69F242EEA2A008042A0 /* DLAutoLayout.h */,
-				2432C6A0242EEA2A008042A0 /* DLAutoLayout.m */,
 				244205032411204C00E442C6 /* DLConstraintMaker.h */,
 				244205042411204C00E442C6 /* DLConstraintMaker.m */,
 			);
@@ -596,8 +593,6 @@
 		244205442411204C00E442C6 /* DLPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				244205452411204C00E442C6 /* DLPlayer.h */,
-				244205462411204C00E442C6 /* DLPlayer.m */,
 			);
 			path = DLPlayer;
 			sourceTree = "<group>";
@@ -872,7 +867,6 @@
 				244205952411204C00E442C6 /* DLLoad.m in Sources */,
 				244205872411204C00E442C6 /* NSOrderedSet+Add.m in Sources */,
 				2442059C2411204C00E442C6 /* DLWeakProxy.m in Sources */,
-				2432C6A1242EEA2A008042A0 /* DLAutoLayout.m in Sources */,
 				2442058D2411204C00E442C6 /* UIDevice+Add.m in Sources */,
 				879FBD4224371BBC0088F4BE /* DLJsonToModel.m in Sources */,
 				2442057D2411204C00E442C6 /* NSDictionary+Add.m in Sources */,

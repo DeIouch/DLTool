@@ -5,7 +5,6 @@
 #import "NSString+Add.h"
 #import "DLSafeProtector.h"
 #import "UIView+Layout.h"
-#import "DLAutoLayout.h"
 
 @interface UIView()
 
@@ -126,7 +125,6 @@ static char leftNameKey;
         }
     }];
     [self removeConstraints:constrain];
-    [self dl_printConstraintsForSelf];
 }
 
 //-(UIView *(^) (void))dl_remove_allLayout{

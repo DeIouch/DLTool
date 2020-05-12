@@ -1,7 +1,7 @@
 #import "DLAlert.h"
 #include <objc/runtime.h>
 #import "UIView+Add.h"
-#import "DLAutoLayout.h"
+#import "UIView+Layout.h"
 @class DLAlertView;
 
 @interface DLAlert ()
@@ -80,9 +80,7 @@ static DLAlert *alert = nil;
         self.alertView.cancelButton.dl_normalTitle(cancelTitle);
     }
     self.alertView.messageLabel.attributedText = message;
-    [self.alertView.backView dl_updateAutoLayouts:^{
-        dl_layout_height(70 + [self.alertView.backView dl_fittingHeightWithSubview:self.alertView.messageLabel]);
-    }];
+    self.alertView.backView.dl_layout.height.offset(70 + [self.alertView.backView dl_fittingHeightWithSubview:self.alertView.messageLabel]).install();
     [self alertShow];
     __weak typeof(self) weakself = self;
     [self.alertView.sureButton addClickAction:^(UIView *view) {
@@ -104,9 +102,7 @@ static DLAlert *alert = nil;
         self.alertView.cancelButton.dl_normalTitle(cancelTitle);
     }
     self.alertView.messageLabel.text = message;
-    [self.alertView.backView dl_updateAutoLayouts:^{
-        dl_layout_height(70 + [self.alertView.backView dl_fittingHeightWithSubview:self.alertView.messageLabel]);
-    }];
+    self.alertView.backView.dl_layout.height.offset(70 + [self.alertView.backView dl_fittingHeightWithSubview:self.alertView.messageLabel]).install();
     [self alertShow];
     __weak typeof(self) weakself = self;
     [self.alertView.sureButton addClickAction:^(UIView *view) {
@@ -151,9 +147,7 @@ static DLAlert *alert = nil;
         _alertView = [[DLAlertView alloc]init];
         UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
         [window addSubview:_alertView];
-        [_alertView dl_addConstraints:^(DLAutoLayoutMaker *layout) {
-            layout.edgeEqualTo(window);
-        }];
+        _alertView.dl_layout.left.right.top.bottom.equal(window).install();
         __weak typeof(self) weakself = self;
         [_alertView.sureButton addClickAction:^(UIView *view) {
             [weakself alertHidden];
@@ -174,69 +168,39 @@ static DLAlert *alert = nil;
         self.backgroundColor = [[UIColor colorWithRed:16/255.0 green:16/255.0 blue:16/255.0 alpha:1] colorWithAlphaComponent:0.6];
         self.backView = [UIView dl_view:^(UIView *view) {
             view.dl_backView(self).dl_backColor(@"#FFFFFF");
-            [view dl_addAutoLayouts:^{
-                dl_layout_rightEqualTo(self, 38);
-                dl_layout_leftEqualTo(self, 38);
-                dl_layout_centerY(self);
-                dl_layout_height([UIScreen mainScreen].bounds.size.height);
-            }];
+            view.dl_layout.right.left.equal(self).offset(38).centerY.equal(self).height.offset([UIScreen mainScreen].bounds.size.height).install();
         }];
         
         self.messageLabel = [UILabel dl_view:^(UILabel *label) {
             label.dl_backView(self.backView);
             label.dl_backColor(@"#FFFFFF");
             label.dl_fontSize(15).dl_alignment(NSTextAlignmentCenter).dl_textColor(@"#777777").dl_lines(0);
-            [label dl_addAutoLayouts:^{
-                dl_layout_leftEqualTo(self.backView, 40);
-                dl_layout_rightEqualTo(self.backView, 40);
-                dl_layout_topEqualTo(self.backView, 25);
-                dl_layout_heightGreaterThanOrEqual(40);
-            }];
+            label.dl_layout.left.right.equal(self.backView).offset(40).top.equal(self.backView).offset(25).greatOrThanHeight.offset(40).install();
         }];
 
         self.cancelButton = [UIButton dl_view:^(UIButton *button) {
             button.dl_backView(self.backView).dl_backColor(@"#FFFFFF");
             button.dl_normalTitle(@"取消").dl_normalTitleColor(@"#777777").dl_fontSize(16);
-            [button dl_addAutoLayouts:^{
-                dl_layout_leftEqualTo(self.backView, 0);
-                dl_layout_bottomEqualTo(self.backView, 0);
-                dl_layout_width(([UIScreen mainScreen].bounds.size.width - 76) * 0.5);
-                dl_layout_height(47);
-            }];
+            button.dl_layout.left.right.equal(self.backView).width.offset(([UIScreen mainScreen].bounds.size.width - 76) * 0.5).height.offset(47).install();
         }];
         
         self.sureButton = [UIButton dl_view:^(UIButton *button) {
             button.dl_backView(self.backView).dl_backColor(@"#FFFFFF");
             button.dl_normalTitle(@"确定").dl_normalTitleColor(@"#4AB134").dl_fontSize(16);
-            [button dl_addAutoLayouts:^{
-                dl_layout_rightEqualTo(self.backView, 0);
-                dl_layout_bottomEqualTo(self.backView, 0);
-                dl_layout_width(([UIScreen mainScreen].bounds.size.width - 76) * 0.5);
-                dl_layout_height(47);
-            }];
+            button.dl_layout.right.bottom.equal(self.backView).width.offset(([UIScreen mainScreen].bounds.size.width - 76) * 0.5).height.offset(47).install();
         }];
         
         [UIView dl_view:^(UIView *view) {
             view.dl_backView(self.backView);
             view.dl_backColor(@"#E6E6E6");
-            [view dl_addAutoLayouts:^{
-                dl_layout_leftEqualTo(self.backView, 0);
-                dl_layout_rightEqualTo(self.backView, 0);
-                dl_layout_height(1);
-                dl_layout_bottomEqualTo(self.backView, 47);
-            }];
+            view.dl_layout.left.right.equal(self.backView).height.offset(1).bottom.equal(self.backView).offset(47).install();
         }];
 
         [UIView dl_view:^(UIView *view) {
             view.dl_backView(self.backView);
             view.translatesAutoresizingMaskIntoConstraints = NO;
             view.dl_backColor(@"#E6E6E6");
-            [view dl_addAutoLayouts:^{
-                dl_layout_width(1);
-                dl_layout_height(48);
-                dl_layout_leftEqualTo(self.sureButton, 0);
-                dl_layout_bottomEqualTo(self.backView, 0);
-            }];
+            view.dl_layout.width.offset(1).height.offset(48).left.equal(self.sureButton).bottom.equal(self.backView).install();
         }];
         
         
