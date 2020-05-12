@@ -142,7 +142,7 @@ typedef void (^Fail) (id obj);
 -(DLPromise *)fail:(Fail)failBlock{
     if ([self isRejected]) {
         dispatch_async(self.queue, ^{
-            failBlock(_error);
+            failBlock(self->_error);
         });
     }else if ([self isPending]) {
         _failBlock = [failBlock copy];
