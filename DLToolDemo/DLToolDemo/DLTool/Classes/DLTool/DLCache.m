@@ -40,7 +40,7 @@ typedef NS_ENUM(NSInteger, DLCacheType) {
     DLCacheMapNode *_tail;
     CFMutableDictionaryRef _dic;
     NSString *_cacheFile;
-    NSUInteger _totalCount;
+    unsigned long _totalCount;
     sqlite3 *db;
 }
 
