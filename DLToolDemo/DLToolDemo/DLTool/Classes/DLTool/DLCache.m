@@ -100,7 +100,7 @@ void insertNodeAtHead (DLCacheMap *map, DLCacheMapNode *node){
         map->_head = map->_tail = node;
     }
     if (map->_totalCount > DLMemoryCacheNumber) {
-        removeNode(map,node);
+        removeTailNode(map);
         sqlite3_exec(map->db, [[NSString stringWithFormat:@"DELETE FROM dl_cache WHERE cache_key = '%@'", node->_key] UTF8String], NULL, NULL, nil);
         NSFileManager *fileManage = [NSFileManager defaultManager];
         if (node->_type == DLCacheDiskType) {
@@ -218,7 +218,7 @@ static DLCache *dlMemoryCache = nil;
 +(DLCache *)shareInstance{
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        dlMemoryCache = [[DLCache alloc]initWithFileName:@"DLCache"];
+        dlMemoryCache = [[DLCache alloc]initWithFileName:@"dl_cache"];
     });
     return dlMemoryCache;
 }
@@ -234,23 +234,20 @@ static DLCache *dlMemoryCache = nil;
         self->_diskCacheMap = [[DLCacheMap alloc]initWithFileName:[NSString stringWithFormat:@"%@/%@", [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject], fileName]];        
         self->_queue = dispatch_get_global_queue(0, 0);
         self->_dl_memory_cache_semaphore = dispatch_semaphore_create(1);
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteOldObject) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteOldObject) name:UIApplicationWillTerminateNotification object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteOldObject) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteOldObject) name:UIApplicationWillTerminateNotification object:nil];
     }
     return self;
 }
 
--(void)deleteOldObject{
-    [self->_memoryCache removeAllObjects];
-}
+//-(void)deleteOldObject{
+//    [self->_memoryCache removeAllObjects];
+//}
 
 -(void)setObject:(NSObject *)obj forKey:(NSString *)key{
     if (!key || !obj) {
         return;
     }
-    
-//    [self printfAllObjects];
-    
     dispatch_semaphore_wait(self->_dl_memory_cache_semaphore, DISPATCH_TIME_FOREVER);
     dispatch_sync(self->_queue, ^{
     DLCacheMapNode *node;
@@ -263,9 +260,9 @@ static DLCache *dlMemoryCache = nil;
             } else {
                 data = [NSKeyedArchiver archivedDataWithRootObject:obj];
             }
-            if (data.length <= 20480) {
+            if (data.length <= DLSQLLimit) {
                 //  数据库存储
-                DLCacheMapNode *node = [[DLCacheMapNode alloc]init];
+                node = [[DLCacheMapNode alloc]init];
                 SetNode(node, key, data, [obj class], DLCacheSQLType, [NSString stringWithFormat:@"%lu", (unsigned long)obj.hash]);
                 insertNodeAtHead(self->_diskCacheMap, node);
                 sqlite3_exec(self->_diskCacheMap->db, [[NSString stringWithFormat:@"INSERT INTO dl_cache (cache_key, cache_class, cache_obj, cache_filename, cache_time, cache_type, cache_hash) VALUES('%@', '%@', '%@', '%@', %f, '%ld', '%@');", key, NSStringFromClass([obj class]), data, @"", CFAbsoluteTimeGetCurrent(), (long)node->_type, node->_valueHash] UTF8String], NULL, NULL, nil);
@@ -442,6 +439,35 @@ static DLCache *dlMemoryCache = nil;
 
 +(NSString *)fileName{
     return [[DLCache shareInstance] fileName];
+}
+
++(void)removeAllCache{
+    NSString *cachPath = [NSSearchPathForDirectoriesInDomains (NSCachesDirectory ,NSUserDomainMask ,YES)firstObject];
+    NSArray *files = [[NSFileManager defaultManager] subpathsAtPath:cachPath];
+    for (NSString *p in files) {
+        NSError *error = nil ;
+        NSString *path = [cachPath stringByAppendingPathComponent:p];
+        if ([[NSFileManager defaultManager]fileExistsAtPath:path]) {
+            [[NSFileManager defaultManager]removeItemAtPath:path error:&error];
+        }
+    }
+}
+
++(float)cacheSize{
+    NSString * cachPath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory ,NSUserDomainMask ,YES) firstObject];
+    NSFileManager * manager = [NSFileManager defaultManager];
+    if (![manager fileExistsAtPath:cachPath]) return 0 ;
+    NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath:cachPath]objectEnumerator];
+    NSString * fileName;
+    long long folderSize = 0 ;
+    while((fileName = [childFilesEnumerator nextObject]) != nil){
+        long long fileSize = 0;
+        if ([manager fileExistsAtPath:[cachPath stringByAppendingPathComponent :fileName]]) {
+            fileSize = [[manager attributesOfItemAtPath:[cachPath stringByAppendingPathComponent :fileName] error:nil] fileSize];
+        }
+        folderSize += fileSize;
+    }
+    return folderSize/(1024.0 * 1024.0);
 }
 
 @end

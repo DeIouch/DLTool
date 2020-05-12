@@ -24,7 +24,7 @@
 
 -(void)dl_removeObserverBlocksForKeyPath:(NSString*)keyPath;
 
-- (void)dl_removeObserverBlocks;
+-(void)dl_removeObserverBlocks;
 
 -(void)startTiming;
 

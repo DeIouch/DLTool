@@ -18,7 +18,6 @@
 #import <malloc/malloc.h>
 #import "DLPerformance.h"
 #import "UIView+Layout.h"
-#import "DLDownloadOperation.h"
 #import "DLKeyboardManage.h"
 #import "DLAutoLayout.h"
 #import "DLDemoTableViewCell.h"
@@ -28,6 +27,7 @@
 #import "DLToolMacro.h"
 #import <malloc/malloc.h>
 #import "YYCache.h"
+#import "NSObject+YYAdd.h"
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
 
@@ -91,7 +91,7 @@
     
 //    YYDiskCache *cache = [[YYDiskCache alloc]initWithPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]];
     
-    NSLog(@"%@", [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]);
+//    NSLog(@"%@", [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]);
         
 //    [[DLCache shareInstance] printfAllCache];
     
@@ -100,6 +100,38 @@
     
 //    NSLog(@"%lf  ==  %f", CFAbsoluteTimeGetCurrent(), [[NSDate date] timeIntervalSince1970] *1000);
     
+//    NSString *str = @"1111";
+//    NSString *(^block)(void) = ^{
+//        return @"22222";
+//    };
+//
+//    id obj = [block copy];
+//
+//    NSString *(^strBlock)(void) = [str performSelector:@selector(test:text:) withObject:obj withObject:@"11111"];
+//
+//    NSString *dd;
+//
+//    if (strBlock) {
+//        dd = strBlock();
+//    }
+//
+//    NSLog(@"%@", dd);
+        
+//    NSLog(@"%f", [DLCache cacheSize]);
+//
+//    NSLog(@"%@", [DLCache fileName]);
+    
+    
+}
+
+-(NSString *(^)(void))test:(NSString *)name text:(NSString *)text order:(NSString *)order block:(NSString *(^)(void))block{
+    return ^{
+        return [NSString stringWithFormat:@"%@%@%@%@", name, text, order, block()];
+    };
+}
+
+-(void)test:(NSString *)a str:(NSString *)b{
+    NSLog(@"%@ ==  %@", a, b);
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -108,11 +140,11 @@
     
 //    YYCache *cache = [[YYCache alloc]initWithName:@"demo"];
     
-    DLCache *cache = [[DLCache alloc]initWithFileName:@"dl_cach"];
+    DLCache *cache = [[DLCache alloc]initWithFileName:@"DLCache"];
     
     [self startTiming];
         
-    for (int a = 0; a < 100; a++) {
+    for (int a = 0; a < 50; a++) {
         @autoreleasepool {
             NSString *str = [NSString stringWithFormat:@"%d", a];
 
@@ -129,9 +161,6 @@
 //            [cache objectForKey:str];
         }
     }
-        
-//    NSLog(@"%@");
-            
     [self endTiming];
 }
 

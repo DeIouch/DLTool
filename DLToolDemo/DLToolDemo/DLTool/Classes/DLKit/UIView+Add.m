@@ -4,7 +4,6 @@
 #import "DLAlert.h"
 #import "NSString+Add.h"
 #import "DLSafeProtector.h"
-#import "DLDownloadOperationManager.h"
 #import "UIView+Layout.h"
 #import "DLAutoLayout.h"
 
@@ -461,45 +460,45 @@ static char leftNameKey;
     [self setFadeSeeds:@(arc4random_uniform(1000))];
 }
 
--(UIView *(^) (NSString *imageString))dl_urlReduceImageString{
-    return ^(NSString *imageString){
-        if ([NSStringFromClass([self class]) isEqualToString:@"UIImageView"]) {
-            UIImageView *imageView = (UIImageView *)self;
-            if (imageString.length > 0) {
-                if (![imageString isEqualToString:self.currentURLString] && self.currentURLString.length > 0) {
-                    [[DLDownloadOperationManager sharedManager]cancelOperation:imageString];
-                }
-                self.currentURLString = imageString;
-                [[DLDownloadOperationManager sharedManager]downloadWithUrlString:imageString imageView:imageView finishedBlock:^(UIImage *image) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        imageView.image = image;
-                    });
-                }];
-            }
-        }
-        return self;
-    };
-}
+//-(UIView *(^) (NSString *imageString))dl_urlReduceImageString{
+//    return ^(NSString *imageString){
+//        if ([NSStringFromClass([self class]) isEqualToString:@"UIImageView"]) {
+//            UIImageView *imageView = (UIImageView *)self;
+//            if (imageString.length > 0) {
+//                if (![imageString isEqualToString:self.currentURLString] && self.currentURLString.length > 0) {
+//                    [[DLDownloadOperationManager sharedManager]cancelOperation:imageString];
+//                }
+//                self.currentURLString = imageString;
+//                [[DLDownloadOperationManager sharedManager]downloadWithUrlString:imageString imageView:imageView finishedBlock:^(UIImage *image) {
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        imageView.image = image;
+//                    });
+//                }];
+//            }
+//        }
+//        return self;
+//    };
+//}
 
--(UIView *(^) (NSString *imageString))dl_urlImageString{
-    return ^(NSString *imageString){
-        if ([NSStringFromClass([self class]) isEqualToString:@"UIImageView"]) {
-            UIImageView *imageView = (UIImageView *)self;
-            if (imageString.length > 0) {
-                if (![imageString isEqualToString:self.currentURLString] && self.currentURLString.length > 0) {
-                    [[DLDownloadOperationManager sharedManager]cancelOperation:imageString];
-                }
-                self.currentURLString = imageString;
-                [[DLDownloadOperationManager sharedManager]downloadWithUrlString:imageString imageView:imageView finishedBlock:^(UIImage *image) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        imageView.image = image;
-                    });
-                }];
-            }
-        }
-        return self;
-    };
-}
+//-(UIView *(^) (NSString *imageString))dl_urlImageString{
+//    return ^(NSString *imageString){
+//        if ([NSStringFromClass([self class]) isEqualToString:@"UIImageView"]) {
+//            UIImageView *imageView = (UIImageView *)self;
+//            if (imageString.length > 0) {
+//                if (![imageString isEqualToString:self.currentURLString] && self.currentURLString.length > 0) {
+//                    [[DLDownloadOperationManager sharedManager]cancelOperation:imageString];
+//                }
+//                self.currentURLString = imageString;
+//                [[DLDownloadOperationManager sharedManager]downloadWithUrlString:imageString imageView:imageView finishedBlock:^(UIImage *image) {
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        imageView.image = image;
+//                    });
+//                }];
+//            }
+//        }
+//        return self;
+//    };
+//}
 
 -(UIView *(^) (NSString *imageString))dl_imageString{
     return ^(NSString *imageString){

@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2421C8D5241E05B4009DD194 /* DLDownloadOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2421C8D4241E05B4009DD194 /* DLDownloadOperation.m */; };
-		2421C8D8241E0B9E009DD194 /* DLDownloadOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2421C8D7241E0B9E009DD194 /* DLDownloadOperationManager.m */; };
 		2421C8DA241E36C0009DD194 /* 1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 2421C8D9241E36BF009DD194 /* 1.jpeg */; };
 		2421C8DD241E3D0A009DD194 /* DLScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2421C8DC241E3D0A009DD194 /* DLScrollView.m */; };
 		2432C6A1242EEA2A008042A0 /* DLAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2432C6A0242EEA2A008042A0 /* DLAutoLayout.m */; };
@@ -98,6 +96,7 @@
 		876F64F5241B183D00C383F5 /* DLCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 876F64F4241B183D00C383F5 /* DLCode.m */; };
 		87712A93241C74AD0077A296 /* DLLaunchAd.m in Sources */ = {isa = PBXBuildFile; fileRef = 87712A92241C74AD0077A296 /* DLLaunchAd.m */; };
 		87712A9B241C86BD0077A296 /* skipButton_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87712A9A241C86BD0077A296 /* skipButton_background@3x.png */; };
+		877BEBF4246A91F300BF0094 /* NSObject+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 877BEBF3246A91F200BF0094 /* NSObject+YYAdd.m */; };
 		87835A28241B2FEF00F5D372 /* return_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87835A27241B2FEE00F5D372 /* return_white@2x.png */; };
 		87835A2C241B36D500F5D372 /* DLAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 87835A2B241B36D500F5D372 /* DLAuthority.m */; };
 		8791801F242483C200B34F7E /* DLPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 8791801E242483C200B34F7E /* DLPromise.m */; };
@@ -134,10 +133,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2421C8D3241E05B4009DD194 /* DLDownloadOperation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLDownloadOperation.h; sourceTree = "<group>"; };
-		2421C8D4241E05B4009DD194 /* DLDownloadOperation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLDownloadOperation.m; sourceTree = "<group>"; };
-		2421C8D6241E0B9E009DD194 /* DLDownloadOperationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLDownloadOperationManager.h; sourceTree = "<group>"; };
-		2421C8D7241E0B9E009DD194 /* DLDownloadOperationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLDownloadOperationManager.m; sourceTree = "<group>"; };
 		2421C8D9241E36BF009DD194 /* 1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpeg; sourceTree = "<group>"; };
 		2421C8DB241E3D0A009DD194 /* DLScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLScrollView.h; sourceTree = "<group>"; };
 		2421C8DC241E3D0A009DD194 /* DLScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLScrollView.m; sourceTree = "<group>"; };
@@ -303,6 +298,9 @@
 		87712A91241C74AD0077A296 /* DLLaunchAd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLLaunchAd.h; sourceTree = "<group>"; };
 		87712A92241C74AD0077A296 /* DLLaunchAd.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLLaunchAd.m; sourceTree = "<group>"; };
 		87712A9A241C86BD0077A296 /* skipButton_background@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skipButton_background@3x.png"; sourceTree = "<group>"; };
+		877BEBF2246A91F200BF0094 /* NSObject+YYAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+YYAdd.h"; sourceTree = "<group>"; };
+		877BEBF3246A91F200BF0094 /* NSObject+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+YYAdd.m"; sourceTree = "<group>"; };
+		877BEBF5246A920C00BF0094 /* YYKitMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYKitMacro.h; sourceTree = "<group>"; };
 		87835A27241B2FEE00F5D372 /* return_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "return_white@2x.png"; sourceTree = "<group>"; };
 		87835A2A241B36D500F5D372 /* DLAuthority.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLAuthority.h; sourceTree = "<group>"; };
 		87835A2B241B36D500F5D372 /* DLAuthority.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLAuthority.m; sourceTree = "<group>"; };
@@ -405,6 +403,9 @@
 				87F1BD60244D50E900A7B2B9 /* Aspects.m */,
 				87F1BD63244D50EA00A7B2B9 /* YFMemoryLeakDetector.h */,
 				87F1BD62244D50E900A7B2B9 /* YFMemoryLeakDetector.m */,
+				877BEBF2246A91F200BF0094 /* NSObject+YYAdd.h */,
+				877BEBF3246A91F200BF0094 /* NSObject+YYAdd.m */,
+				877BEBF5246A920C00BF0094 /* YYKitMacro.h */,
 				244204EB2411204B00E442C6 /* Demo */,
 				244204F02411204C00E442C6 /* DLTool */,
 				244204BF2411202C00E442C6 /* Main.storyboard */,
@@ -644,10 +645,6 @@
 				87835A2B241B36D500F5D372 /* DLAuthority.m */,
 				87712A91241C74AD0077A296 /* DLLaunchAd.h */,
 				87712A92241C74AD0077A296 /* DLLaunchAd.m */,
-				2421C8D3241E05B4009DD194 /* DLDownloadOperation.h */,
-				2421C8D4241E05B4009DD194 /* DLDownloadOperation.m */,
-				2421C8D6241E0B9E009DD194 /* DLDownloadOperationManager.h */,
-				2421C8D7241E0B9E009DD194 /* DLDownloadOperationManager.m */,
 				2421C8DB241E3D0A009DD194 /* DLScrollView.h */,
 				2421C8DC241E3D0A009DD194 /* DLScrollView.m */,
 				879296BB241F5F5B007E8858 /* DLReachability.h */,
@@ -905,6 +902,7 @@
 				244205732411204C00E442C6 /* DLBaseViewController.m in Sources */,
 				244205752411204C00E442C6 /* DLSafeProtector.m in Sources */,
 				2442057F2411204C00E442C6 /* NSMutableAttributedString+Add.m in Sources */,
+				877BEBF4246A91F300BF0094 /* NSObject+YYAdd.m in Sources */,
 				244205882411204C00E442C6 /* NSSet+Add.m in Sources */,
 				244204C92411202C00E442C6 /* main.m in Sources */,
 				8723975024665D290084720E /* YYCache.m in Sources */,
@@ -918,7 +916,6 @@
 				8761C1EA241873A100E94C8F /* DLBanner.m in Sources */,
 				8744F3A9246699F5005E9071 /* NSObject+YYModel.m in Sources */,
 				8721794D243C4E6200A2006B /* UIApplication+Add.m in Sources */,
-				2421C8D8241E0B9E009DD194 /* DLDownloadOperationManager.m in Sources */,
 				873ACDE224441331007C4F0F /* UIViewController+Add.m in Sources */,
 				2442058F2411204C00E442C6 /* UIScrollView+Add.m in Sources */,
 				87F1BD64244D50EA00A7B2B9 /* Aspects.m in Sources */,
@@ -939,7 +936,6 @@
 				8723975224665D290084720E /* YYMemoryCache.m in Sources */,
 				244205892411204C00E442C6 /* NSString+Add.m in Sources */,
 				8744F3AA246699F5005E9071 /* YYClassInfo.m in Sources */,
-				2421C8D5241E05B4009DD194 /* DLDownloadOperation.m in Sources */,
 				244205962411204C00E442C6 /* DLNetworkSpeed.m in Sources */,
 				244205792411204C00E442C6 /* NSAttributedString+Add.m in Sources */,
 				87663A7A241A2A12005052C4 /* DLModelDemo.m in Sources */,

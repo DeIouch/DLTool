@@ -225,6 +225,8 @@ typedef NS_ENUM(NSInteger, BarrageShowType) {
  */
 @property(nonatomic, assign)NSInteger clarityInteger;
 
+-(instancetype)initModelWithDic:(NSDictionary *)dic;
+
 @end
 
 

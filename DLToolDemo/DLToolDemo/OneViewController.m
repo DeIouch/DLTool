@@ -173,7 +173,7 @@
     if (!cell) {
         cell = [[DLDemoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    cell.imageview.dl_urlReduceImageString(self.array[indexPath.row]);
+//    cell.imageview.dl_urlReduceImageString(self.array[indexPath.row]);
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }

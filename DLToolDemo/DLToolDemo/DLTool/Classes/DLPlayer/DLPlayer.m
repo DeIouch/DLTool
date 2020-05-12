@@ -1245,7 +1245,7 @@ static UISlider * _volumeSlider;
     if (clarityArray.count > 0) {
         NSMutableArray *array = [[NSMutableArray alloc]init];
         for (NSDictionary *dic in clarityArray) {
-//            [array addObject:[PlaysUrlModel dl_modelWithDictionary:dic]];
+            [array addObject:[[PlaysUrlModel alloc]initModelWithDic:dic]];
         }
         _clarityArray = array;
         self.player.skinView.urlModel = _clarityArray.firstObject;
@@ -1319,6 +1319,15 @@ static UISlider * _volumeSlider;
 
 @implementation PlaysUrlModel
 
+-(instancetype)initModelWithDic:(NSDictionary *)dic{
+    if ([super init]) {
+        self.enTitle = dic[@"enTitle"];
+        self.type = dic[@"type"];
+        self.url = dic[@"url"];
+        self.zhTitle = dic[@"zhTitle"];
+    }
+    return self;
+}
 
 @end
 

@@ -72,7 +72,7 @@
 
 -(void)setImageUrl:(NSString *)imageUrl{
     _imageUrl = imageUrl;
-    self.adImageView.dl_urlReduceImageString(imageUrl);
+//    self.adImageView.dl_urlReduceImageString(imageUrl);
     __block NSInteger second = self.second;
     [self.skipButton setTitle:[NSString stringWithFormat:@"%ldS 跳过", (long)second] forState:UIControlStateNormal];
     self.timerStr = [DLTimer doTask:^{

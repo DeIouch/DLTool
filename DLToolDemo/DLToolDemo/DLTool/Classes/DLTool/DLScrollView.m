@@ -178,7 +178,7 @@
     for (NSString *name in imgMArr) {
         UIImageView *imgView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:name]];
         if(imgView.image ==nil){
-            imgView.dl_urlImageString(name);
+//            imgView.dl_urlImageString(name);
             
         }
         imgView.frame=CGRectMake(self.frame.size.width*(tag+1), 0, self.frame.size.width, self.frame.size.height);
