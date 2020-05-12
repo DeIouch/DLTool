@@ -41,8 +41,6 @@
 
 @interface ViewController ()<UITableViewDelegate, UITableViewDataSource>
 
-@property (nonatomic, strong) DLPlayer *player;
-
 @property (nonatomic, strong) NSMutableArray *array;
 
 @property (nonatomic, strong) UIButton *buttonA;
