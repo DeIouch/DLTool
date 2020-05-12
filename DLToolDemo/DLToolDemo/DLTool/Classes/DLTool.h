@@ -20,7 +20,6 @@ FOUNDATION_EXPORT const unsigned char DLToolVersionString[];
 #import "DLMenu.h"
 #import "DLSQL.h"
 #import "DLCode.h"
-#import "DLAuthority.h"
 #import "DLLaunchAd.h"
 #import "DLCache.h"
 #import "DLScrollView.h"

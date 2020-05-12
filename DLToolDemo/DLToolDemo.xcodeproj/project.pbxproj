@@ -44,7 +44,6 @@
 		2442057C2411204C00E442C6 /* NSDate+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442051D2411204C00E442C6 /* NSDate+Add.m */; };
 		2442057D2411204C00E442C6 /* NSDictionary+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442051F2411204C00E442C6 /* NSDictionary+Add.m */; };
 		2442057E2411204C00E442C6 /* NSMutableArray+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205212411204C00E442C6 /* NSMutableArray+Add.m */; };
-		2442057F2411204C00E442C6 /* NSMutableAttributedString+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205232411204C00E442C6 /* NSMutableAttributedString+Add.m */; };
 		244205802411204C00E442C6 /* NSMutableData+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205252411204C00E442C6 /* NSMutableData+Add.m */; };
 		244205812411204C00E442C6 /* NSMutableDictionary+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205272411204C00E442C6 /* NSMutableDictionary+Add.m */; };
 		244205822411204C00E442C6 /* NSMutableOrderedSet+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205292411204C00E442C6 /* NSMutableOrderedSet+Add.m */; };
@@ -98,7 +97,6 @@
 		87712A9B241C86BD0077A296 /* skipButton_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87712A9A241C86BD0077A296 /* skipButton_background@3x.png */; };
 		877BEBF4246A91F300BF0094 /* NSObject+YYAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 877BEBF3246A91F200BF0094 /* NSObject+YYAdd.m */; };
 		87835A28241B2FEF00F5D372 /* return_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 87835A27241B2FEE00F5D372 /* return_white@2x.png */; };
-		87835A2C241B36D500F5D372 /* DLAuthority.m in Sources */ = {isa = PBXBuildFile; fileRef = 87835A2B241B36D500F5D372 /* DLAuthority.m */; };
 		8791801F242483C200B34F7E /* DLPromise.m in Sources */ = {isa = PBXBuildFile; fileRef = 8791801E242483C200B34F7E /* DLPromise.m */; };
 		87929673241F17BB007E8858 /* DLDemoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 87929672241F17BB007E8858 /* DLDemoTableViewCell.m */; };
 		879296BD241F5F5B007E8858 /* DLReachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 879296BC241F5F5B007E8858 /* DLReachability.m */; };
@@ -194,8 +192,6 @@
 		2442051F2411204C00E442C6 /* NSDictionary+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Add.m"; sourceTree = "<group>"; };
 		244205202411204C00E442C6 /* NSMutableArray+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+Add.h"; sourceTree = "<group>"; };
 		244205212411204C00E442C6 /* NSMutableArray+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+Add.m"; sourceTree = "<group>"; };
-		244205222411204C00E442C6 /* NSMutableAttributedString+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+Add.h"; sourceTree = "<group>"; };
-		244205232411204C00E442C6 /* NSMutableAttributedString+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+Add.m"; sourceTree = "<group>"; };
 		244205242411204C00E442C6 /* NSMutableData+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableData+Add.h"; sourceTree = "<group>"; };
 		244205252411204C00E442C6 /* NSMutableData+Add.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableData+Add.m"; sourceTree = "<group>"; };
 		244205262411204C00E442C6 /* NSMutableDictionary+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableDictionary+Add.h"; sourceTree = "<group>"; };
@@ -302,8 +298,6 @@
 		877BEBF3246A91F200BF0094 /* NSObject+YYAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+YYAdd.m"; sourceTree = "<group>"; };
 		877BEBF5246A920C00BF0094 /* YYKitMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYKitMacro.h; sourceTree = "<group>"; };
 		87835A27241B2FEE00F5D372 /* return_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "return_white@2x.png"; sourceTree = "<group>"; };
-		87835A2A241B36D500F5D372 /* DLAuthority.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLAuthority.h; sourceTree = "<group>"; };
-		87835A2B241B36D500F5D372 /* DLAuthority.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLAuthority.m; sourceTree = "<group>"; };
 		8791801D242483C100B34F7E /* DLPromise.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLPromise.h; sourceTree = "<group>"; };
 		8791801E242483C200B34F7E /* DLPromise.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLPromise.m; sourceTree = "<group>"; };
 		87929671241F17BB007E8858 /* DLDemoTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLDemoTableViewCell.h; sourceTree = "<group>"; };
@@ -561,8 +555,6 @@
 				2442051F2411204C00E442C6 /* NSDictionary+Add.m */,
 				244205202411204C00E442C6 /* NSMutableArray+Add.h */,
 				244205212411204C00E442C6 /* NSMutableArray+Add.m */,
-				244205222411204C00E442C6 /* NSMutableAttributedString+Add.h */,
-				244205232411204C00E442C6 /* NSMutableAttributedString+Add.m */,
 				244205242411204C00E442C6 /* NSMutableData+Add.h */,
 				244205252411204C00E442C6 /* NSMutableData+Add.m */,
 				244205262411204C00E442C6 /* NSMutableDictionary+Add.h */,
@@ -641,8 +633,6 @@
 				87C3332D2418E8EF00EE14D9 /* DLSQL.m */,
 				876F64F3241B183D00C383F5 /* DLCode.h */,
 				876F64F4241B183D00C383F5 /* DLCode.m */,
-				87835A2A241B36D500F5D372 /* DLAuthority.h */,
-				87835A2B241B36D500F5D372 /* DLAuthority.m */,
 				87712A91241C74AD0077A296 /* DLLaunchAd.h */,
 				87712A92241C74AD0077A296 /* DLLaunchAd.m */,
 				2421C8DB241E3D0A009DD194 /* DLScrollView.h */,
@@ -901,7 +891,6 @@
 				244205742411204C00E442C6 /* UINavigationController+Add.m in Sources */,
 				244205732411204C00E442C6 /* DLBaseViewController.m in Sources */,
 				244205752411204C00E442C6 /* DLSafeProtector.m in Sources */,
-				2442057F2411204C00E442C6 /* NSMutableAttributedString+Add.m in Sources */,
 				877BEBF4246A91F300BF0094 /* NSObject+YYAdd.m in Sources */,
 				244205882411204C00E442C6 /* NSSet+Add.m in Sources */,
 				244204C92411202C00E442C6 /* main.m in Sources */,
@@ -924,7 +913,6 @@
 				87B41C352424C65D00E545B3 /* DLPerformance.m in Sources */,
 				873ACDE5244433E7007C4F0F /* TestView.m in Sources */,
 				244205822411204C00E442C6 /* NSMutableOrderedSet+Add.m in Sources */,
-				87835A2C241B36D500F5D372 /* DLAuthority.m in Sources */,
 				87D8DFBD2413E1BF00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m in Sources */,
 				244205912411204C00E442C6 /* DLAlert.m in Sources */,
 				8791801F242483C200B34F7E /* DLPromise.m in Sources */,
