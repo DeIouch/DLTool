@@ -12,8 +12,10 @@
 #import "ViewController.h"
 #import "DLDemoTableViewCell.h"
 #import "TestView.h"
+#import "UIImageView+DLWeb.h"
+#import "UIImageView+WebCache.h"
 
-#define VideoUrl4 @"http://h.hiphotos.baidu.com/zhidao/pic/item/7e3e6709c93d70cffcb36aaafbdcd100bba12bc8.jpg"
+#define VideoUrl4 @"https://s1.ax1x.com/2020/05/14/YBiSOS.jpg"
 
 
 #define VideoUrl5 @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584335829650&di=8612ffc828197b60da29e66eb56ffee0&imgtype=0&src=http%3A%2F%2Fi1.hdslb.com%2Fbfs%2Farchive%2Ff47d9b1af8b8c790a6a1ebdde3f0c0943d726869.jpg"
@@ -54,98 +56,49 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UITextField *textField = [[UITextField alloc]initWithFrame:CGRectMake(10, 100, 200, 50)];
-    [self.view addSubview:textField];
-    textField.backgroundColor = [UIColor redColor];
     
-    UIButton *buttonA = [UIButton dl_view:^(UIButton *button) {
-        button.dl_backView(self.view).dl_backColor(@"FFFFFF");
-        button.frame = CGRectMake(100, 100, 100, 100);
-    }];
-    
-    NSLog(@"buttonA  ==  %@", buttonA.class);
-    
-    self.str = @"2222222222";
+    self.array = [[NSMutableArray alloc]init];
+    for (int a = 0; a < 100; a++) {
+        [self.array addObject:VideoUrl4];
+    }
 
-//    [buttonA addLongClickAction:^(UIView *view) {
-//        NSLog(@"%@", self.str);
-//    }];
-//
-//    [buttonA addClick:UIControlEventTouchUpInside block:^(OneViewController *vc) {
-//        NSLog(@"%@", vc.str);
-//    }];
-//
-//    [buttonA addClick:UIControlEventTouchDragInside block:^(OneViewController *vc) {
-//        NSLog(@"%@", vc.array);
-//    }];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, DLWidth, DLHeight)];
+    [self.view addSubview:self.tableView];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+    [self.tableView reloadData];
     
-    TestView *view = [[TestView alloc]init];
-    
-    [view addClickAction:^(UIView *view) {
-        NSLog(@"%@", self.str);
+    @dl_weakify;
+    [self.tableView headFreshBlock:^{
+        @dl_strongify;
+        [self.array addObject:VideoUrl4];
+        [self.array addObject:VideoUrl5];
+        [self.array addObject:VideoUrl6];
+        [self.array addObject:VideoUrl7];
+        [self.array addObject:VideoUrl8];
+        [self.array addObject:VideoUrl9];
+        [self.array addObject:VideoUrl10];
+        [self.array addObject:VideoUrl11];
+        [self.array addObject:VideoUrl12];
+        [self.tableView reloadData];
+        NSLog(@"刷新完成");
     }];
-    
-    [self.view addSubview:view];
-    
-    
-    
-    
-//
-//    [buttonA dl_addBlockForControlEvents:UIControlEventTouchDragInside block:^(OneViewController *vc) {
-//        NSLog(@"UIControlEventTouchDragInside  ==  %@", vc.array);
-//    }];
-    
-    
-//    self.array = [[NSMutableArray alloc]init];
-//    for (int a = 0; a < 100; a++) {
-//        [self.array addObject:VideoUrl4];
-//    }
-//
-//    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, DLWidth, DLHeight)];
-//    [self.view addSubview:self.tableView];
-//    self.tableView.delegate = self;
-//    self.tableView.dataSource = self;
-//    self.tableView.backgroundColor = [UIColor whiteColor];
-//
-//    @dl_weakify;
-//    [self.tableView headFreshBlock:^{
-//        @dl_strongify;
-////        for (int a = 0; a < 20; a++) {
-////            [self.array insertObject:@"head" atIndex:0];
-////        }
-////        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(20 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            [self.array addObject:VideoUrl4];
-//            [self.array addObject:VideoUrl5];
-//            [self.array addObject:VideoUrl6];
-//            [self.array addObject:VideoUrl7];
-//            [self.array addObject:VideoUrl8];
-//            [self.array addObject:VideoUrl9];
-//            [self.array addObject:VideoUrl10];
-//            [self.array addObject:VideoUrl11];
-//            [self.array addObject:VideoUrl12];
-//            [self.tableView reloadData];
-//            NSLog(@"刷新完成");
-////        });
-//    }];
-//
-//    [self.tableView footFreshBlock:^{
-//        @dl_strongify;
-////        for (int a = 0; a < 20; a++) {
-////            [self.array addObject:@"foot"];
-////        }
-//
-//        [self.array addObject:VideoUrl4];
-//        [self.array addObject:VideoUrl5];
-//        [self.array addObject:VideoUrl6];
-//        [self.array addObject:VideoUrl7];
-//        [self.array addObject:VideoUrl8];
-//        [self.array addObject:VideoUrl9];
-//        [self.array addObject:VideoUrl10];
-//        [self.array addObject:VideoUrl11];
-//        [self.array addObject:VideoUrl12];
-//
-//        [self.tableView reloadData];
-//    }];
+
+    [self.tableView footFreshBlock:^{
+        @dl_strongify;
+        [self.array addObject:VideoUrl4];
+        [self.array addObject:VideoUrl5];
+        [self.array addObject:VideoUrl6];
+        [self.array addObject:VideoUrl7];
+        [self.array addObject:VideoUrl8];
+        [self.array addObject:VideoUrl9];
+        [self.array addObject:VideoUrl10];
+        [self.array addObject:VideoUrl11];
+        [self.array addObject:VideoUrl12];
+
+        [self.tableView reloadData];
+    }];
     
 //    [DLPerformanceLabel openMonitoring];
     
@@ -173,8 +126,12 @@
     if (!cell) {
         cell = [[DLDemoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-//    cell.imageview.dl_urlReduceImageString(self.array[indexPath.row]);
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    [cell.dl_imageview dl_setWebImage:self.array[indexPath.row]];
+//    cell.dl_imageview.image = [UIImage imageNamed:@"YBiSOS.jpg"];
+//    [cell.dl_imageview sd_setImageWithURL:[NSURL URLWithString:self.array[indexPath.row]]];
+    
+//    NSLog(@"%@", cell.dl_imageview.image);
+    
     return cell;
 }
 
@@ -183,7 +140,6 @@
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-//    [self dismissViewControllerAnimated:YES completion:nil];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

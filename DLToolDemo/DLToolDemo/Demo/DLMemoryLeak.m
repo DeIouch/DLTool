@@ -24,13 +24,13 @@
 
 @implementation UIView(Leak)
 
-+(void)load{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        Safe_ExchangeMethod([self class], @selector(init), @selector(safe_init));
-        Safe_ExchangeMethod([self class], NSSelectorFromString(@"dealloc"), @selector(safe_dealloc));
-    });
-}
+//+(void)load{
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        Safe_ExchangeMethod([self class], @selector(init), @selector(safe_init));
+//        Safe_ExchangeMethod([self class], NSSelectorFromString(@"dealloc"), @selector(safe_dealloc));
+//    });
+//}
 
 -(instancetype)safe_init{
     if ([self isCustomClass]) {
@@ -131,13 +131,13 @@
 
 @implementation UINavigationController (Leak)
 
-+(void)load{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        Safe_ExchangeMethod([self class], @selector(popViewControllerAnimated:), @selector(safe_popViewControllerAnimated:));
-//        Safe_ExchangeMethod([self class], @selector(pushViewController:animated:), @selector(safe_pushViewController:animated:));
-    });
-}
+//+(void)load{
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        Safe_ExchangeMethod([self class], @selector(popViewControllerAnimated:), @selector(safe_popViewControllerAnimated:));
+////        Safe_ExchangeMethod([self class], @selector(pushViewController:animated:), @selector(safe_pushViewController:animated:));
+//    });
+//}
 
 -(void)safe_pushViewController:(UIViewController *)viewController animated:(BOOL)animated{
     [[DLMemoryLeak shareInstance].vcDic setObject:NSStringFromClass([viewController class]) forKey:NSStringFromClass([viewController class])];

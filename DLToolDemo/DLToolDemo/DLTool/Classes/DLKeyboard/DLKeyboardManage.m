@@ -9,7 +9,7 @@ static DLKeyboardManage *keyboard = nil;
 
 static char const singleMeViewKey;
 
-//static char const notManageBOOLKey;
+static char const notManageBOOLKey;
 
 @interface DLKeyboardManage ()
 
@@ -69,13 +69,13 @@ static __weak id dl_currentFirstResponder;
     return objc_getAssociatedObject(self, &singleMeViewKey);
 }
 
-//-(BOOL)notManageBOOL{
-//    return objc_getAssociatedObject(self, &notManageBOOLKey);
-//}
-//
-//-(void)setNotManageBOOL:(BOOL)notManageBOOL{
-//    objc_setAssociatedObject(self, &notManageBOOLKey, @(notManageBOOL), OBJC_ASSOCIATION_ASSIGN);
-//}
+-(BOOL)notManageBOOL{
+    return objc_getAssociatedObject(self, &notManageBOOLKey);
+}
+
+-(void)setNotManageBOOL:(BOOL)notManageBOOL{
+    objc_setAssociatedObject(self, &notManageBOOLKey, @(notManageBOOL), OBJC_ASSOCIATION_ASSIGN);
+}
 
 @end
 
@@ -134,9 +134,9 @@ static __weak id dl_currentFirstResponder;
     if (!keyboard.keyBoardManageVC) {
         keyboard.keyBoardManageVC = keyboard.firstResponderView.fatherViewController;
     }
-//    if (keyboard.firstResponderView.notManageBOOL) {
-//        return;
-//    }
+    if (keyboard.firstResponderView.notManageBOOL) {
+        return;
+    }
     dispatch_async(dispatch_get_main_queue(), ^{
        if (keyboard.firstResponderView.singleMeView) {
                if ([NSStringFromClass([keyboard.firstResponderView.singleMeView.superview class])isEqualToString:@"UIViewControllerWrapperView"] || [NSStringFromClass([keyboard.firstResponderView.singleMeView.superview class])isEqualToString:@"UIWindow"]) {

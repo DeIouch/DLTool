@@ -24,8 +24,8 @@
 #import "TestModel.h"
 #import "DLToolMacro.h"
 #import <malloc/malloc.h>
-#import "YYCache.h"
 #import "NSObject+YYAdd.h"
+#import "UIImageView+DLWeb.h"
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
 
@@ -38,6 +38,8 @@
 #define VideoUrl4 @"http://vjs.zencdn.net/v/oceans.mp4"
 
 #define VideoUrl5 @"http://i1.fuimg.com/714379/fdb945e4f87789ad.jpg"
+
+#define VideoUrl6 @"https://s1.ax1x.com/2020/05/14/YBiSOS.jpg"
 
 @interface ViewController ()<UITableViewDelegate, UITableViewDataSource>
 
@@ -75,6 +77,10 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     [DLPerformance openMonitoring];
+    
+//    [[DLKeyChainManager shareInstance]dl_addKeyChainWithKey:@"111" value:@"222"];
+    
+    NSLog(@"%@", [[DLKeyChainManager shareInstance] dl_getKeyChainValueWithKey:@"111"]);
         
 //    self.player = [DLPlayer shareInstance];
 //    self.player.fatherView = self.view;
@@ -117,7 +123,20 @@
 //
 //    NSLog(@"%@", [DLCache fileName]);
     
+//    [DLCache printfAllObjects];
     
+//    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(100, 100, 200, 200)];
+//    [self.view addSubview:imageView];
+//
+//    int num = 100;
+//
+//
+//
+//    @autoreleasepool {
+//        for (int a = 0; a < num; a++) {
+//            [imageView dl_setWebImage:VideoUrl6];
+//        }
+//    }
 }
 
 -(NSString *(^)(void))test:(NSString *)name text:(NSString *)text order:(NSString *)order block:(NSString *(^)(void))block{
@@ -131,33 +150,33 @@
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-//    OneViewController *vc = [[OneViewController alloc]init];
-//    [self.navigationController pushViewController:vc animated:YES];
+    OneViewController *vc = [[OneViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
     
 //    YYCache *cache = [[YYCache alloc]initWithName:@"demo"];
     
-    DLCache *cache = [[DLCache alloc]initWithFileName:@"DLCache"];
+//    DLCache *cache = [[DLCache alloc]initWithFileName:@"DLCache"];
     
-    [self startTiming];
-        
-    for (int a = 0; a < 50; a++) {
-        @autoreleasepool {
-            NSString *str = [NSString stringWithFormat:@"%d", a];
-
-//            DLModelDemo *model = [[DLModelDemo alloc]init];
-//            model.code = @"code";
-//            model.codee = @"codee";
-
-            UIImage *model = [UIImage imageNamed:@"1.jpeg"];
-            
-//            NSLog(@"%lu", (unsigned long)model.hash);
-
-            [cache setObject:model forKey:str];
-            
-//            [cache objectForKey:str];
-        }
-    }
-    [self endTiming];
+//    [self startTiming];
+//
+//    for (int a = 0; a < 50; a++) {
+//        @autoreleasepool {
+//            NSString *str = [NSString stringWithFormat:@"%d", a];
+//
+////            DLModelDemo *model = [[DLModelDemo alloc]init];
+////            model.code = @"code";
+////            model.codee = @"codee";
+//
+//            UIImage *model = [UIImage imageNamed:@"1.jpeg"];
+//
+////            NSLog(@"%lu", (unsigned long)model.hash);
+//
+//            [DLCache setObject:model forKey:str];
+//
+////            [cache objectForKey:str];
+//        }
+//    }
+//    [self endTiming];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

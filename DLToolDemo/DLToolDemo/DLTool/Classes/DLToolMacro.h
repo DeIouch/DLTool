@@ -54,6 +54,28 @@
     #endif
 #endif
 
+#define dl_shareInstance(className) \
++ (className *)shareInstance;
+
+#define dl_shareInstance_implementation(className) \
+static className *_instance; \
++ (id)allocWithZone:(NSZone *)zone \
+{ \
+static dispatch_once_t onceToken; \
+dispatch_once(&onceToken, ^{ \
+_instance = [super allocWithZone:zone]; \
+}); \
+return _instance; \
+} \
++ (className *)shareInstance \
+{ \
+static dispatch_once_t onceToken; \
+dispatch_once(&onceToken, ^{ \
+_instance = [[self alloc] init]; \
+}); \
+return _instance; \
+}
+
 /***************************打印日志*****************************/
 
 //输出语句

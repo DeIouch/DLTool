@@ -6,8 +6,11 @@
 //  磁盘文件保存时间
 #define DLDiskCacheSaveTime 60 * 60 * 24 * 30
 
-//  本地文件最大存储个数（只能够约束单个cache对象）
+//  内存缓存最大个数（只能够约束单个cache对象）
 #define DLMemoryCacheNumber 1000
+
+//  磁盘缓存最大个数（只能够约束单个cache对象）
+#define DLDiskCacheNumber 1000
 
 //  数据库允许存储的单个文件最大界限
 #define DLSQLLimit 20480

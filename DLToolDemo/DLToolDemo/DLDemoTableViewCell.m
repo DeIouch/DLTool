@@ -16,13 +16,13 @@
 
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if ([super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-//        self.imageview = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 30)];
-//
-//        [self.contentView addSubview:self.imageview];
+        self.dl_imageview = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 30)];
+
+        [self.contentView addSubview:self.dl_imageview];
         
-        self.textField = [[UITextField alloc]initWithFrame:self.contentView.bounds];
-        [self.contentView addSubview:self.textField];
-        self.textField.backgroundColor = randomColor;
+//        self.textField = [[UITextField alloc]initWithFrame:self.contentView.bounds];
+//        [self.contentView addSubview:self.textField];
+//        self.textField.backgroundColor = randomColor;
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return self;

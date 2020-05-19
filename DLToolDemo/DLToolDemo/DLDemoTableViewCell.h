@@ -10,7 +10,7 @@
 
 @interface DLDemoTableViewCell : UITableViewCell
 
-@property (nonatomic, strong) UIImageView *imageview;
+@property (nonatomic, strong) UIImageView *dl_imageview;
 
 @property (nonatomic, strong) UITextField *textField;
 

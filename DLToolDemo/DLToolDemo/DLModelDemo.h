@@ -1,5 +1,4 @@
 #import <Foundation/Foundation.h>
-#import "YYModel.h"
 
 @interface DLModelDemo : NSObject<NSCoding>
 

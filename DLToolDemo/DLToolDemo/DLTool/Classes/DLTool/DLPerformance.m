@@ -1,11 +1,3 @@
-//
-//  DLPerformance.m
-//  DLToolDemo
-//
-//  Created by tanqiu on 2020/3/20.
-//  Copyright © 2020 戴青. All rights reserved.
-//
-
 #import "DLPerformance.h"
 #import <UIKit/UIKit.h>
 #import <mach/mach.h>
