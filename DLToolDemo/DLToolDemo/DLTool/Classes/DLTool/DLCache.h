@@ -3,6 +3,8 @@
 //  存储比YYCache快5%左右，读取比YYCache快20多倍
 //  优化存储，有文件hash值对比功能，相同的文件不会重复存储
 
+//  需要优化的地方：查找文件的时候需要搜索一下数据库
+
 //  磁盘文件保存时间
 #define DLDiskCacheSaveTime 60 * 60 * 24 * 30
 
@@ -10,7 +12,7 @@
 #define DLMemoryCacheNumber 1000
 
 //  磁盘缓存最大个数（只能够约束单个cache对象）
-#define DLDiskCacheNumber 1000
+#define DLDiskCacheNumber 10
 
 //  数据库允许存储的单个文件最大界限
 #define DLSQLLimit 20480
@@ -39,8 +41,8 @@
 /// @param key 对应的key值
 +(void)setObject:(id)obj forKey:(NSString *)key;
 
-/// 打印默认缓存对象的所有值
-+(void)printfAllObjects;
+/// 获取默认缓存对象的所有值（不会缓存到内存缓存中，对应的key值为md5加密后的值）
++(NSDictionary *)getAllObjects;
 
 /// 获取默认缓存对象的文件路径
 +(NSString *)fileName;
@@ -66,8 +68,8 @@
 /// @param key 对应的key值
 -(void)setObject:(id)obj forKey:(NSString *)key;
 
-/// 打印缓存对象的所有值
--(void)printfAllObjects;
+/// 获取默认缓存对象的所有值（不会缓存到内存缓存中，对应的key值为md5加密后的值）
+-(NSDictionary *)getAllObjects;
 
 /// 获取缓存对象的文件路径
 -(NSString *)fileName;

@@ -97,6 +97,7 @@
 		879FBD332436ED010088F4BE /* TestModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 879FBD322436ED010088F4BE /* TestModel.m */; };
 		879FBD4224371BBC0088F4BE /* DLJsonToModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 879FBD4124371BBB0088F4BE /* DLJsonToModel.m */; };
 		87B41C352424C65D00E545B3 /* DLPerformance.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B41C342424C65D00E545B3 /* DLPerformance.m */; };
+		87B5B42524864B8900D7DA78 /* DLPhotoPick.m in Sources */ = {isa = PBXBuildFile; fileRef = 87B5B42324864B8800D7DA78 /* DLPhotoPick.m */; };
 		87C3332E2418E8EF00EE14D9 /* DLSQL.m in Sources */ = {isa = PBXBuildFile; fileRef = 87C3332D2418E8EF00EE14D9 /* DLSQL.m */; };
 		87C333312418E92B00EE14D9 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 87C333302418E92B00EE14D9 /* libsqlite3.tbd */; };
 		87D8DFBD2413E1BF00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 87D8DFB92413E1BD00DCEE30 /* UITableView+SDAutoTableViewCellHeight.m */; };
@@ -309,6 +310,8 @@
 		879FBD4124371BBB0088F4BE /* DLJsonToModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLJsonToModel.m; sourceTree = "<group>"; };
 		87B41C332424C65D00E545B3 /* DLPerformance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLPerformance.h; sourceTree = "<group>"; };
 		87B41C342424C65D00E545B3 /* DLPerformance.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLPerformance.m; sourceTree = "<group>"; };
+		87B5B42324864B8800D7DA78 /* DLPhotoPick.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLPhotoPick.m; sourceTree = "<group>"; };
+		87B5B42424864B8800D7DA78 /* DLPhotoPick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLPhotoPick.h; sourceTree = "<group>"; };
 		87C3332C2418E8EF00EE14D9 /* DLSQL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DLSQL.h; sourceTree = "<group>"; };
 		87C3332D2418E8EF00EE14D9 /* DLSQL.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DLSQL.m; sourceTree = "<group>"; };
 		87C333302418E92B00EE14D9 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -688,6 +691,8 @@
 				8723974324664C480084720E /* DLCache.m */,
 				87FE7E76246E836500826E97 /* DLKeyChainManager.h */,
 				87FE7E77246E836500826E97 /* DLKeyChainManager.m */,
+				87B5B42424864B8800D7DA78 /* DLPhotoPick.h */,
+				87B5B42324864B8800D7DA78 /* DLPhotoPick.m */,
 			);
 			path = DLTool;
 			sourceTree = "<group>";
@@ -946,6 +951,7 @@
 				244205762411204C00E442C6 /* UIView+Add.m in Sources */,
 				87FE7AF9246CF73600826E97 /* DLDownloadOperation.m in Sources */,
 				244205832411204C00E442C6 /* NSMutableSet+Add.m in Sources */,
+				87B5B42524864B8900D7DA78 /* DLPhotoPick.m in Sources */,
 				2442057B2411204C00E442C6 /* NSData+Add.m in Sources */,
 				87FE7E78246E836500826E97 /* DLKeyChainManager.m in Sources */,
 				8754AF71244D94B2007E081D /* Note1.m in Sources */,

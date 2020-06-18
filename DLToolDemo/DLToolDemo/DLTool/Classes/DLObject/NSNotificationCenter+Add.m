@@ -36,7 +36,6 @@ static NSMutableSet *NSNotificationCenterSafeSwizzledClasses() {
                     .receiver = self,
                     .super_class = class_getSuperclass(classToSwizzle)
                 };
-                
                 void (*msgSend)(struct objc_super *, SEL) = (__typeof__(msgSend))objc_msgSendSuper;
                 msgSend(&superInfo, deallocSelector);
             } else {

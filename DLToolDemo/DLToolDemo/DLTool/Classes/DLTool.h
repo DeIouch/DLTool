@@ -28,6 +28,7 @@ FOUNDATION_EXPORT const unsigned char DLToolVersionString[];
 #import "DLKeyboardManage.h"
 #import "DLPlayer.h"
 #import "DLKeyChainManager.h"
+#import "DLPhotoPick.h"
 
 
 #import "NSObject+Add.h"

@@ -101,11 +101,14 @@ void insertNodeAtHead (DLCacheMap *map, DLCacheMapNode *node){
         map->_head = map->_tail = node;
     }
     if (map->_totalCount > DLDiskCacheNumber) {
+        DLCacheMapNode *tailNode = map->_tail;
         removeTailNode(map);
-        sqlite3_exec(map->db, [[NSString stringWithFormat:@"DELETE FROM dl_cache WHERE cache_key = '%@' ORDER BY cache_time ASC", node->_key] UTF8String], NULL, NULL, nil);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            sqlite3_exec(map->db, [[NSString stringWithFormat:@"DELETE FROM dl_cache WHERE cache_key = '%@'", tailNode->_key] UTF8String], NULL, NULL, nil);
+        });
         NSFileManager *fileManage = [NSFileManager defaultManager];
-        if (node->_type == DLCacheDiskType) {
-            [fileManage removeItemAtPath:[NSString stringWithFormat:@"%@/%@", node->_value, node->_key] error:nil];
+        if (tailNode->_type == DLCacheDiskType) {
+            [fileManage removeItemAtPath:[NSString stringWithFormat:@"%@", tailNode->_value] error:nil];
         }
     }
 }
@@ -165,7 +168,7 @@ void SetNode(DLCacheMapNode *node, NSString *key, id value, Class class, DLCache
     dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         sqlite3_stmt *stmt = NULL;
-        if (sqlite3_prepare_v2(self->db, [@"SELECT * FROM dl_cache;" UTF8String], -1, &stmt, NULL) == SQLITE_OK) {
+        if (sqlite3_prepare_v2(self->db, [@"SELECT * FROM dl_cache ORDER BY cache_time ASC;" UTF8String], -1, &stmt, NULL) == SQLITE_OK) {
             NSTimeInterval nowTime = CFAbsoluteTimeGetCurrent();
             NSFileManager *fileManage = [NSFileManager defaultManager];
             while (sqlite3_step(stmt)==SQLITE_ROW) {
@@ -192,7 +195,9 @@ void SetNode(DLCacheMapNode *node, NSString *key, id value, Class class, DLCache
                 SetNode(node, [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 0)], value, NSClassFromString([NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 1)]), sqlite3_column_int(stmt, 5),[NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 6)] );
                 if (nowTime - oldTime > DLDiskCacheSaveTime) {
                     //  超时了，删除文件
-                    sqlite3_exec(self->db, [[NSString stringWithFormat:@"DELETE FROM dl_cache WHERE cache_key = '%@'", node->_key] UTF8String], NULL, NULL, nil);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        sqlite3_exec(self->db, [[NSString stringWithFormat:@"DELETE FROM dl_cache WHERE cache_key = '%@'", node->_key] UTF8String], NULL, NULL, nil);
+                    });
                     if (node->_type == DLCacheDiskType) {
                         [fileManage removeItemAtPath:[NSString stringWithFormat:@"%@/%@", node->_value, node->_key] error:nil];
                     }
@@ -238,8 +243,7 @@ static DLCache *dlMemoryCache = nil;
         self->_memoryCache = [[NSCache alloc]init];
         self->_memoryCache.countLimit = DLMemoryCacheNumber;
         self->_diskCacheMap = [[DLCacheMap alloc]initWithFileName:[NSString stringWithFormat:@"%@/%@", [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject], fileName]];        
-//        self->_queue = dispatch_get_global_queue(0, 0);
-        self->_queue = dispatch_get_main_queue();
+        self->_queue = dispatch_queue_create("com.dl.cache.queue", DISPATCH_QUEUE_CONCURRENT);
         self->_dl_memory_cache_semaphore = dispatch_semaphore_create(1);
 //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteOldObject) name:UIApplicationDidReceiveMemoryWarningNotification object:nil];
 //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteOldObject) name:UIApplicationWillTerminateNotification object:nil];
@@ -263,6 +267,7 @@ static NSString *DLNSStringMD5(NSString *string) {
                 result[8],  result[9],  result[10], result[11],
                 result[12], result[13], result[14], result[15]
             ];
+    return string;
 }
 
 -(void)setObject:(NSObject *)obj forKey:(NSString *)key{
@@ -288,7 +293,9 @@ static NSString *DLNSStringMD5(NSString *string) {
                     node = [[DLCacheMapNode alloc]init];
                     SetNode(node, key, data, [obj class], DLCacheSQLType, [NSString stringWithFormat:@"%lu", (unsigned long)obj.hash]);
                     insertNodeAtHead(self->_diskCacheMap, node);
-                    sqlite3_exec(self->_diskCacheMap->db, [[NSString stringWithFormat:@"INSERT INTO dl_cache (cache_key, cache_class, cache_obj, cache_filename, cache_time, cache_type, cache_hash) VALUES('%@', '%@', '%@', '%@', %f, '%zd', '%@');", key, NSStringFromClass([obj class]), data, @"", CFAbsoluteTimeGetCurrent(), node->_type, node->_valueHash] UTF8String], NULL, NULL, nil);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        sqlite3_exec(self->_diskCacheMap->db, [[NSString stringWithFormat:@"INSERT INTO dl_cache (cache_key, cache_class, cache_obj, cache_filename, cache_time, cache_type, cache_hash) VALUES('%@', '%@', '%@', '%@', %f, '%zd', '%@');", key, NSStringFromClass([obj class]), data, @"", CFAbsoluteTimeGetCurrent(), node->_type, node->_valueHash] UTF8String], NULL, NULL, nil);
+                    });
                 }else{
                     //  磁盘存储
                     NSString *fileName = [NSString stringWithFormat:@"%@/%@", self->_diskCacheMap->_cacheFile, key];
@@ -297,14 +304,18 @@ static NSString *DLNSStringMD5(NSString *string) {
                         node = [[DLCacheMapNode alloc]init];
                         SetNode(node, key, fileName, [obj class], DLCacheDiskType, [NSString stringWithFormat:@"%lu", (unsigned long)obj.hash]);
                         insertNodeAtHead(self->_diskCacheMap, node);
-                        sqlite3_exec(self->_diskCacheMap->db, [[NSString stringWithFormat:@"INSERT INTO dl_cache (cache_key, cache_class, cache_obj, cache_filename, cache_time, cache_type, cache_hash) VALUES('%@', '%@', '%@', '%@', %f, '%zd', '%@');", key, NSStringFromClass([obj class]), @"", fileName, CFAbsoluteTimeGetCurrent(), DLCacheDiskType, node->_valueHash] UTF8String], NULL, NULL, nil);
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            sqlite3_exec(self->_diskCacheMap->db, [[NSString stringWithFormat:@"INSERT INTO dl_cache (cache_key, cache_class, cache_obj, cache_filename, cache_time, cache_type, cache_hash) VALUES('%@', '%@', '%@', '%@', %f, '%zd', '%@');", key, NSStringFromClass([obj class]), @"", fileName, CFAbsoluteTimeGetCurrent(), DLCacheDiskType, node->_valueHash] UTF8String], NULL, NULL, nil);
+                        });
                     }
                 }
                 dispatch_semaphore_signal(self->_dl_memory_cache_semaphore);
             }else{
                 if ([node->_valueHash isEqualToString:[NSString stringWithFormat:@"%zd", obj.hash]]) {
                     //  缓存中存在的值和要缓存的值一样，不需要更新缓存数据，只需要更新时间戳
-                    sqlite3_exec(self->_diskCacheMap->db, [[NSString stringWithFormat:@"UPDATE dl_cache SET cache_time = %f WHERE cache_key = '%@';", CFAbsoluteTimeGetCurrent(), key] UTF8String], NULL, NULL, nil);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        sqlite3_exec(self->_diskCacheMap->db, [[NSString stringWithFormat:@"UPDATE dl_cache SET cache_time = %f WHERE cache_key = '%@';", CFAbsoluteTimeGetCurrent(), key] UTF8String], NULL, NULL, nil);
+                    });
                     bringNodeToHead(self->_diskCacheMap, node);
                 }else{
                     //  缓存中的值和要缓存的值不一样，更新缓存数据，更新时间戳
@@ -320,14 +331,18 @@ static NSString *DLNSStringMD5(NSString *string) {
                         case DLCacheSQLType:
                             {
                                 value = data;
-                                sqlite3_exec(self->_diskCacheMap->db, [[NSString stringWithFormat:@"UPDATE dl_cache SET cache_obj='%@', cache_class = '%@', cache_filename = '%@', cache_time = %f, cache_type = '%zd', cache_hash= '%@' WHERE cache_key = '%@';", value, NSStringFromClass([obj class]), @"", CFAbsoluteTimeGetCurrent(), node->_type, valueHash, key] UTF8String], NULL, NULL, nil);
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    sqlite3_exec(self->_diskCacheMap->db, [[NSString stringWithFormat:@"UPDATE dl_cache SET cache_obj='%@', cache_class = '%@', cache_filename = '%@', cache_time = %f, cache_type = '%zd', cache_hash= '%@' WHERE cache_key = '%@';", value, NSStringFromClass([obj class]), @"", CFAbsoluteTimeGetCurrent(), node->_type, valueHash, key] UTF8String], NULL, NULL, nil);
+                                });
                             }
                             break;
 
                         case DLCacheDiskType:
                             {
                                 value = [NSString stringWithFormat:@"%@/%@", self->_diskCacheMap->_cacheFile, key];
-                                sqlite3_exec(self->_diskCacheMap->db, [[NSString stringWithFormat:@"UPDATE dl_cache SET cache_obj='%@', cache_class = '%@', cache_filename = '%@', cache_time = %f, cache_type = '%ld', cache_hash= '%@' WHERE cache_key = '%@';", @"", NSStringFromClass([obj class]), value, CFAbsoluteTimeGetCurrent(), (long)node->_type, valueHash, key] UTF8String], NULL, NULL, nil);
+                                dispatch_async(dispatch_get_main_queue(), ^{
+                                    sqlite3_exec(self->_diskCacheMap->db, [[NSString stringWithFormat:@"UPDATE dl_cache SET cache_obj='%@', cache_class = '%@', cache_filename = '%@', cache_time = %f, cache_type = '%ld', cache_hash= '%@' WHERE cache_key = '%@';", @"", NSStringFromClass([obj class]), value, CFAbsoluteTimeGetCurrent(), (long)node->_type, valueHash, key] UTF8String], NULL, NULL, nil);
+                                });
                             }
                             break;
 
@@ -386,6 +401,19 @@ static NSString *DLNSStringMD5(NSString *string) {
                     [self->_memoryCache setObject:obj forKey:key];
                     dispatch_semaphore_signal(self->_dl_memory_cache_semaphore);
                     return obj;
+                }else{
+                    NSData *data = [NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%@/%@", self->_diskCacheMap->_cacheFile, key]];
+                    if (data) {
+                        if (@available(iOS 11.0, *)) {
+                            obj = [NSKeyedUnarchiver unarchivedObjectOfClass:node->_class fromData:data error:NULL];
+                        } else {
+                            obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+                        }
+                        bringNodeToHead(self->_diskCacheMap, node);
+                        [self->_memoryCache setObject:obj forKey:key];
+                        dispatch_semaphore_signal(self->_dl_memory_cache_semaphore);
+                        return obj;
+                    }
                 }
             }
             return obj ? obj : nil;
@@ -404,7 +432,9 @@ static NSString *DLNSStringMD5(NSString *string) {
             DLCacheMapNode *node = CFDictionaryGetValue(self->_diskCacheMap->_dic, (__bridge const void *)(key));
             if (node) {
                 removeNode(self->_diskCacheMap,node);
-                sqlite3_exec(self->_diskCacheMap->db, [[NSString stringWithFormat:@"DELETE FROM dl_cache WHERE cache_key = '%@'", key] UTF8String], NULL, NULL, nil);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    sqlite3_exec(self->_diskCacheMap->db, [[NSString stringWithFormat:@"DELETE FROM dl_cache WHERE cache_key = '%@'", key] UTF8String], NULL, NULL, nil);
+                });
                 NSFileManager *fileManage = [NSFileManager defaultManager];
                 if (node->_type == DLCacheDiskType) {
                     [fileManage removeItemAtPath:[NSString stringWithFormat:@"%@/%@", node->_value, key] error:nil];
@@ -421,7 +451,9 @@ static NSString *DLNSStringMD5(NSString *string) {
         dispatch_async(self->_queue, ^{
             [self->_memoryCache removeAllObjects];
             removeAllNode(self->_diskCacheMap);
-            sqlite3_exec(self->_diskCacheMap->db, [@"DELETE FROM dl_cache;" UTF8String], NULL, NULL, nil);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                sqlite3_exec(self->_diskCacheMap->db, [@"DELETE FROM dl_cache;" UTF8String], NULL, NULL, nil);
+            });
             NSFileManager *fileManager = [NSFileManager defaultManager];
             [fileManager removeItemAtPath:self->_diskCacheMap->_cacheFile error:nil];
             dispatch_semaphore_signal(self->_dl_memory_cache_semaphore);
@@ -429,9 +461,10 @@ static NSString *DLNSStringMD5(NSString *string) {
     }
 }
 
--(void)printfAllObjects{
+-(NSDictionary *)getAllObjects{
     @autoreleasepool {
         NSDictionary *tempDic = (__bridge NSDictionary *)self->_diskCacheMap->_dic;
+        NSMutableDictionary *objDic = [[NSMutableDictionary alloc]init];
         NSArray *array = [tempDic allValues];
         for (DLCacheMapNode *node in array) {
             switch (node->_type) {
@@ -444,13 +477,15 @@ static NSString *DLNSStringMD5(NSString *string) {
                         } else {
                             obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
                         }
+                        [objDic setObject:obj forKey:node->_key];
                         NSLog(@"Diskcache_obj  ==  %@", obj);
                     }
                     break;
                     
                 case DLCacheSQLType:
                     {
-                        NSLog(@"SQLcache_obj  ==  %@", node->_value);
+//                        NSLog(@"SQLcache_obj  ==  %@", node->_value);
+                        [objDic setObject:node->_value forKey:node->_key];
                     }
                     break;
                     
@@ -458,6 +493,7 @@ static NSString *DLNSStringMD5(NSString *string) {
                     break;
             }
         }
+        return objDic;
     }
 }
 
@@ -477,8 +513,8 @@ static NSString *DLNSStringMD5(NSString *string) {
     [[DLCache shareInstance]setObject:obj forKey:key];
 }
 
-+(void)printfAllObjects{
-    [[DLCache shareInstance] printfAllObjects];
++(NSDictionary *)getAllObjects{
+    return [[DLCache shareInstance] getAllObjects];
 }
 
 +(NSString *)fileName{

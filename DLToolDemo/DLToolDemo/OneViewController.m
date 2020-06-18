@@ -54,6 +54,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    NSLog(@"fffffffff");
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
     

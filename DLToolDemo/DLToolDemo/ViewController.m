@@ -78,65 +78,15 @@
     
     [DLPerformance openMonitoring];
     
-//    [[DLKeyChainManager shareInstance]dl_addKeyChainWithKey:@"111" value:@"222"];
-    
-    NSLog(@"%@", [[DLKeyChainManager shareInstance] dl_getKeyChainValueWithKey:@"111"]);
-        
 //    self.player = [DLPlayer shareInstance];
 //    self.player.fatherView = self.view;
 //    self.player.videoUrl = VideoUrl4;
 //    self.player.skinView = [[DLVodPlayerSkinView alloc]init];
 //    self.player.videoTitle = @"12222";
 //    [self.player start];
+
     
-//    YYMemoryCache *cache = [[YYMemoryCache alloc]init];
     
-//    YYDiskCache *cache = [[YYDiskCache alloc]initWithPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]];
-    
-//    NSLog(@"%@", [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject]);
-        
-//    [[DLCache shareInstance] printfAllCache];
-    
-//    NSDate *datenow = [NSDate date];
-//    NSTimeInterval interval = [[NSDate date] timeIntervalSince1970] *1000;
-    
-//    NSLog(@"%lf  ==  %f", CFAbsoluteTimeGetCurrent(), [[NSDate date] timeIntervalSince1970] *1000);
-    
-//    NSString *str = @"1111";
-//    NSString *(^block)(void) = ^{
-//        return @"22222";
-//    };
-//
-//    id obj = [block copy];
-//
-//    NSString *(^strBlock)(void) = [str performSelector:@selector(test:text:) withObject:obj withObject:@"11111"];
-//
-//    NSString *dd;
-//
-//    if (strBlock) {
-//        dd = strBlock();
-//    }
-//
-//    NSLog(@"%@", dd);
-        
-//    NSLog(@"%f", [DLCache cacheSize]);
-//
-//    NSLog(@"%@", [DLCache fileName]);
-    
-//    [DLCache printfAllObjects];
-    
-//    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(100, 100, 200, 200)];
-//    [self.view addSubview:imageView];
-//
-//    int num = 100;
-//
-//
-//
-//    @autoreleasepool {
-//        for (int a = 0; a < num; a++) {
-//            [imageView dl_setWebImage:VideoUrl6];
-//        }
-//    }
 }
 
 -(NSString *(^)(void))test:(NSString *)name text:(NSString *)text order:(NSString *)order block:(NSString *(^)(void))block{
@@ -150,8 +100,12 @@
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    OneViewController *vc = [[OneViewController alloc]init];
-    [self.navigationController pushViewController:vc animated:YES];
+//    OneViewController *vc = [[OneViewController alloc]init];
+//    [self.navigationController pushViewController:vc animated:YES];
+    
+//    [self dl_pushVC:@"OneViewController" parameters:nil completion:^{
+        NSLog(@"4444444");
+//    }];
     
 //    YYCache *cache = [[YYCache alloc]initWithName:@"demo"];
     
