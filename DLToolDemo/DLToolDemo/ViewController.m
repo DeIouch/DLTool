@@ -26,6 +26,9 @@
 #import <malloc/malloc.h>
 #import "NSObject+YYAdd.h"
 #import "UIImageView+DLWeb.h"
+#import "TestView.h"
+#import <WebKit/WebKit.h>
+#import "DLLayer.h"
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
 
@@ -45,16 +48,19 @@
 
 @property (nonatomic, strong) NSMutableArray *array;
 
-@property (nonatomic, strong) UIButton *buttonA;
+@property (nonatomic, strong) UIView *buttonA;
 
 @property (nonatomic, strong) UIButton *buttonB;
 
 @property (nonatomic, strong) UITextField *textField;
 
+@property (nonatomic, strong) UIView *tempView;
+
+@property (nonatomic, strong) DLPlayer *player;
+
 @end
 
 @implementation ViewController{
-    UITextField *textField;
     UITextView *atextField;
     UITableView *tableView;
 }
@@ -76,17 +82,64 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    [DLPerformance openMonitoring];
+//    [DLPerformance openMonitoring];
     
-//    self.player = [DLPlayer shareInstance];
-//    self.player.fatherView = self.view;
-//    self.player.videoUrl = VideoUrl4;
-//    self.player.skinView = [[DLVodPlayerSkinView alloc]init];
-//    self.player.videoTitle = @"12222";
-//    [self.player start];
+    
+//    self.tempView = [[UIView alloc]init];
+//    self.tempView.backgroundColor = [UIColor redColor];
+//
+//    self.tempView.tag = 10;
+//
+//    self.tempView.dl_layout(DL_left | DL_right | DL_bottom | DL_top).equal(self.view).offset(50);
+//
+//    self.buttonA = [[UIView alloc]init];
+//    self.buttonA.tag = 11;
+//    self.buttonA.backgroundColor = [UIColor blueColor];
+//
+//    self.buttonA.dl_layout(DL_left | DL_right | DL_bottom | DL_top).equal(self.tempView).offset(50);
+//
+//    [self.tempView addSubview:self.buttonA];
+//
+//    [self.view addSubview:self.tempView];
+//
+//    self.tempView.dl_layout(DL_safeTop).equal(self.view).offset(100);
+//
+////    self.buttonA.dl_layout(DL_left | DL_right | DL_bottom | DL_top).equal(self.tempView).offset(20);
+//
+//    [self.view addSubview:self.tempView];
+    
+    
+//    UIView *a = [[UIView alloc]init];
+//    [self.view addSubview:a];
+//    a.backgroundColor = [UIColor redColor];
+//    a.dl_layout(DL_left | DL_top | DL_bottom).equal(self.view).offset(0).dl_layout(DL_width).offset(DLWidth * 0.5);
+//
+//    UIView *b = [[UIView alloc]init];
+//    [self.view addSubview:b];
+//    b.backgroundColor = [UIColor blueColor];
+//    b.dl_layout(DL_right | DL_top | DL_bottom).equal(self.view).offset(0).dl_layout(DL_width).offset(DLWidth * 0.5);
+//
+//    UIView *c = [[UIView alloc]init];
+//    [a addSubview:c];
+//    c.backgroundColor = [UIColor yellowColor];
+//    c.dl_layout(DL_left | DL_top | DL_bottom).equal(a).offset(100).dl_layout(DL_width).offset(50);
+//
+//    UIView *d = [[UIView alloc]init];
+//    [b addSubview:d];
+//    d.backgroundColor = [UIColor greenColor];
+//    d.dl_layout(DL_right | DL_top | DL_bottom).equal(c).offset(80).dl_layout(DL_width).offset(50);
+    
 
     
+//    windows.dl_layout(DL_left | DL_bottom | DL_right | DL_safeTop).equal(self.view).offset(50);
     
+    
+    self.player = [DLPlayer shareInstance];
+    self.player.fatherView = self.view;
+    self.player.videoUrl = VideoUrl4;
+    self.player.skinView = [[DLVodPlayerSkinView alloc]init];
+    self.player.videoTitle = @"12222";
+    [self.player start];
 }
 
 -(NSString *(^)(void))test:(NSString *)name text:(NSString *)text order:(NSString *)order block:(NSString *(^)(void))block{
@@ -100,11 +153,20 @@
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    
+//    self.tempView.dl_layout(DL_top).equal(self.view).offset(200);
+    
+//    [self.view addSubview:self.tempView];
+    
+    
+    
+    
+    
 //    OneViewController *vc = [[OneViewController alloc]init];
 //    [self.navigationController pushViewController:vc animated:YES];
     
 //    [self dl_pushVC:@"OneViewController" parameters:nil completion:^{
-        NSLog(@"4444444");
+//        NSLog(@"4444444");
 //    }];
     
 //    YYCache *cache = [[YYCache alloc]initWithName:@"demo"];

@@ -502,14 +502,7 @@ static char leftNameKey;
     return ^(NSString *imageString){
         if ([NSStringFromClass([self class]) isEqualToString:@"UIImageView"]) {
             UIImageView *imageView = (UIImageView *)self;
-            if (!imageView.image) {
-                UIImage *image = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle].resourcePath stringByAppendingPathComponent:imageString]];
-                UIGraphicsBeginImageContextWithOptions(self.bounds.size, YES, 0);
-                [image drawInRect:self.bounds];
-                UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
-                UIGraphicsEndImageContext();
-                [imageView setImage:resultImage];
-            }
+            imageView.image = [UIImage imageNamed:imageString];
         }
         return self;
     };

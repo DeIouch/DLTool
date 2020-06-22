@@ -70,11 +70,19 @@ static __weak id dl_currentFirstResponder;
 }
 
 -(BOOL)notManageBOOL{
-    return objc_getAssociatedObject(self, &notManageBOOLKey);
+    NSString *managerStr = objc_getAssociatedObject(self, &notManageBOOLKey);
+    if ([managerStr isEqualToString:@"YES"]) {
+        return YES;
+    }
+    return NO;
 }
 
--(void)setNotManageBOOL:(BOOL)notManageBOOL{
-    objc_setAssociatedObject(self, &notManageBOOLKey, @(notManageBOOL), OBJC_ASSOCIATION_ASSIGN);
+-(void)setManage:(BOOL)manageBOOL{
+    NSString *manageStr = @"NO";
+    if (!manageBOOL) {
+        manageStr = @"YES";
+    }
+    objc_setAssociatedObject(self, &notManageBOOLKey, manageStr, OBJC_ASSOCIATION_ASSIGN);
 }
 
 @end
@@ -134,7 +142,7 @@ static __weak id dl_currentFirstResponder;
     if (!keyboard.keyBoardManageVC) {
         keyboard.keyBoardManageVC = keyboard.firstResponderView.fatherViewController;
     }
-    if (keyboard.firstResponderView.notManageBOOL) {
+    if ([keyboard.firstResponderView notManageBOOL]) {
         return;
     }
     dispatch_async(dispatch_get_main_queue(), ^{

@@ -1,54 +1,40 @@
 #import <UIKit/UIKit.h>
 
+//  优点：
+//          约束不会冲突，同一个方向的约束只会生效设置的最后一条
+//          可以在任意位置添加约束，可以在添加到父视图之前添加约束，不会崩溃，可以在子线程中添加约束，约束会强制在主线程中生效
 
-@interface DLLayout : NSObject
-
-@property (nonatomic, strong) DLLayout *left;
-
-@property (nonatomic, strong) DLLayout *right;
-
-@property (nonatomic, strong) DLLayout *top;
-
-@property (nonatomic, strong) DLLayout *bottom;
-
-@property (nonatomic, strong) DLLayout *safeTop;
-
-@property (nonatomic, strong) DLLayout *safeBottom;
-
-@property (nonatomic, strong) DLLayout *width;
-
-@property (nonatomic, strong) DLLayout *lessOrThanWidth;
-
-@property (nonatomic, strong) DLLayout *greatOrThenWidth;
-
-@property (nonatomic, strong) DLLayout *height;
-
-@property (nonatomic, strong) DLLayout *lessOrThanHeight;
-
-@property (nonatomic, strong) DLLayout *greatOrThanHeight;
-
-@property (nonatomic, strong) DLLayout *centerX;
-
-@property (nonatomic, strong) DLLayout *centerY;
-
--(DLLayout *(^)(UIView *view))equal;
-
--(DLLayout *(^)(UIView *view))equal_to;
-
--(DLLayout *(^)(CGFloat constant))multipliedBy;
-
--(DLLayout *(^)(CGFloat constant))offset;
-
-//-(DLLayout *(^)(NSInteger constant))priority;
-
--(void *(^)(void))install;
-
--(void *(^)(void))remove;
-
-@end
+typedef NS_OPTIONS(NSInteger, DLLayoutType) {
+    DL_left                                                     =   1 << 0,
+    DL_right                                                   =   1 << 1,
+    DL_top                                                     =   1 << 2,
+    DL_bottom                                               =   1 << 3,
+    DL_safeTop                                              =   1 << 4,
+    DL_safeBottom                                         =   1 << 5,
+    DL_width                                                  =   1 << 6,
+    DL_lessOrThanWidth                                  =   1 << 7,
+    DL_greatOrThenWidth                                =   1 << 8,
+    DL_height                                                 =   1 << 9,
+    DL_lessOrThanHeight                                 =   1 << 10,
+    DL_greatOrThanHeight                               =   1 << 11,
+    DL_centerX                                               =   1 << 12,
+    DL_centerY                                               =   1 << 13,
+};
 
 @interface UIView (Layout)
 
-@property (nonatomic, strong) DLLayout *dl_layout;
+-(UIView *(^)(DLLayoutType type))dl_layout;
+
+-(UIView *(^)(DLLayoutType type))dl_remove_layout;
+
+-(UIView *(^)(UIView *view))equal;
+
+-(UIView *(^)(UIView *view))equal_to;
+
+-(UIView *(^)(CGFloat constant))multipliedBy;
+
+-(UIView *(^)(CGFloat constant))offset;
+
+-(UIView *(^)(NSInteger constant))priority;
 
 @end

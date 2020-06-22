@@ -132,7 +132,7 @@ static DLLoad *load = nil;
             [NSLayoutConstraint constraintWithItem:_loadView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_backView attribute:NSLayoutAttributeCenterX multiplier:1 constant:0],
             [NSLayoutConstraint constraintWithItem:_loadView attribute:NSLayoutAttributeCenterY relatedBy:NSLayoutRelationEqual toItem:_backView attribute:NSLayoutAttributeCenterY multiplier:1 constant:0],
         ]];
-        _loadView.dl_allCorner(5);
+//        _loadView.dl_allCorner(5);
     }
     return _loadView;
 }

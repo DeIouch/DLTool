@@ -8,7 +8,7 @@
 
 @property (nonatomic, strong) NSString *identifierStr;
 
--(void)dl_AutoLayout:(void (^)(DLConstraintMaker *make))block;
+//-(void)dl_AutoLayout:(void (^)(DLConstraintMaker *make))block;
 
 -(void)dl_remove_allLayout;
 

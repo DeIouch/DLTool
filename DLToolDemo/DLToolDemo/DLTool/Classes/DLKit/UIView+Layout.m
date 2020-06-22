@@ -1,6 +1,5 @@
 #import "UIView+Layout.h"
-#import <objc/runtime.h>
-#import "UIView+Add.h"
+#import "DLToolMacro.h"
 
 static char const layout_Key;
 
@@ -41,15 +40,11 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 @property (nonatomic, assign) CGFloat constant;
 
-@property (nonatomic, assign) BOOL needInstall;
-
 @property (nonatomic, strong) NSLayoutConstraint *constraint;
 
 @property (nonatomic, assign) ConstraintType constraintType;
 
 @property (nonatomic, weak) id item;
-
-@property (nonatomic, assign) BOOL needDelete;
 
 @property (nonatomic, assign) NSInteger priority;
 
@@ -186,10 +181,15 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 @end;
 
+@interface DLLayout : NSObject
+
+@end
 
 @interface DLLayout ()
 
 @property (nonatomic, strong) NSMutableArray *array;
+
+@property (nonatomic, strong) NSMutableArray *oldArray;
 
 @property (nonatomic, weak) UIView *view;
 
@@ -209,8 +209,6 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 @property (nonatomic, strong) Constraint *centerYConstraint;
 
-@property (nonatomic, assign) BOOL isReset;
-
 @end
 
 
@@ -220,14 +218,18 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     if (self = [super init]) {
         self.array = [[NSMutableArray alloc]init];
         self.view = view;
-        self.isReset = NO;
+        self.oldArray = [[NSMutableArray alloc]init];
     }
     return self;
 }
 
 -(DLLayout *(^)(NSInteger constant))priority{
     return ^(NSInteger constant) {
-        self.isReset = YES;
+        if (constant > 1000) {
+            constant = 1000;
+        }else if (constant < 0) {
+            constant = 0;
+        }
         for (Constraint *constraint in self.array) {
             constraint.priority = constant;
         }
@@ -237,7 +239,6 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *(^)(UIView *view))equal{
     return ^(UIView *view){
-        self.isReset = YES;
         for (Constraint *constraint in self.array) {
             constraint.secondView = view;
             constraint.multiplier = 1;
@@ -249,7 +250,6 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *(^)(UIView *view))equal_to{
     return ^(UIView *view){
-        self.isReset = YES;
         for (Constraint *constraint in self.array) {
             constraint.secondView = view;
             constraint.multiplier = 1;
@@ -281,7 +281,6 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *(^)(CGFloat constant))multipliedBy{
     return ^(CGFloat constant){
-        self.isReset = YES;
         for (Constraint *constraint in self.array) {
             constraint.multiplier = constant;
         }
@@ -291,7 +290,6 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *(^)(CGFloat constant))offset{
     return ^(CGFloat constant){
-        self.isReset = YES;
         for (Constraint *constraint in self.array) {
             switch (constraint.constraintType) {
                 case Bottom:
@@ -311,42 +309,51 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 }
 
 -(void)installConstraint{
-    for (Constraint *constraint in self.array) {
-        if (constraint.needDelete) {
-            if (constraint.fatherView && constraint.constraint) {
-                [constraint.fatherView removeConstraint:constraint.constraint];
+    @autoreleasepool {
+        for (Constraint *constraint in self.oldArray) {
+            UIView *view;
+            if (!constraint.secondView) {
+                constraint.secondView = self.view.superview;
+                view = self.view.superview;
+            }else if (self.view.superview == constraint.secondView) {
+                view = constraint.secondView;
+            }else{
+                view = [self dl_getCommonSuperView:constraint.secondView forView:self.view];
             }
-            continue;
-        }
-        if (!constraint.needInstall) {
-            continue;
-        }
-        UIView *view;
-        if (!constraint.secondView) {
-            constraint.secondView = self.view.superview;
-            view = self.view.superview;
-        }else if (self.view.superview == constraint.secondView) {
-            view = constraint.secondView;
-        }else{
-            view = [self.view getCommonSuperView:constraint.secondView];
-        }
-        if (constraint.constraintType == SafeBottom || constraint.constraintType == SafeTop || constraint.constraintType == SafeRight || constraint.constraintType == SafeLeft) {
-            if (@available(iOS 11.0, *)) {
-                constraint.item = view.safeAreaLayoutGuide;
-            } else {
+            if (constraint.constraintType == SafeBottom || constraint.constraintType == SafeTop || constraint.constraintType == SafeRight || constraint.constraintType == SafeLeft) {
+                if (@available(iOS 11.0, *)) {
+                    constraint.item = view.safeAreaLayoutGuide;
+                } else {
+                    constraint.item = constraint.secondView;
+                }
+            }else{
                 constraint.item = constraint.secondView;
             }
-        }else{
-            constraint.item = constraint.secondView;
+            NSLayoutConstraint *cons = [self addConstraint:constraint];
+            constraint.constraint = cons;
+            constraint.fatherView = view;
+            [view addConstraint:cons];
         }
-        NSLayoutConstraint *cons = [self addConstraint:constraint];
-        constraint.constraint = cons;
-        constraint.fatherView = view;
-        constraint.needInstall = NO;
-        [view addConstraint:cons];
+        [self.oldArray removeAllObjects];
     }
-    self.isReset = NO;
-    [self.array removeAllObjects];
+}
+
+-(UIView *)dl_getCommonSuperView:(UIView *)view forView:(UIView *)myView{
+    @autoreleasepool {
+        UIView *commonSuperview = nil;
+        UIView *secondViewSuperview = view;
+        while (!commonSuperview && secondViewSuperview) {
+            UIView *firstViewSuperview = myView;
+            while (!commonSuperview && firstViewSuperview) {
+                if (secondViewSuperview == firstViewSuperview) {
+                    commonSuperview = secondViewSuperview;
+                }
+                firstViewSuperview = firstViewSuperview.superview;
+            }
+            secondViewSuperview = secondViewSuperview.superview;
+        }
+        return commonSuperview;
+    }
 }
 
 -(NSLayoutConstraint *)addConstraint:(Constraint *)constraint{
@@ -358,23 +365,20 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 }
 
 -(void)removeConstraint{
-    for (Constraint *constraint in self.array) {
-        if (constraint.fatherView && constraint.constraint) {
-            [constraint.fatherView removeConstraint:constraint.constraint];
+    @autoreleasepool {
+        for (Constraint *constraint in self.array) {
+            if (constraint.fatherView && constraint.constraint) {
+                [constraint.fatherView removeConstraint:constraint.constraint];
+            }
         }
+        [self.array removeAllObjects];
     }
-    [self.array removeAllObjects];
 }
 
 -(DLLayout *)left{
     [self deleteConstraint:self.leftConstraint];
-    if (self.isReset) {
-        [self installConstraint];
-    }
     self.leftConstraint.multiplier = 1.0;
     self.leftConstraint.constant = 0;
-    self.leftConstraint.needInstall = YES;
-    self.leftConstraint.needDelete = NO;
     self.leftConstraint.constraintType = Left;
     [self.array addObject:self.leftConstraint];
     return self;
@@ -382,13 +386,8 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *)right{
     [self deleteConstraint:self.rightConstraint];
-    if (self.isReset) {
-        [self installConstraint];
-    }
     self.rightConstraint.multiplier = 1.0;
     self.rightConstraint.constant = 0;
-    self.rightConstraint.needInstall = YES;
-    self.rightConstraint.needDelete = NO;
     self.rightConstraint.constraintType = Right;
     [self.array addObject:self.rightConstraint];
     return self;
@@ -396,13 +395,8 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *)top{
     [self deleteConstraint:self.topConstraint];
-    if (self.isReset) {
-        [self installConstraint];
-    }
     self.topConstraint.multiplier = 1.0;
     self.topConstraint.constant = 0;
-    self.topConstraint.needInstall = YES;
-    self.topConstraint.needDelete = NO;
     self.topConstraint.constraintType = Top;
     [self.array addObject:self.topConstraint];
     return self;
@@ -411,13 +405,8 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 -(DLLayout *)bottom{
     [self deleteConstraint:self.bottomConstraint];
     [self dl_removalDuplicateConstraints:self.bottomConstraint];
-    if (self.isReset) {
-        [self installConstraint];
-    }
     self.bottomConstraint.multiplier = 1.0;
     self.bottomConstraint.constant = 0;
-    self.bottomConstraint.needInstall = YES;
-    self.bottomConstraint.needDelete = NO;
     self.bottomConstraint.constraintType = Bottom;
     [self.array addObject:self.bottomConstraint];
     return self;
@@ -438,13 +427,8 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *)safeTop{
     [self deleteConstraint:self.topConstraint];
-    if (self.isReset) {
-        [self installConstraint];
-    }
     self.topConstraint.multiplier = 1.0;
     self.topConstraint.constant = 0;
-    self.topConstraint.needInstall = YES;
-    self.topConstraint.needDelete = NO;
     self.topConstraint.constraintType = SafeTop;
     [self.array addObject:self.topConstraint];
     
@@ -453,13 +437,8 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *)safeBottom{
     [self deleteConstraint:self.bottomConstraint];
-    if (self.isReset) {
-        [self installConstraint];
-    }
     self.bottomConstraint.multiplier = 1.0;
     self.bottomConstraint.constant = 0;
-    self.bottomConstraint.needInstall = YES;
-    self.bottomConstraint.needDelete = NO;
     self.bottomConstraint.constraintType = SafeBottom;
     [self.array addObject:self.bottomConstraint];
     return self;
@@ -467,13 +446,8 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *)width{
     [self deleteConstraint:self.widthConstraint];
-    if (self.isReset) {
-        [self installConstraint];
-    }
     self.widthConstraint.multiplier = 0;
     self.widthConstraint.constant = 0;
-    self.widthConstraint.needInstall = YES;
-    self.widthConstraint.needDelete = NO;
     self.widthConstraint.constraintType = Width;
     [self.array addObject:self.widthConstraint];
     return self;
@@ -481,13 +455,8 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *)height{
     [self deleteConstraint:self.heightConstraint];
-    if (self.isReset) {
-        [self installConstraint];
-    }
     self.heightConstraint.multiplier = 0;
     self.heightConstraint.constant = 0;
-    self.heightConstraint.needInstall = YES;
-    self.heightConstraint.needDelete = NO;
     self.heightConstraint.constraintType = Height;
     [self.array addObject:self.heightConstraint];
     return self;
@@ -495,13 +464,8 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *)lessOrThanWidth{
     [self deleteConstraint:self.widthConstraint];
-    if (self.isReset) {
-        [self installConstraint];
-    }
     self.widthConstraint.multiplier = 0;
     self.widthConstraint.constant = 0;
-    self.widthConstraint.needInstall = YES;
-    self.widthConstraint.needDelete = NO;
     self.widthConstraint.constraintType = LessOrThanWidth;
     [self.array addObject:self.widthConstraint];
     return self;
@@ -509,13 +473,8 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *)lessOrThanHeight{
     [self deleteConstraint:self.heightConstraint];
-    if (self.isReset) {
-        [self installConstraint];
-    }
     self.heightConstraint.multiplier = 0;
     self.heightConstraint.constant = 0;
-    self.heightConstraint.needInstall = YES;
-    self.heightConstraint.needDelete = NO;
     self.heightConstraint.constraintType = LessOrThanHeight;
     [self.array addObject:self.heightConstraint];
     return self;
@@ -523,13 +482,8 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *)greatOrThenWidth{
     [self deleteConstraint:self.widthConstraint];
-    if (self.isReset) {
-        [self installConstraint];
-    }
     self.widthConstraint.multiplier = 0;
     self.widthConstraint.constant = 0;
-    self.widthConstraint.needInstall = YES;
-    self.widthConstraint.needDelete = NO;
     self.widthConstraint.constraintType = GreatOrThanWidth;
     [self.array addObject:self.widthConstraint];
     return self;
@@ -537,13 +491,8 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *)greatOrThanHeight{
     [self deleteConstraint:self.heightConstraint];
-    if (self.isReset) {
-        [self installConstraint];
-    }
     self.heightConstraint.multiplier = 0;
     self.heightConstraint.constant = 0;
-    self.heightConstraint.needInstall = YES;
-    self.heightConstraint.needDelete = NO;
     self.heightConstraint.constraintType = GreatOrThanHeight;
     [self.array addObject:self.heightConstraint];
     return self;
@@ -551,13 +500,8 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *)centerX{
     [self deleteConstraint:self.centerXConstraint];
-    if (self.isReset) {
-        [self installConstraint];
-    }
     self.centerXConstraint.multiplier = 1;
     self.centerXConstraint.constant = 0;
-    self.centerXConstraint.needInstall = YES;
-    self.centerXConstraint.needDelete = NO;
     self.centerXConstraint.constraintType = CenterX;
     [self.array addObject:self.centerXConstraint];
     return self;
@@ -565,36 +509,18 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *)centerY{
     [self deleteConstraint:self.centerYConstraint];
-    if (self.isReset) {
-        [self installConstraint];
-    }
     self.centerYConstraint.multiplier = 1;
     self.centerYConstraint.constant = 0;
-    self.centerYConstraint.needInstall = YES;
-    self.centerYConstraint.needDelete = NO;
     self.centerYConstraint.constraintType = CenterY;
     [self.array addObject:self.centerYConstraint];
     return self;
-}
-
--(void *(^)(void))install{
-    return ^(void) {
-        [self installConstraint];
-        return nil;
-    };
-}
-
--(void *(^)(void))remove{
-    return ^(void) {
-        [self removeConstraint];
-        return nil;
-    };
 }
 
 -(void)deleteConstraint:(Constraint *)constraint{
     if (constraint.fatherView) {
         [constraint.fatherView removeConstraint:constraint.constraint];
         [self.array removeObject:constraint];
+        [self.oldArray removeObject:constraint];
     }
 }
 
@@ -658,28 +584,276 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 @implementation UIView (Layout)
 
--(DLLayout *)dl_layout{
-    DLLayout *tempLayout = objc_getAssociatedObject(self, &layout_Key);
-    if (!tempLayout) {
-        self.translatesAutoresizingMaskIntoConstraints = NO;
-        tempLayout = [[DLLayout alloc]initWithView:self];
-        objc_setAssociatedObject(self, &layout_Key, tempLayout, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    }
-    return tempLayout;
++ (void)load{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Safe_ExchangeMethod([self class], @selector(addSubview:), @selector(dl_addSubview:));
+    });
 }
 
--(void)setDl_layout:(DLLayout *)dl_layout{
-    if (self.superview == nil) {
-        #if defined(DEBUG)||defined(_DEBUG)
-        assert(NO&&"请先添加父视图");
-        #endif
-    }else if (![[NSThread currentThread] isMainThread]) {
+-(void)dl_addSubview:(UIView *)view{
+    [self dl_addSubview:view];
+    if (objc_getAssociatedObject(view, &layout_Key)) {
+        DLLayout *layout = [view layout];
+        [layout.oldArray addObjectsFromArray:layout.array];
+        [layout.array removeAllObjects];
+        if (layout.oldArray.count > 0) {
+             [layout installConstraint];
+        }
+    }
+}
+
+-(void)dl_layoutSubviews{
+    if (!self.superview) {
+        return;
+    }
+    if (objc_getAssociatedObject(self, &layout_Key)) {
+        DLLayout *layout = [self layout];
+        [layout.oldArray addObjectsFromArray:layout.array];
+        [layout.array removeAllObjects];
+        if (layout.oldArray.count > 0) {
+             [layout installConstraint];
+        }
+    }
+}
+
+-(UIView *(^)(DLLayoutType type))dl_layout{
+    return ^(DLLayoutType type){
+        if (self.superview) {
+            @dl_weakify;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0000001 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                @dl_strongify;
+                [self dl_layoutSubviews];
+            });
+        }
+        DLLayout *layout = [self layout];
+        [layout.oldArray addObjectsFromArray:layout.array];
+        [layout.array removeAllObjects];
+        if (type & DL_left) {
+            [layout left];
+        }
+        
+        if (type & DL_right) {
+            [layout right];
+        }
+        
+        if (type & DL_top) {
+            [layout top];
+        }
+        
+        if (type & DL_bottom) {
+            [layout bottom];
+        }
+        
+        if (type & DL_safeTop) {
+            [layout safeTop];
+        }
+        
+        if (type & DL_safeBottom) {
+            [layout safeBottom];
+        }
+        
+        if (type & DL_width) {
+            [layout width];
+        }
+        
+        if (type & DL_lessOrThanWidth) {
+            [layout lessOrThanWidth];
+        }
+        
+        if (type & DL_greatOrThenWidth) {
+            [layout greatOrThenWidth];
+        }
+        
+        if (type & DL_height) {
+            [layout height];
+        }
+        
+        if (type & DL_lessOrThanHeight) {
+            [layout lessOrThanHeight];
+        }
+        
+        if (type & DL_centerX) {
+            [layout centerX];
+        }
+        
+        if (type & DL_centerY) {
+            [layout centerY];
+        }
+        
+        if (type & DL_greatOrThanHeight) {
+            [layout lessOrThanHeight];
+        }
+        return self;
+    };
+}
+
+-(UIView *(^)(DLLayoutType type))dl_remove_layout{
+    return ^(DLLayoutType type){
+        DLLayout *layout = [self layout];
+        if (type & DL_left) {
+            [layout deleteConstraint:layout.leftConstraint];
+        }
+        
+        if (type & DL_right) {
+            [layout deleteConstraint:layout.rightConstraint];
+        }
+        
+        if (type & DL_top) {
+            [layout deleteConstraint:layout.topConstraint];
+        }
+        
+        if (type & DL_bottom) {
+            [layout deleteConstraint:layout.bottomConstraint];
+        }
+        
+        if (type & DL_safeTop) {
+            [layout deleteConstraint:layout.topConstraint];
+        }
+        
+        if (type & DL_safeBottom) {
+            [layout deleteConstraint:layout.bottomConstraint];
+        }
+        
+        if (type & DL_width) {
+            [layout deleteConstraint:layout.widthConstraint];
+        }
+        
+        if (type & DL_lessOrThanWidth) {
+            [layout deleteConstraint:layout.widthConstraint];
+        }
+        
+        if (type & DL_greatOrThenWidth) {
+            [layout deleteConstraint:layout.widthConstraint];
+        }
+        
+        if (type & DL_height) {
+            [layout deleteConstraint:layout.heightConstraint];
+        }
+        
+        if (type & DL_lessOrThanHeight) {
+            [layout deleteConstraint:layout.heightConstraint];
+        }
+        
+        if (type & DL_centerX) {
+            [layout deleteConstraint:layout.centerXConstraint];
+        }
+        
+        if (type & DL_centerY) {
+            [layout deleteConstraint:layout.centerYConstraint];
+        }
+        
+        if (type & DL_greatOrThanHeight) {
+            [layout deleteConstraint:layout.heightConstraint];
+        }
+        return self;
+    };
+}
+
+-(UIView *(^)(NSInteger constant))priority{
+    return ^(NSInteger constant) {
+        if (constant > 1000) {
+            constant = 1000;
+        }else if (constant < 0) {
+            constant = 0;
+        }
+        DLLayout *layout = [self layout];
+        for (Constraint *constraint in layout.array) {
+            constraint.priority = constant;
+        }
+        return self;
+    };
+}
+
+-(UIView *(^)(UIView *view))equal{
+    return ^(UIView *view){
+        DLLayout *layout = [self layout];
+        for (Constraint *constraint in layout.array) {
+            constraint.secondView = view;
+            constraint.multiplier = 1;
+            constraint.secondAttribute = constraint.firstAttribute;
+        }
+        return self;
+    };
+}
+
+-(UIView *(^)(UIView *view))equal_to{
+    return ^(UIView *view){
+        DLLayout *layout = [self layout];
+        for (Constraint *constraint in layout.array) {
+            constraint.secondView = view;
+            constraint.multiplier = 1;
+            switch (constraint.firstAttribute) {
+                case NSLayoutAttributeLeft:
+                    constraint.secondAttribute = NSLayoutAttributeRight;
+                    break;
+                    
+                case NSLayoutAttributeRight:
+                    constraint.secondAttribute = NSLayoutAttributeLeft;
+                    break;
+                    
+                case NSLayoutAttributeTop:
+                    constraint.secondAttribute = NSLayoutAttributeBottom;
+                    break;
+                    
+                case NSLayoutAttributeBottom:
+                    constraint.secondAttribute = NSLayoutAttributeTop;
+                    break;
+                    
+                default:
+                    constraint.secondAttribute = constraint.firstAttribute;
+                    break;
+            }
+        }
+        return self;
+    };
+}
+
+-(UIView *(^)(CGFloat constant))multipliedBy{
+    return ^(CGFloat constant){
+        DLLayout *layout = [self layout];
+        for (Constraint *constraint in layout.array) {
+            constraint.multiplier = constant;
+        }
+        return self;
+    };
+}
+
+-(UIView *(^)(CGFloat constant))offset{
+    return ^(CGFloat constant){
+        DLLayout *layout = [self layout];
+        for (Constraint *constraint in layout.array) {
+            switch (constraint.constraintType) {
+                case Bottom:
+                case SafeBottom:
+                case Right:
+                case SafeRight:
+                    constraint.constant = -constant;
+                    break;
+                    
+                default:
+                    constraint.constant = constant;
+                    break;
+            }
+        }
+        return self;
+    };
+}
+
+-(DLLayout *)layout{
+    DLLayout *tempLayout = objc_getAssociatedObject(self, &layout_Key);
+    if (![[NSThread currentThread] isMainThread]) {
         #if defined(DEBUG)||defined(_DEBUG)
         assert(NO&&"约束只能在主线程中添加");
         #endif
     }else{
-        objc_setAssociatedObject(self, &layout_Key, dl_layout, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        if (!tempLayout) {
+            self.translatesAutoresizingMaskIntoConstraints = NO;
+            tempLayout = [[DLLayout alloc]initWithView:self];
+            objc_setAssociatedObject(self, &layout_Key, tempLayout, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        }
     }
+    return tempLayout;
 }
 
 @end

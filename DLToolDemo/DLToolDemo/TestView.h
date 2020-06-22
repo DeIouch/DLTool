@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TestView : UIButton
+@interface TestView : UIView
 
 @property (nonatomic, copy) void (^actionBlock)(void);
 @end

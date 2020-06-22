@@ -10,8 +10,9 @@
 
 @implementation TestView
 
--(void)dealloc{
-    NSLog(@"view");
-}
+
+//-(void)layoutSubviews{
+//    NSLog(@"layoutSubviews");
+//}
 
 @end

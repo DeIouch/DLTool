@@ -4,20 +4,7 @@
 #import "UIImageView+DLWeb.h"
 #import <CommonCrypto/CommonCrypto.h>
 #import "DLThread.h"
-
-#define dl_dispatch_main_sync_safe(block)\
-    if ([NSThread isMainThread]) {\
-        block();\
-    } else {\
-        dispatch_sync(dispatch_get_main_queue(), block);\
-    }
-
-#define dl_dispatch_main_async_safe(block)\
-    if ([NSThread isMainThread]) {\
-        block();\
-    } else {\
-        dispatch_async(dispatch_get_main_queue(), block);\
-    }
+#import "DLToolMacro.h"
 
 @interface DLDownloadOperationModel : NSObject
 

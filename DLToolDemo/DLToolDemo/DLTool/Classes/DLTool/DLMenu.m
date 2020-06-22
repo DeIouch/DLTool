@@ -1,6 +1,7 @@
 #import "DLMenu.h"
 #import <UIKit/UIKit.h>
 #import "UIView+Add.h"
+#import "UIView+Layout.h"
 
 @interface DLMenuCell : UITableViewCell
 
@@ -46,12 +47,15 @@
         self.backview = [UIView dl_view:^(UIView *view) {
             view.dl_backView(self).dl_backColor(@"FFFFFF");
         }];
-        [self.backview dl_AutoLayout:^(DLConstraintMaker *make) {
-            make.left.equal(self).offset(20);
-            make.right.equal(self).offset(-20);
-            make.top.equal(self).to(DLAttributeBottom).offset(0);
-            make.centerX.equal(self);
-        }];
+        
+        self.backview.dl_layout(DL_left | DL_right).equal(self).offset(20).dl_layout(DL_centerX).equal(self).dl_layout(DL_top).equal_to(self).offset(0);
+        
+//        [self.backview dl_AutoLayout:^(DLConstraintMaker *make) {
+//            make.left.equal(self).offset(20);
+//            make.right.equal(self).offset(-20);
+//            make.top.equal(self).to(DLAttributeBottom).offset(0);
+//            make.centerX.equal(self);
+//        }];
         
         self.tableView = [[UITableView alloc]init];
         [self.backview addSubview:self.tableView];
@@ -59,12 +63,14 @@
         self.tableView.dataSource = self;
         self.tableView.backgroundColor = [UIColor whiteColor];
         
-        [self.tableView dl_AutoLayout:^(DLConstraintMaker *make) {
-            make.left.offset(0);
-            make.right.offset(0);
-            make.top.offset(0);
-            make.bottom.offset(0);
-        }];
+        self.tableView.dl_layout(DL_left | DL_right | DL_bottom | DL_top).offset(0);
+        
+//        [self.tableView dl_AutoLayout:^(DLConstraintMaker *make) {
+//            make.left.offset(0);
+//            make.right.offset(0);
+//            make.top.offset(0);
+//            make.bottom.offset(0);
+//        }];
     }
     return self;
 }
@@ -75,10 +81,13 @@
 
 -(void)menuHidden{
     [UIView animateWithDuration:0.15 animations:^{
-        [self.backview dl_AutoLayout:^(DLConstraintMaker *make) {
-            make.bottom.remove();
-            make.top.equal(self).to(DLAttributeBottom).offset(0);
-        }];
+//        [self.backview dl_AutoLayout:^(DLConstraintMaker *make) {
+//            make.bottom.remove();
+//            make.top.equal(self).to(DLAttributeBottom).offset(0);
+//        }];
+        
+        self.backview.dl_remove_layout(DL_bottom).dl_layout(DL_top).equal_to(self).offset(0);
+        
         [self layoutIfNeeded];
         [self dl_viewHidden:0.2];
     }];
@@ -134,11 +143,13 @@
         dlMenu.menuView.tableView.scrollEnabled = NO;
     }
     [UIView animateWithDuration:0.2 animations:^{
-        [dlMenu.menuView.backview dl_AutoLayout:^(DLConstraintMaker *make) {
-            make.top.remove();
-            make.bottom.offset(-10);
-            make.height.offset(tempArray.count * 40 > [UIScreen mainScreen].bounds.size.height * 0.5 ? [UIScreen mainScreen].bounds.size.height * 0.5 : tempArray.count * 40);
-        }];
+//        [dlMenu.menuView.backview dl_AutoLayout:^(DLConstraintMaker *make) {
+//            make.top.remove();
+//            make.bottom.offset(-10);
+//            make.height.offset(tempArray.count * 40 > [UIScreen mainScreen].bounds.size.height * 0.5 ? [UIScreen mainScreen].bounds.size.height * 0.5 : tempArray.count * 40);
+//        }];
+        
+        dlMenu.menuView.dl_remove_layout(DL_top).dl_layout(DL_bottom).offset(10).dl_layout(DL_height).offset(tempArray.count * 40 > [UIScreen mainScreen].bounds.size.height * 0.5 ? [UIScreen mainScreen].bounds.size.height * 0.5 : tempArray.count * 40);
         [dlMenu.menuView layoutIfNeeded];
     }];
     

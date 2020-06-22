@@ -22,6 +22,20 @@
 
 #define EndTiming [self endTiming]
 
+#define dl_dispatch_main_sync_safe(block)\
+    if ([NSThread isMainThread]) {\
+        block();\
+    } else {\
+        dispatch_sync(dispatch_get_main_queue(), block);\
+    }
+
+#define dl_dispatch_main_async_safe(block)\
+    if ([NSThread isMainThread]) {\
+        block();\
+    } else {\
+        dispatch_async(dispatch_get_main_queue(), block);\
+    }
+
 #ifndef dl_weakify
     #if DEBUG
         #if __has_feature(objc_arc)

@@ -13,7 +13,6 @@
 #import "DLDemoTableViewCell.h"
 #import "TestView.h"
 #import "UIImageView+DLWeb.h"
-#import "UIImageView+WebCache.h"
 
 #define VideoUrl4 @"https://s1.ax1x.com/2020/05/14/YBiSOS.jpg"
 
