@@ -1,5 +1,4 @@
 #import <UIKit/UIKit.h>
-#import "DLConstraintMaker.h"
 @class DefaulterImage;
 
 @interface UIView (Add)
@@ -7,8 +6,6 @@
 +(instancetype)dl_view:(void (^) (UIView *view))block;
 
 @property (nonatomic, strong) NSString *identifierStr;
-
-//-(void)dl_AutoLayout:(void (^)(DLConstraintMaker *make))block;
 
 -(void)dl_remove_allLayout;
 

@@ -10,8 +10,6 @@
 
 @property (nonatomic, strong) NSString *touchIdentifierStr;
 
-@property (nonatomic, strong) DLConstraintMaker *make;
-
 /// 按钮点击间隔（防重复点击）
 @property (nonatomic, assign) NSTimeInterval qi_eventInterval;
 
@@ -19,8 +17,6 @@
 @property (nonatomic, copy)NSString *currentURLString;
 
 @end
-
-static char const autolayout_StrKey;
 
 static char const identifierStrKey;
 
@@ -40,14 +36,6 @@ static char leftNameKey;
 
 
 @implementation UIView (Add)
-
--(void)setMake:(DLConstraintMaker *)make{
-    objc_setAssociatedObject(self, &autolayout_StrKey, make, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
--(DLConstraintMaker *)make{
-    return objc_getAssociatedObject(self, &autolayout_StrKey);
-}
 
 +(instancetype)dl_view:(void (^) (UIView *view))block{
     UIView *view;
@@ -88,15 +76,6 @@ static char leftNameKey;
 
 #pragma mark autoLayout
 
--(void)dl_AutoLayout:(void (^)(DLConstraintMaker *make))block{
-    self.translatesAutoresizingMaskIntoConstraints = NO;
-    if (!self.make) {
-        self.make = [[DLConstraintMaker alloc]initWithView:self];
-    }
-    block(self.make);
-    [self.make install];
-}
-
 -(instancetype)getCommonSuperView:(UIView *)view{
     UIView *commonSuperview = nil;
     UIView *secondViewSuperview = view;
@@ -126,29 +105,6 @@ static char leftNameKey;
     }];
     [self removeConstraints:constrain];
 }
-
-//-(UIView *(^) (void))dl_remove_allLayout{
-//    return ^(void){
-//        if ([self isEmptySuperView]) {
-//            return self;
-//        }
-//
-//        NSArray<__kindof NSLayoutConstraint *> *constrain = self.constraints;
-//        NSArray<__kindof NSLayoutConstraint *> *superConstrain = self.superview.constraints;
-//        NSMutableArray<__kindof NSLayoutConstraint *> *array = [NSMutableArray array];
-//        [array addObjectsFromArray:constrain];
-//        [array addObjectsFromArray:superConstrain];
-//        [array enumerateObjectsUsingBlock:^(__kindof NSLayoutConstraint * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//            if (obj.firstItem == self) {
-//                [self.superview removeConstraint:obj];
-//            }
-//        }];
-//        [self removeConstraints:constrain];
-//        [self dl_printConstraintsForSelf];
-//
-//        return self;
-//    };
-//}
 
 -(CGFloat)dl_fittingHeight:(UIView *)view{
     return [self dl_fittingHeightWithSubview:view];

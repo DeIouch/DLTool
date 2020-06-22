@@ -31,7 +31,6 @@
 		2442056E2411204C00E442C6 /* video_full_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 244204FC2411204C00E442C6 /* video_full_screen.png */; };
 		2442056F2411204C00E442C6 /* video_small_screen.png in Resources */ = {isa = PBXBuildFile; fileRef = 244204FD2411204C00E442C6 /* video_small_screen.png */; };
 		244205702411204C00E442C6 /* video_top_gray.png in Resources */ = {isa = PBXBuildFile; fileRef = 244204FE2411204C00E442C6 /* video_top_gray.png */; };
-		244205722411204C00E442C6 /* DLConstraintMaker.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205042411204C00E442C6 /* DLConstraintMaker.m */; };
 		244205732411204C00E442C6 /* DLBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205072411204C00E442C6 /* DLBaseViewController.m */; };
 		244205742411204C00E442C6 /* UINavigationController+Add.m in Sources */ = {isa = PBXBuildFile; fileRef = 244205092411204C00E442C6 /* UINavigationController+Add.m */; };
 		244205752411204C00E442C6 /* DLSafeProtector.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442050C2411204C00E442C6 /* DLSafeProtector.m */; };
@@ -160,8 +159,6 @@
 		244204FC2411204C00E442C6 /* video_full_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = video_full_screen.png; sourceTree = "<group>"; };
 		244204FD2411204C00E442C6 /* video_small_screen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = video_small_screen.png; sourceTree = "<group>"; };
 		244204FE2411204C00E442C6 /* video_top_gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = video_top_gray.png; sourceTree = "<group>"; };
-		244205032411204C00E442C6 /* DLConstraintMaker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLConstraintMaker.h; sourceTree = "<group>"; };
-		244205042411204C00E442C6 /* DLConstraintMaker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLConstraintMaker.m; sourceTree = "<group>"; };
 		244205062411204C00E442C6 /* DLBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DLBaseViewController.h; sourceTree = "<group>"; };
 		244205072411204C00E442C6 /* DLBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DLBaseViewController.m; sourceTree = "<group>"; };
 		244205082411204C00E442C6 /* UINavigationController+Add.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+Add.h"; sourceTree = "<group>"; };
@@ -510,8 +507,6 @@
 				244205102411204C00E442C6 /* UIView+Add.m */,
 				244F11A5242E2D8F007068C8 /* UIView+Layout.h */,
 				244F11A6242E2D8F007068C8 /* UIView+Layout.m */,
-				244205032411204C00E442C6 /* DLConstraintMaker.h */,
-				244205042411204C00E442C6 /* DLConstraintMaker.m */,
 			);
 			path = DLKit;
 			sourceTree = "<group>";
@@ -807,7 +802,6 @@
 			files = (
 				2442058E2411204C00E442C6 /* UIGestureRecognizer+Add.m in Sources */,
 				244205932411204C00E442C6 /* DLCoreGrapView.m in Sources */,
-				244205722411204C00E442C6 /* DLConstraintMaker.m in Sources */,
 				244205802411204C00E442C6 /* NSMutableData+Add.m in Sources */,
 				244205842411204C00E442C6 /* NSMutableString+Add.m in Sources */,
 				2442059A2411204C00E442C6 /* DLTimer.m in Sources */,
