@@ -404,7 +404,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *)bottom{
     [self deleteConstraint:self.bottomConstraint];
-    [self dl_removalDuplicateConstraints:self.bottomConstraint];
+//    [self dl_removalDuplicateConstraints:self.bottomConstraint];
     self.bottomConstraint.multiplier = 1.0;
     self.bottomConstraint.constant = 0;
     self.bottomConstraint.constraintType = Bottom;
@@ -603,7 +603,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     }
 }
 
--(void)dl_layoutSubviews{
+-(void)dl_layoutEffective{
     if (!self.superview) {
         return;
     }
@@ -612,20 +612,13 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
         [layout.oldArray addObjectsFromArray:layout.array];
         [layout.array removeAllObjects];
         if (layout.oldArray.count > 0) {
-             [layout installConstraint];
+            [layout installConstraint];
         }
     }
 }
 
 -(UIView *(^)(DLLayoutType type))dl_layout{
     return ^(DLLayoutType type){
-        if (self.superview) {
-            @dl_weakify;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.0000001 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                @dl_strongify;
-                [self dl_layoutSubviews];
-            });
-        }
         DLLayout *layout = [self layout];
         [layout.oldArray addObjectsFromArray:layout.array];
         [layout.array removeAllObjects];
@@ -683,6 +676,9 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
         
         if (type & DL_greatOrThanHeight) {
             [layout lessOrThanHeight];
+        }
+        if (self.superview) {
+            [self performSelector:@selector(dl_layoutEffective) withObject:nil afterDelay:0];
         }
         return self;
     };
@@ -842,17 +838,17 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *)layout{
     DLLayout *tempLayout = objc_getAssociatedObject(self, &layout_Key);
-    if (![[NSThread currentThread] isMainThread]) {
-        #if defined(DEBUG)||defined(_DEBUG)
-        assert(NO&&"约束只能在主线程中添加");
-        #endif
-    }else{
+//    if (![[NSThread currentThread] isMainThread]) {
+//        #if defined(DEBUG)||defined(_DEBUG)
+//        assert(NO&&"约束只能在主线程中添加");
+//        #endif
+//    }else{
         if (!tempLayout) {
             self.translatesAutoresizingMaskIntoConstraints = NO;
             tempLayout = [[DLLayout alloc]initWithView:self];
             objc_setAssociatedObject(self, &layout_Key, tempLayout, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
         }
-    }
+//    }
     return tempLayout;
 }
 

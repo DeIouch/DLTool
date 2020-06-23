@@ -85,61 +85,44 @@
 //    [DLPerformance openMonitoring];
     
     
-//    self.tempView = [[UIView alloc]init];
-//    self.tempView.backgroundColor = [UIColor redColor];
-//
-//    self.tempView.tag = 10;
-//
-//    self.tempView.dl_layout(DL_left | DL_right | DL_bottom | DL_top).equal(self.view).offset(50);
-//
-//    self.buttonA = [[UIView alloc]init];
-//    self.buttonA.tag = 11;
-//    self.buttonA.backgroundColor = [UIColor blueColor];
-//
-//    self.buttonA.dl_layout(DL_left | DL_right | DL_bottom | DL_top).equal(self.tempView).offset(50);
-//
-//    [self.tempView addSubview:self.buttonA];
-//
-//    [self.view addSubview:self.tempView];
-//
-//    self.tempView.dl_layout(DL_safeTop).equal(self.view).offset(100);
-//
-////    self.buttonA.dl_layout(DL_left | DL_right | DL_bottom | DL_top).equal(self.tempView).offset(20);
-//
+    self.tempView = [[UIView alloc]init];
+    self.tempView.backgroundColor = [UIColor redColor];
+
+    self.tempView.tag = 10;
+
 //    [self.view addSubview:self.tempView];
     
-    
-//    UIView *a = [[UIView alloc]init];
-//    [self.view addSubview:a];
-//    a.backgroundColor = [UIColor redColor];
-//    a.dl_layout(DL_left | DL_top | DL_bottom).equal(self.view).offset(0).dl_layout(DL_width).offset(DLWidth * 0.5);
-//
-//    UIView *b = [[UIView alloc]init];
-//    [self.view addSubview:b];
-//    b.backgroundColor = [UIColor blueColor];
-//    b.dl_layout(DL_right | DL_top | DL_bottom).equal(self.view).offset(0).dl_layout(DL_width).offset(DLWidth * 0.5);
-//
-//    UIView *c = [[UIView alloc]init];
-//    [a addSubview:c];
-//    c.backgroundColor = [UIColor yellowColor];
-//    c.dl_layout(DL_left | DL_top | DL_bottom).equal(a).offset(100).dl_layout(DL_width).offset(50);
-//
-//    UIView *d = [[UIView alloc]init];
-//    [b addSubview:d];
-//    d.backgroundColor = [UIColor greenColor];
-//    d.dl_layout(DL_right | DL_top | DL_bottom).equal(c).offset(80).dl_layout(DL_width).offset(50);
     
 
+    self.buttonA = [[UIView alloc]init];
+    self.buttonA.tag = 11;
+    self.buttonA.backgroundColor = [UIColor blueColor];
     
-//    windows.dl_layout(DL_left | DL_bottom | DL_right | DL_safeTop).equal(self.view).offset(50);
+
+//    self.buttonA.dl_layout(DL_left | DL_right | DL_bottom | DL_top).equal(self.tempView).offset(50);
+
+    [self.tempView addSubview:self.buttonA];
+
+    [self.view addSubview:self.tempView];
+
+    self.tempView.dl_layout(DL_safeTop).equal(self.view).offset(100);
+
+    self.buttonA.dl_layout(DL_left | DL_right | DL_bottom | DL_top).equal(self.tempView).offset(20);
+
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        self.tempView.dl_layout(DL_left | DL_right | DL_bottom | DL_top).equal(self.view).offset(50);
+//    });
     
     
-    self.player = [DLPlayer shareInstance];
-    self.player.fatherView = self.view;
-    self.player.videoUrl = VideoUrl4;
-    self.player.skinView = [[DLVodPlayerSkinView alloc]init];
-    self.player.videoTitle = @"12222";
-    [self.player start];
+    
+    
+    
+//    self.player = [DLPlayer shareInstance];
+//    self.player.fatherView = self.view;
+//    self.player.videoUrl = VideoUrl4;
+//    self.player.skinView = [[DLVodPlayerSkinView alloc]init];
+//    self.player.videoTitle = @"12222";
+//    [self.player start];
 }
 
 -(NSString *(^)(void))test:(NSString *)name text:(NSString *)text order:(NSString *)order block:(NSString *(^)(void))block{
@@ -154,7 +137,7 @@
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     
-//    self.tempView.dl_layout(DL_top).equal(self.view).offset(200);
+    self.tempView.dl_layout(DL_top).equal(self.view).offset(200);
     
 //    [self.view addSubview:self.tempView];
     
