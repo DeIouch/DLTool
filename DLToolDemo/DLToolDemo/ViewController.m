@@ -82,40 +82,32 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
+    
+    
+//    UIView *a = [[UIView alloc]init];
+//    a.backgroundColor = [UIColor redColor];
+//    [self.view addSubview:a];
+//    a.dl_layout(DL_Left | DL_Bottom | DL_Top).equal(self.view).offset(0).dl_layout(DL_Width).equal(self.view).multipliedBy(0.5);
+//
+//    UIView *b = [[UIView alloc]init];
+//    b.backgroundColor = [UIColor blueColor];
+//    [self.view addSubview:b];
+//    b.dl_layout(DL_Right | DL_Bottom | DL_Top).equal(self.view).offset(0).dl_layout(DL_Width).equal(self.view).multipliedBy(0.5);
+//
+//
+//    UIView *c = [[UIView alloc]init];
+//    c.backgroundColor = [UIColor blackColor];
+//    [a addSubview:c];
+//    c.dl_layout(DL_CenterX | DL_CenterY).equal(a).dl_layout(DL_Width | DL_Height).offset(50);
+//
+//    UIView *d = [[UIView alloc]init];
+//    d.backgroundColor = [UIColor yellowColor];
+//    [b addSubview:d];
+//    d.dl_layout(DL_CenterY).equal(self.view).offset(0).dl_layout(DL_Left).equal(c).offset(100).dl_layout(DL_Width | DL_Height).offset(50);
+    
+    
+    
 //    [DLPerformance openMonitoring];
-    
-    
-    self.tempView = [[UIView alloc]init];
-    self.tempView.backgroundColor = [UIColor redColor];
-
-    self.tempView.tag = 10;
-
-//    [self.view addSubview:self.tempView];
-    
-    
-
-    self.buttonA = [[UIView alloc]init];
-    self.buttonA.tag = 11;
-    self.buttonA.backgroundColor = [UIColor blueColor];
-    
-
-//    self.buttonA.dl_layout(DL_left | DL_right | DL_bottom | DL_top).equal(self.tempView).offset(50);
-
-    [self.tempView addSubview:self.buttonA];
-
-    [self.view addSubview:self.tempView];
-
-    self.tempView.dl_layout(DL_safeTop).equal(self.view).offset(100);
-
-    self.buttonA.dl_layout(DL_left | DL_right | DL_bottom | DL_top).equal(self.tempView).offset(20);
-
-//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        self.tempView.dl_layout(DL_left | DL_right | DL_bottom | DL_top).equal(self.view).offset(50);
-//    });
-    
-    
-    
-    
     
 //    self.player = [DLPlayer shareInstance];
 //    self.player.fatherView = self.view;
@@ -136,17 +128,15 @@
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
-    
-    self.tempView.dl_layout(DL_top).equal(self.view).offset(200);
-    
+        
 //    [self.view addSubview:self.tempView];
     
     
     
     
     
-//    OneViewController *vc = [[OneViewController alloc]init];
-//    [self.navigationController pushViewController:vc animated:YES];
+    OneViewController *vc = [[OneViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:YES];
     
 //    [self dl_pushVC:@"OneViewController" parameters:nil completion:^{
 //        NSLog(@"4444444");

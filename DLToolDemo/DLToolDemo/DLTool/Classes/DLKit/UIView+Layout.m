@@ -22,7 +22,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     CenterY,
 };
 
-@interface Constraint : NSObject
+@interface DLConstraint : NSObject
 
 @property (nonatomic, weak) UIView *fatherView;
 
@@ -50,7 +50,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 @end
 
-@implementation Constraint
+@implementation DLConstraint
 
 -(void)setConstraintType:(ConstraintType)constraintType{
     _constraintType = constraintType;
@@ -189,25 +189,25 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 @property (nonatomic, strong) NSMutableArray *array;
 
-@property (nonatomic, strong) NSMutableArray *oldArray;
+@property (nonatomic, strong) NSMutableSet *oldArray;
 
 @property (nonatomic, weak) UIView *view;
 
-@property (nonatomic, strong) Constraint *leftConstraint;
+@property (nonatomic, strong) DLConstraint *leftConstraint;
 
-@property (nonatomic, strong) Constraint *rightConstraint;
+@property (nonatomic, strong) DLConstraint *rightConstraint;
 
-@property (nonatomic, strong) Constraint *topConstraint;
+@property (nonatomic, strong) DLConstraint *topConstraint;
 
-@property (nonatomic, strong) Constraint *bottomConstraint;
+@property (nonatomic, strong) DLConstraint *bottomConstraint;
 
-@property (nonatomic, strong) Constraint *widthConstraint;
+@property (nonatomic, strong) DLConstraint *widthConstraint;
 
-@property (nonatomic, strong) Constraint *heightConstraint;
+@property (nonatomic, strong) DLConstraint *heightConstraint;
 
-@property (nonatomic, strong) Constraint *centerXConstraint;
+@property (nonatomic, strong) DLConstraint *centerXConstraint;
 
-@property (nonatomic, strong) Constraint *centerYConstraint;
+@property (nonatomic, strong) DLConstraint *centerYConstraint;
 
 @end
 
@@ -218,7 +218,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     if (self = [super init]) {
         self.array = [[NSMutableArray alloc]init];
         self.view = view;
-        self.oldArray = [[NSMutableArray alloc]init];
+        self.oldArray = [[NSMutableSet alloc]init];
     }
     return self;
 }
@@ -230,7 +230,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
         }else if (constant < 0) {
             constant = 0;
         }
-        for (Constraint *constraint in self.array) {
+        for (DLConstraint *constraint in self.array) {
             constraint.priority = constant;
         }
         return self;
@@ -239,7 +239,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *(^)(UIView *view))equal{
     return ^(UIView *view){
-        for (Constraint *constraint in self.array) {
+        for (DLConstraint *constraint in self.array) {
             constraint.secondView = view;
             constraint.multiplier = 1;
             constraint.secondAttribute = constraint.firstAttribute;
@@ -250,7 +250,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *(^)(UIView *view))equal_to{
     return ^(UIView *view){
-        for (Constraint *constraint in self.array) {
+        for (DLConstraint *constraint in self.array) {
             constraint.secondView = view;
             constraint.multiplier = 1;
             switch (constraint.firstAttribute) {
@@ -281,7 +281,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *(^)(CGFloat constant))multipliedBy{
     return ^(CGFloat constant){
-        for (Constraint *constraint in self.array) {
+        for (DLConstraint *constraint in self.array) {
             constraint.multiplier = constant;
         }
         return self;
@@ -290,7 +290,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(DLLayout *(^)(CGFloat constant))offset{
     return ^(CGFloat constant){
-        for (Constraint *constraint in self.array) {
+        for (DLConstraint *constraint in self.array) {
             switch (constraint.constraintType) {
                 case Bottom:
                 case SafeBottom:
@@ -310,7 +310,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(void)installConstraint{
     @autoreleasepool {
-        for (Constraint *constraint in self.oldArray) {
+        for (DLConstraint *constraint in self.oldArray) {
             UIView *view;
             if (!constraint.secondView) {
                 constraint.secondView = self.view.superview;
@@ -356,7 +356,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     }
 }
 
--(NSLayoutConstraint *)addConstraint:(Constraint *)constraint{
+-(NSLayoutConstraint *)addConstraint:(DLConstraint *)constraint{
     NSLayoutConstraint *cons = [NSLayoutConstraint constraintWithItem:self.view attribute:constraint.firstAttribute relatedBy:constraint.layoutRelation toItem:constraint.item attribute:constraint.secondAttribute ? constraint.secondAttribute : constraint.firstAttribute multiplier:constraint.multiplier constant:constraint.constant];
     if (constraint.priority > 0) {
         cons.priority = constraint.priority;
@@ -366,7 +366,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 
 -(void)removeConstraint{
     @autoreleasepool {
-        for (Constraint *constraint in self.array) {
+        for (DLConstraint *constraint in self.array) {
             if (constraint.fatherView && constraint.constraint) {
                 [constraint.fatherView removeConstraint:constraint.constraint];
             }
@@ -412,7 +412,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     return self;
 }
 
-- (void)dl_removalDuplicateConstraints:(Constraint *)constraint{
+- (void)dl_removalDuplicateConstraints:(DLConstraint *)constraint{
     NSArray<__kindof NSLayoutConstraint *> *constrain = constraint.firstView.constraints;
     NSArray<__kindof NSLayoutConstraint *> *superConstrain = constraint.firstView.superview.constraints;
     NSMutableArray<__kindof NSLayoutConstraint *> *array = [NSMutableArray array];
@@ -516,7 +516,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     return self;
 }
 
--(void)deleteConstraint:(Constraint *)constraint{
+-(void)deleteConstraint:(DLConstraint *)constraint{
     if (constraint.fatherView) {
         [constraint.fatherView removeConstraint:constraint.constraint];
         [self.array removeObject:constraint];
@@ -524,58 +524,58 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
     }
 }
 
--(Constraint *)leftConstraint{
+-(DLConstraint *)leftConstraint{
     if (!_leftConstraint) {
-        _leftConstraint = [[Constraint alloc]initWithView:self.view];
+        _leftConstraint = [[DLConstraint alloc]initWithView:self.view];
     }
     return _leftConstraint;
 }
 
--(Constraint *)rightConstraint{
+-(DLConstraint *)rightConstraint{
     if (!_rightConstraint) {
-        _rightConstraint = [[Constraint alloc]initWithView:self.view];
+        _rightConstraint = [[DLConstraint alloc]initWithView:self.view];
     }
     return _rightConstraint;
 }
 
--(Constraint *)topConstraint{
+-(DLConstraint *)topConstraint{
     if (!_topConstraint) {
-        _topConstraint = [[Constraint alloc]initWithView:self.view];
+        _topConstraint = [[DLConstraint alloc]initWithView:self.view];
     }
     return _topConstraint;
 }
 
--(Constraint *)bottomConstraint{
+-(DLConstraint *)bottomConstraint{
     if (!_bottomConstraint) {
-        _bottomConstraint = [[Constraint alloc]initWithView:self.view];
+        _bottomConstraint = [[DLConstraint alloc]initWithView:self.view];
     }
     return _bottomConstraint;
 }
 
--(Constraint *)widthConstraint{
+-(DLConstraint *)widthConstraint{
     if (!_widthConstraint) {
-        _widthConstraint = [[Constraint alloc]initWithView:self.view];
+        _widthConstraint = [[DLConstraint alloc]initWithView:self.view];
     }
     return _widthConstraint;
 }
 
--(Constraint *)heightConstraint{
+-(DLConstraint *)heightConstraint{
     if (!_heightConstraint) {
-        _heightConstraint = [[Constraint alloc]initWithView:self.view];
+        _heightConstraint = [[DLConstraint alloc]initWithView:self.view];
     }
     return _heightConstraint;
 }
 
--(Constraint *)centerXConstraint{
+-(DLConstraint *)centerXConstraint{
     if (!_centerXConstraint) {
-        _centerXConstraint = [[Constraint alloc]initWithView:self.view];
+        _centerXConstraint = [[DLConstraint alloc]initWithView:self.view];
     }
     return _centerXConstraint;
 }
 
--(Constraint *)centerYConstraint{
+-(DLConstraint *)centerYConstraint{
     if (!_centerYConstraint) {
-        _centerYConstraint = [[Constraint alloc]initWithView:self.view];
+        _centerYConstraint = [[DLConstraint alloc]initWithView:self.view];
     }
     return _centerYConstraint;
 }
@@ -622,59 +622,59 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
         DLLayout *layout = [self layout];
         [layout.oldArray addObjectsFromArray:layout.array];
         [layout.array removeAllObjects];
-        if (type & DL_left) {
+        if (type & DL_Left) {
             [layout left];
         }
         
-        if (type & DL_right) {
+        if (type & DL_Right) {
             [layout right];
         }
         
-        if (type & DL_top) {
+        if (type & DL_Top) {
             [layout top];
         }
         
-        if (type & DL_bottom) {
+        if (type & DL_Bottom) {
             [layout bottom];
         }
         
-        if (type & DL_safeTop) {
+        if (type & DL_SafeTop) {
             [layout safeTop];
         }
         
-        if (type & DL_safeBottom) {
+        if (type & DL_SafeBottom) {
             [layout safeBottom];
         }
         
-        if (type & DL_width) {
+        if (type & DL_Width) {
             [layout width];
         }
         
-        if (type & DL_lessOrThanWidth) {
+        if (type & DL_LessOrThanWidth) {
             [layout lessOrThanWidth];
         }
         
-        if (type & DL_greatOrThenWidth) {
+        if (type & DL_GreatOrThenWidth) {
             [layout greatOrThenWidth];
         }
         
-        if (type & DL_height) {
+        if (type & DL_Height) {
             [layout height];
         }
         
-        if (type & DL_lessOrThanHeight) {
+        if (type & DL_LessOrThanHeight) {
             [layout lessOrThanHeight];
         }
         
-        if (type & DL_centerX) {
+        if (type & DL_CenterX) {
             [layout centerX];
         }
         
-        if (type & DL_centerY) {
+        if (type & DL_CenterY) {
             [layout centerY];
         }
         
-        if (type & DL_greatOrThanHeight) {
+        if (type & DL_GreatOrThanHeight) {
             [layout lessOrThanHeight];
         }
         if (self.superview) {
@@ -687,59 +687,59 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 -(UIView *(^)(DLLayoutType type))dl_remove_layout{
     return ^(DLLayoutType type){
         DLLayout *layout = [self layout];
-        if (type & DL_left) {
+        if (type & DL_Left) {
             [layout deleteConstraint:layout.leftConstraint];
         }
         
-        if (type & DL_right) {
+        if (type & DL_Right) {
             [layout deleteConstraint:layout.rightConstraint];
         }
         
-        if (type & DL_top) {
+        if (type & DL_Top) {
             [layout deleteConstraint:layout.topConstraint];
         }
         
-        if (type & DL_bottom) {
+        if (type & DL_Bottom) {
             [layout deleteConstraint:layout.bottomConstraint];
         }
         
-        if (type & DL_safeTop) {
+        if (type & DL_SafeTop) {
             [layout deleteConstraint:layout.topConstraint];
         }
         
-        if (type & DL_safeBottom) {
+        if (type & DL_SafeBottom) {
             [layout deleteConstraint:layout.bottomConstraint];
         }
         
-        if (type & DL_width) {
+        if (type & DL_Width) {
             [layout deleteConstraint:layout.widthConstraint];
         }
         
-        if (type & DL_lessOrThanWidth) {
+        if (type & DL_LessOrThanWidth) {
             [layout deleteConstraint:layout.widthConstraint];
         }
         
-        if (type & DL_greatOrThenWidth) {
+        if (type & DL_GreatOrThenWidth) {
             [layout deleteConstraint:layout.widthConstraint];
         }
         
-        if (type & DL_height) {
+        if (type & DL_Height) {
             [layout deleteConstraint:layout.heightConstraint];
         }
         
-        if (type & DL_lessOrThanHeight) {
+        if (type & DL_LessOrThanHeight) {
             [layout deleteConstraint:layout.heightConstraint];
         }
         
-        if (type & DL_centerX) {
+        if (type & DL_CenterX) {
             [layout deleteConstraint:layout.centerXConstraint];
         }
         
-        if (type & DL_centerY) {
+        if (type & DL_CenterY) {
             [layout deleteConstraint:layout.centerYConstraint];
         }
         
-        if (type & DL_greatOrThanHeight) {
+        if (type & DL_GreatOrThanHeight) {
             [layout deleteConstraint:layout.heightConstraint];
         }
         return self;
@@ -754,7 +754,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
             constant = 0;
         }
         DLLayout *layout = [self layout];
-        for (Constraint *constraint in layout.array) {
+        for (DLConstraint *constraint in layout.array) {
             constraint.priority = constant;
         }
         return self;
@@ -764,7 +764,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 -(UIView *(^)(UIView *view))equal{
     return ^(UIView *view){
         DLLayout *layout = [self layout];
-        for (Constraint *constraint in layout.array) {
+        for (DLConstraint *constraint in layout.array) {
             constraint.secondView = view;
             constraint.multiplier = 1;
             constraint.secondAttribute = constraint.firstAttribute;
@@ -776,7 +776,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 -(UIView *(^)(UIView *view))equal_to{
     return ^(UIView *view){
         DLLayout *layout = [self layout];
-        for (Constraint *constraint in layout.array) {
+        for (DLConstraint *constraint in layout.array) {
             constraint.secondView = view;
             constraint.multiplier = 1;
             switch (constraint.firstAttribute) {
@@ -808,7 +808,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 -(UIView *(^)(CGFloat constant))multipliedBy{
     return ^(CGFloat constant){
         DLLayout *layout = [self layout];
-        for (Constraint *constraint in layout.array) {
+        for (DLConstraint *constraint in layout.array) {
             constraint.multiplier = constant;
         }
         return self;
@@ -818,7 +818,7 @@ typedef NS_ENUM(NSInteger, ConstraintType) {
 -(UIView *(^)(CGFloat constant))offset{
     return ^(CGFloat constant){
         DLLayout *layout = [self layout];
-        for (Constraint *constraint in layout.array) {
+        for (DLConstraint *constraint in layout.array) {
             switch (constraint.constraintType) {
                 case Bottom:
                 case SafeBottom:

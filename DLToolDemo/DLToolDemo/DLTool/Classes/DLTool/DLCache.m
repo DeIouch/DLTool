@@ -478,13 +478,11 @@ static NSString *DLNSStringMD5(NSString *string) {
                             obj = [NSKeyedUnarchiver unarchiveObjectWithData:data];
                         }
                         [objDic setObject:obj forKey:node->_key];
-                        NSLog(@"Diskcache_obj  ==  %@", obj);
                     }
                     break;
                     
                 case DLCacheSQLType:
                     {
-//                        NSLog(@"SQLcache_obj  ==  %@", node->_value);
                         [objDic setObject:node->_value forKey:node->_key];
                     }
                     break;

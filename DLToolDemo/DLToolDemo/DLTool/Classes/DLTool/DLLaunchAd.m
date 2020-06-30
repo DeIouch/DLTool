@@ -58,7 +58,7 @@
 //                make.top.equal(self).to(DLAttributeSafeTop).offset(20);
 //            }];
             
-            button.dl_layout(DL_width).offset(62).dl_layout(DL_height).offset(26).dl_layout(DL_right).equal(self).offset(16).dl_layout(DL_safeTop).equal_to(self).offset(20);
+            button.dl_layout(DL_Width).offset(62).dl_layout(DL_Height).offset(26).dl_layout(DL_Right).equal(self).offset(16).dl_layout(DL_SafeTop).equal_to(self).offset(20);
             
             button.dl_allCorner(10);
         }];

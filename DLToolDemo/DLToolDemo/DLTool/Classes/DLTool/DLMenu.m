@@ -48,7 +48,7 @@
             view.dl_backView(self).dl_backColor(@"FFFFFF");
         }];
         
-        self.backview.dl_layout(DL_left | DL_right).equal(self).offset(20).dl_layout(DL_centerX).equal(self).dl_layout(DL_top).equal_to(self).offset(0);
+        self.backview.dl_layout(DL_Left | DL_Right).equal(self).offset(20).dl_layout(DL_CenterX).equal(self).dl_layout(DL_Top).equal_to(self).offset(0);
         
 //        [self.backview dl_AutoLayout:^(DLConstraintMaker *make) {
 //            make.left.equal(self).offset(20);
@@ -63,7 +63,7 @@
         self.tableView.dataSource = self;
         self.tableView.backgroundColor = [UIColor whiteColor];
         
-        self.tableView.dl_layout(DL_left | DL_right | DL_bottom | DL_top).offset(0);
+        self.tableView.dl_layout(DL_Left | DL_Right | DL_Bottom | DL_Top).offset(0);
         
 //        [self.tableView dl_AutoLayout:^(DLConstraintMaker *make) {
 //            make.left.offset(0);
@@ -86,7 +86,7 @@
 //            make.top.equal(self).to(DLAttributeBottom).offset(0);
 //        }];
         
-        self.backview.dl_remove_layout(DL_bottom).dl_layout(DL_top).equal_to(self).offset(0);
+        self.backview.dl_remove_layout(DL_Bottom).dl_layout(DL_Top).equal_to(self).offset(0);
         
         [self layoutIfNeeded];
         [self dl_viewHidden:0.2];
@@ -149,7 +149,7 @@
 //            make.height.offset(tempArray.count * 40 > [UIScreen mainScreen].bounds.size.height * 0.5 ? [UIScreen mainScreen].bounds.size.height * 0.5 : tempArray.count * 40);
 //        }];
         
-        dlMenu.menuView.dl_remove_layout(DL_top).dl_layout(DL_bottom).offset(10).dl_layout(DL_height).offset(tempArray.count * 40 > [UIScreen mainScreen].bounds.size.height * 0.5 ? [UIScreen mainScreen].bounds.size.height * 0.5 : tempArray.count * 40);
+        dlMenu.menuView.dl_remove_layout(DL_Top).dl_layout(DL_Bottom).offset(10).dl_layout(DL_Height).offset(tempArray.count * 40 > [UIScreen mainScreen].bounds.size.height * 0.5 ? [UIScreen mainScreen].bounds.size.height * 0.5 : tempArray.count * 40);
         [dlMenu.menuView layoutIfNeeded];
     }];
     

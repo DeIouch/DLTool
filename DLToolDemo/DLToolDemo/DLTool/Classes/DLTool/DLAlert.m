@@ -82,7 +82,7 @@ static DLAlert *alert = nil;
     self.alertView.messageLabel.attributedText = message;
 //    self.alertView.backView.dl_layout.height.offset(70 + [self.alertView.backView dl_fittingHeightWithSubview:self.alertView.messageLabel]);
     
-    self.alertView.backView.dl_layout(DL_height).offset(70 + [self.alertView.backView dl_fittingHeightWithSubview:self.alertView.messageLabel]);
+    self.alertView.backView.dl_layout(DL_Height).offset(70 + [self.alertView.backView dl_fittingHeightWithSubview:self.alertView.messageLabel]);
     
     [self alertShow];
     __weak typeof(self) weakself = self;
@@ -107,7 +107,7 @@ static DLAlert *alert = nil;
     self.alertView.messageLabel.text = message;
 //    self.alertView.backView.dl_layout.height.offset(70 + [self.alertView.backView dl_fittingHeightWithSubview:self.alertView.messageLabel]);
     
-    self.alertView.backView.dl_layout(DL_height).offset(70 + [self.alertView.backView dl_fittingHeightWithSubview:self.alertView.messageLabel]);
+    self.alertView.backView.dl_layout(DL_Height).offset(70 + [self.alertView.backView dl_fittingHeightWithSubview:self.alertView.messageLabel]);
     
     [self alertShow];
     __weak typeof(self) weakself = self;
@@ -154,7 +154,7 @@ static DLAlert *alert = nil;
         UIWindow *window = [[UIApplication sharedApplication].windows lastObject];
         [window addSubview:_alertView];
 //        _alertView.dl_layout.left.right.top.bottom.equal(window).install();
-        _alertView.dl_layout(DL_left | DL_right | DL_top | DL_bottom).equal(window);
+        _alertView.dl_layout(DL_Left | DL_Right | DL_Top | DL_Bottom).equal(window);
         __weak typeof(self) weakself = self;
         [_alertView.sureButton addClickAction:^(UIView *view) {
             [weakself alertHidden];
@@ -176,7 +176,7 @@ static DLAlert *alert = nil;
         self.backView = [UIView dl_view:^(UIView *view) {
             view.dl_backView(self).dl_backColor(@"#FFFFFF");
 //            view.dl_layout.right.left.equal(self).offset(38).centerY.equal(self).height.offset([UIScreen mainScreen].bounds.size.height).install();
-            view.dl_layout(DL_left | DL_right).offset(38).dl_layout(DL_centerY).equal(self).dl_layout(DL_height).offset([UIScreen mainScreen].bounds.size.height);
+            view.dl_layout(DL_Left | DL_Right).offset(38).dl_layout(DL_CenterY).equal(self).dl_layout(DL_Height).offset([UIScreen mainScreen].bounds.size.height);
         }];
         
         self.messageLabel = [UILabel dl_view:^(UILabel *label) {
@@ -184,28 +184,28 @@ static DLAlert *alert = nil;
             label.dl_backColor(@"#FFFFFF");
             label.dl_fontSize(15).dl_alignment(NSTextAlignmentCenter).dl_textColor(@"#777777").dl_lines(0);
 //            label.dl_layout.left.right.equal(self.backView).offset(40).top.equal(self.backView).offset(25).greatOrThanHeight.offset(40).install();
-            label.dl_layout(DL_left | DL_right).equal(self.backView).offset(40).dl_layout(DL_top).equal(self.backView).offset(25).dl_layout(DL_greatOrThanHeight).offset(40);
+            label.dl_layout(DL_Left | DL_Right).equal(self.backView).offset(40).dl_layout(DL_Top).equal(self.backView).offset(25).dl_layout(DL_GreatOrThanHeight).offset(40);
         }];
 
         self.cancelButton = [UIButton dl_view:^(UIButton *button) {
             button.dl_backView(self.backView).dl_backColor(@"#FFFFFF");
             button.dl_normalTitle(@"取消").dl_normalTitleColor(@"#777777").dl_fontSize(16);
 //            button.dl_layout.left.right.equal(self.backView).width.offset(([UIScreen mainScreen].bounds.size.width - 76) * 0.5).height.offset(47).install();
-            button.dl_layout(DL_left | DL_right).equal(self.backView).dl_layout(DL_width).offset(([UIScreen mainScreen].bounds.size.width - 76) * 0.5).dl_layout(DL_height).offset(47);
+            button.dl_layout(DL_Left | DL_Right).equal(self.backView).dl_layout(DL_Width).offset(([UIScreen mainScreen].bounds.size.width - 76) * 0.5).dl_layout(DL_Height).offset(47);
         }];
         
         self.sureButton = [UIButton dl_view:^(UIButton *button) {
             button.dl_backView(self.backView).dl_backColor(@"#FFFFFF");
             button.dl_normalTitle(@"确定").dl_normalTitleColor(@"#4AB134").dl_fontSize(16);
 //            button.dl_layout.right.bottom.equal(self.backView).width.offset(([UIScreen mainScreen].bounds.size.width - 76) * 0.5).height.offset(47).install();
-            button.dl_layout(DL_right | DL_bottom).equal(self.backView).dl_layout(DL_width).offset(([UIScreen mainScreen].bounds.size.width - 76) * 0.5).dl_layout(DL_height).offset(47);
+            button.dl_layout(DL_Right | DL_Bottom).equal(self.backView).dl_layout(DL_Width).offset(([UIScreen mainScreen].bounds.size.width - 76) * 0.5).dl_layout(DL_Height).offset(47);
         }];
         
         [UIView dl_view:^(UIView *view) {
             view.dl_backView(self.backView);
             view.dl_backColor(@"#E6E6E6");
 //            view.dl_layout.left.right.equal(self.backView).height.offset(1).bottom.equal(self.backView).offset(47).install();
-            view.dl_layout(DL_left | DL_right).equal(self.backView).dl_layout(DL_height).offset(1).dl_layout(DL_bottom).equal(self.backView).offset(47);
+            view.dl_layout(DL_Left | DL_Right).equal(self.backView).dl_layout(DL_Height).offset(1).dl_layout(DL_Bottom).equal(self.backView).offset(47);
         }];
 
         [UIView dl_view:^(UIView *view) {
@@ -213,7 +213,7 @@ static DLAlert *alert = nil;
             view.translatesAutoresizingMaskIntoConstraints = NO;
             view.dl_backColor(@"#E6E6E6");
 //            view.dl_layout.width.offset(1).height.offset(48).left.equal(self.sureButton).bottom.equal(self.backView).install();            
-            view.dl_layout(DL_width).offset(1).dl_layout(DL_height).offset(48).dl_layout(DL_left).equal(self.sureButton).dl_layout(DL_bottom).equal(self.backView);
+            view.dl_layout(DL_Width).offset(1).dl_layout(DL_Height).offset(48).dl_layout(DL_Left).equal(self.sureButton).dl_layout(DL_Bottom).equal(self.backView);
         }];
         
         

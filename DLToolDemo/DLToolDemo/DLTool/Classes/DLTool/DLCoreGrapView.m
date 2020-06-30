@@ -174,7 +174,6 @@
         fill = [DLColor DLColorWithAHEXColor:self.fillColor[0]];
     };
     CGContextSetFillColorWithColor(ctx, fill.CGColor);
-    
     CGContextSetLineJoin(ctx, kCGLineJoinRound);
     CGContextSetLineCap(ctx, kCGLineCapRound);
     switch (self.type) {

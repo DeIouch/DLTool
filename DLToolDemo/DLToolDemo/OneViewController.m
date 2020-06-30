@@ -13,6 +13,7 @@
 #import "DLDemoTableViewCell.h"
 #import "TestView.h"
 #import "UIImageView+DLWeb.h"
+#import "UIImageView+WebCache.h"
 
 #define VideoUrl4 @"https://s1.ax1x.com/2020/05/14/YBiSOS.jpg"
 
@@ -60,49 +61,52 @@
     
     self.array = [[NSMutableArray alloc]init];
     for (int a = 0; a < 100; a++) {
-        [self.array addObject:VideoUrl4];
+        [self.array addObject:VideoUrl6];
     }
 
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, DLWidth, DLHeight)];
+//    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, DLWidth, DLHeight)];
+    
+    self.tableView = [[UITableView alloc]init];
+    self.tableView.dl_layout(DL_Left | DL_Right | DL_Top | DL_Bottom).equal(self.view).offset(0);
     [self.view addSubview:self.tableView];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+//    self.tableView.estimatedRowHeight = 10;
+//    self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.backgroundColor = [UIColor whiteColor];
     [self.tableView reloadData];
     
     @dl_weakify;
     [self.tableView headFreshBlock:^{
         @dl_strongify;
-        [self.array addObject:VideoUrl4];
-        [self.array addObject:VideoUrl5];
-        [self.array addObject:VideoUrl6];
-        [self.array addObject:VideoUrl7];
-        [self.array addObject:VideoUrl8];
-        [self.array addObject:VideoUrl9];
-        [self.array addObject:VideoUrl10];
-        [self.array addObject:VideoUrl11];
-        [self.array addObject:VideoUrl12];
+//        [self.array addObject:VideoUrl4];
+//        [self.array addObject:VideoUrl5];
+//        [self.array addObject:VideoUrl6];
+//        [self.array addObject:VideoUrl7];
+//        [self.array addObject:VideoUrl8];
+//        [self.array addObject:VideoUrl9];
+//        [self.array addObject:VideoUrl10];
+//        [self.array addObject:VideoUrl11];
+//        [self.array addObject:VideoUrl12];
         [self.tableView reloadData];
         NSLog(@"刷新完成");
     }];
 
-    [self.tableView footFreshBlock:^{
-        @dl_strongify;
-        [self.array addObject:VideoUrl4];
-        [self.array addObject:VideoUrl5];
-        [self.array addObject:VideoUrl6];
-        [self.array addObject:VideoUrl7];
-        [self.array addObject:VideoUrl8];
-        [self.array addObject:VideoUrl9];
-        [self.array addObject:VideoUrl10];
-        [self.array addObject:VideoUrl11];
-        [self.array addObject:VideoUrl12];
-
-        [self.tableView reloadData];
-    }];
-    
-//    [DLPerformanceLabel openMonitoring];
-    
+//    [self.tableView footFreshBlock:^{
+//        @dl_strongify;
+//        [self.array addObject:VideoUrl4];
+//        [self.array addObject:VideoUrl5];
+//        [self.array addObject:VideoUrl6];
+//        [self.array addObject:VideoUrl7];
+//        [self.array addObject:VideoUrl8];
+//        [self.array addObject:VideoUrl9];
+//        [self.array addObject:VideoUrl10];
+//        [self.array addObject:VideoUrl11];
+//        [self.array addObject:VideoUrl12];
+//
+//        [self.tableView reloadData];
+//    }];
+        
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context{
@@ -119,7 +123,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 30;
+    return [self.tableView getCellHeightWithIndex:indexPath];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -127,12 +131,9 @@
     if (!cell) {
         cell = [[DLDemoTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
-    [cell.dl_imageview dl_setWebImage:self.array[indexPath.row]];
-//    cell.dl_imageview.image = [UIImage imageNamed:@"YBiSOS.jpg"];
-//    [cell.dl_imageview sd_setImageWithURL:[NSURL URLWithString:self.array[indexPath.row]]];
-    
-//    NSLog(@"%@", cell.dl_imageview.image);
-    
+//    [cell.dl_imageview dl_setWebImage:self.array[indexPath.row]];
+    [cell.dl_imageview sd_setImageWithURL:[NSURL URLWithString:self.array[indexPath.row]]];
+//    [self.tableView setCellHeight:cell WithIndex:indexPath];
     return cell;
 }
 

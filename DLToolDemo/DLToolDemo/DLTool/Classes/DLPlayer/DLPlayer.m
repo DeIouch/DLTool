@@ -265,7 +265,7 @@ static DLPlayer *player = nil;
     _videoUrl = videoUrl;
     self.isFinish = NO;
     if (videoUrl.length > 0 && self.fatherView != nil) {
-        self.playerView.dl_layout(DL_left | DL_right | DL_top | DL_bottom).equal(self.fatherView).offset(0);
+        self.playerView.dl_layout(DL_Left | DL_Right | DL_Top | DL_Bottom).equal(self.fatherView).offset(0);
         [self.fatherView addSubview:self.playerView];
         [self.avPlayer replaceCurrentItemWithPlayerItem:[[AVPlayerItem alloc]initWithURL:[NSURL URLWithString:videoUrl]]];
         [self.playerView layoutIfNeeded];
@@ -431,7 +431,7 @@ static DLPlayer *player = nil;
 //            make.bottom.equal(fatherView).offset(0);
 //        }];
         
-        self.playerView.dl_layout(DL_left | DL_right | DL_top | DL_bottom).equal(fatherView).offset(0);
+        self.playerView.dl_layout(DL_Left | DL_Right | DL_Top | DL_Bottom).equal(fatherView).offset(0);
         
         [self.playerView layoutIfNeeded];
         self.playerLayer.frame = self.playerView.bounds;
@@ -467,7 +467,7 @@ static DLPlayer *player = nil;
 //        make.bottom.equal(self.playerView).offset(0);
 //    }];
     
-    _skinView.dl_layout(DL_left | DL_right | DL_top | DL_bottom).equal(self.playerView).offset(0);
+    _skinView.dl_layout(DL_Left | DL_Right | DL_Top | DL_Bottom).equal(self.playerView).offset(0);
     
     _skinView.clarityArray = @[
                             @{
@@ -564,7 +564,7 @@ static UISlider * _volumeSlider;
     if (!_clarityButton) {
         _clarityButton = [UIButton dl_view:^(UIButton *button) {
             button.dl_backView(self.topFuncView).dl_text(@"清晰度").dl_fontSize(13).dl_textColor(@"#FFFFFF");
-            button.dl_layout(DL_right).equal(self.topFuncView).offset(97).dl_layout(DL_height).offset(23).dl_layout(DL_centerY).equal(self.titleLabel);
+            button.dl_layout(DL_Right).equal(self.topFuncView).offset(97).dl_layout(DL_Height).offset(23).dl_layout(DL_CenterY).equal(self.titleLabel);
             button.dl_clickEdge(20);
             [button layoutSubviews];
             button.layer.cornerRadius = 12;
@@ -580,7 +580,7 @@ static UISlider * _volumeSlider;
             [[DLLoad shareInstance]viewHidden];
             self.clarityView.hidden = NO;
             [UIView animateWithDuration:0.5 animations:^{
-                self.clarityView.dl_layout(DL_left | DL_right | DL_top | DL_bottom).equal(self).offset(0);
+                self.clarityView.dl_layout(DL_Left | DL_Right | DL_Top | DL_Bottom).equal(self).offset(0);
                 [self layoutIfNeeded];
             }];
         }];
@@ -593,15 +593,15 @@ static UISlider * _volumeSlider;
         _clarityView = [[ClarityView alloc]init];
         [self addSubview:_clarityView];
         _clarityView.hidden = YES;
-        _clarityView.dl_layout(DL_left | DL_top | DL_bottom).offset(0);
+        _clarityView.dl_layout(DL_Left | DL_Top | DL_Bottom).offset(0);
         
         @dl_weakify;
         [_clarityView.closeButton addClickAction:^(UIView *view) {
             @dl_strongify;
             [self viewTouch];
             [UIView animateWithDuration:0.5 animations:^{
-                self.clarityView.dl_layout(DL_left | DL_top | DL_bottom).offset(0);
-                self.clarityView.dl_remove_layout(DL_right);
+                self.clarityView.dl_layout(DL_Left | DL_Top | DL_Bottom).offset(0);
+                self.clarityView.dl_remove_layout(DL_Right);
                 [self layoutIfNeeded];
             } completion:^(BOOL finished) {
                 if (finished) {
@@ -807,7 +807,7 @@ static UISlider * _volumeSlider;
         _playButton = [UIImageView dl_view:^(UIImageView *imageView) {
             imageView.dl_backView(self);
             imageView.dl_imageString(@"play");
-            imageView.dl_layout(DL_width | DL_height).offset(50).dl_layout(DL_centerY | DL_centerX).equal(self).offset(0);
+            imageView.dl_layout(DL_Width | DL_Height).offset(50).dl_layout(DL_CenterY | DL_CenterX).equal(self).offset(0);
         }];
         @dl_weakify;
         [_playButton addClickAction:^(UIView *view) {
@@ -828,7 +828,7 @@ static UISlider * _volumeSlider;
     if (!_titleLabel) {
         _titleLabel = [UILabel dl_view:^(UILabel *label) {
             label.dl_backView(self.topFuncView).dl_fontSize(18).dl_textColor(@"FFFFFF").dl_alignment(NSTextAlignmentLeft);
-            label.dl_layout(DL_left).equal(self.topFuncView).offset(38).dl_layout(DL_top).equal(self.topFuncView).offset(24);
+            label.dl_layout(DL_Left).equal(self.topFuncView).offset(38).dl_layout(DL_Top).equal(self.topFuncView).offset(24);
         }];
     }
     return _titleLabel;
@@ -838,7 +838,7 @@ static UISlider * _volumeSlider;
     if (!_topFuncView) {
         _topFuncView = [UIImageView dl_view:^(UIView * _Nonnull view) {
             view.dl_backView(self).dl_imageString(@"video_top_gray");
-            view.dl_layout(DL_left | DL_right | DL_safeTop).equal(self).offset(0).dl_layout(DL_height).offset(70);
+            view.dl_layout(DL_Left | DL_Right | DL_SafeTop).equal(self).offset(0).dl_layout(DL_Height).offset(70);
         }];
     }
     return _topFuncView;
@@ -848,7 +848,7 @@ static UISlider * _volumeSlider;
     if (!_bottomFuncView) {
         _bottomFuncView = [UIImageView dl_view:^(UIImageView *imageView) {
             imageView.dl_backView(self).dl_imageString(@"video_bottom_gray");
-            imageView.dl_layout(DL_left | DL_right | DL_safeBottom).equal(self).offset(0).dl_layout(DL_height).offset(70);
+            imageView.dl_layout(DL_Left | DL_Right | DL_SafeBottom).equal(self).offset(0).dl_layout(DL_Height).offset(70);
         }];
     }
     return _bottomFuncView;
@@ -859,7 +859,7 @@ static UISlider * _volumeSlider;
         _screenButton = [UIButton dl_view:^(UIButton *button) {
             button.dl_backView(self.bottomFuncView).dl_normalImage(@"video_full_screen").dl_selectImage(@"video_small_screen").dl_clickEdge(30);
             button.selected = NO;
-            button.dl_layout(DL_height | DL_width).offset(16).dl_layout(DL_right).equal(self.bottomFuncView).offset(22).dl_layout(DL_top).equal(self.bottomFuncView).offset(32);
+            button.dl_layout(DL_Height | DL_Width).offset(16).dl_layout(DL_Right).equal(self.bottomFuncView).offset(22).dl_layout(DL_Top).equal(self.bottomFuncView).offset(32);
             @dl_weakify;
             [button addClickAction:^(UIView *view) {
                 @dl_strongify;
@@ -901,7 +901,7 @@ static UISlider * _volumeSlider;
                 }
                 window.windowLevel = UIWindowLevelStatusBar + 1;
                 [window addSubview:self.player.playerView];
-                self.player.playerView.dl_layout(DL_left | DL_right | DL_top | DL_bottom).equal(window).offset(0);
+                self.player.playerView.dl_layout(DL_Left | DL_Right | DL_Top | DL_Bottom).equal(window).offset(0);
                 self.player.playerLayer.frame = CGRectMake(0, 0, DLWidth, DLHeight);
             }
             break;
@@ -909,7 +909,7 @@ static UISlider * _volumeSlider;
         case VideoSmallScreen:
             {
                 window.windowLevel = UIWindowLevelNormal;
-                self.player.playerView.dl_layout(DL_left | DL_right | DL_top | DL_bottom).equal(self.player.fatherView).offset(0);
+                self.player.playerView.dl_layout(DL_Left | DL_Right | DL_Top | DL_Bottom).equal(self.player.fatherView).offset(0);
                 [self.player.fatherView addSubview:self.player.playerView];
                 [self.player.playerView layoutIfNeeded];
                 self.player.playerLayer.frame = self.player.playerView.bounds;
@@ -925,7 +925,7 @@ static UISlider * _volumeSlider;
     if (!_repeatPlayButton) {
         _repeatPlayButton = [UIImageView dl_view:^(UIImageView *imageView) {
             imageView.dl_backView(self).dl_imageString(@"repeatPlay");
-            imageView.dl_layout(DL_centerY | DL_centerX).equal(self).dl_layout(DL_width | DL_height).offset(60);
+            imageView.dl_layout(DL_CenterY | DL_CenterX).equal(self).dl_layout(DL_Width | DL_Height).offset(60);
         }];
         
         @dl_weakify;
@@ -999,7 +999,7 @@ static UISlider * _volumeSlider;
         }
         self->vodPlayTime = CMTimeGetSeconds(self.player.avPlayer.currentTime);
         self.playTimeLabel.dl_text(converTimeStr(self->vodPlayTime));
-        self.playProgressView.dl_layout(DL_width).equal(self.allProgressView).multipliedBy(self->vodPlayTime / self->vodDurationTime);
+        self.playProgressView.dl_layout(DL_Width).equal(self.allProgressView).multipliedBy(self->vodPlayTime / self->vodDurationTime);
         if (fabs(self->vodCacheTime - self->vodPlayTime) <= 1) {
             self.player.isRefresh = YES;
         }else if (fabs(self->vodCacheTime - self->vodPlayTime) > 1) {
@@ -1011,7 +1011,7 @@ static UISlider * _volumeSlider;
 -(void)setCacheTime:(NSTimeInterval)cacheTime{
     vodCacheTime = cacheTime;
     if (cacheTime > 0 && vodDurationTime > 0) {
-        self.cacheProgressView.dl_layout(DL_width).equal(self.allProgressView).multipliedBy(cacheTime / self->vodDurationTime);
+        self.cacheProgressView.dl_layout(DL_Width).equal(self.allProgressView).multipliedBy(cacheTime / self->vodDurationTime);
     }
 }
 
@@ -1036,7 +1036,7 @@ static UISlider * _volumeSlider;
     if (!_playTimeLabel) {
         _playTimeLabel = [UILabel dl_view:^(UILabel *label) {
             label.dl_backView(self.bottomFuncView).dl_textColor(@"#FFFFFFF").dl_fontSize(14).dl_alignment(NSTextAlignmentCenter).dl_text(@"00:00");
-            label.dl_layout(DL_left).equal(self.bottomFuncView).offset(4).dl_layout(DL_bottom).equal(self.bottomFuncView).offset(22).dl_layout(DL_width).offset(68);
+            label.dl_layout(DL_Left).equal(self.bottomFuncView).offset(4).dl_layout(DL_Bottom).equal(self.bottomFuncView).offset(22).dl_layout(DL_Width).offset(68);
         }];
     }
     return _playTimeLabel;
@@ -1045,7 +1045,7 @@ static UISlider * _volumeSlider;
 -(UILabel *)allTimeLabel{
     if (!_allTimeLabel) {
         _allTimeLabel = [UILabel dl_view:^(UILabel *label) {
-            label.dl_layout(DL_right).equal(self.bottomFuncView).offset(52).dl_layout(DL_bottom).equal(self.bottomFuncView).offset(22).dl_layout(DL_width).offset(66);
+            label.dl_layout(DL_Right).equal(self.bottomFuncView).offset(52).dl_layout(DL_Bottom).equal(self.bottomFuncView).offset(22).dl_layout(DL_Width).offset(66);
             label.dl_backView(self.bottomFuncView).dl_textColor(@"#FFFFFFF").dl_fontSize(14).dl_alignment(NSTextAlignmentCenter).dl_text(@"00:00");
         }];
     }
@@ -1055,7 +1055,7 @@ static UISlider * _volumeSlider;
 -(UIView *)playProgressView{
     if (!_playProgressView) {
         _playProgressView = [UIView dl_view:^(UIView *view) {
-            view.dl_layout(DL_left).equal(self.bottomFuncView).offset(72.5).dl_layout(DL_bottom).equal(self.bottomFuncView).offset(29.5).dl_layout(DL_height).offset(2).dl_layout(DL_width).equal(self.allProgressView).multipliedBy(1);
+            view.dl_layout(DL_Left).equal(self.bottomFuncView).offset(72.5).dl_layout(DL_Bottom).equal(self.bottomFuncView).offset(29.5).dl_layout(DL_Height).offset(2).dl_layout(DL_Width).equal(self.allProgressView).multipliedBy(1);
             view.dl_backView(self.bottomFuncView).dl_backColor(@"#279858");
         }];
     }
@@ -1065,7 +1065,7 @@ static UISlider * _volumeSlider;
 -(UIView *)cacheProgressView{
     if (!_cacheProgressView) {
         _cacheProgressView = [UIView dl_view:^(UIView *view) {
-            view.dl_layout(DL_left).equal(self.bottomFuncView).offset(72.5).dl_layout(DL_bottom).equal(self.bottomFuncView).offset(29.5).dl_layout(DL_height).offset(2).dl_layout(DL_width).equal(self.allProgressView).multipliedBy(1);
+            view.dl_layout(DL_Left).equal(self.bottomFuncView).offset(72.5).dl_layout(DL_Bottom).equal(self.bottomFuncView).offset(29.5).dl_layout(DL_Height).offset(2).dl_layout(DL_Width).equal(self.allProgressView).multipliedBy(1);
             view.dl_backView(self.bottomFuncView).dl_backColor(@"#F4FDF3");
         }];
     }
@@ -1075,7 +1075,7 @@ static UISlider * _volumeSlider;
 -(UIView *)allProgressView{
     if (!_allProgressView) {
         _allProgressView = [UIView dl_view:^(UIView *view) {
-            view.dl_layout(DL_left).equal(self.bottomFuncView).offset(72.5).dl_layout(DL_bottom).equal(self.bottomFuncView).offset(29.5).dl_layout(DL_height).offset(2).dl_layout(DL_right).equal(self.bottomFuncView).offset(118);
+            view.dl_layout(DL_Left).equal(self.bottomFuncView).offset(72.5).dl_layout(DL_Bottom).equal(self.bottomFuncView).offset(29.5).dl_layout(DL_Height).offset(2).dl_layout(DL_Right).equal(self.bottomFuncView).offset(118);
             view.dl_backView(self.bottomFuncView).dl_backColor(@"#778666");
         }];
     }
@@ -1099,11 +1099,11 @@ static UISlider * _volumeSlider;
         self.alpha = 0.75;
         [UILabel dl_view:^(UILabel *label) {
             label.dl_backView(self).dl_text(@"清晰度").dl_textColor(@"FFFFFF").dl_fontSize(15);
-            label.dl_layout(DL_left).equal(self).offset(66).dl_layout(DL_top).equal(self).offset(69).dl_layout(DL_height).offset(15);
+            label.dl_layout(DL_Left).equal(self).offset(66).dl_layout(DL_Top).equal(self).offset(69).dl_layout(DL_Height).offset(15);
         }];
         self.closeButton = [UIButton dl_view:^(UIButton *button) {
             button.dl_backView(self).dl_normalImage(@"close_white").dl_clickEdge(30);
-            button.dl_layout(DL_right).equal(self).offset(20).dl_layout(DL_safeTop).equal(self).offset(29).dl_layout(DL_height | DL_width).offset(13);
+            button.dl_layout(DL_Right).equal(self).offset(20).dl_layout(DL_SafeTop).equal(self).offset(29).dl_layout(DL_Height | DL_Width).offset(13);
         }];
     }
     return self;
@@ -1120,7 +1120,7 @@ static UISlider * _volumeSlider;
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [self.player.skinView viewTouch];
     [UIView animateWithDuration:0.5 animations:^{
-        self.dl_layout(DL_left).equal_to(self.player.skinView).offset(0).dl_layout(DL_width).offset(0);
+        self.dl_layout(DL_Left).equal_to(self.player.skinView).offset(0).dl_layout(DL_Width).offset(0);
         [self.player.skinView layoutIfNeeded];
     } completion:^(BOOL finished) {
         if (finished) {
@@ -1168,7 +1168,7 @@ static UISlider * _volumeSlider;
         _collectionView.userInteractionEnabled = YES;
         [_collectionView registerClass:[ClarityCollectionViewCell class] forCellWithReuseIdentifier:@"ClarityCollectionViewCell"];
         [self addSubview:self.collectionView];
-        _collectionView.dl_layout(DL_left).equal(self).offset(66).dl_layout(DL_right).offset(-26).dl_layout(DL_top).equal(self).offset(98).dl_layout(DL_bottom).equal(self).offset(40);
+        _collectionView.dl_layout(DL_Left).equal(self).offset(66).dl_layout(DL_Right).offset(-26).dl_layout(DL_Top).equal(self).offset(98).dl_layout(DL_Bottom).equal(self).offset(40);
     }
     return _collectionView;
 }
