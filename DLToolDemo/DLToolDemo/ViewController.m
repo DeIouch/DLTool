@@ -29,6 +29,8 @@
 #import "TestView.h"
 #import <WebKit/WebKit.h>
 #import "DLLayer.h"
+#import "DLNetworkManager.h"
+#import "YYCache.h"
 
 #define VideoUrl @"http://testplay001.tanqiu.com/live/CR65409930.flv?auth_key=1583637866-RWTORW-0-0ddeadaad92d7edab9de6ad352f9afb7"
 
@@ -81,6 +83,66 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    __block YYCache *cache = [[YYCache alloc]initWithName:@"111"];
+    
+//    [DLNetworkManager sendGetRequest:@"/api/live/coupon/center" parameters:nil success:^(int objectType, id responseObject) {
+//        NSLog(@"%d  ==  %@", objectType, responseObject);
+        
+//        [cache setObject:responseObject forKey:@"1111"];
+        
+//        [DLCache setObject:responseObject forKey:@"11111"];
+        
+//        NSLog(@"cache  ==  %@", [cache objectForKey:@"1111"]);
+        
+//        NSLog(@"DLCache  ==  %@", [DLCache objectForKey:@"11111"]);
+        
+//    } defeat:^(NSString *message, NSInteger statusCode) {
+//
+//    } failure:^(NSError *error) {
+//
+//    }];
+    
+//    NSLog(@"DLCache  ==  %@", [DLCache objectForKey:@"11111"]);
+    
+    NSArray *array = @[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"1", @"2", @"3", @"4", @"5"];
+    
+    BeginTiming;
+    
+    for (int a = 0; a < 10000; a ++) {
+        [DLCache setObject:[NSString stringWithFormat:@"%d", a] forKey:@"123"];
+        
+        NSLog(@"%@", [DLCache objectForKey:@"123"]);
+        
+//        [cache setObject:@(a) forKey:@"123"];
+    }
+    
+    EndTiming;
+    
+    
+//    NSLog(@"%@", [DLCache objectForKey:@"123"]);
+    
+//    NSData *data;
+////    if (@available(iOS 11.0, *)) {
+////        data = [NSKeyedArchiver archivedDataWithRootObject:array requiringSecureCoding:YES error:nil];
+////    } else {
+//        data = [NSKeyedArchiver archivedDataWithRootObject:array];
+////    }
+//
+//    NSString *dataStr = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+//
+//    NSData *newData = [dataStr dataUsingEncoding:NSUTF8StringEncoding];
+//
+//    id obj;
+////    if (@available(iOS 11.0, *)) {
+////        obj = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSArray class] fromData:newData error:nil];
+////    } else {
+//        obj = [NSKeyedUnarchiver unarchiveObjectWithData:newData];
+////    }
+//
+//    NSLog(@"%@", obj);
+    
+    
     
     
     
